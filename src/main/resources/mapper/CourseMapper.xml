@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.CourseMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Course" >
+    <id column="cno" property="cno" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="hour" property="hour" jdbcType="INTEGER" />
+    <result column="credit" property="credit" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="dept_no" property="deptNo" jdbcType="VARCHAR" />
+    <result column="begin_week" property="beginWeek" jdbcType="INTEGER" />
+    <result column="end_week" property="endWeek" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ts_course
+    where cno = #{cno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gwy.manager.entity.Course" >
+    insert into ts_course (cno, name, hour, 
+      credit, address, dept_no, 
+      begin_week, end_week)
+    values (#{cno,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{hour,jdbcType=INTEGER}, 
+      #{credit,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{deptNo,jdbcType=VARCHAR}, 
+      #{beginWeek,jdbcType=INTEGER}, #{endWeek,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Course" >
+    update ts_course
+    set name = #{name,jdbcType=VARCHAR},
+      hour = #{hour,jdbcType=INTEGER},
+      credit = #{credit,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      dept_no = #{deptNo,jdbcType=VARCHAR},
+      begin_week = #{beginWeek,jdbcType=INTEGER},
+      end_week = #{endWeek,jdbcType=INTEGER}
+    where cno = #{cno,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select cno, name, hour, credit, address, dept_no, begin_week, end_week
+    from ts_course
+    where cno = #{cno,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select cno, name, hour, credit, address, dept_no, begin_week, end_week
+    from ts_course
+  </select>
+</mapper>

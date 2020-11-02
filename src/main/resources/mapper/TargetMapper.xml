@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.TargetMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Target" >
+    <id column="target_id" property="targetId" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="active" property="active" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ts_target
+    where target_id = #{targetId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gwy.manager.entity.Target" >
+    insert into ts_target (target_id, content, weight, 
+      active)
+    values (#{targetId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER}, 
+      #{active,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Target" >
+    update ts_target
+    set content = #{content,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      active = #{active,jdbcType=VARCHAR}
+    where target_id = #{targetId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select target_id, content, weight, active
+    from ts_target
+    where target_id = #{targetId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select target_id, content, weight, active
+    from ts_target
+  </select>
+</mapper>
