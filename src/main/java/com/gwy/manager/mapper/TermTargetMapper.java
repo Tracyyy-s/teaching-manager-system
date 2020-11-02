@@ -4,6 +4,9 @@ import com.gwy.manager.entity.TermTarget;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+/**
+ * @author TRacy
+ */
 public interface TermTargetMapper {
     int deleteByPrimaryKey(@Param("termId") String termId, @Param("targetId") String targetId);
 

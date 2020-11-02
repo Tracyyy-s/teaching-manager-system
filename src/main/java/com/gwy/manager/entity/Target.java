@@ -1,5 +1,8 @@
 package com.gwy.manager.entity;
 
+/**
+ * @author TRacy
+ */
 public class Target {
     private String targetId;
 

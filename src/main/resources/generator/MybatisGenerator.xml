@@ -34,7 +34,7 @@
 
         <!--    sql映射文件生成位置    -->
         <sqlMapGenerator
-                targetPackage="mapperxml"
+                targetPackage="mapper"
                 targetProject="D:/IDEA_/SpringBoot-plus/Teaching-quality--management-system/src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
@@ -55,7 +55,7 @@
         <table tableName="ts_course" domainObjectName="Course"/>
         <table tableName="ts_dept" domainObjectName="Dept"/>
         <table tableName="ts_major" domainObjectName="Major"/>
-        <table tableName="ts_stu_class" domainObjectName="StuClass"/>
+        <table tableName="ts_student_class" domainObjectName="StudentClass"/>
         <table tableName="ts_student" domainObjectName="Student"/>
         <table tableName="ts_student_course_target" domainObjectName="StudentCourseTarget"/>
         <table tableName="ts_target" domainObjectName="Target"/>

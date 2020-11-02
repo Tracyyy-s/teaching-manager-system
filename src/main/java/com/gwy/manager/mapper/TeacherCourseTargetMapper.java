@@ -4,6 +4,9 @@ import com.gwy.manager.entity.TeacherCourseTarget;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+/**
+ * @author TRacy
+ */
 public interface TeacherCourseTargetMapper {
     int deleteByPrimaryKey(@Param("teacherNo") String teacherNo, @Param("tcId") String tcId);
 

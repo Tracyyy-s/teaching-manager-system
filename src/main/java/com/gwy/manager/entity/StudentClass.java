@@ -1,6 +1,9 @@
 package com.gwy.manager.entity;
 
-public class StuClass {
+/**
+ * @author TRacy
+ */
+public class StudentClass {
     private String classId;
 
     private String majorId;

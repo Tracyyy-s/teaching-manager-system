@@ -3,6 +3,9 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.Major;
 import java.util.List;
 
+/**
+ * @author TRacy
+ */
 public interface MajorMapper {
     int deleteByPrimaryKey(String majorId);
 

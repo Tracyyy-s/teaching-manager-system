@@ -6,7 +6,7 @@
     <id column="tc_id" property="tcId" jdbcType="VARCHAR" />
     <result column="appraise_score" property="appraiseScore" jdbcType="INTEGER" />
     <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
-    <result column="appraise_conent" property="appraiseConent" jdbcType="LONGVARCHAR" />
+    <result column="appraise_content" property="appraiseContent" jdbcType="LONGVARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="map" >
     delete from ts_student_course_target
@@ -15,26 +15,26 @@
   </delete>
   <insert id="insert" parameterType="com.gwy.manager.entity.StudentCourseTarget" >
     insert into ts_student_course_target (student_no, tc_id, appraise_score, 
-      submit_time, appraise_conent)
+      submit_time, appraise_content)
     values (#{studentNo,jdbcType=VARCHAR}, #{tcId,jdbcType=VARCHAR}, #{appraiseScore,jdbcType=INTEGER}, 
-      #{submitTime,jdbcType=TIMESTAMP}, #{appraiseConent,jdbcType=LONGVARCHAR})
+      #{submitTime,jdbcType=TIMESTAMP}, #{appraiseContent,jdbcType=LONGVARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.StudentCourseTarget" >
     update ts_student_course_target
     set appraise_score = #{appraiseScore,jdbcType=INTEGER},
       submit_time = #{submitTime,jdbcType=TIMESTAMP},
-      appraise_conent = #{appraiseConent,jdbcType=LONGVARCHAR}
+      appraise_content = #{appraiseContent,jdbcType=LONGVARCHAR}
     where student_no = #{studentNo,jdbcType=VARCHAR}
       and tc_id = #{tcId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
-    select student_no, tc_id, appraise_score, submit_time, appraise_conent
+    select student_no, tc_id, appraise_score, submit_time, appraise_content
     from ts_student_course_target
     where student_no = #{studentNo,jdbcType=VARCHAR}
       and tc_id = #{tcId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select student_no, tc_id, appraise_score, submit_time, appraise_conent
+    select student_no, tc_id, appraise_score, submit_time, appraise_content
     from ts_student_course_target
   </select>
 </mapper>

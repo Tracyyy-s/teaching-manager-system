@@ -3,6 +3,9 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.Term;
 import java.util.List;
 
+/**
+ * @author TRacy
+ */
 public interface TermMapper {
     int deleteByPrimaryKey(String termId);
 

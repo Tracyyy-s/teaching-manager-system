@@ -2,6 +2,9 @@ package com.gwy.manager.entity;
 
 import java.util.Date;
 
+/**
+ * @author TRacy
+ */
 public class StudentCourseTarget {
     private String studentNo;
 
@@ -11,7 +14,7 @@ public class StudentCourseTarget {
 
     private Date submitTime;
 
-    private String appraiseConent;
+    private String appraiseContent;
 
     public String getStudentNo() {
         return studentNo;
@@ -45,11 +48,11 @@ public class StudentCourseTarget {
         this.submitTime = submitTime;
     }
 
-    public String getAppraiseConent() {
-        return appraiseConent;
+    public String getAppraiseContent() {
+        return appraiseContent;
     }
 
-    public void setAppraiseConent(String appraiseConent) {
-        this.appraiseConent = appraiseConent == null ? null : appraiseConent.trim();
+    public void setAppraiseContent(String appraiseContent) {
+        this.appraiseContent = appraiseContent == null ? null : appraiseContent.trim();
     }
 }

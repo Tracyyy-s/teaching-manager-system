@@ -2,10 +2,13 @@ package com.gwy.manager.entity;
 
 import java.util.Date;
 
+/**
+ * @author TRacy
+ */
 public class Teacher {
     private String teacherNo;
 
-    private String techerName;
+    private String teacherName;
 
     private Integer gender;
 
@@ -35,12 +38,12 @@ public class Teacher {
         this.teacherNo = teacherNo == null ? null : teacherNo.trim();
     }
 
-    public String getTecherName() {
-        return techerName;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setTecherName(String techerName) {
-        this.techerName = techerName == null ? null : techerName.trim();
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName == null ? null : teacherName.trim();
     }
 
     public Integer getGender() {

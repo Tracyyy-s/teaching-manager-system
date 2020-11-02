@@ -3,6 +3,9 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.Dept;
 import java.util.List;
 
+/**
+ * @author TRacy
+ */
 public interface DeptMapper {
     int deleteByPrimaryKey(String deptId);
 

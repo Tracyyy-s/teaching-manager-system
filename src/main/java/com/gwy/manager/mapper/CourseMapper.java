@@ -3,6 +3,9 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.Course;
 import java.util.List;
 
+/**
+ * @author TRacy
+ */
 public interface CourseMapper {
     int deleteByPrimaryKey(String courseNo);
 
