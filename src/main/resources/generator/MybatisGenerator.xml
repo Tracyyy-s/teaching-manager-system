@@ -27,7 +27,7 @@
         <!--    配置Java实体类生成位置    -->
         <javaModelGenerator
                 targetPackage="com.gwy.manager.entity"
-                targetProject="D:/IDEA_/SpringBoot-plus/TeachingSystem/src/main/java">
+                targetProject="D:/IDEA_/SpringBoot-plus/Teaching-quality--management-system/src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -35,7 +35,7 @@
         <!--    sql映射文件生成位置    -->
         <sqlMapGenerator
                 targetPackage="mapperxml"
-                targetProject="D:/IDEA_/SpringBoot-plus/TeachingSystem/src/main/resources">
+                targetProject="D:/IDEA_/SpringBoot-plus/Teaching-quality--management-system/src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
@@ -43,7 +43,7 @@
         <javaClientGenerator
                 type="XMLMAPPER"
                 targetPackage="com.gwy.manager.mapper"
-                targetProject="D:/IDEA_/SpringBoot-plus/TeachingSystem/src/main/java">
+                targetProject="D:/IDEA_/SpringBoot-plus/Teaching-quality--management-system/src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
