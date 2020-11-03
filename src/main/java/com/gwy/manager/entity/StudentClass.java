@@ -30,4 +30,13 @@ public class StudentClass {
     public void setStuCount(Integer stuCount) {
         this.stuCount = stuCount;
     }
+
+    @Override
+    public String toString() {
+        return "StudentClass{" +
+                "classId='" + classId + '\'' +
+                ", majorId='" + majorId + '\'' +
+                ", stuCount=" + stuCount +
+                '}';
+    }
 }

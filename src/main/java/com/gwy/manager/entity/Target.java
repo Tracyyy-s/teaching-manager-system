@@ -50,4 +50,15 @@ public class Target {
     public void setState(Integer state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Target{" +
+                "targetId=" + targetId +
+                ", targetContent='" + targetContent + '\'' +
+                ", targetObject=" + targetObject +
+                ", weight=" + weight +
+                ", state=" + state +
+                '}';
+    }
 }

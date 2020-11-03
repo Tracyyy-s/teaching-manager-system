@@ -35,4 +35,17 @@
     select term_id, target_id, weight, term_target_object
     from ts_term_target
   </select>
+
+  <!-- 批量插入学期指标 -->
+  <insert id="insertTermTargets" parameterType="java.util.List" >
+    insert into ts_term_target (term_id, target_id, weight,
+      term_target_object)
+    values
+    <foreach collection="termTargets" item="termTarget">
+    (
+      #{termTarget.termId,jdbcType=VARCHAR}, #{termTarget.targetId,jdbcType=INTEGER},
+      #{termTarget.weight,jdbcType=INTEGER},#{termTarget.weight,jdbcType=INTEGER}
+    )
+    </foreach>
+  </insert>
 </mapper>

@@ -30,4 +30,13 @@ public class Major {
     public void setDeptId(String deptId) {
         this.deptId = deptId == null ? null : deptId.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Major{" +
+                "majorId='" + majorId + '\'' +
+                ", majorName='" + majorName + '\'' +
+                ", deptId='" + deptId + '\'' +
+                '}';
+    }
 }

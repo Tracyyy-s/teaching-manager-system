@@ -14,4 +14,13 @@ public interface StudentAssessMapper {
     List<StudentAssess> selectAll();
 
     int updateByPrimaryKey(StudentAssess record);
+
+    /**
+     * 获取学生在本学期的评价列表
+     * @param studentNo
+     * @param termId
+     * @return
+     */
+    List<StudentAssess> getStudentAssessByTerm(@Param("studentNo") String studentNo,
+                                               @Param("termId") String termId);
 }

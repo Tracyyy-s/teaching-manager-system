@@ -42,4 +42,14 @@ public class Term {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
+    @Override
+    public String toString() {
+        return "Term{" +
+                "termId='" + termId + '\'' +
+                ", termName='" + termName + '\'' +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }

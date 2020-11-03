@@ -31,4 +31,9 @@
     select major_id, major_name, dept_id
     from ts_major
   </select>
+  <select id="selectByDept" resultMap="BaseResultMap">
+    select major_id, major_name, dept_id
+    from ts_major
+    where dept_id = #{deptId,jdbcType=VARCHAR}
+  </select>
 </mapper>

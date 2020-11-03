@@ -5,7 +5,9 @@ import java.util.Date;
 public class TeacherAssess {
     private String teacherNo;
 
-    private String tcId;
+    private String assessedTeacherNo;
+
+    private String termId;
 
     private Integer appraiseScore;
 
@@ -21,12 +23,20 @@ public class TeacherAssess {
         this.teacherNo = teacherNo == null ? null : teacherNo.trim();
     }
 
-    public String getTcId() {
-        return tcId;
+    public String getAssessedTeacherNo() {
+        return assessedTeacherNo;
     }
 
-    public void setTcId(String tcId) {
-        this.tcId = tcId == null ? null : tcId.trim();
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    public void setAssessedTeacherNo(String assessedTeacherNo) {
+        this.assessedTeacherNo = assessedTeacherNo == null ? null : assessedTeacherNo.trim();
     }
 
     public Integer getAppraiseScore() {
@@ -51,5 +61,17 @@ public class TeacherAssess {
 
     public void setAppraiseContent(String appraiseContent) {
         this.appraiseContent = appraiseContent == null ? null : appraiseContent.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "TeacherAssess{" +
+                "teacherNo='" + teacherNo + '\'' +
+                ", assessedTeacherNo='" + assessedTeacherNo + '\'' +
+                ", termId='" + termId + '\'' +
+                ", appraiseScore=" + appraiseScore +
+                ", submitTime=" + submitTime +
+                ", appraiseContent='" + appraiseContent + '\'' +
+                '}';
     }
 }

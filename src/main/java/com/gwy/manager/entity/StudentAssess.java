@@ -52,4 +52,15 @@ public class StudentAssess {
     public void setAppraiseContent(String appraiseContent) {
         this.appraiseContent = appraiseContent == null ? null : appraiseContent.trim();
     }
+
+    @Override
+    public String toString() {
+        return "StudentAssess{" +
+                "studentNo='" + studentNo + '\'' +
+                ", tcId='" + tcId + '\'' +
+                ", appraiseScore=" + appraiseScore +
+                ", submitTime=" + submitTime +
+                ", appraiseContent='" + appraiseContent + '\'' +
+                '}';
+    }
 }

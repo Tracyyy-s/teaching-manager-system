@@ -1,7 +1,12 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.entity.Major;
+import com.gwy.manager.mapper.MajorMapper;
 import com.gwy.manager.service.MajorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Tracy
@@ -9,4 +14,27 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MajorServiceImpl implements MajorService {
+
+    @Autowired
+    private MajorMapper majorMapper;
+
+    @Override
+    public int addMajor(Major major) {
+        return majorMapper.insert(major);
+    }
+
+    @Override
+    public int updateMajor(Major major) {
+        return majorMapper.updateByPrimaryKey(major);
+    }
+
+    @Override
+    public Major getMajorById(String majorId) {
+        return majorMapper.selectByPrimaryKey(majorId);
+    }
+
+    @Override
+    public List<Major> getMajorsByDept(String deptId) {
+        return majorMapper.selectByDept(deptId);
+    }
 }

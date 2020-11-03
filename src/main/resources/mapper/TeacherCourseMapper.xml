@@ -45,4 +45,39 @@
     end_week
     from ts_teacher_course
   </select>
+  <select id="getTeacherCoursesByTeacherNoAndTermId" resultMap="BaseResultMap">
+    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, begin_week,
+    end_week
+    from ts_teacher_course
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR} and term_id = #{termId,jdbcType=VARCHAR}
+  </select>
+  <select id="getTeacherCourseByStudentNoAndTermId" resultMap="BaseResultMap">
+    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, begin_week,
+    end_week
+    from ts_teacher_course
+    where term_id = #{termId,jdbcType=VARCHAR}
+    and tc_id in (select tc_id
+                  from ts_student_assess
+                  where student_no = #{studentNo,jdbcType=VARCHAR})
+  </select>
+  <!-- 批量添加教师-课程 -->
+  <insert id="insertBatch">
+    insert into ts_teacher_course (tc_id, course_no, teacher_no,
+      term_id, appraise_sum, address,
+      begin_week, end_week)
+      values
+    <foreach collection="teacherCourses" item="teacherCourse">
+      (
+      #{teacherCourse.tcId,jdbcType=VARCHAR}, #{teacherCourse.courseNo,jdbcType=VARCHAR},
+      #{teacherCourse.teacherNo,jdbcType=VARCHAR}, #{teacherCourse.termId,jdbcType=VARCHAR},
+      #{teacherCourse.appraiseSum,jdbcType=INTEGER}, #{teacherCourse.address,jdbcType=VARCHAR},
+      #{teacherCourse.beginWeek,jdbcType=INTEGER}, #{teacherCourse.endWeek,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <!-- 修改学生评价总分 -->
+  <update id="updateAppraiseScore">
+    update ts_teacher_course
+    set appraise_sum = appraise_sum + #{changeScore,jdbcType=INTEGER}
+    where tc_id = #{tcId,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -13,4 +13,11 @@ public interface MajorMapper {
     List<Major> selectAll();
 
     int updateByPrimaryKey(Major record);
+
+    /**
+     * 获得某学院的所有专业
+     * @param deptId
+     * @return
+     */
+    List<Major> selectByDept(String deptId);
 }

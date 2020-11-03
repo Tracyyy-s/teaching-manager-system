@@ -50,4 +50,15 @@ public class Course {
     public void setDeptId(String deptId) {
         this.deptId = deptId == null ? null : deptId.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "courseNo='" + courseNo + '\'' +
+                ", courseName='" + courseName + '\'' +
+                ", hour=" + hour +
+                ", credit=" + credit +
+                ", deptId='" + deptId + '\'' +
+                '}';
+    }
 }

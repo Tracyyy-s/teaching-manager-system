@@ -92,4 +92,19 @@ public class Student {
     public void setEntryYear(String entryYear) {
         this.entryYear = entryYear == null ? null : entryYear.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentNo='" + studentNo + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", password='" + password + '\'' +
+                ", gender=" + gender +
+                ", birth=" + birth +
+                ", classId='" + classId + '\'' +
+                ", political='" + political + '\'' +
+                ", deptId='" + deptId + '\'' +
+                ", entryYear='" + entryYear + '\'' +
+                '}';
+    }
 }

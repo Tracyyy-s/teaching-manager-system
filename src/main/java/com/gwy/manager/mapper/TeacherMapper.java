@@ -1,6 +1,8 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Teacher;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface TeacherMapper {
@@ -13,4 +15,8 @@ public interface TeacherMapper {
     List<Teacher> selectAll();
 
     int updateByPrimaryKey(Teacher record);
+
+    List<Teacher> selectByDeptId(String deptId);
+
+    int insertTeachersByBatch(@Param("teachers") List<Teacher> teachers);
 }

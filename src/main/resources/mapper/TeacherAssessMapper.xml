@@ -3,7 +3,8 @@
 <mapper namespace="com.gwy.manager.mapper.TeacherAssessMapper" >
   <resultMap id="BaseResultMap" type="com.gwy.manager.entity.TeacherAssess" >
     <id column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
-    <id column="tc_id" property="tcId" jdbcType="VARCHAR" />
+    <id column="assessed_teacher_no" property="assessedTeacherNo" jdbcType="VARCHAR" />
+    <result column="term_id" property="termId" jdbcType="VARCHAR" />
     <result column="appraise_score" property="appraiseScore" jdbcType="INTEGER" />
     <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
     <result column="appraise_content" property="appraiseContent" jdbcType="LONGVARCHAR" />
@@ -11,12 +12,13 @@
   <delete id="deleteByPrimaryKey" parameterType="map" >
     delete from ts_teacher_assess
     where teacher_no = #{teacherNo,jdbcType=VARCHAR}
-      and tc_id = #{tcId,jdbcType=VARCHAR}
+      and assessed_teacher_no = #{assessedTeacherNo,jdbcType=VARCHAR}
+      and term_id = #{termId, jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.gwy.manager.entity.TeacherAssess" >
-    insert into ts_teacher_assess (teacher_no, tc_id, appraise_score, 
+    insert into ts_teacher_assess (teacher_no, assessed_teacher_no, term_id, appraise_score,
       submit_time, appraise_content)
-    values (#{teacherNo,jdbcType=VARCHAR}, #{tcId,jdbcType=VARCHAR}, #{appraiseScore,jdbcType=INTEGER}, 
+    values (#{teacherNo,jdbcType=VARCHAR}, #{assessedTeacherNo,jdbcType=VARCHAR}, #{termId, jdbcType=VARCHAR}, #{appraiseScore,jdbcType=INTEGER},
       #{submitTime,jdbcType=TIMESTAMP}, #{appraiseContent,jdbcType=LONGVARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.TeacherAssess" >
@@ -25,16 +27,23 @@
       submit_time = #{submitTime,jdbcType=TIMESTAMP},
       appraise_content = #{appraiseContent,jdbcType=LONGVARCHAR}
     where teacher_no = #{teacherNo,jdbcType=VARCHAR}
-      and tc_id = #{tcId,jdbcType=VARCHAR}
+      and assessed_teacher_no = #{assessedTeacherNo,jdbcType=VARCHAR}
+      and term_id = #{termId, jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
-    select teacher_no, tc_id, appraise_score, submit_time, appraise_content
+    select teacher_no, assessed_teacher_no, appraise_score, submit_time, appraise_content
     from ts_teacher_assess
     where teacher_no = #{teacherNo,jdbcType=VARCHAR}
-      and tc_id = #{tcId,jdbcType=VARCHAR}
+      and assessed_teacher_no = #{assessedTeacherNo,jdbcType=VARCHAR}
+      and term_id = #{termId, jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select teacher_no, tc_id, appraise_score, submit_time, appraise_content
+    select teacher_no, assessed_teacher_no, term_id, appraise_score, submit_time, appraise_content
     from ts_teacher_assess
+  </select>
+  <!-- 获得教师在本学期的所有评价 -->
+  <select id="getTeacherAssessesByDeptAndTerm" resultMap="BaseResultMap">
+    select teacher_no, assessed_teacher_no, term_id, appraise_score, submit_time, appraise_content
+    from ts_teacher_assess where
   </select>
 </mapper>

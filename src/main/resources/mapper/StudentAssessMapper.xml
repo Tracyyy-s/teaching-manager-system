@@ -37,4 +37,10 @@
     select student_no, tc_id, appraise_score, submit_time, appraise_content
     from ts_student_assess
   </select>
+  <select id="getStudentAssessByTerm" resultMap="BaseResultMap">
+    select student_no, tc_id, appraise_score, submit_time, appraise_content
+    from ts_student_assess
+    where student_sno = #{studentNo, jdbcType=VARCHAR}
+    and tc_id in (select tc_id from ts_teacher_course where term_id = #{termId, jdbcType=VARCHAR})
+</select>
 </mapper>

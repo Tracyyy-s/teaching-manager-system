@@ -30,4 +30,13 @@ public class Admin {
     public void setDeptId(String deptId) {
         this.deptId = deptId == null ? null : deptId.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "adminNo='" + adminNo + '\'' +
+                ", password='" + password + '\'' +
+                ", deptId='" + deptId + '\'' +
+                '}';
+    }
 }

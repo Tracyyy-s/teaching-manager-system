@@ -122,4 +122,22 @@ public class Teacher {
     public void setProfessionalTime(Date professionalTime) {
         this.professionalTime = professionalTime;
     }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "teacherNo='" + teacherNo + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                ", gender=" + gender +
+                ", password='" + password + '\'' +
+                ", birth=" + birth +
+                ", degree='" + degree + '\'' +
+                ", graduated='" + graduated + '\'' +
+                ", political='" + political + '\'' +
+                ", entryYear=" + entryYear +
+                ", deptId='" + deptId + '\'' +
+                ", professional='" + professional + '\'' +
+                ", professionalTime=" + professionalTime +
+                '}';
+    }
 }

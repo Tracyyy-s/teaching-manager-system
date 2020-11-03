@@ -14,4 +14,11 @@ public interface TermTargetMapper {
     List<TermTarget> selectAll();
 
     int updateByPrimaryKey(TermTarget record);
+
+    /**
+     * 添加本学期的所有评价指标
+     * @param termTargets
+     * @return
+     */
+    int insertTermTargets(@Param("termTargets") List<TermTarget> termTargets);
 }

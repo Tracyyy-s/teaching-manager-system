@@ -57,4 +57,28 @@
     entry_year, dept_id, professional, professional_time
     from ts_teacher
   </select>
+  <select id="selectByDeptId" resultMap="BaseResultMap">
+    select teacher_no, teacher_name, gender, password, birth, degree, graduated, political,
+    entry_year, dept_id, professional, professional_time
+    from ts_teacher where dept_id = #{deptId,jdbcType=VARCHAR}
+  </select>
+  <!-- 批量导入教师 -->
+  <insert id="insertTeachersByBatch">
+    insert into ts_teacher (teacher_no, teacher_name, gender,
+      password, birth, degree,
+      graduated, political, entry_year,
+      dept_id, professional, professional_time
+      )
+    values
+    <foreach collection="teachers" item="teacher">
+    (
+      #{teacher.teacherNo,jdbcType=VARCHAR}, #{teacher.teacherName,jdbcType=VARCHAR},
+      #{teacher.gender,jdbcType=INTEGER},#{teacher.password,jdbcType=VARCHAR},
+      #{teacher.birth,jdbcType=DATE}, #{teacher.degree,jdbcType=VARCHAR},
+      #{teacher.graduated,jdbcType=VARCHAR}, #{teacher.political,jdbcType=VARCHAR},
+      #{teacher.entryYear,jdbcType=INTEGER},#{teacher.deptId,jdbcType=VARCHAR},
+      #{teacher.professional,jdbcType=VARCHAR}, #{teacher.professionalTime,jdbcType=DATE}
+    )
+    </foreach>
+  </insert>
 </mapper>

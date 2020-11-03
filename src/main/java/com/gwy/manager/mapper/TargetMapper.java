@@ -13,4 +13,16 @@ public interface TargetMapper {
     List<Target> selectAll();
 
     int updateByPrimaryKey(Target record);
+
+    /**
+     * 获得学生评价的指标
+     * @return
+     */
+    List<Target> getStudentTargets();
+
+    /**
+     * 获得教师评价的指标
+     * @return
+     */
+    List<Target> getTeacherTargets();
 }

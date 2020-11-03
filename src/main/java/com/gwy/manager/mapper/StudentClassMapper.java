@@ -13,4 +13,6 @@ public interface StudentClassMapper {
     List<StudentClass> selectAll();
 
     int updateByPrimaryKey(StudentClass record);
+
+    List<StudentClass> selectByDept(String deptId);
 }

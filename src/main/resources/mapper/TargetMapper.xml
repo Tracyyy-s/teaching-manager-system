@@ -35,4 +35,12 @@
     select target_id, target_content, target_object, weight, state
     from ts_target
   </select>
+  <select id="getStudentTargets" resultMap="BaseResultMap">
+    select target_id, target_content, target_object, weight, state
+    from ts_target where target_object = 1
+  </select>
+  <select id="getTeacherTargets" resultMap="BaseResultMap">
+    select target_id, target_content, target_object, weight, state
+    from ts_target where target_object = 0
+</select>
 </mapper>

@@ -40,4 +40,14 @@ public class TermTarget {
     public void setTermTargetObject(Integer termTargetObject) {
         this.termTargetObject = termTargetObject;
     }
+
+    @Override
+    public String toString() {
+        return "TermTarget{" +
+                "termId='" + termId + '\'' +
+                ", targetId=" + targetId +
+                ", weight=" + weight +
+                ", termTargetObject=" + termTargetObject +
+                '}';
+    }
 }

@@ -2,30 +2,53 @@ package com.gwy.manager.service;
 
 import com.gwy.manager.entity.Student;
 
+import java.util.List;
+
 /**
  * @author Tracy
- * @date 2020/11/1 23:01
+ * @date 2020/11/3 16:12
  */
 public interface StudentService {
 
     /**
      * 添加学生
-     * @param student 预添加的学生
-     * @return  返回行数
+     * @param student 预添加
+     * @return  影响行数
      */
-    int insertStudent(Student student);
+    int addStudent(Student student);
 
     /**
-     * 修改学生
-     * @param student 预修改的学生
+     * 修改学生信息
+     * @param student 预修改
      * @return  影响行数
      */
     int updateStudent(Student student);
 
     /**
-     * 查找学生
-     * @param sno 学号
-     * @return  查询结果
+     * 通过学号获取学生
+     * @param studentNo 学号
+     * @return  查找结果
      */
-    Student getStudentBySno(String sno);
+    Student getStudent(String studentNo);
+
+    /**
+     * 批量添加学生
+     * @param students 学生列表
+     * @return  返回行数
+     */
+    int addStudentBatch(List<Student> students);
+
+    /**
+     * 获取某学院的所有学生
+     * @param deptId
+     * @return
+     */
+    List<Student> getStudentsByDept(String deptId);
+
+    /**
+     * 获取某个班级的所有学生
+     * @param classId
+     * @return
+     */
+    List<Student> getStudentByClass(String classId);
 }

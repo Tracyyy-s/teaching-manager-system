@@ -80,4 +80,18 @@ public class TeacherCourse {
     public void setEndWeek(Integer endWeek) {
         this.endWeek = endWeek;
     }
+
+    @Override
+    public String toString() {
+        return "TeacherCourse{" +
+                "tcId='" + tcId + '\'' +
+                ", courseNo='" + courseNo + '\'' +
+                ", teacherNo='" + teacherNo + '\'' +
+                ", termId='" + termId + '\'' +
+                ", appraiseSum=" + appraiseSum +
+                ", address='" + address + '\'' +
+                ", beginWeek=" + beginWeek +
+                ", endWeek=" + endWeek +
+                '}';
+    }
 }

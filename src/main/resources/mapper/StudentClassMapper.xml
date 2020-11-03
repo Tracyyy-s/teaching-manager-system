@@ -31,4 +31,11 @@
     select class_id, major_id, stu_count
     from ts_student_class
   </select>
+  <select id="selectByDept" resultMap="BaseResultMap">
+    select class_id, major_id, stu_count
+    from ts_student_class
+    where major_id in (select major_id
+                       from ts_major
+                       where dept_id = #{deptId,jdbcType=VARCHAR})
+  </select>
 </mapper>

@@ -17,11 +17,11 @@
     where student_no = #{studentNo,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.gwy.manager.entity.Student" >
-    insert into ts_student (student_no, student_name, password, 
-      gender, birth, class_id, 
+    insert into ts_student (student_no, student_name, password,
+      gender, birth, class_id,
       political, dept_id, entry_year
       )
-    values (#{studentNo,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{studentNo,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{gender,jdbcType=INTEGER}, #{birth,jdbcType=DATE}, #{classId,jdbcType=VARCHAR}, 
       #{political,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{entryYear,jdbcType=VARCHAR}
       )
@@ -48,5 +48,32 @@
     select student_no, student_name, password, gender, birth, class_id, political, dept_id, 
     entry_year
     from ts_student
+  </select>
+  <!-- 批量添加学生 -->
+  <insert id="insertStudentBatch">
+    insert into ts_student (student_no, student_name, password,
+      gender, birth, class_id,
+      political, dept_id, entry_year
+      )
+    values
+    <foreach collection="students" item="student">
+    (
+      #{student.studentNo,jdbcType=VARCHAR}, #{student.studentName,jdbcType=VARCHAR},
+      #{student.password,jdbcType=VARCHAR}, #{student.gender,jdbcType=INTEGER},
+      #{student.birth,jdbcType=DATE}, #{student.classId,jdbcType=VARCHAR},
+      #{student.political,jdbcType=VARCHAR}, #{student.deptId,jdbcType=VARCHAR},
+      #{student.entryYear,jdbcType=VARCHAR}
+    )
+    </foreach>
+  </insert>
+  <select id="selectStudentsByDept" resultMap="BaseResultMap">
+    select student_no, student_name, password, gender, birth, class_id, political, dept_id,
+    entry_year
+    from ts_student where dept_id = #{deptId, jdbcType=VARCHAR}
+  </select>
+  <select id="selectStudentsByClass" resultMap="BaseResultMap">
+    select student_no, student_name, password, gender, birth, class_id, political, dept_id,
+    entry_year
+    from ts_student where class_id = #{classId,jdbcType=VARCHAR}
   </select>
 </mapper>
