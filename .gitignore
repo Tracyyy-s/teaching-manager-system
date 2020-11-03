@@ -32,3 +32,9 @@ build/
 
 ### VS Code ###
 .vscode/
+src/main/java/com/gwy/manager/controller/admin/
+src/main/java/com/gwy/manager/interceptor/
+src/main/java/com/gwy/manager/util/
+src/main/resources/generator/
+src/main/resources/static/
+src/main/resources/templates/
