@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.TeacherAssessMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.TeacherAssess" >
+    <id column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
+    <id column="tc_id" property="tcId" jdbcType="VARCHAR" />
+    <result column="appraise_score" property="appraiseScore" jdbcType="INTEGER" />
+    <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+    <result column="appraise_content" property="appraiseContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from ts_teacher_assess
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR}
+      and tc_id = #{tcId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gwy.manager.entity.TeacherAssess" >
+    insert into ts_teacher_assess (teacher_no, tc_id, appraise_score, 
+      submit_time, appraise_content)
+    values (#{teacherNo,jdbcType=VARCHAR}, #{tcId,jdbcType=VARCHAR}, #{appraiseScore,jdbcType=INTEGER}, 
+      #{submitTime,jdbcType=TIMESTAMP}, #{appraiseContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.TeacherAssess" >
+    update ts_teacher_assess
+    set appraise_score = #{appraiseScore,jdbcType=INTEGER},
+      submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      appraise_content = #{appraiseContent,jdbcType=LONGVARCHAR}
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR}
+      and tc_id = #{tcId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select teacher_no, tc_id, appraise_score, submit_time, appraise_content
+    from ts_teacher_assess
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR}
+      and tc_id = #{tcId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select teacher_no, tc_id, appraise_score, submit_time, appraise_content
+    from ts_teacher_assess
+  </select>
+</mapper>

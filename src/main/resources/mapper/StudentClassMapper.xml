@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.StudentClassMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.StudentClass" >
+    <id column="class_id" property="classId" jdbcType="VARCHAR" />
+    <result column="major_id" property="majorId" jdbcType="VARCHAR" />
+    <result column="stu_count" property="stuCount" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ts_student_class
+    where class_id = #{classId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gwy.manager.entity.StudentClass" >
+    insert into ts_student_class (class_id, major_id, stu_count
+      )
+    values (#{classId,jdbcType=VARCHAR}, #{majorId,jdbcType=VARCHAR}, #{stuCount,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.StudentClass" >
+    update ts_student_class
+    set major_id = #{majorId,jdbcType=VARCHAR},
+      stu_count = #{stuCount,jdbcType=INTEGER}
+    where class_id = #{classId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select class_id, major_id, stu_count
+    from ts_student_class
+    where class_id = #{classId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select class_id, major_id, stu_count
+    from ts_student_class
+  </select>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.TeacherCourseMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.TeacherCourse" >
+    <id column="tc_id" property="tcId" jdbcType="VARCHAR" />
+    <result column="course_no" property="courseNo" jdbcType="VARCHAR" />
+    <result column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
+    <result column="term_id" property="termId" jdbcType="VARCHAR" />
+    <result column="appraise_sum" property="appraiseSum" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="begin_week" property="beginWeek" jdbcType="INTEGER" />
+    <result column="end_week" property="endWeek" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ts_teacher_course
+    where tc_id = #{tcId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gwy.manager.entity.TeacherCourse" >
+    insert into ts_teacher_course (tc_id, course_no, teacher_no, 
+      term_id, appraise_sum, address, 
+      begin_week, end_week)
+    values (#{tcId,jdbcType=VARCHAR}, #{courseNo,jdbcType=VARCHAR}, #{teacherNo,jdbcType=VARCHAR}, 
+      #{termId,jdbcType=VARCHAR}, #{appraiseSum,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{beginWeek,jdbcType=INTEGER}, #{endWeek,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.TeacherCourse" >
+    update ts_teacher_course
+    set course_no = #{courseNo,jdbcType=VARCHAR},
+      teacher_no = #{teacherNo,jdbcType=VARCHAR},
+      term_id = #{termId,jdbcType=VARCHAR},
+      appraise_sum = #{appraiseSum,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      begin_week = #{beginWeek,jdbcType=INTEGER},
+      end_week = #{endWeek,jdbcType=INTEGER}
+    where tc_id = #{tcId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, begin_week, 
+    end_week
+    from ts_teacher_course
+    where tc_id = #{tcId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, begin_week, 
+    end_week
+    from ts_teacher_course
+  </select>
+</mapper>

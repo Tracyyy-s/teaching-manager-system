@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.TeacherMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Teacher" >
+    <id column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="birth" property="birth" jdbcType="DATE" />
+    <result column="degree" property="degree" jdbcType="VARCHAR" />
+    <result column="graduated" property="graduated" jdbcType="VARCHAR" />
+    <result column="political" property="political" jdbcType="VARCHAR" />
+    <result column="entry_year" property="entryYear" jdbcType="INTEGER" />
+    <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
+    <result column="professional" property="professional" jdbcType="VARCHAR" />
+    <result column="professional_time" property="professionalTime" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ts_teacher
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gwy.manager.entity.Teacher" >
+    insert into ts_teacher (teacher_no, teacher_name, gender, 
+      password, birth, degree, 
+      graduated, political, entry_year, 
+      dept_id, professional, professional_time
+      )
+    values (#{teacherNo,jdbcType=VARCHAR}, #{teacherName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{degree,jdbcType=VARCHAR}, 
+      #{graduated,jdbcType=VARCHAR}, #{political,jdbcType=VARCHAR}, #{entryYear,jdbcType=INTEGER}, 
+      #{deptId,jdbcType=VARCHAR}, #{professional,jdbcType=VARCHAR}, #{professionalTime,jdbcType=DATE}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Teacher" >
+    update ts_teacher
+    set teacher_name = #{teacherName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=DATE},
+      degree = #{degree,jdbcType=VARCHAR},
+      graduated = #{graduated,jdbcType=VARCHAR},
+      political = #{political,jdbcType=VARCHAR},
+      entry_year = #{entryYear,jdbcType=INTEGER},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      professional = #{professional,jdbcType=VARCHAR},
+      professional_time = #{professionalTime,jdbcType=DATE}
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select teacher_no, teacher_name, gender, password, birth, degree, graduated, political, 
+    entry_year, dept_id, professional, professional_time
+    from ts_teacher
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select teacher_no, teacher_name, gender, password, birth, degree, graduated, political, 
+    entry_year, dept_id, professional, professional_time
+    from ts_teacher
+  </select>
+</mapper>
