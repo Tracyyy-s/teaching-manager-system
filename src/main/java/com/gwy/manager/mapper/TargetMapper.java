@@ -3,15 +3,12 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.Target;
 import java.util.List;
 
-/**
- * @author TRacy
- */
 public interface TargetMapper {
-    int deleteByPrimaryKey(String targetId);
+    int deleteByPrimaryKey(Integer targetId);
 
     int insert(Target record);
 
-    Target selectByPrimaryKey(String targetId);
+    Target selectByPrimaryKey(Integer targetId);
 
     List<Target> selectAll();
 

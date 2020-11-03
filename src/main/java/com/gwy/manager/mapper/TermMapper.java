@@ -3,15 +3,12 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.Term;
 import java.util.List;
 
-/**
- * @author TRacy
- */
 public interface TermMapper {
-    int deleteByPrimaryKey(String termId);
+    int deleteByPrimaryKey(Integer termId);
 
     int insert(Term record);
 
-    Term selectByPrimaryKey(String termId);
+    Term selectByPrimaryKey(Integer termId);
 
     List<Term> selectAll();
 

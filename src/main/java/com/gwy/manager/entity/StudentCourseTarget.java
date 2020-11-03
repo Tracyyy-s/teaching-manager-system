@@ -2,9 +2,6 @@ package com.gwy.manager.entity;
 
 import java.util.Date;
 
-/**
- * @author TRacy
- */
 public class StudentCourseTarget {
     private String studentNo;
 

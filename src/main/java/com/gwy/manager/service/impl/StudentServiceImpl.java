@@ -1,7 +1,6 @@
 package com.gwy.manager.service.impl;
 
 import com.gwy.manager.entity.Student;
-import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

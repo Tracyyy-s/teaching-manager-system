@@ -3,9 +3,9 @@
 <mapper namespace="com.gwy.manager.mapper.TeacherCourseMapper" >
   <resultMap id="BaseResultMap" type="com.gwy.manager.entity.TeacherCourse" >
     <id column="tc_id" property="tcId" jdbcType="VARCHAR" />
-    <result column="course_no" property="courseNo" jdbcType="INTEGER" />
-    <result column="teacher_no" property="teacherNo" jdbcType="INTEGER" />
-    <result column="term_id" property="termId" jdbcType="SMALLINT" />
+    <result column="course_no" property="courseNo" jdbcType="VARCHAR" />
+    <result column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
+    <result column="term_id" property="termId" jdbcType="INTEGER" />
     <result column="appraise_sum" property="appraiseSum" jdbcType="INTEGER" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="begin_week" property="beginWeek" jdbcType="INTEGER" />
@@ -19,15 +19,15 @@
     insert into ts_teacher_course (tc_id, course_no, teacher_no, 
       term_id, appraise_sum, address, 
       begin_week, end_week)
-    values (#{tcId,jdbcType=VARCHAR}, #{courseNo,jdbcType=INTEGER}, #{teacherNo,jdbcType=INTEGER}, 
-      #{termId,jdbcType=SMALLINT}, #{appraiseSum,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+    values (#{tcId,jdbcType=VARCHAR}, #{courseNo,jdbcType=VARCHAR}, #{teacherNo,jdbcType=VARCHAR}, 
+      #{termId,jdbcType=INTEGER}, #{appraiseSum,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
       #{beginWeek,jdbcType=INTEGER}, #{endWeek,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.TeacherCourse" >
     update ts_teacher_course
-    set course_no = #{courseNo,jdbcType=INTEGER},
-      teacher_no = #{teacherNo,jdbcType=INTEGER},
-      term_id = #{termId,jdbcType=SMALLINT},
+    set course_no = #{courseNo,jdbcType=VARCHAR},
+      teacher_no = #{teacherNo,jdbcType=VARCHAR},
+      term_id = #{termId,jdbcType=INTEGER},
       appraise_sum = #{appraiseSum,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
       begin_week = #{beginWeek,jdbcType=INTEGER},

@@ -1,8 +1,5 @@
 package com.gwy.manager.entity;
 
-/**
- * @author TRacy
- */
 public class StudentClass {
     private String classId;
 

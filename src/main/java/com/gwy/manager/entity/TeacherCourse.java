@@ -1,16 +1,13 @@
 package com.gwy.manager.entity;
 
-/**
- * @author TRacy
- */
 public class TeacherCourse {
     private String tcId;
 
-    private Integer courseNo;
+    private String courseNo;
 
-    private Integer teacherNo;
+    private String teacherNo;
 
-    private Short termId;
+    private Integer termId;
 
     private Integer appraiseSum;
 
@@ -28,27 +25,27 @@ public class TeacherCourse {
         this.tcId = tcId == null ? null : tcId.trim();
     }
 
-    public Integer getCourseNo() {
+    public String getCourseNo() {
         return courseNo;
     }
 
-    public void setCourseNo(Integer courseNo) {
-        this.courseNo = courseNo;
+    public void setCourseNo(String courseNo) {
+        this.courseNo = courseNo == null ? null : courseNo.trim();
     }
 
-    public Integer getTeacherNo() {
+    public String getTeacherNo() {
         return teacherNo;
     }
 
-    public void setTeacherNo(Integer teacherNo) {
-        this.teacherNo = teacherNo;
+    public void setTeacherNo(String teacherNo) {
+        this.teacherNo = teacherNo == null ? null : teacherNo.trim();
     }
 
-    public Short getTermId() {
+    public Integer getTermId() {
         return termId;
     }
 
-    public void setTermId(Short termId) {
+    public void setTermId(Integer termId) {
         this.termId = termId;
     }
 

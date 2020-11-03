@@ -1,10 +1,7 @@
 package com.gwy.manager.entity;
 
-/**
- * @author TRacy
- */
 public class Target {
-    private String targetId;
+    private Integer targetId;
 
     private String targetContent;
 
@@ -14,12 +11,12 @@ public class Target {
 
     private Integer state;
 
-    public String getTargetId() {
+    public Integer getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(String targetId) {
-        this.targetId = targetId == null ? null : targetId.trim();
+    public void setTargetId(Integer targetId) {
+        this.targetId = targetId;
     }
 
     public String getTargetContent() {

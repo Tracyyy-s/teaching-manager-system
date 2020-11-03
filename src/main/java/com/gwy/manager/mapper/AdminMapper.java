@@ -3,9 +3,6 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.Admin;
 import java.util.List;
 
-/**
- * @author TRacy
- */
 public interface AdminMapper {
     int deleteByPrimaryKey(String adminNo);
 

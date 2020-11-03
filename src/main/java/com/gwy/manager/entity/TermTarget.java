@@ -1,31 +1,28 @@
 package com.gwy.manager.entity;
 
-/**
- * @author TRacy
- */
 public class TermTarget {
-    private String termId;
+    private Integer termId;
 
-    private String targetId;
+    private Integer targetId;
 
     private Integer weight;
 
     private Integer termTargetObject;
 
-    public String getTermId() {
+    public Integer getTermId() {
         return termId;
     }
 
-    public void setTermId(String termId) {
-        this.termId = termId == null ? null : termId.trim();
+    public void setTermId(Integer termId) {
+        this.termId = termId;
     }
 
-    public String getTargetId() {
+    public Integer getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(String targetId) {
-        this.targetId = targetId == null ? null : targetId.trim();
+    public void setTargetId(Integer targetId) {
+        this.targetId = targetId;
     }
 
     public Integer getWeight() {

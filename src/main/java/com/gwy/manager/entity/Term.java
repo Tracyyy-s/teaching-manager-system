@@ -2,11 +2,8 @@ package com.gwy.manager.entity;
 
 import java.util.Date;
 
-/**
- * @author TRacy
- */
 public class Term {
-    private String termId;
+    private Integer termId;
 
     private String termName;
 
@@ -14,12 +11,12 @@ public class Term {
 
     private Date endDate;
 
-    public String getTermId() {
+    public Integer getTermId() {
         return termId;
     }
 
-    public void setTermId(String termId) {
-        this.termId = termId == null ? null : termId.trim();
+    public void setTermId(Integer termId) {
+        this.termId = termId;
     }
 
     public String getTermName() {
