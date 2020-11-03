@@ -38,3 +38,6 @@ src/main/java/com/gwy/manager/util/
 src/main/resources/generator/
 src/main/resources/static/
 src/main/resources/templates/
+src/main/java/com/gwy/manager/entity/
+src/main/java/com/gwy/manager/mapper/
+src/main/resources/mapper/
