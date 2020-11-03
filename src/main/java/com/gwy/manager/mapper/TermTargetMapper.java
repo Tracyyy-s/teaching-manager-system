@@ -5,11 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface TermTargetMapper {
-    int deleteByPrimaryKey(@Param("termId") Integer termId, @Param("targetId") Integer targetId);
+    int deleteByPrimaryKey(@Param("termId") String termId, @Param("targetId") Integer targetId);
 
     int insert(TermTarget record);
 
-    TermTarget selectByPrimaryKey(@Param("termId") Integer termId, @Param("targetId") Integer targetId);
+    TermTarget selectByPrimaryKey(@Param("termId") String termId, @Param("targetId") Integer targetId);
 
     List<TermTarget> selectAll();
 

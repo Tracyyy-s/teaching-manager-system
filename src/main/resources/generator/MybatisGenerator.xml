@@ -51,19 +51,19 @@
                enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false">
         </table>
 
-<!--        <table tableName="ts_admin" domainObjectName="Admin"/>-->
-<!--        <table tableName="ts_course" domainObjectName="Course"/>-->
-<!--        <table tableName="ts_dept" domainObjectName="Dept"/>-->
-<!--        <table tableName="ts_major" domainObjectName="Major"/>-->
-<!--        <table tableName="ts_student_class" domainObjectName="StudentClass"/>-->
-<!--        <table tableName="ts_student" domainObjectName="Student"/>-->
-<!--        <table tableName="ts_student_course_target" domainObjectName="StudentCourseTarget"/>-->
+        <table tableName="ts_admin" domainObjectName="Admin"/>
+        <table tableName="ts_course" domainObjectName="Course"/>
+        <table tableName="ts_dept" domainObjectName="Dept"/>
+        <table tableName="ts_major" domainObjectName="Major"/>
+        <table tableName="ts_student_class" domainObjectName="StudentClass"/>
+        <table tableName="ts_student" domainObjectName="Student"/>
+        <table tableName="ts_student_course_target" domainObjectName="StudentCourseTarget"/>
         <table tableName="ts_target" domainObjectName="Target"/>
-<!--        <table tableName="ts_teacher" domainObjectName="Teacher"/>-->
-<!--        <table tableName="ts_teacher_course" domainObjectName="TeacherCourse"/>-->
-<!--        <table tableName="ts_teacher_course_target" domainObjectName="TeacherCourseTarget"/>-->
-<!--        <table tableName="ts_term" domainObjectName="Term"/>-->
-<!--        <table tableName="ts_term_target" domainObjectName="TermTarget"/>-->
+        <table tableName="ts_teacher" domainObjectName="Teacher"/>
+        <table tableName="ts_teacher_course" domainObjectName="TeacherCourse"/>
+        <table tableName="ts_teacher_course_target" domainObjectName="TeacherCourseTarget"/>
+        <table tableName="ts_term" domainObjectName="Term"/>
+        <table tableName="ts_term_target" domainObjectName="TermTarget"/>
 
     </context>
 </generatorConfiguration>

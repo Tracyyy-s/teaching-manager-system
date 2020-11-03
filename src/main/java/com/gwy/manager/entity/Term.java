@@ -3,7 +3,7 @@ package com.gwy.manager.entity;
 import java.util.Date;
 
 public class Term {
-    private Integer termId;
+    private String termId;
 
     private String termName;
 
@@ -11,12 +11,12 @@ public class Term {
 
     private Date endDate;
 
-    public Integer getTermId() {
+    public String getTermId() {
         return termId;
     }
 
-    public void setTermId(Integer termId) {
-        this.termId = termId;
+    public void setTermId(String termId) {
+        this.termId = termId == null ? null : termId.trim();
     }
 
     public String getTermName() {

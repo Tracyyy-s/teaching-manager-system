@@ -7,7 +7,7 @@ public class TeacherCourse {
 
     private String teacherNo;
 
-    private Integer termId;
+    private String termId;
 
     private Integer appraiseSum;
 
@@ -41,12 +41,12 @@ public class TeacherCourse {
         this.teacherNo = teacherNo == null ? null : teacherNo.trim();
     }
 
-    public Integer getTermId() {
+    public String getTermId() {
         return termId;
     }
 
-    public void setTermId(Integer termId) {
-        this.termId = termId;
+    public void setTermId(String termId) {
+        this.termId = termId == null ? null : termId.trim();
     }
 
     public Integer getAppraiseSum() {

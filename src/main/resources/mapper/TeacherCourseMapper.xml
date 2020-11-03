@@ -5,7 +5,7 @@
     <id column="tc_id" property="tcId" jdbcType="VARCHAR" />
     <result column="course_no" property="courseNo" jdbcType="VARCHAR" />
     <result column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
-    <result column="term_id" property="termId" jdbcType="INTEGER" />
+    <result column="term_id" property="termId" jdbcType="VARCHAR" />
     <result column="appraise_sum" property="appraiseSum" jdbcType="INTEGER" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="begin_week" property="beginWeek" jdbcType="INTEGER" />
@@ -20,14 +20,14 @@
       term_id, appraise_sum, address, 
       begin_week, end_week)
     values (#{tcId,jdbcType=VARCHAR}, #{courseNo,jdbcType=VARCHAR}, #{teacherNo,jdbcType=VARCHAR}, 
-      #{termId,jdbcType=INTEGER}, #{appraiseSum,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{termId,jdbcType=VARCHAR}, #{appraiseSum,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
       #{beginWeek,jdbcType=INTEGER}, #{endWeek,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.TeacherCourse" >
     update ts_teacher_course
     set course_no = #{courseNo,jdbcType=VARCHAR},
       teacher_no = #{teacherNo,jdbcType=VARCHAR},
-      term_id = #{termId,jdbcType=INTEGER},
+      term_id = #{termId,jdbcType=VARCHAR},
       appraise_sum = #{appraiseSum,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
       begin_week = #{beginWeek,jdbcType=INTEGER},

@@ -1,7 +1,7 @@
 package com.gwy.manager.entity;
 
 public class TermTarget {
-    private Integer termId;
+    private String termId;
 
     private Integer targetId;
 
@@ -9,12 +9,12 @@ public class TermTarget {
 
     private Integer termTargetObject;
 
-    public Integer getTermId() {
+    public String getTermId() {
         return termId;
     }
 
-    public void setTermId(Integer termId) {
-        this.termId = termId;
+    public void setTermId(String termId) {
+        this.termId = termId == null ? null : termId.trim();
     }
 
     public Integer getTargetId() {

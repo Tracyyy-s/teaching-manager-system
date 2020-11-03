@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.TermMapper" >
   <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Term" >
-    <id column="term_id" property="termId" jdbcType="INTEGER" />
+    <id column="term_id" property="termId" jdbcType="VARCHAR" />
     <result column="term_name" property="termName" jdbcType="VARCHAR" />
     <result column="begin_date" property="beginDate" jdbcType="DATE" />
     <result column="end_date" property="endDate" jdbcType="DATE" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ts_term
-    where term_id = #{termId,jdbcType=INTEGER}
+    where term_id = #{termId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.gwy.manager.entity.Term" >
     insert into ts_term (term_id, term_name, begin_date, 
       end_date)
-    values (#{termId,jdbcType=INTEGER}, #{termName,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE}, 
+    values (#{termId,jdbcType=VARCHAR}, #{termName,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Term" >
@@ -22,12 +22,12 @@
     set term_name = #{termName,jdbcType=VARCHAR},
       begin_date = #{beginDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE}
-    where term_id = #{termId,jdbcType=INTEGER}
+    where term_id = #{termId,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select term_id, term_name, begin_date, end_date
     from ts_term
-    where term_id = #{termId,jdbcType=INTEGER}
+    where term_id = #{termId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select term_id, term_name, begin_date, end_date

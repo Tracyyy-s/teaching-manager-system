@@ -4,11 +4,11 @@ import com.gwy.manager.entity.Term;
 import java.util.List;
 
 public interface TermMapper {
-    int deleteByPrimaryKey(Integer termId);
+    int deleteByPrimaryKey(String termId);
 
     int insert(Term record);
 
-    Term selectByPrimaryKey(Integer termId);
+    Term selectByPrimaryKey(String termId);
 
     List<Term> selectAll();
 
