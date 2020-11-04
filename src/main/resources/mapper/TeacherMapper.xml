@@ -70,15 +70,18 @@
       dept_id, professional, professional_time
       )
     values
-    <foreach collection="teachers" item="teacher">
-    (
+    <foreach collection="teachers" open="(" close=")" separator="," item="teacher">
       #{teacher.teacherNo,jdbcType=VARCHAR}, #{teacher.teacherName,jdbcType=VARCHAR},
       #{teacher.gender,jdbcType=INTEGER},#{teacher.password,jdbcType=VARCHAR},
       #{teacher.birth,jdbcType=DATE}, #{teacher.degree,jdbcType=VARCHAR},
       #{teacher.graduated,jdbcType=VARCHAR}, #{teacher.political,jdbcType=VARCHAR},
       #{teacher.entryYear,jdbcType=INTEGER},#{teacher.deptId,jdbcType=VARCHAR},
       #{teacher.professional,jdbcType=VARCHAR}, #{teacher.professionalTime,jdbcType=DATE}
-    )
     </foreach>
   </insert>
+  <update id="updatePassword">
+    update ts_teacher
+    set password = #{password,jdbcType=VARCHAR}
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR}
+  </update>
 </mapper>

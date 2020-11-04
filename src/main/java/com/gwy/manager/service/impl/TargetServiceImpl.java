@@ -1,5 +1,6 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.mapper.TargetMapper;
 import com.gwy.manager.service.TargetService;
@@ -19,8 +20,18 @@ public class TargetServiceImpl implements TargetService {
     private TargetMapper targetMapper;
 
     @Override
-    public int addTarget(Target target) {
-        return targetMapper.insert(target);
+    public ResultVO addTarget(Target target) {
+
+        ResultVO resultVO = new ResultVO();
+
+        int res = targetMapper.insert(target);
+        if (res == 0) {
+            resultVO.setData("Fail");
+        } else {
+            resultVO.setData("Success");
+        }
+
+        return resultVO;
     }
 
     @Override
@@ -36,6 +47,11 @@ public class TargetServiceImpl implements TargetService {
     @Override
     public int updateTarget(Target target) {
         return targetMapper.updateByPrimaryKey(target);
+    }
+
+    @Override
+    public List<Target> getTargetsById(List<Integer> ids) {
+        return targetMapper.getTargetsByIds(ids);
     }
 
     @Override

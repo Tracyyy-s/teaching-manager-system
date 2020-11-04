@@ -1,7 +1,9 @@
 package com.gwy.manager.service;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Target;
 
+import javax.xml.transform.Result;
 import java.util.List;
 
 /**
@@ -13,9 +15,9 @@ public interface TargetService {
     /**
      * 添加指标
      * @param target 预添加
-     * @return  影响行数
+     * @return  结果集
      */
-    int addTarget(Target target);
+    ResultVO addTarget(Target target);
 
     /**
      * 获得学生评价的指标
@@ -28,6 +30,13 @@ public interface TargetService {
      * @return
      */
     List<Target> getTeacherTargets();
+
+    /**
+     * 通过指标的ids获取指标
+     * @param ids   ids
+     * @return  查询结果
+     */
+    List<Target> getTargetsById(List<Integer> ids);
 
     /**
      * 修改指标

@@ -19,9 +19,9 @@ public interface TeacherCourseMapper {
 
     /**
      * 修改学生评价分数
-     * @param tcId
-     * @param changeScore
-     * @return
+     * @param tcId  教师课程id
+     * @param changeScore   修改的分数
+     * @return  返回结果
      */
     int updateAppraiseScore(@Param("tcId") String tcId,
                             @Param("changeScore")Integer changeScore);

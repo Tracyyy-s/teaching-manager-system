@@ -1,5 +1,6 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Term;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.TermService;
@@ -34,8 +35,18 @@ public class TermServiceImpl implements TermService {
     }
 
     @Override
-    public List<Term> getTerms() {
-        return termMapper.selectAll();
+    public ResultVO getTerms() {
+        ResultVO resultVO = new ResultVO();
+
+        List<Term> terms = null;
+        try {
+            terms = termMapper.selectAll();
+            resultVO.success(terms);
+        } catch (Exception e) {
+            resultVO.setData("Fail");
+        }
+
+        return resultVO;
     }
 
     @Override

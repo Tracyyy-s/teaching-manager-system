@@ -56,14 +56,12 @@
       political, dept_id, entry_year
       )
     values
-    <foreach collection="students" item="student">
-    (
+    <foreach collection="students" item="student" open="(" close=")" separator=",">
       #{student.studentNo,jdbcType=VARCHAR}, #{student.studentName,jdbcType=VARCHAR},
       #{student.password,jdbcType=VARCHAR}, #{student.gender,jdbcType=INTEGER},
       #{student.birth,jdbcType=DATE}, #{student.classId,jdbcType=VARCHAR},
       #{student.political,jdbcType=VARCHAR}, #{student.deptId,jdbcType=VARCHAR},
       #{student.entryYear,jdbcType=VARCHAR}
-    )
     </foreach>
   </insert>
   <select id="selectStudentsByDept" resultMap="BaseResultMap">
@@ -76,4 +74,10 @@
     entry_year
     from ts_student where class_id = #{classId,jdbcType=VARCHAR}
   </select>
+  <!-- 修改密码 -->
+  <update id="updatePassword">
+    update ts_student
+    set password = #{password,jdbcType=VARCHAR}
+    where student_no = #{studentNo,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -66,12 +66,11 @@
       term_id, appraise_sum, address,
       begin_week, end_week)
       values
-    <foreach collection="teacherCourses" item="teacherCourse">
-      (
+    <foreach collection="teacherCourses" open="(" close=")" separator="," item="teacherCourse">
       #{teacherCourse.tcId,jdbcType=VARCHAR}, #{teacherCourse.courseNo,jdbcType=VARCHAR},
       #{teacherCourse.teacherNo,jdbcType=VARCHAR}, #{teacherCourse.termId,jdbcType=VARCHAR},
       #{teacherCourse.appraiseSum,jdbcType=INTEGER}, #{teacherCourse.address,jdbcType=VARCHAR},
-      #{teacherCourse.beginWeek,jdbcType=INTEGER}, #{teacherCourse.endWeek,jdbcType=INTEGER})
+      #{teacherCourse.beginWeek,jdbcType=INTEGER}, #{teacherCourse.endWeek,jdbcType=INTEGER}
     </foreach>
   </insert>
   <!-- 修改学生评价总分 -->

@@ -42,5 +42,13 @@
   <select id="getTeacherTargets" resultMap="BaseResultMap">
     select target_id, target_content, target_object, weight, state
     from ts_target where target_object = 0
-</select>
+  </select>
+  <select id="getTargetsByIds" resultMap="BaseResultMap">
+    select target_id, target_content, target_object, weight, state
+    from ts_target
+    where target_id in
+    <foreach collection="ids" open="(" separator="," close=")" item="targetId">
+        #{targetId,jdbcType=INTEGER}
+    </foreach>
+  </select>
 </mapper>

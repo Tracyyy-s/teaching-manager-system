@@ -12,9 +12,9 @@
     where term_id = #{termId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.gwy.manager.entity.Term" >
-    insert into ts_term (term_id, term_name, begin_date, 
+    insert into ts_term (term_id, term_name, begin_date,
       end_date)
-    values (#{termId,jdbcType=VARCHAR}, #{termName,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE}, 
+    values (#{termId,jdbcType=VARCHAR}, #{termName,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE},
       #{endDate,jdbcType=DATE})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Term" >
@@ -38,12 +38,15 @@
     insert into ts_term (term_id, term_name, begin_date,
       end_date)
     values
-    <foreach collection="terms" item="term">
-    (
+    <foreach collection="terms" open="(" close=")" separator="," item="term">
       #{term.termId,jdbcType=VARCHAR}, #{term.termName,jdbcType=VARCHAR},
       #{term.beginDate,jdbcType=DATE}, #{term.endDate,jdbcType=DATE}
-    )
     </foreach>
-
   </insert>
+  <!-- 获得当前日期的学期id -->
+  <select id="getCurrentTerm" resultType="java.lang.String">
+    select term_id
+    from ts_term
+    where #{date,jdbcType=TIMESTAMP} between begin_date and end_date
+  </select>
 </mapper>

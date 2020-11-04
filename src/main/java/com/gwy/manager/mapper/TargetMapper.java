@@ -1,6 +1,8 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Target;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface TargetMapper {
@@ -25,4 +27,10 @@ public interface TargetMapper {
      * @return
      */
     List<Target> getTeacherTargets();
+
+    /**
+     * 获得指标列表的指标
+     * @return
+     */
+    List<Target> getTargetsByIds(@Param("ids") List<Integer> ids);
 }

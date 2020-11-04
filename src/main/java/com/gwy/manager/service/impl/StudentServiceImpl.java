@@ -1,8 +1,11 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.Response;
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.service.StudentService;
+import com.gwy.manager.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +27,45 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public int updateStudent(Student student) {
-        return studentMapper.updateByPrimaryKey(student);
+    public Student getStudent(String studentNo) {
+        return studentMapper.selectByPrimaryKey(studentNo);
     }
 
     @Override
-    public Student getStudent(String studentNo) {
-        return studentMapper.selectByPrimaryKey(studentNo);
+    public ResultVO login(String studentNo, String password) {
+        ResultVO resultVO = new ResultVO();
+
+        Student student = this.getStudent(studentNo);
+
+        if (student == null) {
+            resultVO.setData("Not Found Student");
+        } else if (!MD5Util.inputToDb(password).equals(student.getPassword())) {
+            resultVO.setData("Password Incorrect");
+        } else {
+            resultVO.success("Success");
+        }
+
+        return resultVO;
+    }
+
+    @Override
+    public ResultVO updatePassword(String studentNo, String password) {
+
+        ResultVO resultVO = new ResultVO();
+
+        int result = studentMapper.updatePassword(studentNo, MD5Util.inputToDb(password));
+        if (result == 1) {
+           resultVO.success("Success");
+        } else {
+            resultVO.setData("Fail");
+        }
+
+        return resultVO;
+    }
+
+    @Override
+    public int updateStudent(Student student) {
+        return studentMapper.updateByPrimaryKey(student);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.gwy.manager.service;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Term;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface TermService {
      * 获得所有学期的信息
      * @return
      */
-    List<Term> getTerms();
+    ResultVO getTerms();
 
     /**
      * 批量导入学期

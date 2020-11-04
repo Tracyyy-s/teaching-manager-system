@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.TestTableMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.TestTable" >
+    <result column="date" property="date" jdbcType="DATE" />
+    <result column="date_time" property="dateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="com.gwy.manager.entity.TestTable" >
+    insert into test (date, date_time)
+    values (#{date,jdbcType=DATE}, #{dateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select date, date_time
+    from test
+  </select>
+</mapper>

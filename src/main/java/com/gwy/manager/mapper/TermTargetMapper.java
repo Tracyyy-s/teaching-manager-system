@@ -21,4 +21,18 @@ public interface TermTargetMapper {
      * @return
      */
     int insertTermTargets(@Param("termTargets") List<TermTarget> termTargets);
+
+    /**
+     * 获得学期所有学生评价指标
+     * @param termId
+     * @return
+     */
+    List<Integer> getStudentTermTargets(String termId);
+
+    /**
+     * 获得学期所有教师评价指标
+     * @param termId
+     * @return
+     */
+    List<Integer> getTeacherTermTargets(String termId);
 }

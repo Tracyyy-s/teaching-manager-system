@@ -23,6 +23,8 @@ public interface StudentMapper {
      */
     int insertStudentBatch(@Param("students") List<Student> students);
 
+    int updatePassword(@Param("studentNo") String studentNo, @Param("password") String password);
+
     List<Student> selectStudentsByDept(String deptId);
 
     List<Student> selectStudentsByClass(String classId);

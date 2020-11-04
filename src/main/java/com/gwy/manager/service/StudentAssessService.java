@@ -1,5 +1,6 @@
 package com.gwy.manager.service;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.StudentAssess;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public interface StudentAssessService {
      * @param studentAssess
      * @return
      */
-    int updateAppraise(StudentAssess studentAssess);
+    ResultVO updateAppraise(StudentAssess studentAssess);
 
     /**
      * 获取学生对某课程的评价

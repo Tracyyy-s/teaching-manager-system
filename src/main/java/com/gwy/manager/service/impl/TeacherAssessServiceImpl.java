@@ -1,11 +1,15 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.TeacherAssess;
 import com.gwy.manager.mapper.TeacherAssessMapper;
+import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.TeacherAssessService;
+import com.gwy.manager.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,10 +22,25 @@ public class TeacherAssessServiceImpl implements TeacherAssessService {
     @Autowired
     private TeacherAssessMapper teacherAssessMapper;
 
+    @Autowired
+    private TermMapper termMapper;
 
     @Override
-    public int addTeacherAssess(TeacherAssess teacherAssess) {
-        return teacherAssessMapper.insert(teacherAssess);
+    public ResultVO addTeacherAssess(TeacherAssess teacherAssess) {
+
+        ResultVO resultVO = new ResultVO();
+
+        Date time = DateUtil.getTime();
+        teacherAssess.setSubmitTime(time);
+
+        int i = teacherAssessMapper.insert(teacherAssess);
+        if (i == 0) {
+            resultVO.setData("Fail");
+        } else {
+            resultVO.success("Success");
+        }
+
+        return resultVO;
     }
 
     @Override

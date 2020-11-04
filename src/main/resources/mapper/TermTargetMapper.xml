@@ -41,11 +41,21 @@
     insert into ts_term_target (term_id, target_id, weight,
       term_target_object)
     values
-    <foreach collection="termTargets" item="termTarget">
-    (
+    <foreach collection="termTargets" open="(" close=")" separator="," item="termTarget">
       #{termTarget.termId,jdbcType=VARCHAR}, #{termTarget.targetId,jdbcType=INTEGER},
       #{termTarget.weight,jdbcType=INTEGER},#{termTarget.weight,jdbcType=INTEGER}
-    )
     </foreach>
   </insert>
+  <!-- 获得学生学期评价指标 -->
+  <select id="getStudentTermTargets" resultType="java.lang.Integer">
+    select target_id
+    from ts_term_target
+    where term_id = #{termId,jdbcType=VARCHAR} and term_target_object = 1
+  </select>
+  <!-- 获得教师学期评价指标 -->
+  <select id="getTeacherTermTargets" resultType="java.lang.Integer">
+    select target_id
+    from ts_term_target
+    where term_id = #{termId,jdbcType=VARCHAR} and term_target_object = 0
+  </select>
 </mapper>

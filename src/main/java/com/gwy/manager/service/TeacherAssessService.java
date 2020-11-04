@@ -1,5 +1,6 @@
 package com.gwy.manager.service;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.TeacherAssess;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface TeacherAssessService {
      * @param teacherAssess 教师评价结果
      * @return  返回行数
      */
-    int addTeacherAssess(TeacherAssess teacherAssess);
+    ResultVO addTeacherAssess(TeacherAssess teacherAssess);
 
     /**
      * 获得教师本学期评价的指标
