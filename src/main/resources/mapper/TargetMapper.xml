@@ -6,7 +6,6 @@
     <result column="target_content" property="targetContent" jdbcType="VARCHAR" />
     <result column="target_object" property="targetObject" jdbcType="INTEGER" />
     <result column="weight" property="weight" jdbcType="INTEGER" />
-    <result column="state" property="state" jdbcType="INTEGER" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from ts_target
@@ -14,37 +13,36 @@
   </delete>
   <insert id="insert" parameterType="com.gwy.manager.entity.Target" >
     insert into ts_target (target_id, target_content, target_object, 
-      weight, state)
+      weight)
     values (#{targetId,jdbcType=INTEGER}, #{targetContent,jdbcType=VARCHAR}, #{targetObject,jdbcType=INTEGER}, 
-      #{weight,jdbcType=INTEGER}, #{state,jdbcType=INTEGER})
+      #{weight,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Target" >
     update ts_target
     set target_content = #{targetContent,jdbcType=VARCHAR},
       target_object = #{targetObject,jdbcType=INTEGER},
-      weight = #{weight,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER}
+      weight = #{weight,jdbcType=INTEGER}
     where target_id = #{targetId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select target_id, target_content, target_object, weight, state
+    select target_id, target_content, target_object, weight
     from ts_target
     where target_id = #{targetId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select target_id, target_content, target_object, weight, state
+    select target_id, target_content, target_object, weight
     from ts_target
   </select>
   <select id="getStudentTargets" resultMap="BaseResultMap">
-    select target_id, target_content, target_object, weight, state
+    select target_id, target_content, target_object, weight
     from ts_target where target_object = 1
   </select>
   <select id="getTeacherTargets" resultMap="BaseResultMap">
-    select target_id, target_content, target_object, weight, state
+    select target_id, target_content, target_object, weight
     from ts_target where target_object = 0
   </select>
   <select id="getTargetsByIds" resultMap="BaseResultMap">
-    select target_id, target_content, target_object, weight, state
+    select target_id, target_content, target_object, weight
     from ts_target
     where target_id in
     <foreach collection="ids" open="(" separator="," close=")" item="targetId">

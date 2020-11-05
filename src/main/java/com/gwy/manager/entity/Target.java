@@ -9,8 +9,6 @@ public class Target {
 
     private Integer weight;
 
-    private Integer state;
-
     public Integer getTargetId() {
         return targetId;
     }
@@ -43,14 +41,6 @@ public class Target {
         this.weight = weight;
     }
 
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
     @Override
     public String toString() {
         return "Target{" +
@@ -58,7 +48,6 @@ public class Target {
                 ", targetContent='" + targetContent + '\'' +
                 ", targetObject=" + targetObject +
                 ", weight=" + weight +
-                ", state=" + state +
                 '}';
     }
 }

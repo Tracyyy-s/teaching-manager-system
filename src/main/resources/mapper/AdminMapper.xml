@@ -31,4 +31,9 @@
     select admin_no, password, dept_id
     from ts_admin
   </select>
+  <update id="updatePassword">
+    update ts_admin
+    set password = #{password,jdbcType=VARCHAR}
+    where admin_no = #{adminNo,jdbcType=VARCHAR}
+  </update>
 </mapper>

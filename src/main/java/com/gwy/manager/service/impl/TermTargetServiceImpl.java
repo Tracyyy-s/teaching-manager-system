@@ -1,6 +1,7 @@
 package com.gwy.manager.service.impl;
 
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.dto.UserOption;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.entity.Term;
 import com.gwy.manager.entity.TermTarget;
@@ -50,11 +51,11 @@ public class TermTargetServiceImpl implements TermTargetService {
             //存储指标id的列表
             List<Integer> targetIds = new ArrayList<>();
 
-            if ("student".equals(obj)) {
+            if (UserOption.STUDENT.getUserType().equals(obj)) {
 
                 //获得学生学期评价指标列表
                 targetIds = termTargetMapper.getStudentTermTargets(termId);
-            } else if ("teacher".equals(obj)) {
+            } else if (UserOption.TEACHER.getUserType().equals(obj)) {
 
                 //获得教师学期评价指标列表
                 targetIds = termTargetMapper.getTeacherTermTargets(termId);
@@ -79,11 +80,11 @@ public class TermTargetServiceImpl implements TermTargetService {
 
     @Override
     public ResultVO getStudentTermTargets(String termId) {
-        return this.getObjectTermTargets(termId, "student");
+        return this.getObjectTermTargets(termId, UserOption.STUDENT.getUserType());
     }
 
     @Override
     public ResultVO getTeacherTermTargets(String termId) {
-        return this.getObjectTermTargets(termId, "teacher");
+        return this.getObjectTermTargets(termId, UserOption.TEACHER.getUserType());
     }
 }

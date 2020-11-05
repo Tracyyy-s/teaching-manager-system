@@ -17,33 +17,28 @@ public interface TargetService {
      * @param target 预添加
      * @return  结果集
      */
-    ResultVO addTarget(Target target);
+    ResultVO addTarget(Target target, Integer targetType);
 
     /**
-     * 获得学生评价的指标
-     * @return
+     * 获得指定对象指标
+     * @param userType  对象类型
+     * @return  结果集
      */
-    List<Target> getStudentTargets();
+    ResultVO getTargets(String userType);
 
     /**
-     * 获得教师评价的指标
-     * @return
-     */
-    List<Target> getTeacherTargets();
-
-    /**
-     * 通过指标的ids获取指标
+     * 通过指标列表获取指标
      * @param ids   ids
      * @return  查询结果
      */
-    List<Target> getTargetsById(List<Integer> ids);
+    List<Target> getTargetsByIds(List<Integer> ids);
 
     /**
      * 修改指标
      * @param target 修改指标
      * @return  影响行数
      */
-    int updateTarget(Target target);
+    ResultVO updateTarget(Target target);
 
     /**
      * 删除指标

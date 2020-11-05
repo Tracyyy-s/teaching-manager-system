@@ -1,6 +1,8 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Admin;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface AdminMapper {
@@ -13,4 +15,6 @@ public interface AdminMapper {
     List<Admin> selectAll();
 
     int updateByPrimaryKey(Admin record);
+
+    int updatePassword(@Param("adminNo") String adminNo, @Param("password") String password);
 }

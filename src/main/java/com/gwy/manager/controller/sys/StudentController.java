@@ -96,15 +96,6 @@ public class StudentController {
     }
 
     /**
-     * 获得所有的学期信息
-     * @return 返回结果
-     */
-    @PostMapping("/getTerms")
-    public ResultVO getTerms() {
-        return termService.getTerms();
-    }
-
-    /**
      * 获得学生该学期的课程
      *
      * @param studentNo 学号
