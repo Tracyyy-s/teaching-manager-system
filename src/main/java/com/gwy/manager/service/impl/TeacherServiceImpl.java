@@ -21,8 +21,26 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherMapper teacherMapper;
 
     @Override
-    public Teacher getTeacherByTno(String tno) {
-        return teacherMapper.selectByPrimaryKey(tno);
+    public Teacher getTeacher(String teacherNo) {
+        return teacherMapper.selectByPrimaryKey(teacherNo);
+    }
+
+    @Override
+    public ResultVO getTeacherByTnoInDept(String deptId, String tno) {
+
+        ResultVO resultVO = new ResultVO();
+
+        Teacher teacher = teacherMapper.selectByPrimaryKey(tno);
+
+        if (teacher == null) {
+            resultVO.setData("Not Found");
+        } else if (!deptId.equals(teacher.getDeptId())) {
+            resultVO.setData("Permission Deny");
+        } else {
+            resultVO.success(teacher);
+        }
+
+        return resultVO;
     }
 
     @Override
@@ -37,7 +55,7 @@ public class TeacherServiceImpl implements TeacherService {
         } else if (!MD5Util.inputToDb(password).equals(teacher.getPassword())) {
             resultVO.setData("Password Incorrect");
         } else {
-            resultVO.success("Success");
+            resultVO.success(teacher);
         }
         return resultVO;
     }
@@ -73,8 +91,33 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> getTeachersOfDept(String deptId) {
-        return teacherMapper.selectByDeptId(deptId);
+    public ResultVO getTeachersOfDept(String deptId) {
+
+        ResultVO resultVO = new ResultVO();
+
+        List<Teacher> teachers = teacherMapper.selectByDeptId(deptId);
+        if (teachers.size() == 0) {
+            resultVO.setData("Not Found");
+        } else {
+            resultVO.success(teachers);
+        }
+
+        return resultVO;
+    }
+
+    @Override
+    public ResultVO getTeacherMatchNameInDept(String deptId, String name) {
+
+        ResultVO resultVO = new ResultVO();
+
+        List<Teacher> teachers = teacherMapper.getTeachersMatchNameInDept(deptId, name);
+        if (teachers.size() == 0) {
+            resultVO.setData("Not Found");
+        } else {
+            resultVO.success(teachers);
+        }
+
+        return resultVO;
     }
 
     @Override

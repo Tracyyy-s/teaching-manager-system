@@ -21,4 +21,6 @@ public interface TeacherMapper {
     int insertTeachersByBatch(@Param("teachers") List<Teacher> teachers);
 
     int updatePassword(@Param("teacherNo")String teacherNo, @Param("password") String password);
+
+    List<Teacher> getTeachersMatchNameInDept(@Param("deptId") String deptId, @Param("name") String name);
 }

@@ -45,5 +45,5 @@ public interface TargetService {
      * @param targetId 指标id
      * @return  影响行数
      */
-    int deleteTarget(Integer targetId);
+    ResultVO deleteTarget(Integer targetId);
 }

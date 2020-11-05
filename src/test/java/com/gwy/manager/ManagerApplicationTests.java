@@ -37,7 +37,7 @@ class ManagerApplicationTests {
 
     @Test
     void test01() {
-        System.out.println(targetService.getStudentTargets());
+        System.out.println(targetService.getTargets("student"));
     }
 
     @Autowired
@@ -85,6 +85,6 @@ class ManagerApplicationTests {
         ArrayList<Integer> list = new ArrayList<>();
         list.add(1);
         list.add(2);
-        System.out.println(targetService.getTargetsById(list));
+        System.out.println(targetService.getTargetsByIds(list));
     }
 }

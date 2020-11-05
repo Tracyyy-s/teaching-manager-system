@@ -47,7 +47,7 @@ public class TeacherController {
         ResultVO resultVO = teacherService.login(teacherNo, password);
 
         if (resultVO.getResultCode().equals(Response.SUCCESS.getCode())) {
-            session.setAttribute("teacher", teacherService.getTeacherByTno(teacherNo));
+            session.setAttribute("teacher", resultVO.getData());
         }
 
         return resultVO;

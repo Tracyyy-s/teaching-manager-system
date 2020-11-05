@@ -42,7 +42,7 @@ public class StudentServiceImpl implements StudentService {
         } else if (!MD5Util.inputToDb(password).equals(student.getPassword())) {
             resultVO.setData("Password Incorrect");
         } else {
-            resultVO.success("Success");
+            resultVO.success(student);
         }
 
         return resultVO;

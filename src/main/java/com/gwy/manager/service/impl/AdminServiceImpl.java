@@ -29,7 +29,7 @@ public class AdminServiceImpl implements AdminService {
         } else if (!admin.getPassword().equals(MD5Util.inputToDb(password))) {
             resultVO.setData("Password Incorrect");
         } else {
-            resultVO.success("Success");
+            resultVO.success(admin);
         }
 
         return resultVO;

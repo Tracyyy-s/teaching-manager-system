@@ -12,11 +12,27 @@ import java.util.List;
 public interface TeacherService {
 
     /**
-     * 获取教师
+     * 通过teacherNo获取教师
+     * @param teacherNo 教师teacherNo
+     * @return  查询结果
+     */
+    Teacher getTeacher(String teacherNo);
+
+    /**
+     * 通过学院id和teacherNo获取教师
+     * @param deptId 学院id
      * @param tno 教师tno
      * @return  查询结果
      */
-    Teacher getTeacherByTno(String tno);
+    ResultVO getTeacherByTnoInDept(String deptId, String tno);
+
+    /**
+     * 通过教师名进行模糊匹配
+     * @param deptId 学院id
+     * @param name  匹配名字
+     * @return  结果集
+     */
+    ResultVO getTeacherMatchNameInDept(String deptId, String name);
 
     /**
      * 修改教师信息
@@ -45,7 +61,7 @@ public interface TeacherService {
      * @param deptId 学院id
      * @return  学院教师列表
      */
-    List<Teacher> getTeachersOfDept(String deptId);
+    ResultVO getTeachersOfDept(String deptId);
 
     /**
      * 批量添加教师

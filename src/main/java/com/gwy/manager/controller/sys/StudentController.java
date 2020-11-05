@@ -55,7 +55,7 @@ public class StudentController {
 
         //如果查询成功
         if (resultVO.getResultCode().equals(Response.SUCCESS.getCode())) {
-            session.setAttribute("student", studentService.getStudent(studentNo));
+            session.setAttribute("student", resultVO.getData());
         }
 
         return resultVO;

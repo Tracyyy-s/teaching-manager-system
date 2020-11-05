@@ -57,6 +57,7 @@
     entry_year, dept_id, professional, professional_time
     from ts_teacher
   </select>
+  <!-- 获取学院内所有教师 -->
   <select id="selectByDeptId" resultMap="BaseResultMap">
     select teacher_no, teacher_name, gender, password, birth, degree, graduated, political,
     entry_year, dept_id, professional, professional_time
@@ -84,4 +85,11 @@
     set password = #{password,jdbcType=VARCHAR}
     where teacher_no = #{teacherNo,jdbcType=VARCHAR}
   </update>
+  <!-- 根据教师名对学院内的教师进行模糊匹配 -->
+  <select id="getTeachersMatchNameInDept" resultMap="BaseResultMap">
+    select teacher_no, teacher_name, gender, password, birth, degree, graduated, political,
+    entry_year, dept_id, professional, professional_time
+    from ts_teacher where dept_id = #{deptId,jdbcType=VARCHAR}
+    and teacher_name like concat('%', #{name,jdbcType=VARCHAR}, '%')
+  </select>
 </mapper>

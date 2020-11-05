@@ -97,7 +97,17 @@ public class TargetServiceImpl implements TargetService {
     }
 
     @Override
-    public int deleteTarget(Integer targetId) {
-        return targetMapper.deleteByPrimaryKey(targetId);
+    public ResultVO deleteTarget(Integer targetId) {
+
+        ResultVO resultVO = new ResultVO();
+
+        int i = targetMapper.deleteByPrimaryKey(targetId);
+        if (i == 0) {
+            resultVO.setData("Not Found");
+        } else {
+            resultVO.success("Success");
+        }
+
+        return resultVO;
     }
 }
