@@ -2,9 +2,11 @@ package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.TeacherCourse;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface TeacherCourseMapper {
 
     int deleteByPrimaryKey(String tcId);

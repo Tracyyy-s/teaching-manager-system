@@ -3,7 +3,9 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.TeacherAssess;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface TeacherAssessMapper {
 
     int insert(TeacherAssess record);

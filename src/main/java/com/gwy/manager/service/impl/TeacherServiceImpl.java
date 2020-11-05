@@ -7,6 +7,7 @@ import com.gwy.manager.service.TeacherService;
 import com.gwy.manager.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -117,6 +118,13 @@ public class TeacherServiceImpl implements TeacherService {
             resultVO.success(teachers);
         }
 
+        return resultVO;
+    }
+
+    @Override
+    public ResultVO importTeachersByFile(MultipartFile file) {
+        ResultVO resultVO = new ResultVO();
+        resultVO.success("Get It");
         return resultVO;
     }
 

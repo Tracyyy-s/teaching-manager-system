@@ -2,9 +2,11 @@ package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Target;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface TargetMapper {
     int deleteByPrimaryKey(Integer targetId);
 

@@ -9,6 +9,7 @@ import com.gwy.manager.service.impl.TargetServiceImpl;
 import com.gwy.manager.service.impl.TeacherServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -136,6 +137,19 @@ public class AdminController {
     }
 
     /**
+     * 根据教师号获得指定教师
+     * @param deptId    管理员学院id
+     * @param teacherNo 教师号
+     * @return  结果集
+     */
+    @PostMapping("/getTeacherByTeacherNo")
+    public ResultVO getTeacher(@RequestParam("deptId") String deptId,
+                               @RequestParam("teacherNo") String teacherNo) {
+
+        return teacherService.getTeacherByTnoInDept(deptId, teacherNo);
+    }
+
+    /**
      * 在学院内模糊匹配教师姓名
      * @param deptId 学院id
      * @param name  匹配名字
@@ -145,5 +159,15 @@ public class AdminController {
     public ResultVO getTeachersMatchNameInDept(@RequestParam("deptId") String deptId,
                                               @RequestParam("name") String name) {
         return teacherService.getTeacherMatchNameInDept(deptId, name);
+    }
+
+    /**
+     * 上传文件批量添加教师
+     * @param file  文件
+     * @return  结果集
+     */
+    @PostMapping("/importTeachers")
+    public ResultVO importTeachers(@RequestParam("file") MultipartFile file) {
+        return teacherService.importTeachersByFile(file);
     }
 }

@@ -2,6 +2,7 @@ package com.gwy.manager.service;
 
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Teacher;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -62,6 +63,8 @@ public interface TeacherService {
      * @return  学院教师列表
      */
     ResultVO getTeachersOfDept(String deptId);
+
+    ResultVO importTeachersByFile(MultipartFile file);
 
     /**
      * 批量添加教师

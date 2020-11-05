@@ -1,8 +1,11 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Major;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public interface MajorMapper {
     int deleteByPrimaryKey(String majorId);
 

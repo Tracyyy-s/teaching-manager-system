@@ -2,10 +2,12 @@ package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Term;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
 
+@Component
 public interface TermMapper {
     int deleteByPrimaryKey(String termId);
 

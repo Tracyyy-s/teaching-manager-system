@@ -3,7 +3,9 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.StudentAssess;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface StudentAssessMapper {
     int deleteByPrimaryKey(@Param("studentNo") String studentNo, @Param("tcId") String tcId);
 

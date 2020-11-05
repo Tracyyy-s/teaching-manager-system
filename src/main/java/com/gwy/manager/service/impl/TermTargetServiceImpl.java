@@ -10,6 +10,8 @@ import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.mapper.TermTargetMapper;
 import com.gwy.manager.service.TermTargetService;
 import com.gwy.manager.util.DateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ import java.util.List;
  */
 @Service
 public class TermTargetServiceImpl implements TermTargetService {
+
+    private Logger logger = LoggerFactory.getLogger(TermTargetServiceImpl.class);
 
     @Autowired
     private TermTargetMapper termTargetMapper;
@@ -46,7 +50,9 @@ public class TermTargetServiceImpl implements TermTargetService {
         Date today = DateUtil.getDate();
 
         Term term = termMapper.selectByPrimaryKey(termId);
-        if (today.after(term.getBeginDate()) && today.before(term.getEndDate())) {
+        if (term == null) {
+            resultVO.setData("Term Not Exist");
+        } else if (today.after(term.getBeginDate()) && today.before(term.getEndDate())) {
 
             //存储指标id的列表
             List<Integer> targetIds = new ArrayList<>();

@@ -23,6 +23,13 @@ spring:
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 
+  # 指定上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+
 mybatis:
   # 指定映射配置文件路径
   mapper-locations: classpath:mapper/*.xml
