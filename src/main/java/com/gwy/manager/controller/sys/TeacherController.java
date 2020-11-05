@@ -1,4 +1,4 @@
-package com.gwy.manager.controller.teacher;
+package com.gwy.manager.controller.sys;
 
 import com.gwy.manager.dto.Response;
 import com.gwy.manager.dto.ResultVO;
