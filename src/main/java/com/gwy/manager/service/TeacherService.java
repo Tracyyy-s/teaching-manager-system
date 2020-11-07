@@ -64,12 +64,12 @@ public interface TeacherService {
      */
     ResultVO getTeachersOfDept(String deptId);
 
-    ResultVO importTeachersByFile(MultipartFile file);
-
     /**
-     * 批量添加教师
-     * @param teachers 预添加的教师列表
-     * @return  影响行数
+     * 传入Excel批量添加教师
+     * @param headerType Excel的header类型
+     * @param file  传入文件
+     * @return  返回结果
      */
-    int addTeachersByBatch(List<Teacher> teachers);
+    ResultVO importTeachersByFile(String headerType, MultipartFile file);
+
 }

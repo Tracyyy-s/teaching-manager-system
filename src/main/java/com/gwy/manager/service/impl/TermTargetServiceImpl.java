@@ -9,7 +9,7 @@ import com.gwy.manager.mapper.TargetMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.mapper.TermTargetMapper;
 import com.gwy.manager.service.TermTargetService;
-import com.gwy.manager.util.DateUtil;
+import com.gwy.manager.util.DateUtilCustom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class TermTargetServiceImpl implements TermTargetService {
         ResultVO resultVO = new ResultVO();
 
         //获得今天日期
-        Date today = DateUtil.getDate();
+        Date today = DateUtilCustom.getDate();
 
         Term term = termMapper.selectByPrimaryKey(termId);
         if (term == null) {

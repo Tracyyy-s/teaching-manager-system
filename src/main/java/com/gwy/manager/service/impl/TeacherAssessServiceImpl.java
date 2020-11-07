@@ -5,7 +5,7 @@ import com.gwy.manager.entity.TeacherAssess;
 import com.gwy.manager.mapper.TeacherAssessMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.TeacherAssessService;
-import com.gwy.manager.util.DateUtil;
+import com.gwy.manager.util.DateUtilCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class TeacherAssessServiceImpl implements TeacherAssessService {
 
         ResultVO resultVO = new ResultVO();
 
-        Date time = DateUtil.getTime();
+        Date time = DateUtilCustom.getTime();
         teacherAssess.setSubmitTime(time);
 
         int i = teacherAssessMapper.insert(teacherAssess);

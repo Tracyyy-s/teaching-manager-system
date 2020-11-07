@@ -1,14 +1,11 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.Response;
 import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Course;
 import com.gwy.manager.entity.TeacherCourse;
 import com.gwy.manager.mapper.TeacherCourseMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.TeacherCourseService;
-import com.gwy.manager.service.TeacherService;
-import com.gwy.manager.util.DateUtil;
+import com.gwy.manager.util.DateUtilCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +44,7 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
 
         ResultVO resultVO = new ResultVO();
 
-        String currentTerm = termMapper.getCurrentTerm(DateUtil.getDate());
+        String currentTerm = termMapper.getCurrentTerm(DateUtilCustom.getDate());
         try {
             List<TeacherCourse> courses = teacherCourseMapper
                     .getTeacherCoursesByTeacherNoAndTermId(teacherNo, currentTerm);

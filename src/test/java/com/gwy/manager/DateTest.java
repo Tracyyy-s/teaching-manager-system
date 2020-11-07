@@ -3,7 +3,7 @@ package com.gwy.manager;
 import com.gwy.manager.entity.TestTable;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.mapper.TestTableMapper;
-import com.gwy.manager.util.DateUtil;
+import com.gwy.manager.util.DateUtilCustom;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,9 +40,9 @@ public class DateTest {
 
         TestTable table = tests.get(1);
 
-        System.out.println(DateUtil.date2String(table.getDateTime()));
+        System.out.println(DateUtilCustom.date2String(table.getDateTime()));
 
-        System.out.println(DateUtil.getTime());
+        System.out.println(DateUtilCustom.getTime());
 
         System.out.println(new Date().getTime());
     }

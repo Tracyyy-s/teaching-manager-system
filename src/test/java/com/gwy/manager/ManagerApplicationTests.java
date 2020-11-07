@@ -1,22 +1,23 @@
 package com.gwy.manager;
 
+import ch.qos.logback.core.util.FileUtil;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.Term;
 import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.impl.TargetServiceImpl;
-import com.gwy.manager.service.impl.TermServiceImpl;
 import com.gwy.manager.util.MD5Util;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -82,9 +83,35 @@ class ManagerApplicationTests {
 
     @Test
     void test05() {
+        Integer[] ins = new Integer[20];
+
         ArrayList<Integer> list = new ArrayList<>();
         list.add(1);
         list.add(2);
         System.out.println(targetService.getTargetsByIds(list));
+
+        Integer[] integers = list.toArray(ins);
+
+        System.out.println(Arrays.toString(integers));
+    }
+
+    @Test
+    void test06() {
+        String[] s = new String[5];
+        String[] s1 = new String[5];
+
+        String ss = "s";
+        for (int i = 0; i < 5; i++) {
+            s[i] = ss;
+            ss += "s";
+        }
+
+        ss = "s";
+        for (int i = 0; i < 5; i++) {
+            s1[i] = ss;
+            ss += "s";
+        }
+
+        System.out.println(Arrays.equals(s,  s1));
     }
 }

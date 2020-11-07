@@ -7,6 +7,7 @@ import com.gwy.manager.mapper.AdminMapper;
 import com.gwy.manager.service.impl.AdminServiceImpl;
 import com.gwy.manager.service.impl.TargetServiceImpl;
 import com.gwy.manager.service.impl.TeacherServiceImpl;
+import com.gwy.manager.util.ExcelHeaderFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -168,6 +169,7 @@ public class AdminController {
      */
     @PostMapping("/importTeachers")
     public ResultVO importTeachers(@RequestParam("file") MultipartFile file) {
-        return teacherService.importTeachersByFile(file);
+        return teacherService.importTeachersByFile(ExcelHeaderFormat.TeacherExcel, file);
     }
+
 }

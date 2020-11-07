@@ -4,7 +4,7 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.StudentAssess;
 import com.gwy.manager.mapper.StudentAssessMapper;
 import com.gwy.manager.service.StudentAssessService;
-import com.gwy.manager.util.DateUtil;
+import com.gwy.manager.util.DateUtilCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ public class StudentAssessServiceImpl implements StudentAssessService {
         ResultVO resultVO = new ResultVO();
 
         //设置评论提交时间
-        studentAssess.setSubmitTime(DateUtil.getTime());
+        studentAssess.setSubmitTime(DateUtilCustom.getTime());
         int i = studentAssessMapper.updateByPrimaryKey(studentAssess);
         if (i == 0) {
             resultVO.setData("Fail");
