@@ -1,8 +1,11 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.Response;
+import com.gwy.manager.entity.Dept;
 import com.gwy.manager.entity.ExcelSheetPO;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Teacher;
+import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.mapper.TeacherMapper;
 import com.gwy.manager.service.TeacherService;
 import com.gwy.manager.util.ExcelHeaderFormat;
@@ -25,6 +28,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private TeacherMapper teacherMapper;
+
+    @Autowired
+    private ExcelHeaderFormat headerFormat;
 
     @Override
     public Teacher getTeacher(String teacherNo) {
@@ -135,75 +141,26 @@ public class TeacherServiceImpl implements TeacherService {
         return resultVO;
     }
 
-    /**
-     * 通过传入文件导入Bean对象
-     * @param headerType    头类型
-     * @param file  传入文件
-     * @param <T>   导入的pojo类型
-     * @return  结果集
-     */
-    @SuppressWarnings("unchecked")
-    private <T> ResultVO importBeansByFile(String headerType, MultipartFile file) {
-
-        ResultVO resultVO = new ResultVO();
-        List<ExcelSheetPO> pos = new ArrayList<>();
-
-        try {
-            File tmpFile = MultipartFileToFile.multipartFileToFile(file);
-            pos = ExcelUtil.readExcel(headerType, tmpFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        /*if (pos.get(0).getTitle().equals(ExcelHeaderFormat.InvalidHeaders)) {
-
-            Map<String, Object> map = new LinkedHashMap<>();
-            map.put("Failure", "表格标题不匹配");
-            map.put("Expected", ExcelHeaderFormat.getValidHeaders(headerType));
-
-            resultVO.setData(map);
-        }*/
-
-        List<T> data;
-
-        Map<String, Object> map = new LinkedHashMap<>();
-
-        //遍历所有页
-        for (ExcelSheetPO po : pos) {
-            Map<String, Object> thisSheet = new LinkedHashMap<>();
-
-            thisSheet.put("title", po.getTitle());
-            thisSheet.put("headers", po.getHeaders());
-
-            List<List<Object>> dataList = po.getDataList();
-
-            data = new ArrayList<>();
-
-            //遍历本页中的所有数据
-            for (List<Object> objects : dataList) {
-                Map<String, Object> thisData = ExcelHeaderFormat.dataToBean(headerType, objects);
-
-                //如果数据识别错误
-                if (thisData != null && thisData.get("msg").equals("Fail")) {
-                    resultVO.setData(thisData.get("data"));
-                    return resultVO;
-                } else if (thisData != null && thisData.get("msg").equals("Success")) {
-                    data.add((T) thisData.get("data"));
-                }
-            }
-            thisSheet.put("dataList", data);
-
-            map.put(po.getSheetName(), thisSheet);
-        }
-
-        resultVO.success(map);
-        return resultVO;
-    }
-
     @Override
+    @SuppressWarnings("unchecked")
     public ResultVO importTeachersByFile(String headerType, MultipartFile file) {
 
-        return this.importBeansByFile(headerType, file);
+
+        ResultVO resultVO = headerFormat.importBeansByFile(headerType, file);
+
+        if (resultVO.getResultCode().equals(Response.SUCCESS.getCode())) {
+            Object data = resultVO.getData();
+            Map<String, Object> map = (Map<String, Object>)data;
+
+            List<Teacher> teachers = new ArrayList<>();
+
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                Map<String, Object> dataMap = (Map<String, Object>)entry.getValue();
+                teachers.addAll((List<Teacher>)dataMap.get("dataList"));
+            }
+        }
+
+        return resultVO;
     }
 
 }

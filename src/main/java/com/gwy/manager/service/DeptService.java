@@ -28,4 +28,11 @@ public interface DeptService {
      * @return
      */
     Dept getDeptById(String deptId);
+
+    /**
+     * 通过学院名获取学院
+     * @param name
+     * @return
+     */
+    Dept getDeptByName(String name);
 }

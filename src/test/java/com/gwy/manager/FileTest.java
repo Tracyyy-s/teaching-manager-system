@@ -14,10 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Tracy
@@ -48,7 +45,7 @@ public class FileTest {
 
         map.put("teacherNo", obj.get(0));
         map.put("teacherName", obj.get(1));
-        map.put("gender", obj.get(2).equals("男") ? 1 : 0);
+        map.put("gender", obj.get(2).equals("男") ? 1 : obj.get(2).equals("女") ? 0 : "null");
         map.put("password", obj.get(3));
         map.put("birth", DateUtilCustom.string2Date((String) obj.get(4)));
         map.put("degree", obj.get(5));
@@ -70,14 +67,48 @@ public class FileTest {
     }
 
     @Test
-    void test02() {
+    void test02() throws IOException {
+        File file = new File("D:\\QQfiles\\3班选修统计.xlsx");
 
-        try {
-            Class<?> name = Class.forName("Teacher");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        List<ExcelSheetPO> pos = ExcelUtil.readExcel("", file);
+
+        List<List<Object>> list = pos.get(0).getDataList();
+
+        List<String> data = new ArrayList<>();
+        for (List<Object> objects : list) {
+            data.add(objects.get(1).toString());
         }
 
+        System.out.println(data);
 
+        String dirPath = "E:\\_before";
+
+        File file1 = new File(dirPath);
+
+        File[] files = file1.listFiles();
+
+        List<String> nowFiles = new ArrayList<>();
+        assert files != null;
+        for (File file2 : files) {
+            String name = file2.getName();
+
+            String[] s = name.split("_");
+
+
+            nowFiles.add(s[2].split("\\.")[0]);
+        }
+
+        System.out.println(nowFiles);
+
+        List<String> noSubmit = new ArrayList<>();
+
+        for (String datum : data) {
+            boolean b = nowFiles.contains(datum);
+            if (!b) {
+                noSubmit.add(datum);
+            }
+        }
+
+        System.out.println(noSubmit);
     }
 }

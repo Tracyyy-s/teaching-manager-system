@@ -27,4 +27,9 @@
     select dept_id, dept_name
     from ts_dept
   </select>
+  <select id="getDeptByName" resultMap="BaseResultMap">
+    select dept_id, dept_name
+    from ts_dept
+    where dept_name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>

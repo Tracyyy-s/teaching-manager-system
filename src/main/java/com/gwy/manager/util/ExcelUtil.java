@@ -30,8 +30,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 /**
  * excel工具类 提供读取和写入excel的功能
  *
- * @author JIANGYOUYAO
- * @date 2017年12月20日
+ * @author Tracy
+ * @date 2020/11/7
  */
 public class ExcelUtil {
 
@@ -56,8 +56,6 @@ public class ExcelUtil {
     /**
      * 读取excel文件里面的内容 支持日期，数字，字符，函数公式，布尔类型
      *
-     * @author JIANGYOUYAO
-     * @date 2017年12月20日
      * @param file  文件
      * @param headerType 文件头类型
      * @return  数据集
@@ -108,12 +106,12 @@ public class ExcelUtil {
             }
 
             //如果标题行不匹配
-            /*if (!ExcelHeaderFormat.judgeHeaders(headerType, headers)) {
+            if (!ExcelHeaderFormat.judgeHeaders(headerType, headers)) {
                 List<ExcelSheetPO> list = new ArrayList<>();
                 sheetPO.setTitle(ExcelHeaderFormat.InvalidHeaders);
                 list.add(sheetPO);
                 return list;
-            }*/
+            }
 
             //设置本页的标题行
             sheetPO.setHeaders(headers);
@@ -191,8 +189,6 @@ public class ExcelUtil {
     /**
      * 在硬盘上写入excel文件
      *
-     * @author JIANGYOUYAO
-     * @date 2017年12月20日
      * @param version Excel版本
      * @param excelSheets   Excel页
      * @param filePath  导出文件路径
@@ -206,7 +202,6 @@ public class ExcelUtil {
     /**
      * 把excel表格写入输出流中，输出流会被关闭
      *
-     * @author JIANGYOUYAO
      * @param version   Excel版本
      * @param excelSheets   Excel页
      * @param outStream 输出流

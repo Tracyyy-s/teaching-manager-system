@@ -1,5 +1,6 @@
 package com.gwy.manager.entity;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,6 +63,13 @@ public class ExcelSheetPO {
         this.sheetName = sheetName;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "ExcelSheetPO{" +
+                "title='" + title + '\'' +
+                ", sheetName='" + sheetName + '\'' +
+                ", headers=" + Arrays.toString(headers) +
+                ", dataList=" + dataList +
+                '}';
+    }
 }

@@ -97,21 +97,8 @@ class ManagerApplicationTests {
 
     @Test
     void test06() {
-        String[] s = new String[5];
-        String[] s1 = new String[5];
 
-        String ss = "s";
-        for (int i = 0; i < 5; i++) {
-            s[i] = ss;
-            ss += "s";
-        }
-
-        ss = "s";
-        for (int i = 0; i < 5; i++) {
-            s1[i] = ss;
-            ss += "s";
-        }
-
-        System.out.println(Arrays.equals(s,  s1));
+        List<Student> students = studentMapper.selectAll();
+        System.out.println(students);
     }
 }

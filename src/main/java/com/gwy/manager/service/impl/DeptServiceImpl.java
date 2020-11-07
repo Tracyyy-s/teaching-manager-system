@@ -30,4 +30,9 @@ public class DeptServiceImpl implements DeptService {
     public Dept getDeptById(String deptId) {
         return deptMapper.selectByPrimaryKey(deptId);
     }
+
+    @Override
+    public Dept getDeptByName(String name) {
+        return deptMapper.getDeptByName(name);
+    }
 }
