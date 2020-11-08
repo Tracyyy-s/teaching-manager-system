@@ -1,5 +1,6 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.TeacherCourse;
 import com.gwy.manager.mapper.TeacherCourseMapper;
@@ -50,12 +51,12 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
                     .getTeacherCoursesByTeacherNoAndTermId(teacherNo, currentTerm);
 
             if (courses.size() == 0) {
-                resultVO.setData("Not Courses Found");
+                resultVO.setData(ResponseDataMsg.NotFound.getMsg());
             } else {
                 resultVO.success(courses);
             }
         } catch (Exception e) {
-            resultVO.setData("Fail");
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
         }
 
         return resultVO;
@@ -70,7 +71,7 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
                 .getTeacherCourseByStudentNoAndTermId(studentNo, termId);
 
         if (teacherCourses.size() == 0) {
-            resultVO.setData("No Data Found");
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
             resultVO.success(teacherCourses);
         }

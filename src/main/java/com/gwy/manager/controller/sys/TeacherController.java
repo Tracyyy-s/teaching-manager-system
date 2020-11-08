@@ -1,6 +1,5 @@
 package com.gwy.manager.controller.sys;
 
-import com.gwy.manager.dto.Response;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Teacher;
 import com.gwy.manager.entity.TeacherAssess;
@@ -10,8 +9,6 @@ import com.gwy.manager.service.impl.TeacherServiceImpl;
 import com.gwy.manager.service.impl.TermTargetServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * @author Tracy
@@ -33,42 +30,6 @@ public class TeacherController {
 
     @Autowired
     private TeacherAssessServiceImpl teacherAssessService;
-
-    /**
-     * 教师登录
-     * @param teacherNo 教师号
-     * @param password  密码
-     * @return  返回结果
-     */
-    @PostMapping("/login")
-    public ResultVO login(@RequestParam("teacherNo") String teacherNo,
-                          @RequestParam("password") String password,
-                          HttpSession session) {
-        ResultVO resultVO = teacherService.login(teacherNo, password);
-
-        if (resultVO.getResultCode().equals(Response.SUCCESS.getCode())) {
-            session.setAttribute("teacher", resultVO.getData());
-        }
-
-        return resultVO;
-    }
-
-    /**
-     * 教师登出
-     * @param session 会话
-     * @return  返回结果
-     */
-    @PostMapping("/logout")
-    public ResultVO logout(HttpSession session) {
-        ResultVO resultVO = new ResultVO();
-        try {
-            session.invalidate();
-            resultVO.success("Success");
-        } catch (Exception e) {
-            resultVO.setData("Fail");
-        }
-        return resultVO;
-    }
 
     /**
      * 教师修改密码

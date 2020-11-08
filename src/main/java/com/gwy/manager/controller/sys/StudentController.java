@@ -1,6 +1,5 @@
 package com.gwy.manager.controller.sys;
 
-import com.gwy.manager.dto.Response;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.StudentAssess;
 import com.gwy.manager.service.impl.*;
@@ -9,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * @author Tracy
@@ -37,49 +34,6 @@ public class StudentController {
 
     @Autowired
     private TermServiceImpl termService;
-
-    /**
-     * 学生登录
-     *
-     * @param studentNo 学号
-     * @param password  密码
-     * @param session   会话
-     * @return resultVO
-     */
-    @PostMapping("/login")
-    public ResultVO login(@RequestParam("studentNo") String studentNo,
-                          @RequestParam("password") String password,
-                          HttpSession session) {
-
-        ResultVO resultVO = studentService.login(studentNo, password);
-
-        //如果查询成功
-        if (resultVO.getResultCode().equals(Response.SUCCESS.getCode())) {
-            session.setAttribute("student", resultVO.getData());
-        }
-
-        return resultVO;
-    }
-
-    /**
-     * 学生退出登录
-     * @param session   会话
-     * @return  返回结果
-     */
-    @PostMapping("/logout")
-    public ResultVO logout(HttpSession session) {
-        ResultVO resultVO = new ResultVO();
-
-        try {
-            session.invalidate();
-            resultVO.success("Success!");
-        } catch (Exception e) {
-            resultVO.setData("Fail");
-            logger.info("error {}", e.getMessage());
-        }
-
-        return resultVO;
-    }
 
     /**
      * 修改密码

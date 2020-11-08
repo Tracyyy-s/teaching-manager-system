@@ -1,5 +1,6 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Admin;
 import com.gwy.manager.mapper.AdminMapper;
@@ -25,9 +26,9 @@ public class AdminServiceImpl implements AdminService {
 
         Admin admin = adminMapper.selectByPrimaryKey(adminNo);
         if (admin == null) {
-            resultVO.setData("Not Found Admin");
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else if (!admin.getPassword().equals(MD5Util.inputToDb(password))) {
-            resultVO.setData("Password Incorrect");
+            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
         } else {
             resultVO.success(admin);
         }
@@ -44,9 +45,9 @@ public class AdminServiceImpl implements AdminService {
 
         int i = adminMapper.updatePassword(adminNo, newPassword);
         if (i == 0) {
-            resultVO.setData("Fail");
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO.success("Success");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -59,9 +60,9 @@ public class AdminServiceImpl implements AdminService {
 
         int i = adminMapper.updateByPrimaryKey(admin);
         if (i == 0) {
-            resultVO.setData("Fail");
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO.success("Success");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;

@@ -1,5 +1,6 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.dto.UserOption;
 import com.gwy.manager.entity.Target;
@@ -35,9 +36,9 @@ public class TargetServiceImpl implements TargetService {
 
         int res = targetMapper.insert(target);
         if (res == 0) {
-            resultVO.setData("Fail");
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO.success("Success");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -58,7 +59,7 @@ public class TargetServiceImpl implements TargetService {
         //既不是教师对象也不是学生对象
         if (!UserOption.STUDENT.getUserType().equals(userType) &&
                 !UserOption.TEACHER.getUserType().equals(userType)) {
-            resultVO.setData("Not That User");
+            resultVO.setData("Not That User Type");
             return resultVO;
         } else if (UserOption.STUDENT.getUserType().equals(userType)) {
             targetList = targetMapper.getStudentTargets();
@@ -68,7 +69,7 @@ public class TargetServiceImpl implements TargetService {
 
         //未找到任何指标
         if (targetList.size() == 0) {
-            resultVO.setData("Not Found");
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
             resultVO.success(targetList);
         }
@@ -83,9 +84,9 @@ public class TargetServiceImpl implements TargetService {
 
         int i = targetMapper.updateByPrimaryKey(target);
         if (i == 0) {
-            resultVO.setData("Fail");
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO.success("Success");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -103,9 +104,9 @@ public class TargetServiceImpl implements TargetService {
 
         int i = targetMapper.deleteByPrimaryKey(targetId);
         if (i == 0) {
-            resultVO.setData("Not Found");
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO.success("Success");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;

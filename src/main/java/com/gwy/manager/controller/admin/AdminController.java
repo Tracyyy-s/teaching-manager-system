@@ -1,9 +1,8 @@
 package com.gwy.manager.controller.admin;
 
-import com.gwy.manager.dto.Response;
+import com.gwy.manager.dto.ResponseStatus;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Target;
-import com.gwy.manager.mapper.AdminMapper;
 import com.gwy.manager.service.impl.AdminServiceImpl;
 import com.gwy.manager.service.impl.TargetServiceImpl;
 import com.gwy.manager.service.impl.TeacherServiceImpl;
@@ -45,7 +44,7 @@ public class AdminController {
 
         ResultVO resultVO = adminService.login(adminNo, password);
 
-        if (resultVO.getResultCode().equals(Response.SUCCESS.getCode())) {
+        if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
             session.setAttribute("admin", resultVO.getData());
         }
 

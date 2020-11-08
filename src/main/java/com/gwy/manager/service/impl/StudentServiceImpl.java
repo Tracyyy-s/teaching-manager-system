@@ -1,6 +1,6 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.Response;
+import com.gwy.manager.dto.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.mapper.StudentMapper;
@@ -38,9 +38,9 @@ public class StudentServiceImpl implements StudentService {
         Student student = this.getStudent(studentNo);
 
         if (student == null) {
-            resultVO.setData("Not Found Student");
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else if (!MD5Util.inputToDb(password).equals(student.getPassword())) {
-            resultVO.setData("Password Incorrect");
+            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
         } else {
             resultVO.success(student);
         }
@@ -54,10 +54,10 @@ public class StudentServiceImpl implements StudentService {
         ResultVO resultVO = new ResultVO();
 
         int result = studentMapper.updatePassword(studentNo, MD5Util.inputToDb(password));
-        if (result == 1) {
-           resultVO.success("Success");
+        if (result == 0) {
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO.setData("Fail");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;

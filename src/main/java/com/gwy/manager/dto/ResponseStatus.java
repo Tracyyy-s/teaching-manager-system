@@ -4,7 +4,7 @@ package com.gwy.manager.dto;
  * @author Tracy
  * @date 2020/11/4 13:58
  */
-public enum Response {
+public enum ResponseStatus {
 
     SUCCESS(1, "SUCCESS"),
     FAIL(-1, "ERROR");
@@ -12,10 +12,10 @@ public enum Response {
     private Integer code;
     private String message;
 
-    Response() {
+    ResponseStatus() {
     }
 
-    Response(Integer code, String message) {
+    ResponseStatus(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

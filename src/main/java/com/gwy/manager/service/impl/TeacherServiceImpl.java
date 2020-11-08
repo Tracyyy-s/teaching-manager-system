@@ -1,22 +1,17 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.Response;
-import com.gwy.manager.entity.Dept;
-import com.gwy.manager.entity.ExcelSheetPO;
+import com.gwy.manager.dto.ResponseDataMsg;
+import com.gwy.manager.dto.ResponseStatus;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Teacher;
-import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.mapper.TeacherMapper;
 import com.gwy.manager.service.TeacherService;
 import com.gwy.manager.util.ExcelHeaderFormat;
-import com.gwy.manager.util.ExcelUtil;
 import com.gwy.manager.util.MD5Util;
-import com.gwy.manager.util.MultipartFileToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -67,12 +62,12 @@ public class TeacherServiceImpl implements TeacherService {
 
         //未找到教师
         if (teacher == null) {
-            resultVO.setData("Not Found Teacher");
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else if (!MD5Util.inputToDb(password).equals(teacher.getPassword())) {
             //密码错误
-            resultVO.setData("Password Incorrect");
+            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
         } else {
-            resultVO.success("Success");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -148,7 +143,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         ResultVO resultVO = headerFormat.importBeansByFile(headerType, file);
 
-        if (resultVO.getResultCode().equals(Response.SUCCESS.getCode())) {
+        if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
             Object data = resultVO.getData();
             Map<String, Object> map = (Map<String, Object>)data;
 

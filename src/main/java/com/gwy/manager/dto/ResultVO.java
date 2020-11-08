@@ -13,8 +13,8 @@ public class ResultVO {
     Object data;
 
     public ResultVO() {
-        this.setResultCode(Response.FAIL.getCode());
-        this.setMessage(Response.FAIL.getMessage());
+        this.setResultCode(ResponseStatus.FAIL.getCode());
+        this.setMessage(ResponseStatus.FAIL.getMessage());
     }
 
     public ResultVO(Integer resultCode, String message, Object data) {
@@ -48,8 +48,8 @@ public class ResultVO {
     }
 
     public void success(Object data) {
-        this.setResultCode(Response.SUCCESS.getCode());
-        this.setMessage(Response.SUCCESS.getMessage());
+        this.setResultCode(ResponseStatus.SUCCESS.getCode());
+        this.setMessage(ResponseStatus.SUCCESS.getMessage());
         this.setData(data);
     }
 }
