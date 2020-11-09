@@ -34,11 +34,12 @@ public interface StudentService {
 
     /**
      * 修改学生密码
-     * @param studentNo
-     * @param password
-     * @return
+     * @param studentNo 学号
+     * @param password  密码
+     * @param vrCode    验证码
+     * @return  结果集
      */
-    ResultVO updatePassword(String studentNo, String password);
+    ResultVO updatePassword(String studentNo, String password, String vrCode);
 
     /**
      * 批量添加学生
@@ -56,6 +57,13 @@ public interface StudentService {
     ResultVO login(String studentNo, String password);
 
     /**
+     * 发送验证码至Redis,验证码5min有效
+     * @param studentNo 学生id
+     * @return  结果集
+     */
+    ResultVO sendCode(String studentNo);
+
+    /**
      * 获取某学院的所有学生
      * @param deptId
      * @return
@@ -68,4 +76,5 @@ public interface StudentService {
      * @return
      */
     List<Student> getStudentByClass(String classId);
+
 }

@@ -1,5 +1,7 @@
 package com.gwy.manager.entity;
 
+import org.springframework.validation.annotation.Validated;
+
 import java.util.Date;
 
 public class Student {
@@ -12,6 +14,8 @@ public class Student {
     private Integer gender;
 
     private Date birth;
+
+    private String email;
 
     private String classId;
 
@@ -93,14 +97,22 @@ public class Student {
         this.entryYear = entryYear == null ? null : entryYear.trim();
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
                 "studentNo='" + studentNo + '\'' +
                 ", studentName='" + studentName + '\'' +
-                ", password='" + password + '\'' +
                 ", gender=" + gender +
                 ", birth=" + birth +
+                ", email='" + email + '\'' +
                 ", classId='" + classId + '\'' +
                 ", political='" + political + '\'' +
                 ", deptId='" + deptId + '\'' +

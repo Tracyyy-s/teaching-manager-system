@@ -6,6 +6,7 @@
     <result column="student_name" property="studentName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="gender" property="gender" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR"/>
     <result column="birth" property="birth" jdbcType="DATE" />
     <result column="class_id" property="classId" jdbcType="VARCHAR" />
     <result column="political" property="political" jdbcType="VARCHAR" />
@@ -18,11 +19,11 @@
   </delete>
   <insert id="insert" parameterType="com.gwy.manager.entity.Student" >
     insert into ts_student (student_no, student_name, password,
-      gender, birth, class_id,
+      gender, birth, email, class_id,
       political, dept_id, entry_year
       )
     values (#{studentNo,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-      #{gender,jdbcType=INTEGER}, #{birth,jdbcType=DATE}, #{classId,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=INTEGER}, #{birth,jdbcType=DATE}, #{email, jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR},
       #{political,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{entryYear,jdbcType=VARCHAR}
       )
   </insert>
@@ -32,6 +33,7 @@
       password = #{password,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=INTEGER},
       birth = #{birth,jdbcType=DATE},
+      email = #{email, jdbcType=VARCHAR},
       class_id = #{classId,jdbcType=VARCHAR},
       political = #{political,jdbcType=VARCHAR},
       dept_id = #{deptId,jdbcType=VARCHAR},
@@ -39,38 +41,39 @@
     where student_no = #{studentNo,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select student_no, student_name, password, gender, birth, class_id, political, dept_id, 
+    select student_no, student_name, password, gender, birth, email, class_id, political, dept_id,
     entry_year
     from ts_student
     where student_no = #{studentNo,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select student_no, student_name, password, gender, birth, class_id, political, dept_id, 
+    select student_no, student_name, password, gender, birth, email, class_id, political, dept_id,
     entry_year
     from ts_student
   </select>
   <!-- 批量添加学生 -->
   <insert id="insertStudentBatch">
     insert into ts_student (student_no, student_name, password,
-      gender, birth, class_id,
+      gender, birth, email, class_id,
       political, dept_id, entry_year
       )
     values
     <foreach collection="students" item="student" open="(" close=")" separator=",">
       #{student.studentNo,jdbcType=VARCHAR}, #{student.studentName,jdbcType=VARCHAR},
       #{student.password,jdbcType=VARCHAR}, #{student.gender,jdbcType=INTEGER},
-      #{student.birth,jdbcType=DATE}, #{student.classId,jdbcType=VARCHAR},
-      #{student.political,jdbcType=VARCHAR}, #{student.deptId,jdbcType=VARCHAR},
-      #{student.entryYear,jdbcType=VARCHAR}
+      #{student.birth,jdbcType=DATE}, #{student.email,jdbcType=VARCHAR},
+      #{student.classId,jdbcType=VARCHAR},#{student.political,jdbcType=VARCHAR},
+      #{student.deptId,jdbcType=VARCHAR},#{student.entryYear,jdbcType=VARCHAR}
     </foreach>
   </insert>
   <select id="selectStudentsByDept" resultMap="BaseResultMap">
-    select student_no, student_name, password, gender, birth, class_id, political, dept_id,
+    select student_no, student_name, password, gender, birth, email, class_id, political, dept_id,
     entry_year
     from ts_student where dept_id = #{deptId, jdbcType=VARCHAR}
   </select>
+  <!-- 根据班级获得学生 -->
   <select id="selectStudentsByClass" resultMap="BaseResultMap">
-    select student_no, student_name, password, gender, birth, class_id, political, dept_id,
+    select student_no, student_name, password, gender, birth, email, class_id, political, dept_id,
     entry_year
     from ts_student where class_id = #{classId,jdbcType=VARCHAR}
   </select>

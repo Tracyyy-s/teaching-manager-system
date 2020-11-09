@@ -23,6 +23,10 @@ public class RedisUtil {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    public String codeKey(String s) {
+        return s + ":Code";
+    }
+
     /**
      * 指定缓存失效时间
      *

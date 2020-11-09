@@ -17,12 +17,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootTest
 class ManagerApplicationTests {
 
     @Test
     void contextLoads() {
+
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            int i1 = random.nextInt(10);
+            sb.append(i1);
+        }
+        System.out.println(sb.toString());
     }
 
     @Autowired

@@ -32,4 +32,9 @@ public class RedisTest {
         Student student = studentMapper.selectByPrimaryKey("2018110114");
         redisUtil.set("stu", student);
     }
+
+    @Test
+    void test02() {
+        redisUtil.del("hhhh");
+    }
 }

@@ -44,9 +44,10 @@ public class StudentController {
      */
     @PostMapping("/updatePassword")
     public ResultVO updatePassword(@RequestParam("studentNo") String studentNo,
-                                   @RequestParam("password") String password) {
+                                   @RequestParam("password") String password,
+                                   @RequestParam("vrCode") String vrCode) {
 
-        return studentService.updatePassword(studentNo, password);
+        return studentService.updatePassword(studentNo, password, vrCode);
     }
 
     /**
@@ -84,5 +85,15 @@ public class StudentController {
     @PostMapping("/postAssess")
     public ResultVO postAssess(StudentAssess studentAssess) {
         return studentAssessService.updateAppraise(studentAssess);
+    }
+
+    /**
+     * 学生发送验证码请求
+     * @param studentNo 学号
+     * @return  结果集
+     */
+    @PostMapping("/sendCode")
+    public ResultVO postCode(@RequestParam("studentNo") String studentNo) {
+        return studentService.sendCode(studentNo);
     }
 }
