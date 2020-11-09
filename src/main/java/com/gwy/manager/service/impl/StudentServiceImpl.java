@@ -134,7 +134,7 @@ public class StudentServiceImpl implements StudentService {
             return resultVO;
         }
 
-        //设置key
+        //设置redis中的key
         String key = redisUtil.codeKey(studentNo);
         try {
             redisUtil.set(key, code.toString());

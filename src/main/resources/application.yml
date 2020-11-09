@@ -42,6 +42,12 @@ spring:
         max-wait: 5000
         max-idle: 10
 
+  # rabbitmq相关配置
+  rabbitmq:
+    host: www.tracys.cn
+    username: tracy
+    password: GONGRAN0812qweabc!
+
 
 mybatis:
   # 指定映射配置文件路径

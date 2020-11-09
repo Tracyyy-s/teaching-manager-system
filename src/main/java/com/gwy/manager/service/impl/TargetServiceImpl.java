@@ -29,7 +29,7 @@ public class TargetServiceImpl implements TargetService {
         //没有匹配的指标类型
         if (!targetType.equals(UserOption.STUDENT.getTargetType()) &&
                 !targetType.equals(UserOption.TEACHER.getTargetType())) {
-            resultVO.setData("Not That Target Type");
+            resultVO.setData("No That Target Type");
             return resultVO;
         }
 
@@ -58,7 +58,7 @@ public class TargetServiceImpl implements TargetService {
         //既不是教师对象也不是学生对象
         if (!UserOption.STUDENT.getUserType().equals(userType) &&
                 !UserOption.TEACHER.getUserType().equals(userType)) {
-            resultVO.setData("Not That User Type");
+            resultVO.setData("No That User Type");
             return resultVO;
         } else if (UserOption.STUDENT.getUserType().equals(userType)) {
             targetList = targetMapper.getStudentTargets();

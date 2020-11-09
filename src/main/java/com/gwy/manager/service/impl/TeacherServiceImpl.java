@@ -45,6 +45,7 @@ public class TeacherServiceImpl implements TeacherService {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else if (!deptId.equals(teacher.getDeptId())) {
             //教师学院id不等于管理员学院id
+            //提示权限不足
             resultVO.setData(ResponseDataMsg.PermissionDeny.getMsg());
         } else {
             //添加教师

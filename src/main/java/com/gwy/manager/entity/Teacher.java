@@ -129,7 +129,6 @@ public class Teacher {
                 "teacherNo='" + teacherNo + '\'' +
                 ", teacherName='" + teacherName + '\'' +
                 ", gender=" + gender +
-                ", password='" + password + '\'' +
                 ", birth=" + birth +
                 ", degree='" + degree + '\'' +
                 ", graduated='" + graduated + '\'' +

@@ -45,6 +45,7 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
 
         ResultVO resultVO = new ResultVO();
 
+        //获得当前学期
         String currentTerm = termMapper.getCurrentTerm(DateUtilCustom.getDate());
         try {
             List<TeacherCourse> courses = teacherCourseMapper
