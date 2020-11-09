@@ -1,4 +1,4 @@
-package com.gwy.manager.dto;
+package com.gwy.manager.enums;
 
 /**
  * @author Tracy
@@ -9,7 +9,8 @@ public enum ResponseDataMsg {
     NotFound("Not Found"),
     PasswordIncorrect("Password Incorrect"),
     Success("Success"),
-    Fail("Fail");
+    Fail("Fail"),
+    PermissionDeny("Permission Deny");
 
     ResponseDataMsg() {
     }

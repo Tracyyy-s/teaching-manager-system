@@ -1,4 +1,4 @@
-package com.gwy.manager.entity;
+package com.gwy.manager.dto;
 
 import java.util.Arrays;
 import java.util.List;

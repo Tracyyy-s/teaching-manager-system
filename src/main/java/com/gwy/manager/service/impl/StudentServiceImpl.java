@@ -1,6 +1,6 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResponseDataMsg;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.mapper.StudentMapper;
@@ -42,7 +42,7 @@ public class StudentServiceImpl implements StudentService {
         } else if (!MD5Util.inputToDb(password).equals(student.getPassword())) {
             resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
         } else {
-            resultVO.success(student);
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;

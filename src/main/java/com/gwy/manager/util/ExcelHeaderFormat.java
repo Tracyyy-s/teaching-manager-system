@@ -1,9 +1,9 @@
 package com.gwy.manager.util;
 
 import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.dto.UserOption;
+import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.entity.Dept;
-import com.gwy.manager.entity.ExcelSheetPO;
+import com.gwy.manager.dto.ExcelSheetPO;
 import com.gwy.manager.entity.Teacher;
 import com.gwy.manager.mapper.DeptMapper;
 import org.apache.commons.beanutils.BeanUtils;
@@ -176,7 +176,7 @@ public class ExcelHeaderFormat {
         //遍历所有页
         for (ExcelSheetPO po : pos) {
 
-            if (po.getTitle() != null && po.getTitle().equals(ExcelHeaderFormat.InvalidHeaders)) {
+            /*if (po.getTitle() != null && po.getTitle().equals(ExcelHeaderFormat.InvalidHeaders)) {
 
                 Map<String, Object> titleMap = new LinkedHashMap<>();
                 titleMap.put("Failure", "表格标题不匹配");
@@ -184,7 +184,7 @@ public class ExcelHeaderFormat {
 
                 resultVO.setData(titleMap);
                 return resultVO;
-            }
+            }*/
 
             Map<String, Object> thisSheet = new LinkedHashMap<>();
 

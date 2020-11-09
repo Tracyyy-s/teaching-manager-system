@@ -1,6 +1,6 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResponseDataMsg;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Admin;
 import com.gwy.manager.mapper.AdminMapper;
@@ -8,6 +8,7 @@ import com.gwy.manager.service.AdminService;
 import com.gwy.manager.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Tracy
@@ -36,6 +37,7 @@ public class AdminServiceImpl implements AdminService {
         return resultVO;
     }
 
+    @Transactional
     @Override
     public ResultVO updatePassword(String adminNo, String password) {
 
@@ -53,6 +55,7 @@ public class AdminServiceImpl implements AdminService {
         return resultVO;
     }
 
+    @Transactional
     @Override
     public ResultVO updateAdmin(Admin admin) {
 

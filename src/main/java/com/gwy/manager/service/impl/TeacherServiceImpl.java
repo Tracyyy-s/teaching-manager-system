@@ -1,7 +1,7 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResponseDataMsg;
-import com.gwy.manager.dto.ResponseStatus;
+import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.enums.ResponseStatus;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Teacher;
 import com.gwy.manager.mapper.TeacherMapper;
@@ -10,6 +10,7 @@ import com.gwy.manager.util.ExcelHeaderFormat;
 import com.gwy.manager.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
@@ -41,10 +42,10 @@ public class TeacherServiceImpl implements TeacherService {
 
         //未找到教师
         if (teacher == null) {
-            resultVO.setData("Not Found");
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else if (!deptId.equals(teacher.getDeptId())) {
             //教师学院id不等于管理员学院id
-            resultVO.setData("Permission Deny");
+            resultVO.setData(ResponseDataMsg.PermissionDeny.getMsg());
         } else {
             //添加教师
             resultVO.success(teacher);
@@ -80,9 +81,9 @@ public class TeacherServiceImpl implements TeacherService {
 
         int i = teacherMapper.updateByPrimaryKey(teacher);
         if (i == 0) {
-            resultVO.setData("Fail");
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO.success("Success");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -95,9 +96,9 @@ public class TeacherServiceImpl implements TeacherService {
 
         int i = teacherMapper.updatePassword(teacherNo, MD5Util.inputToDb(password));
         if (i == 0) {
-            resultVO.setData("Fail");
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO.success("Success");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -112,7 +113,7 @@ public class TeacherServiceImpl implements TeacherService {
         List<Teacher> teachers = teacherMapper.selectByDeptId(deptId);
         //未找到
         if (teachers.size() == 0) {
-            resultVO.setData("Not Found");
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
             resultVO.success(teachers);
         }
@@ -128,7 +129,7 @@ public class TeacherServiceImpl implements TeacherService {
         //根据学院号对教师名进行模糊匹配
         List<Teacher> teachers = teacherMapper.getTeachersMatchNameInDept(deptId, name);
         if (teachers.size() == 0) {
-            resultVO.setData("Not Found");
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
             resultVO.success(teachers);
         }
@@ -136,8 +137,9 @@ public class TeacherServiceImpl implements TeacherService {
         return resultVO;
     }
 
-    @Override
+    @Transactional(rollbackFor = {Exception.class})
     @SuppressWarnings("unchecked")
+    @Override
     public ResultVO importTeachersByFile(String headerType, MultipartFile file) {
 
 

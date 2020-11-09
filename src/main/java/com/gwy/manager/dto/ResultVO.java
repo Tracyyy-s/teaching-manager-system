@@ -1,5 +1,7 @@
 package com.gwy.manager.dto;
 
+import com.gwy.manager.enums.ResponseStatus;
+
 /**
  * @author Tracy
  * @date 2020/11/4 13:14

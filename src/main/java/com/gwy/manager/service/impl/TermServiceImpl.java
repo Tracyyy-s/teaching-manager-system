@@ -1,11 +1,14 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResponseDataMsg;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Term;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
  * @author Tracy
  * @date 2020/11/1 23:13
  */
+@CacheConfig(cacheNames = "terms")
 @Service
 public class TermServiceImpl implements TermService {
 
@@ -35,11 +39,12 @@ public class TermServiceImpl implements TermService {
         return termMapper.selectByPrimaryKey(termId);
     }
 
+    @Cacheable(keyGenerator = "allTerms")
     @Override
     public ResultVO getTerms() {
         ResultVO resultVO = new ResultVO();
 
-        List<Term> terms = null;
+        List<Term> terms;
         try {
             terms = termMapper.selectAll();
             resultVO.success(terms);

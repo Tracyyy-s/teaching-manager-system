@@ -9,8 +9,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.gwy.manager.entity.ExcelSheetPO;
-import com.gwy.manager.dto.ExcelVersion;
+import com.gwy.manager.dto.ExcelSheetPO;
+import com.gwy.manager.enums.ExcelVersion;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;

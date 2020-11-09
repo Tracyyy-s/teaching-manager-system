@@ -1,7 +1,7 @@
 package com.gwy.manager.controller;
 
-import com.gwy.manager.dto.ResponseDataMsg;
-import com.gwy.manager.dto.ResponseStatus;
+import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.enums.ResponseStatus;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.service.impl.StudentServiceImpl;
 import com.gwy.manager.service.impl.TeacherServiceImpl;
@@ -9,9 +9,7 @@ import com.gwy.manager.service.impl.TermServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +17,7 @@ import javax.servlet.http.HttpSession;
  * @author Tracy
  * @date 2020/11/5 13:57
  */
+@CrossOrigin
 @RestController
 public class BaseController {
 
@@ -32,7 +31,6 @@ public class BaseController {
 
     @Autowired
     private TeacherServiceImpl teacherService;
-
 
     /**
      * 用户登录系统
@@ -50,7 +48,6 @@ public class BaseController {
         //如果学生登录成功
         if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
             session.setAttribute("student", resultVO.getData());
-            resultVO.setData(ResponseDataMsg.Success.getMsg());
             return resultVO;
         } else if (resultVO.getData().equals(ResponseDataMsg.NotFound.getMsg())) {
 
@@ -80,9 +77,9 @@ public class BaseController {
 
         try {
             session.invalidate();
-            resultVO.success("Success!");
+            resultVO.success(ResponseDataMsg.Success.getMsg());
         } catch (Exception e) {
-            resultVO.setData("Fail");
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
             logger.info("error {}", e.getMessage());
         }
 

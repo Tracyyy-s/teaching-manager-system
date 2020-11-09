@@ -1,13 +1,11 @@
 package com.gwy.manager;
 
-import com.gwy.manager.entity.ExcelSheetPO;
+import com.gwy.manager.dto.ExcelSheetPO;
 import com.gwy.manager.entity.Teacher;
-import com.gwy.manager.service.impl.TeacherServiceImpl;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ExcelUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;

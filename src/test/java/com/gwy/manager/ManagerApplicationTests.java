@@ -8,12 +8,10 @@ import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.impl.TargetServiceImpl;
 import com.gwy.manager.util.MD5Util;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -95,10 +93,11 @@ class ManagerApplicationTests {
         System.out.println(Arrays.toString(integers));
     }
 
+
     @Test
     void test06() {
 
-        List<Student> students = studentMapper.selectAll();
-        System.out.println(students);
+        Object allTerms = ioc.getBean("allTerms");
+        System.out.println(allTerms == null);
     }
 }

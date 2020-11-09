@@ -1,4 +1,4 @@
-package com.gwy.manager.dto;
+package com.gwy.manager.enums;
 
 /**
  * @author Tracy

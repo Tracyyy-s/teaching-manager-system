@@ -1,6 +1,6 @@
 package com.gwy.manager.controller.admin;
 
-import com.gwy.manager.dto.ResponseStatus;
+import com.gwy.manager.enums.ResponseStatus;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.service.impl.AdminServiceImpl;

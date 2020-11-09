@@ -1,6 +1,6 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResponseDataMsg;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.TeacherAssess;
 import com.gwy.manager.mapper.TeacherAssessMapper;

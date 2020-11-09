@@ -1,7 +1,7 @@
 package com.gwy.manager.service.impl;
 
 import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.dto.UserOption;
+import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.entity.Term;
 import com.gwy.manager.entity.TermTarget;

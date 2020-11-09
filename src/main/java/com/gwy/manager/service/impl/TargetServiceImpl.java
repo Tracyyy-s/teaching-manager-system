@@ -1,15 +1,14 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResponseDataMsg;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.dto.UserOption;
+import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.mapper.TargetMapper;
 import com.gwy.manager.service.TargetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
