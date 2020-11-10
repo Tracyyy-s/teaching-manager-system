@@ -1,6 +1,6 @@
 package com.gwy.manager.rabbimq;
 
-import com.gwy.manager.config.mq.RabbitmqConfiguration;
+import com.gwy.manager.config.rabbitmq.RabbitmqConfiguration;
 import com.gwy.manager.entity.MailForm;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

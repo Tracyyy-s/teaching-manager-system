@@ -1,4 +1,4 @@
-package com.gwy.manager.config.mq;
+package com.gwy.manager.config.rabbitmq;
 
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;

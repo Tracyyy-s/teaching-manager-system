@@ -2,7 +2,7 @@ package com.gwy.manager.controller.root;
 
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Admin;
-import com.gwy.manager.service.RootServiceImpl;
+import com.gwy.manager.service.impl.RootServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

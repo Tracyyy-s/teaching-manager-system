@@ -15,4 +15,14 @@ public class KeyGeneratorConfiguration {
     public KeyGenerator termsKey() {
         return (target, method, params) -> "all";
     }
+
+    @Bean("studentTermTargets")
+    public KeyGenerator studentTermTargetKey() {
+        return (target, method, params) -> "student:" + params[0];
+    }
+
+    @Bean("teacherTermTargets")
+    public KeyGenerator teacherTermTargetKey() {
+        return (target, method, params) -> "teacher:" + params[0];
+    }
 }

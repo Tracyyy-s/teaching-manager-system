@@ -13,6 +13,9 @@ import com.gwy.manager.util.DateUtilCustom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.List;
  * @author Tracy
  * @date 2020/11/3 16:18
  */
+@CacheConfig(cacheNames = "termTargets")
 @Service
 public class TermTargetServiceImpl implements TermTargetService {
 
@@ -37,11 +41,18 @@ public class TermTargetServiceImpl implements TermTargetService {
     @Autowired
     private TargetMapper targetMapper;
 
+    @CacheEvict(allEntries = true, beforeInvocation = true)
     @Override
     public int addTermTargets(List<TermTarget> termTargets) {
         return termTargetMapper.insertTermTargets(termTargets);
     }
 
+    /**
+     * 获得指定对象的学期指标
+     * @param termId 学期id
+     * @param obj   对象（可为学生或教师）
+     * @return
+     */
     private ResultVO getObjectTermTargets(String termId, String obj) {
 
         ResultVO resultVO = new ResultVO();
@@ -84,11 +95,13 @@ public class TermTargetServiceImpl implements TermTargetService {
         return resultVO;
     }
 
+    @Cacheable(keyGenerator = "studentTermTargets")
     @Override
     public ResultVO getStudentTermTargets(String termId) {
         return this.getObjectTermTargets(termId, UserOption.STUDENT.getUserType());
     }
 
+    @Cacheable(keyGenerator = "teacherTermTargets")
     @Override
     public ResultVO getTeacherTermTargets(String termId) {
         return this.getObjectTermTargets(termId, UserOption.TEACHER.getUserType());

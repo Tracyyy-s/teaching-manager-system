@@ -1,4 +1,4 @@
-package com.gwy.manager.service;
+package com.gwy.manager.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
 import com.gwy.manager.dto.ResultVO;
@@ -9,6 +9,7 @@ import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.AdminMapper;
 import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.mapper.RootMapper;
+import com.gwy.manager.service.RootService;
 import com.gwy.manager.util.MD5Util;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
