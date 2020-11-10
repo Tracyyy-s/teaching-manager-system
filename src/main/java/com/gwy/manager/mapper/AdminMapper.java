@@ -19,4 +19,6 @@ public interface AdminMapper {
     int updateByPrimaryKey(Admin record);
 
     int updatePassword(@Param("adminNo") String adminNo, @Param("password") String password);
+
+    String selectMaxAdminNo();
 }

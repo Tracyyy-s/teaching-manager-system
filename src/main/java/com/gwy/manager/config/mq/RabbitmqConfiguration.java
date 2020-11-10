@@ -1,9 +1,10 @@
-package com.gwy.manager.config.rabbitmq;
+package com.gwy.manager.config.mq;
 
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 
 /**
  * @author Tracy
@@ -11,6 +12,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RabbitmqConfiguration {
+
+    public static final String EXCHANGE = "exchange.tracy";
+    public static final String QUEUE_MAIL = "queue.mail";
+    public static final String ROUTING_KEY_MAIL = "queue.mail";
 
     /**
      * 配置rabbitmq的转换器
@@ -20,4 +25,5 @@ public class RabbitmqConfiguration {
     public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
+
 }

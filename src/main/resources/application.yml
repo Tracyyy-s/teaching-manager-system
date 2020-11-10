@@ -47,6 +47,12 @@ spring:
     host: www.tracys.cn
     username: tracy
     password: GONGRAN0812qweabc!
+    port: 6012
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 20
+        prefetch: 50
 
 
 mybatis:

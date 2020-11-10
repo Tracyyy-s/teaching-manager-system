@@ -1,6 +1,6 @@
 package com.gwy.manager;
 
-import com.gwy.manager.util.MailUtil;
+import com.gwy.manager.mail.MailUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

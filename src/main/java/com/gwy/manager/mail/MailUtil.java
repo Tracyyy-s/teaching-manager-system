@@ -1,8 +1,13 @@
-package com.gwy.manager.util;
+package com.gwy.manager.mail;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+
+import javax.mail.internet.MimeMessage;
 
 /**
  * @author Tracy
@@ -18,20 +23,27 @@ public class MailUtil {
     @Value("${mail.subject}")
     private String subject;
 
-    public String getSender() {
-        return sender;
+    @Autowired
+    private JavaMailSender mailSender;
+
+    /**
+     * 创建复杂邮件实例
+     * @return
+     */
+    public MimeMessage createMimeMessage() {
+        return mailSender.createMimeMessage();
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    /**
+     * 创建复杂邮件编写工具
+     * @return
+     */
+    public MimeMessageHelper newMessageHelper(MimeMessage mimeMessage) {
+        return new MimeMessageHelper(mimeMessage);
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void sendMimeMail(MimeMessage mimeMessage) {
+        mailSender.send(mimeMessage);
     }
 
     public String getPrefix() {
@@ -96,5 +108,21 @@ public class MailUtil {
                     "    </tbody>\n" +
                     "</table>\n" +
                     "</body>\n";
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

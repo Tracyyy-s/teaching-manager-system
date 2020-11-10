@@ -1,9 +1,12 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Dept;
+import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public interface DeptMapper {
@@ -18,4 +21,7 @@ public interface DeptMapper {
     int updateByPrimaryKey(Dept record);
 
     Dept getDeptByName(String name);
+
+    @MapKey("deptId")
+    Map<String, Dept> getDeptByIds(@Param("ids") List<String> ids);
 }

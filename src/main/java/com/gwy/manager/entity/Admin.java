@@ -3,6 +3,8 @@ package com.gwy.manager.entity;
 public class Admin {
     private String adminNo;
 
+    private String adminName;
+
     private String password;
 
     private String deptId;
@@ -13,6 +15,14 @@ public class Admin {
 
     public void setAdminNo(String adminNo) {
         this.adminNo = adminNo == null ? null : adminNo.trim();
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 
     public String getPassword() {
@@ -35,7 +45,7 @@ public class Admin {
     public String toString() {
         return "Admin{" +
                 "adminNo='" + adminNo + '\'' +
-                ", password='" + password + '\'' +
+                ", adminName='" + adminName + '\'' +
                 ", deptId='" + deptId + '\'' +
                 '}';
     }

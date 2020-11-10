@@ -1,23 +1,21 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.entity.MailForm;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.mapper.StudentMapper;
+import com.gwy.manager.rabbimq.RabbitmqProducer;
 import com.gwy.manager.service.StudentService;
 import com.gwy.manager.util.MD5Util;
-import com.gwy.manager.util.MailUtil;
-import com.gwy.manager.util.RedisUtil;
+import com.gwy.manager.mail.MailUtil;
+import com.gwy.manager.redis.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Random;
 
@@ -40,7 +38,7 @@ public class StudentServiceImpl implements StudentService {
     private MailUtil mailUtil;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private RabbitmqProducer producer;
 
     @Override
     public int addStudent(Student student) {
@@ -114,25 +112,18 @@ public class StudentServiceImpl implements StudentService {
             code.append(random.nextInt(10));
         }
 
-        //发送邮件
+        //获得学生email，并发送邮件
         String email = studentMapper.selectByPrimaryKey(studentNo).getEmail();
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
 
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+        MailForm mailForm = new MailForm();
+        mailForm.setSubject(mailUtil.getSubject());
+        mailForm.setText(mailUtil.getPrefix() + code.toString() + mailUtil.getSuffix());
+        mailForm.setHtml(true);
+        mailForm.setFrom(mailUtil.getSender());
+        mailForm.setTo(email);
 
-        try {
-            helper.setSubject(mailUtil.getSubject());
-            helper.setText(mailUtil.getPrefix() + code.toString() + mailUtil.getSuffix(), true);
-            helper.setFrom(mailUtil.getSender());
-            helper.setTo(email);
-
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            logger.error("{}", e.getMessage());
-
-            resultVO.setData(ResponseDataMsg.Fail.getMsg());
-            return resultVO;
-        }
+        //生产者将邮件体发送至rabbitmq
+        producer.sendMailToMq(mailForm);
 
         //设置redis中的key
         String key = redisUtil.codeKey(studentNo);

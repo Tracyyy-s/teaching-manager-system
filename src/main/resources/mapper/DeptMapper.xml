@@ -32,4 +32,12 @@
     from ts_dept
     where dept_name = #{name,jdbcType=VARCHAR}
   </select>
+  <select id="getDeptByIds" resultMap="BaseResultMap">
+    select dept_id, dept_name
+    from ts_dept
+    where dept_id in
+    <foreach collection="ids" open="(" close=")" separator="," item="id">
+        #{id, jdbcType=VARCHAR}
+    </foreach>
+  </select>
 </mapper>

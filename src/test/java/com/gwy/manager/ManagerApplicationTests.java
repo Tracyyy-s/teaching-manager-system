@@ -2,8 +2,10 @@ package com.gwy.manager;
 
 import ch.qos.logback.core.util.FileUtil;
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.entity.Dept;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.Term;
+import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.impl.TargetServiceImpl;
@@ -14,10 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @SpringBootTest
 class ManagerApplicationTests {
@@ -102,11 +101,17 @@ class ManagerApplicationTests {
         System.out.println(Arrays.toString(integers));
     }
 
+    @Autowired
+    private DeptMapper deptMapper;
 
     @Test
     void test06() {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("110");
+        strings.add("111");
+        strings.add("112");
+        Map<String, Dept> map = deptMapper.getDeptByIds(strings);
 
-        Object allTerms = ioc.getBean("allTerms");
-        System.out.println(allTerms == null);
+        System.out.println(map);
     }
 }

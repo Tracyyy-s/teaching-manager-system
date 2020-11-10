@@ -1,4 +1,4 @@
-package com.gwy.manager.util;
+package com.gwy.manager.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
