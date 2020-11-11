@@ -114,6 +114,13 @@ public class RootServiceImpl implements RootService {
 
         ResultVO resultVO = new ResultVO();
 
+        Dept dept = deptMapper.selectByPrimaryKey(admin.getDeptId());
+
+        if (dept == null) {
+            resultVO.setData("Dept Not Exist");
+            return resultVO;
+        }
+
         String maxAdminNo = adminMapper.selectMaxAdminNo();
 
         //如果没有admin，默认adminNo从"10000"开始
