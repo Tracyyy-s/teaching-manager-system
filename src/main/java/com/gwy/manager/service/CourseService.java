@@ -1,5 +1,6 @@
 package com.gwy.manager.service;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Course;
 
 import java.util.List;
@@ -31,5 +32,10 @@ public interface CourseService {
      */
     int updateCourse(Course course);
 
-
+    /**
+     * 获得某教师教授的全部课程
+     * @param teacherNo 教师teacherNo
+     * @return  结果集
+     */
+    ResultVO getCoursesOfTeacher(String teacherNo);
 }

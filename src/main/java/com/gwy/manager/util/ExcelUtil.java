@@ -106,12 +106,12 @@ public class ExcelUtil {
             }
 
             //如果标题行不匹配
-            /*if (!ExcelHeaderFormat.judgeHeaders(headerType, headers)) {
+            if (!ExcelHeaderFormat.judgeHeaders(headerType, headers)) {
                 List<ExcelSheetPO> list = new ArrayList<>();
                 sheetPO.setTitle(ExcelHeaderFormat.InvalidHeaders);
                 list.add(sheetPO);
                 return list;
-            }*/
+            }
 
             //设置本页的标题行
             sheetPO.setHeaders(headers);

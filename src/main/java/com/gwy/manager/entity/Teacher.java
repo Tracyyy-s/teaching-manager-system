@@ -21,6 +21,8 @@ public class Teacher {
 
     private Integer entryYear;
 
+    private Integer sumHour;
+
     private String deptId;
 
     private String professional;
@@ -121,6 +123,14 @@ public class Teacher {
 
     public void setProfessionalTime(Date professionalTime) {
         this.professionalTime = professionalTime;
+    }
+
+    public Integer getSumHour() {
+        return sumHour;
+    }
+
+    public void setSumHour(Integer sumHour) {
+        this.sumHour = sumHour;
     }
 
     @Override

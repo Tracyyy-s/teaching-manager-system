@@ -35,4 +35,12 @@
     select course_no, course_name, hour, credit, dept_id
     from ts_course
   </select>
+  <!-- 获得一个教师教授的所有课程 -->
+  <select id="getCoursesOfTeacher" resultMap="BaseResultMap">
+    select course_no, course_name, hour, credit, dept_id
+    from ts_course
+    where course_no in (select course_no
+                        from ts_teacher_course
+                        where teacher_no = #{teacherNo,jdbcType=VARCHAR})
+  </select>
 </mapper>

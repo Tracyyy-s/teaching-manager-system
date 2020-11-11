@@ -22,10 +22,11 @@ public class TargetServiceImpl implements TargetService {
     private TargetMapper targetMapper;
 
     @Override
-    public ResultVO addTarget(Target target, Integer targetType) {
+    public ResultVO addTarget(Target target) {
 
         ResultVO resultVO = new ResultVO();
 
+        Integer targetType = target.getTargetObject();
         //没有匹配的指标类型
         if (!targetType.equals(UserOption.STUDENT.getTargetType()) &&
                 !targetType.equals(UserOption.TEACHER.getTargetType())) {

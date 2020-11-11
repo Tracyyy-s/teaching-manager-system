@@ -51,7 +51,7 @@ public class StudentController {
     }
 
     /**
-     * 获得学生该学期的课程
+     * 获得学生某学期的课程
      *
      * @param studentNo 学号
      * @param termId    学期号

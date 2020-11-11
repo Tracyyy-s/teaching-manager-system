@@ -47,4 +47,5 @@ public interface TeacherCourseService {
      * @return
      */
     ResultVO getCoursesByTeacherAndTerm(String teacherNo);
+
 }

@@ -17,7 +17,7 @@ public interface TargetService {
      * @param target 预添加
      * @return  结果集
      */
-    ResultVO addTarget(Target target, Integer targetType);
+    ResultVO addTarget(Target target);
 
     /**
      * 获得指定对象指标

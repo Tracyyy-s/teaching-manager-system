@@ -81,7 +81,7 @@ public class TeacherController {
      * @return  结果集
      */
     @PostMapping("/postAssess")
-    public ResultVO postAssess(@RequestParam("teacherAssess") TeacherAssess teacherAssess) {
+    public ResultVO postAssess(TeacherAssess teacherAssess) {
         return teacherAssessService.addTeacherAssess(teacherAssess);
     }
 }

@@ -1,8 +1,11 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Course;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.CourseMapper;
 import com.gwy.manager.service.CourseService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +36,18 @@ public class CourserServiceImpl implements CourseService {
         return courseMapper.updateByPrimaryKey(course);
     }
 
+    @Override
+    public ResultVO getCoursesOfTeacher(String teacherNo) {
 
+        ResultVO resultVO = new ResultVO();
+
+        List<Course> coursesOfTeacher = courseMapper.getCoursesOfTeacher(teacherNo);
+        if (CollectionUtils.isEmpty(coursesOfTeacher)) {
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO.success(coursesOfTeacher);
+        }
+
+        return resultVO;
+    }
 }

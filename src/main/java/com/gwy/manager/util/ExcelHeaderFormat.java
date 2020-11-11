@@ -1,6 +1,7 @@
 package com.gwy.manager.util;
 
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.entity.Dept;
 import com.gwy.manager.dto.ExcelSheetPO;
@@ -30,7 +31,7 @@ public class ExcelHeaderFormat {
 
     private static final String[] TeacherHeaders = new String[] {
             "教师号","姓名","性别","密码","生日","学历","毕业院校",
-            "政治面貌", "入职年份","入职学院","职称","职称获取时间"
+            "政治面貌", "入职年份","总学时", "入职学院","职称","职称获取时间"
     };
 
     /**
@@ -113,16 +114,19 @@ public class ExcelHeaderFormat {
                 objMap.put("political", obj.get(7));
 
                 //设置教师入职年份
-                objMap.put("entryYear", obj.get(8));
+                objMap.put("entryYear", Integer.parseInt((String) obj.get(8)));
+
+                //设置教师总学时
+                objMap.put("sumHour", Integer.parseInt((String) obj.get(9)));
 
                 //设置教师入职学院
-                objMap.put("deptId", obj.get(9));
+                objMap.put("deptId", obj.get(10));
 
                 //设置教师职称
-                objMap.put("professional", obj.get(10));
+                objMap.put("professional", obj.get(11));
 
                 //设置教师职称获得时间
-                objMap.put("professionalTime", DateUtilCustom.string2Date((String) obj.get(11)));
+                objMap.put("professionalTime", DateUtilCustom.string2Date((String) obj.get(12)));
             } catch (Exception e) {
                 e.printStackTrace();
                 result.put("data", "Data ParseException");
@@ -149,13 +153,14 @@ public class ExcelHeaderFormat {
 
     /**
      * 通过传入文件导入Bean对象
+     * @param deptId 学院id
      * @param headerType    头类型
      * @param file  传入文件
      * @param <T>   导入的pojo类型
      * @return  结果集
      */
     @SuppressWarnings("unchecked")
-    public <T> ResultVO importBeansByFile(String headerType, MultipartFile file) {
+    public <T> ResultVO importBeansByFile(String deptId, String headerType, MultipartFile file) {
 
         ResultVO resultVO = new ResultVO();
         List<ExcelSheetPO> pos = new ArrayList<>();
@@ -173,10 +178,12 @@ public class ExcelHeaderFormat {
 
         Map<String, Object> map = new LinkedHashMap<>();
 
+        Dept dept = deptMapper.selectByPrimaryKey(deptId);
+
         //遍历所有页
         for (ExcelSheetPO po : pos) {
 
-            /*if (po.getTitle() != null && po.getTitle().equals(ExcelHeaderFormat.InvalidHeaders)) {
+            if (po.getTitle() != null && po.getTitle().equals(ExcelHeaderFormat.InvalidHeaders)) {
 
                 Map<String, Object> titleMap = new LinkedHashMap<>();
                 titleMap.put("Failure", "表格标题不匹配");
@@ -184,7 +191,7 @@ public class ExcelHeaderFormat {
 
                 resultVO.setData(titleMap);
                 return resultVO;
-            }*/
+            }
 
             Map<String, Object> thisSheet = new LinkedHashMap<>();
 
@@ -209,11 +216,10 @@ public class ExcelHeaderFormat {
                     //如果传递的是教师类型
                     if (headerType.equals(ExcelHeaderFormat.TeacherExcel)) {
                         Teacher teacher = (Teacher)thisData.get("data");
-                        Dept dept = deptMapper.getDeptByName(teacher.getDeptId());
 
-                        //如果院系名称不存在
-                        if (dept == null) {
-                            resultVO.setData("Teacher Dept Not Exist");
+                        //如果院系不为管理员所在学院
+                        if (!teacher.getDeptId().equals(dept.getDeptName())) {
+                            resultVO.setData("仅可添加本学院的教师");
                             return resultVO;
                         } else {
                             teacher.setDeptId(dept.getDeptId());

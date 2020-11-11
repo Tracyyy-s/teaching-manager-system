@@ -38,9 +38,11 @@
     insert into ts_term (term_id, term_name, begin_date,
       end_date)
     values
-    <foreach collection="terms" open="(" close=")" separator="," item="term">
+    <foreach collection="terms" separator="," item="term">
+    (
       #{term.termId,jdbcType=VARCHAR}, #{term.termName,jdbcType=VARCHAR},
       #{term.beginDate,jdbcType=DATE}, #{term.endDate,jdbcType=DATE}
+    )
     </foreach>
   </insert>
   <!-- 获得当前日期的学期id -->

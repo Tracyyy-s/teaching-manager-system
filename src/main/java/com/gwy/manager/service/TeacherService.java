@@ -66,10 +66,11 @@ public interface TeacherService {
 
     /**
      * 传入Excel批量添加教师
+     * @param deptId 学院id
      * @param headerType Excel的header类型
      * @param file  传入文件
      * @return  返回结果
      */
-    ResultVO importTeachersByFile(String headerType, MultipartFile file);
+    ResultVO importTeachersByFile(String deptId, String headerType, MultipartFile file);
 
 }

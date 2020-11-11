@@ -58,12 +58,14 @@
       political, dept_id, entry_year
       )
     values
-    <foreach collection="students" item="student" open="(" close=")" separator=",">
+    <foreach collection="students" item="student" separator=",">
+    (
       #{student.studentNo,jdbcType=VARCHAR}, #{student.studentName,jdbcType=VARCHAR},
       #{student.password,jdbcType=VARCHAR}, #{student.gender,jdbcType=INTEGER},
       #{student.birth,jdbcType=DATE}, #{student.email,jdbcType=VARCHAR},
       #{student.classId,jdbcType=VARCHAR},#{student.political,jdbcType=VARCHAR},
       #{student.deptId,jdbcType=VARCHAR},#{student.entryYear,jdbcType=VARCHAR}
+    )
     </foreach>
   </insert>
   <select id="selectStudentsByDept" resultMap="BaseResultMap">

@@ -141,10 +141,9 @@ public class TeacherServiceImpl implements TeacherService {
     @Transactional(rollbackFor = {Exception.class})
     @SuppressWarnings("unchecked")
     @Override
-    public ResultVO importTeachersByFile(String headerType, MultipartFile file) {
+    public ResultVO importTeachersByFile(String deptId, String headerType, MultipartFile file) {
 
-
-        ResultVO resultVO = headerFormat.importBeansByFile(headerType, file);
+        ResultVO resultVO = headerFormat.importBeansByFile(deptId, headerType, file);
 
         if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
             Object data = resultVO.getData();

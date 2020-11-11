@@ -4,6 +4,7 @@ import com.gwy.manager.enums.ResponseStatus;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.service.impl.AdminServiceImpl;
+import com.gwy.manager.service.impl.CourserServiceImpl;
 import com.gwy.manager.service.impl.TargetServiceImpl;
 import com.gwy.manager.service.impl.TeacherServiceImpl;
 import com.gwy.manager.util.ExcelHeaderFormat;
@@ -30,6 +31,9 @@ public class AdminController {
 
     @Autowired
     private TeacherServiceImpl teacherService;
+
+    @Autowired
+    private CourserServiceImpl courserService;
 
     /**
      * 管理员登录
@@ -75,16 +79,21 @@ public class AdminController {
 
     /**
      * 添加评价指标
-     * @param target    预添加指标
+     * @param targetType    指标类型
+     * @param targetContent 指标内容
+     * @param weight        指标权重
      * @return  结果集
      */
     @PostMapping("/addTarget")
-    public ResultVO addStudentTarget(@RequestParam("target") Target target,
-                                     @RequestParam("targetType") String targetType) {
+    public ResultVO addStudentTarget(@RequestParam("targetType") String targetType,
+                                     @RequestParam("targetContent") String targetContent,
+                                     @RequestParam("weight") String weight) {
 
         int intTargetType;
+        int intWeight;
         try {
             intTargetType = Integer.parseInt(targetType);
+            intWeight = Integer.parseInt(weight);
         } catch (NumberFormatException e) {
 
             ResultVO resultVO = new ResultVO();
@@ -93,7 +102,13 @@ public class AdminController {
             return resultVO;
         }
 
-        return targetService.addTarget(target, intTargetType);
+        Target target = new Target();
+
+        target.setTargetContent(targetContent);
+        target.setWeight(intWeight);
+        target.setTargetObject(intTargetType);
+
+        return targetService.addTarget(target);
     }
 
     /**
@@ -150,6 +165,17 @@ public class AdminController {
     }
 
     /**
+     * 获得某教师所教授的全部课程
+     * @param teacherNo 教师号
+     * @return  结果集
+     */
+    @PostMapping("/getCoursesOfTeacher")
+    public ResultVO getCoursesOfTeacher(@RequestParam("teacherNo") String teacherNo) {
+
+        return courserService.getCoursesOfTeacher(teacherNo);
+    }
+
+    /**
      * 在学院内模糊匹配教师姓名
      * @param deptId 学院id
      * @param name  匹配名字
@@ -163,12 +189,14 @@ public class AdminController {
 
     /**
      * 上传文件批量添加教师
+     * @param deptId 学院id
      * @param file  文件
      * @return  结果集
      */
     @PostMapping("/importTeachers")
-    public ResultVO importTeachers(@RequestParam("file") MultipartFile file) {
-        return teacherService.importTeachersByFile(ExcelHeaderFormat.TeacherExcel, file);
+    public ResultVO importTeachers(@RequestParam("deptId") String deptId,
+                                   @RequestParam("file") MultipartFile file) {
+        return teacherService.importTeachersByFile(deptId, ExcelHeaderFormat.TeacherExcel, file);
     }
 
 }
