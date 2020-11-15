@@ -11,10 +11,11 @@ public interface RootService {
 
     /**
      * root用户登录
+     * @param account   账号
      * @param password  密码
      * @return  结果集
      */
-    ResultVO login(String password);
+    ResultVO login(String account, String password);
 
     /**
      * root修改密码

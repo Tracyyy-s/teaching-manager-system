@@ -37,13 +37,15 @@ public class RootServiceImpl implements RootService {
     private DeptMapper deptMapper;
 
     @Override
-    public ResultVO login(String password) {
+    public ResultVO login(String account, String password) {
 
         ResultVO resultVO = new ResultVO();
 
         Root root = rootMapper.getRoot();
 
-        if (!root.getPassword().equals(MD5Util.inputToDb(password))) {
+        if (account.equals(root.getAccount())) {
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+        } else if (!root.getPassword().equals(MD5Util.inputToDb(password))) {
             resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
         } else {
             resultVO.success(ResponseDataMsg.Success.getMsg());

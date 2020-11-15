@@ -28,8 +28,9 @@ public class RootController {
     @PostMapping("/login")
     public ResultVO login(@RequestBody Map<String, String> map) {
 
+        String account = map.get("account");
         String password = map.get("password");
-        return rootService.login(password);
+        return rootService.login(account, password);
     }
 
     /**
