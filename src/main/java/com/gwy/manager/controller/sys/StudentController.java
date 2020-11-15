@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @author Tracy
  * @date 2020/11/2 19:24
@@ -37,42 +39,41 @@ public class StudentController {
 
     /**
      * 修改密码
-     *
-     * @param studentNo 学号
-     * @param password  密码
-     * @return 返回结果
+     * @param map   请求体
+     * @return  结果集
      */
     @PostMapping("/updatePassword")
-    public ResultVO updatePassword(@RequestParam("studentNo") String studentNo,
-                                   @RequestParam("password") String password,
-                                   @RequestParam("vrCode") String vrCode) {
+    public ResultVO updatePassword(@RequestBody Map<String, String> map) {
 
+        String studentNo = map.get("studentNo");
+        String password = map.get("password");
+        String vrCode = map.get("vrCode");
         return studentService.updatePassword(studentNo, password, vrCode);
     }
 
     /**
      * 获得学生某学期的课程
-     *
-     * @param studentNo 学号
-     * @param termId    学期号
-     * @return 返回结果
+     * @param map   请求体
+     * @return  结果集
      */
     @PostMapping("/getTermCourses")
-    public ResultVO getTermCourses(@RequestParam("studentNo") String studentNo,
-                                   @RequestParam("termId") String termId) {
+    public ResultVO getTermCourses(@RequestBody Map<String, String> map) {
 
+        String studentNo = map.get("studentNo");
+        String termId = map.get("termId");
         return teacherCourseService
                 .getCoursesByStudentAndTerm(studentNo, termId);
     }
 
     /**
      * 获得学生学期的评价指标
-     *
-     * @param termId 学期号
-     * @return 返回结果
+     * @param map   请求体
+     * @return  结果集
      */
     @PostMapping("/getTermTargets")
-    public ResultVO getStudentTermTargets(@Param("termId") String termId) {
+    public ResultVO getStudentTermTargets(@RequestBody Map<String, String> map) {
+
+        String termId = map.get("termId");
         return termTargetService.getStudentTermTargets(termId);
     }
 
@@ -83,17 +84,19 @@ public class StudentController {
      * @return 返回结果
      */
     @PostMapping("/postAssess")
-    public ResultVO postAssess(StudentAssess studentAssess) {
+    public ResultVO postAssess(@RequestBody StudentAssess studentAssess) {
         return studentAssessService.updateAppraise(studentAssess);
     }
 
     /**
      * 学生发送验证码请求
-     * @param studentNo 学号
+     * @param map   请求体
      * @return  结果集
      */
     @PostMapping("/sendCode")
-    public ResultVO postCode(@RequestParam("studentNo") String studentNo) {
+    public ResultVO postCode(@RequestBody Map<String, String> map) {
+        
+        String studentNo = map.get("studentNo");
         return studentService.sendCode(studentNo);
     }
 }

@@ -10,6 +10,8 @@ import com.gwy.manager.service.impl.TermTargetServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @author Tracy
  * @date 2020/11/2 19:25
@@ -33,14 +35,14 @@ public class TeacherController {
 
     /**
      * 教师修改密码
-     * @param teacherNo 教师号
-     * @param password  密码
-     * @return  返回结果
+     * @param map   请求体
+     * @return  结果集
      */
     @PostMapping("/updatePassword")
-    public ResultVO updatePassword(@RequestParam("teacherNo") String teacherNo,
-                                   @RequestParam("password") String password) {
+    public ResultVO updatePassword(@RequestBody Map<String, String> map) {
 
+        String teacherNo = map.get("teacherNo");
+        String password = map.get("password");
         return teacherService.updatePassword(teacherNo, password);
     }
 
@@ -50,19 +52,20 @@ public class TeacherController {
      * @return  返回结果
      */
     @PostMapping("/updateInfo")
-    public ResultVO updateInfo(Teacher teacher) {
+    public ResultVO updateInfo(@RequestBody Teacher teacher) {
 
         return teacherService.updateTeacher(teacher);
     }
 
     /**
      * 获得教师本学期的课程
-     * @param teacherNo 教师号
-     * @return  返回结果
+     * @param map   结果体
+     * @return  返回集
      */
     @PostMapping("/getTermCourses")
-    public ResultVO getTermCourses(@RequestParam("teacherNo") String teacherNo) {
+    public ResultVO getTermCourses(@RequestBody Map<String, String> map) {
 
+        String teacherNo = map.get("teacherNo");
         return teacherCourseService.getCoursesByTeacherAndTerm(teacherNo);
     }
 
@@ -71,7 +74,9 @@ public class TeacherController {
      * @return  结果集
      */
     @PostMapping("/getTermTargets")
-    public ResultVO getTermTargets(@RequestParam("termId") String termId) {
+    public ResultVO getTermTargets(@RequestBody Map<String, String> map) {
+
+        String termId = map.get("termId");
         return termTargetService.getTeacherTermTargets(termId);
     }
 
@@ -81,7 +86,7 @@ public class TeacherController {
      * @return  结果集
      */
     @PostMapping("/postAssess")
-    public ResultVO postAssess(TeacherAssess teacherAssess) {
+    public ResultVO postAssess(@RequestBody TeacherAssess teacherAssess) {
         return teacherAssessService.addTeacherAssess(teacherAssess);
     }
 }

@@ -4,6 +4,7 @@ import com.gwy.manager.entity.MailForm;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
+import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.rabbimq.RabbitmqProducer;
 import com.gwy.manager.service.StudentService;
@@ -16,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -61,7 +64,9 @@ public class StudentServiceImpl implements StudentService {
         } else if (!MD5Util.inputToDb(password).equals(student.getPassword())) {
             resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
         } else {
-            resultVO.success(ResponseDataMsg.Success.getMsg());
+            Map<String, String> map = new HashMap<>();
+            map.put("role", UserOption.STUDENT.getUserType());
+            resultVO.success(map);
         }
 
         return resultVO;

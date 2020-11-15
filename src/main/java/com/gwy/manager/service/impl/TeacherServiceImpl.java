@@ -4,6 +4,7 @@ import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.ResponseStatus;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Teacher;
+import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.mapper.TeacherMapper;
 import com.gwy.manager.service.TeacherService;
 import com.gwy.manager.util.ExcelHeaderFormat;
@@ -69,7 +70,9 @@ public class TeacherServiceImpl implements TeacherService {
             //密码错误
             resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
         } else {
-            resultVO.success(ResponseDataMsg.Success.getMsg());
+            Map<String, String> map = new HashMap<>();
+            map.put("role", UserOption.STUDENT.getUserType());
+            resultVO.success(map);
         }
 
         return resultVO;

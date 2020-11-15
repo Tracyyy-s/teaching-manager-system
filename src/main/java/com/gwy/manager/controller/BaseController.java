@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * @author Tracy
@@ -34,15 +35,17 @@ public class BaseController {
 
     /**
      * 用户登录系统
-     * @param account   账号
-     * @param password  密码
+     * @param map   请求体
      * @param session   会话
      * @return  结果集
      */
     @PostMapping("/login")
-    public ResultVO login(@RequestParam("account") String account,
-                          @RequestParam("password") String password,
+    public ResultVO login(@RequestBody Map<String, String> map,
                           HttpSession session) {
+
+        String account = map.get("account");
+        String password = map.get("password");
+
         ResultVO resultVO = studentService.login(account, password);
 
         //如果学生登录成功
@@ -57,7 +60,6 @@ public class BaseController {
             //教师登录成功
             if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
                 session.setAttribute("teacher", resultVO.getData());
-                resultVO.setData(ResponseDataMsg.Success.getMsg());
                 return resultVO;
             }
         }

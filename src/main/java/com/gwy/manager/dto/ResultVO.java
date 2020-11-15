@@ -10,34 +10,18 @@ public class ResultVO {
 
     Integer resultCode;
 
-    String message;
+    String resultMsg;
 
     Object data;
 
     public ResultVO() {
         this.setResultCode(ResponseStatus.FAIL.getCode());
-        this.setMessage(ResponseStatus.FAIL.getMessage());
+        this.setResultMsg(ResponseStatus.FAIL.getMessage());
     }
 
-    public ResultVO(Integer resultCode, String message, Object data) {
+    public ResultVO(Integer resultCode, String resultMsg, Object data) {
         this.resultCode = resultCode;
-        this.message = message;
-        this.data = data;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
+        this.resultMsg = resultMsg;
         this.data = data;
     }
 
@@ -49,9 +33,25 @@ public class ResultVO {
         this.resultCode = resultCode;
     }
 
+    public String getResultMsg() {
+        return resultMsg;
+    }
+
+    public void setResultMsg(String resultMsg) {
+        this.resultMsg = resultMsg;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
     public void success(Object data) {
         this.setResultCode(ResponseStatus.SUCCESS.getCode());
-        this.setMessage(ResponseStatus.SUCCESS.getMessage());
+        this.setResultMsg(ResponseStatus.SUCCESS.getMessage());
         this.setData(data);
     }
 }
