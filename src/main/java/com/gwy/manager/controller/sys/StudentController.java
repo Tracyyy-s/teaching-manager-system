@@ -95,7 +95,6 @@ public class StudentController {
      */
     @PostMapping("/sendCode")
     public ResultVO postCode(@RequestBody Map<String, String> map) {
-        
         String studentNo = map.get("studentNo");
         return studentService.sendCode(studentNo);
     }
