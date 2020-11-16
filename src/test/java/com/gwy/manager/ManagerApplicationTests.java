@@ -4,12 +4,15 @@ import ch.qos.logback.core.util.FileUtil;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Dept;
 import com.gwy.manager.entity.Student;
+import com.gwy.manager.entity.Teacher;
 import com.gwy.manager.entity.Term;
 import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.impl.TargetServiceImpl;
+import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.MD5Util;
+import org.apache.commons.beanutils.BeanMap;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -106,12 +109,7 @@ class ManagerApplicationTests {
 
     @Test
     void test06() {
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("110");
-        strings.add("111");
-        strings.add("112");
-        Map<String, Dept> map = deptMapper.getDeptByIds(strings);
-
+        Map<String, Object> map = BeanUtil.beanToMap(new Teacher());
         System.out.println(map);
     }
 }

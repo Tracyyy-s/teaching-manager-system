@@ -5,6 +5,7 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Admin;
 import com.gwy.manager.mapper.AdminMapper;
 import com.gwy.manager.service.AdminService;
+import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
         } else if (!admin.getPassword().equals(MD5Util.inputToDb(password))) {
             resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
         } else {
-            resultVO.success(admin);
+            resultVO.success(BeanUtil.beanToMap(admin));
         }
 
         return resultVO;

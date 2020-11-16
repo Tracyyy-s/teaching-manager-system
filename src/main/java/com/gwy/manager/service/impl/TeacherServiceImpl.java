@@ -7,8 +7,10 @@ import com.gwy.manager.entity.Teacher;
 import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.mapper.TeacherMapper;
 import com.gwy.manager.service.TeacherService;
+import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.ExcelHeaderFormat;
 import com.gwy.manager.util.MD5Util;
+import org.apache.commons.beanutils.BeanMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +52,7 @@ public class TeacherServiceImpl implements TeacherService {
             resultVO.setData(ResponseDataMsg.PermissionDeny.getMsg());
         } else {
             //添加教师
-            resultVO.success(teacher);
+            resultVO.success(BeanUtil.beanToMap(teacher));
         }
 
         return resultVO;
@@ -119,7 +121,7 @@ public class TeacherServiceImpl implements TeacherService {
         if (teachers.size() == 0) {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO.success(teachers);
+            resultVO.success(BeanUtil.beansToList(teachers));
         }
 
         return resultVO;
