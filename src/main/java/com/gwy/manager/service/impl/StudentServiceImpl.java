@@ -8,6 +8,7 @@ import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.rabbimq.RabbitmqProducer;
 import com.gwy.manager.service.StudentService;
+import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.MD5Util;
 import com.gwy.manager.mail.MailUtil;
 import com.gwy.manager.redis.RedisUtil;
@@ -17,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author Tracy
@@ -150,12 +148,31 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentsByDept(String deptId) {
-        return studentMapper.selectStudentsByDept(deptId);
+    public ResultVO getStudentsByDept(String deptId) {
+
+        ResultVO resultVO = new ResultVO();
+
+        List<Student> students = studentMapper.selectStudentsByDept(deptId);
+        if (students.size() == 0) {
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            Collection<Map<String, Object>> list = BeanUtil.beansToList(students);
+            resultVO.success(list);
+        }
+        return resultVO;
     }
 
     @Override
-    public List<Student> getStudentByClass(String classId) {
-        return studentMapper.selectStudentsByClass(classId);
+    public ResultVO getStudentByClass(String classId) {
+        ResultVO resultVO = new ResultVO();
+
+        List<Student> students = studentMapper.selectStudentsByClass(classId);
+        if (students.size() == 0) {
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            Collection<Map<String, Object>> list = BeanUtil.beansToList(students);
+            resultVO.success(list);
+        }
+        return resultVO;
     }
 }

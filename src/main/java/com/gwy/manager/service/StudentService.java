@@ -68,13 +68,13 @@ public interface StudentService {
      * @param deptId
      * @return
      */
-    List<Student> getStudentsByDept(String deptId);
+    ResultVO getStudentsByDept(String deptId);
 
     /**
      * 获取某个班级的所有学生
      * @param classId
      * @return
      */
-    List<Student> getStudentByClass(String classId);
+    ResultVO getStudentByClass(String classId);
 
 }
