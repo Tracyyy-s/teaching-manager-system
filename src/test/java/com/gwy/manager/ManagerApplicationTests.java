@@ -13,11 +13,13 @@ import com.gwy.manager.service.impl.TargetServiceImpl;
 import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.MD5Util;
 import org.apache.commons.beanutils.BeanMap;
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -109,7 +111,16 @@ class ManagerApplicationTests {
 
     @Test
     void test06() {
-        Map<String, Object> map = BeanUtil.beanToMap(new Teacher());
+        Map<String, String> map = null;
+        try {
+            map = BeanUtils.describe(new Teacher());
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        map.remove("class");
+        map.remove("password");
+
+
         System.out.println(map);
     }
 }

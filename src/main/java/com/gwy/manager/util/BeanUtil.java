@@ -3,9 +3,10 @@ package com.gwy.manager.util;
 import com.google.common.collect.Maps;
 import org.springframework.cglib.beans.BeanMap;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -20,14 +21,11 @@ public class BeanUtil {
      * @return  返回值
      */
     public static <T> Map<String, Object> beanToMap(T bean) {
-        Map<String, Object> map = Maps.newHashMap();
+
+        Map<String, Object> map = new LinkedHashMap<>();
+
         if (bean != null) {
-            BeanMap beanMap = BeanMap.create(bean);
-            for (Object key : beanMap.keySet()) {
-                if (key.equals("password"))
-                    continue;
-                map.put(key.toString(), beanMap.get(key));
-            }
+            fillBeanFields(bean, map);
         }
 
         return map;
@@ -43,18 +41,27 @@ public class BeanUtil {
         ArrayList<Map<String, Object>> list = new ArrayList<>();
         if (beans != null) {
             for (T bean : beans) {
-                Map<String, Object> map = Maps.newHashMap();
-                BeanMap beanMap = BeanMap.create(bean);
+                Map<String, Object> map = Maps.newLinkedHashMap();
 
-                for (Object key : beanMap.keySet()) {
-                    if (key.equals("password"))
-                        continue;
-                    map.put(key.toString(), beanMap.get(key));
-                }
-
+                fillBeanFields(bean, map);
                 list.add(map);
             }
         }
         return list;
+    }
+
+    private static <T> void fillBeanFields(T bean, Map<String, Object> map) {
+        Field[] fields = bean.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            String name = field.getName();
+            if (!name.equals("password")) {
+                try {
+                    map.put(name, field.get(bean));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
