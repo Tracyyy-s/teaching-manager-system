@@ -1,5 +1,6 @@
 package com.gwy.manager.dto;
 
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.ResponseStatus;
 
 /**
@@ -15,6 +16,8 @@ public class ResultVO {
     Object data;
 
     public ResultVO() {
+        this.setResultCode(ResponseStatus.FAIL.getCode());
+        this.setMessage(ResponseStatus.FAIL.getMessage());
     }
 
     public ResultVO(Integer resultCode, String message, Object data) {

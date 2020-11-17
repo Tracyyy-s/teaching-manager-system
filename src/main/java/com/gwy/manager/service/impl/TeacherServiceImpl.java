@@ -73,7 +73,7 @@ public class TeacherServiceImpl implements TeacherService {
             resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
         } else {
             Map<String, String> map = new HashMap<>();
-            map.put("role", UserOption.STUDENT.getUserType());
+            map.put("role", UserOption.TEACHER.getUserType());
             resultVO.success(map);
         }
 
