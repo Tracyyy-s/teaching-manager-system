@@ -83,7 +83,7 @@ public class RootServiceImpl implements RootService {
         }
 
         //存储结果
-        Map<String, Object> result = new LinkedHashMap<>();
+        List<Map<String, String>> list = new ArrayList<>();
 
         //获得院系id列表
         List<String> deptIdList = new ArrayList<>();
@@ -103,10 +103,10 @@ public class RootServiceImpl implements RootService {
             tmpMap.put("adminName", admin.getAdminName());
             tmpMap.put("adminDeptName", deptList.get(admin.getDeptId()).getDeptName());
 
-            result.put("admin" + i++, tmpMap);
+            list.add(tmpMap);
         }
 
-        resultVO.success(result);
+        resultVO.success(list);
 
         return resultVO;
     }
