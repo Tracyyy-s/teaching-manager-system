@@ -8,6 +8,7 @@
     <result column="term_id" property="termId" jdbcType="VARCHAR" />
     <result column="appraise_sum" property="appraiseSum" jdbcType="INTEGER" />
     <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR"/>
     <result column="begin_week" property="beginWeek" jdbcType="INTEGER" />
     <result column="end_week" property="endWeek" jdbcType="INTEGER" />
   </resultMap>
@@ -17,11 +18,11 @@
   </delete>
   <insert id="insert" parameterType="com.gwy.manager.entity.TeacherCourse" >
     insert into ts_teacher_course (tc_id, course_no, teacher_no, 
-      term_id, appraise_sum, address, 
+      term_id, appraise_sum, address, time,
       begin_week, end_week)
     values (#{tcId,jdbcType=VARCHAR}, #{courseNo,jdbcType=VARCHAR}, #{teacherNo,jdbcType=VARCHAR}, 
-      #{termId,jdbcType=VARCHAR}, #{appraiseSum,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
-      #{beginWeek,jdbcType=INTEGER}, #{endWeek,jdbcType=INTEGER})
+      #{termId,jdbcType=VARCHAR}, #{appraiseSum,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},
+      #{time,jdbcType=VARCHAR}, #{beginWeek,jdbcType=INTEGER}, #{endWeek,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.TeacherCourse" >
     update ts_teacher_course
@@ -30,29 +31,30 @@
       term_id = #{termId,jdbcType=VARCHAR},
       appraise_sum = #{appraiseSum,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
       begin_week = #{beginWeek,jdbcType=INTEGER},
       end_week = #{endWeek,jdbcType=INTEGER}
     where tc_id = #{tcId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, begin_week, 
+    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, time, begin_week,
     end_week
     from ts_teacher_course
     where tc_id = #{tcId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, begin_week, 
+    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, time, begin_week,
     end_week
     from ts_teacher_course
   </select>
   <select id="getTeacherCoursesByTeacherNoAndTermId" resultMap="BaseResultMap">
-    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, begin_week,
+    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, time, begin_week,
     end_week
     from ts_teacher_course
     where teacher_no = #{teacherNo,jdbcType=VARCHAR} and term_id = #{termId,jdbcType=VARCHAR}
   </select>
   <select id="getTeacherCourseByStudentNoAndTermId" resultMap="BaseResultMap">
-    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, begin_week,
+    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, time, begin_week,
     end_week
     from ts_teacher_course
     where term_id = #{termId,jdbcType=VARCHAR}
@@ -63,7 +65,7 @@
   <!-- 批量添加教师-课程 -->
   <insert id="insertBatch">
     insert into ts_teacher_course (tc_id, course_no, teacher_no,
-      term_id, appraise_sum, address,
+      term_id, appraise_sum, address, time,
       begin_week, end_week)
       values
     <foreach collection="teacherCourses" separator="," item="teacherCourse">
@@ -71,7 +73,8 @@
       #{teacherCourse.tcId,jdbcType=VARCHAR}, #{teacherCourse.courseNo,jdbcType=VARCHAR},
       #{teacherCourse.teacherNo,jdbcType=VARCHAR}, #{teacherCourse.termId,jdbcType=VARCHAR},
       #{teacherCourse.appraiseSum,jdbcType=INTEGER}, #{teacherCourse.address,jdbcType=VARCHAR},
-      #{teacherCourse.beginWeek,jdbcType=INTEGER}, #{teacherCourse.endWeek,jdbcType=INTEGER}
+      #{teacherCourse.time,jdbcType=VARCHAR},#{teacherCourse.beginWeek,jdbcType=INTEGER},
+      #{teacherCourse.endWeek,jdbcType=INTEGER}
     )
     </foreach>
   </insert>

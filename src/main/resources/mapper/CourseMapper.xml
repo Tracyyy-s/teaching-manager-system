@@ -43,4 +43,12 @@
                         from ts_teacher_course
                         where teacher_no = #{teacherNo,jdbcType=VARCHAR})
   </select>
+  <select id="getCoursesByIds" resultMap="BaseResultMap">
+    select course_name, hour, credit
+    from ts_course
+    where course_no in
+    <foreach collection="courseNos" item="courseNo" open="(" close=")" separator=",">
+        #{courseNo,jdbcType=VARCHAR}
+    </foreach>
+  </select>
 </mapper>

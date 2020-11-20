@@ -22,7 +22,7 @@ import java.util.*;
 
 public class FileTest {
 
-    @Test
+    //@Test
     void test01() throws IOException, ParseException {
 
         File file = new File("C:\\Users\\TRacy\\Desktop\\test.xlsx");
@@ -64,7 +64,7 @@ public class FileTest {
         System.out.println(teacher);
     }
 
-    @Test
+    //@Test
     void test02() throws IOException {
         File file = new File("D:\\QQfiles\\3班选修统计.xlsx");
 

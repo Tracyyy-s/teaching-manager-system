@@ -52,6 +52,21 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public ResultVO getStudentInfo(String studentNo) {
+
+        ResultVO resultVO = new ResultVO();
+
+        Student student = this.getStudent(studentNo);
+        if (student == null) {
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO.success(BeanUtil.beanToMap(student));
+        }
+
+        return resultVO;
+    }
+
+    @Override
     public ResultVO login(String studentNo, String password) {
         ResultVO resultVO = new ResultVO();
 
@@ -156,8 +171,7 @@ public class StudentServiceImpl implements StudentService {
         if (students.size() == 0) {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
-            Collection<Map<String, Object>> list = BeanUtil.beansToList(students);
-            resultVO.success(list);
+            resultVO.success(BeanUtil.beansToList(students));
         }
         return resultVO;
     }
@@ -170,8 +184,7 @@ public class StudentServiceImpl implements StudentService {
         if (students.size() == 0) {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
-            Collection<Map<String, Object>> list = BeanUtil.beansToList(students);
-            resultVO.success(list);
+            resultVO.success(BeanUtil.beansToList(students));
         }
         return resultVO;
     }

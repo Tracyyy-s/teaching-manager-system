@@ -97,4 +97,12 @@
     from ts_teacher where dept_id = #{deptId,jdbcType=VARCHAR}
     and teacher_name like concat('%', #{name,jdbcType=VARCHAR}, '%')
   </select>
+  <select id="getTeachersByIds" resultType="java.lang.String">
+    select teacher_name
+    from ts_teacher
+    where teacher_no in
+    <foreach collection="teacherNos" item="teacherNo" open="(" close=")" separator=",">
+        #{teacherNo,jdbcType=VARCHAR}
+    </foreach>
+  </select>
 </mapper>

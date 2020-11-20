@@ -51,6 +51,13 @@ public class StudentController {
         return studentService.updatePassword(studentNo, password, vrCode);
     }
 
+    @PostMapping("/getStudentInfo")
+    public ResultVO getStudentInfo(@RequestBody Map<String, String> map) {
+
+        String studentNo = map.get("studentNo");
+        return studentService.getStudentInfo(studentNo);
+    }
+
     /**
      * 获得学生某学期的课程
      * @param map   请求体

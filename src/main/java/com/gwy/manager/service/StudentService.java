@@ -21,7 +21,7 @@ public interface StudentService {
     /**
      * 通过学号获取学生
      * @param studentNo 学号
-     * @return  查找结果
+     * @return  结果集
      */
     Student getStudent(String studentNo);
 
@@ -55,6 +55,13 @@ public interface StudentService {
      * @return
      */
     ResultVO login(String studentNo, String password);
+
+    /**
+     * 获得学生信息
+     * @param studentNo 学号
+     * @return  结果集
+     */
+    ResultVO getStudentInfo(String studentNo);
 
     /**
      * 发送验证码至Redis,验证码5min有效

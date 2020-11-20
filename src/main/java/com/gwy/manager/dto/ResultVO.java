@@ -1,6 +1,5 @@
 package com.gwy.manager.dto;
 
-import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.ResponseStatus;
 
 /**

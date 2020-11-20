@@ -1,6 +1,7 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Course;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface CourseMapper {
     int updateByPrimaryKey(Course record);
 
     List<Course> getCoursesOfTeacher(String teacherNo);
+
+    List<Course> getCoursesByIds(@Param("courseNos") List<String> courseNos);
 }

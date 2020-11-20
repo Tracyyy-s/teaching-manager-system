@@ -20,6 +20,8 @@ public interface TeacherMapper {
 
     List<Teacher> selectByDeptId(String deptId);
 
+    List<String> getTeachersByIds(@Param("teacherNos") List<String> teacherNos);
+
     int insertTeachersByBatch(@Param("teachers") List<Teacher> teachers);
 
     int updatePassword(@Param("teacherNo")String teacherNo, @Param("password") String password);

@@ -13,6 +13,8 @@ public class TeacherCourse {
 
     private String address;
 
+    private String time;
+
     private Integer beginWeek;
 
     private Integer endWeek;
@@ -65,6 +67,14 @@ public class TeacherCourse {
         this.address = address == null ? null : address.trim();
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public Integer getBeginWeek() {
         return beginWeek;
     }
@@ -90,6 +100,7 @@ public class TeacherCourse {
                 ", termId='" + termId + '\'' +
                 ", appraiseSum=" + appraiseSum +
                 ", address='" + address + '\'' +
+                ", time='" + time + '\'' +
                 ", beginWeek=" + beginWeek +
                 ", endWeek=" + endWeek +
                 '}';

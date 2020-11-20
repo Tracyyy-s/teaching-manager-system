@@ -1,16 +1,20 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.entity.Course;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.TeacherCourse;
+import com.gwy.manager.mapper.CourseMapper;
 import com.gwy.manager.mapper.TeacherCourseMapper;
+import com.gwy.manager.mapper.TeacherMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.TeacherCourseService;
+import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.DateUtilCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Tracy
@@ -24,6 +28,12 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
 
     @Autowired
     private TermMapper termMapper;
+
+    @Autowired
+    private CourseMapper courseMapper;
+
+    @Autowired
+    private TeacherMapper teacherMapper;
 
     @Override
     public int addTeacherCourse(TeacherCourse teacherCourse) {
@@ -74,7 +84,50 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
         if (teacherCourses.size() == 0) {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO.success(teacherCourses);
+            Collection<Map<String, Object>> maps = BeanUtil.beansToList(teacherCourses);
+
+            List<String> courseNos = new ArrayList<>();
+            List<String> teacherNos = new ArrayList<>();
+
+            for (Map<String, Object> map : maps) {
+                //先将教师号和课程号添加至列表以便查找
+                courseNos.add((String) map.get("courseNo"));
+                teacherNos.add((String) map.get("teacherNo"));
+
+                //将上课时间格式化
+                String allTime = (String) map.get("time");
+                String[] times = allTime.split(",");
+
+                Map<String, Object> timeMap = new LinkedHashMap<>();
+                int i = 0;
+                for (String time : times) {
+                    Map<String, String> classes = new LinkedHashMap<>();
+
+                    String[] s = time.split("_");
+                    classes.put("day", s[0]);
+
+                    String[] numClass = s[1].split("-");
+                    classes.put("clock", "第" + numClass[0] + "节-第" + numClass[1] + "节");
+
+                    timeMap.put("第" + (++i) + "次", classes);
+                }
+
+                map.put("time", timeMap);
+            }
+
+            List<Course> courses = courseMapper.getCoursesByIds(courseNos);
+            List<String> teacherNames = teacherMapper.getTeachersByIds(teacherNos);
+
+            int i = 0;
+            for (Map<String, Object> map : maps) {
+                map.put("courseName", courses.get(i).getCourseName());
+                map.put("courseHour", courses.get(i).getHour());
+                map.put("credit", courses.get(i).getCredit());
+                map.put("teacherName", teacherNames.get(i));
+
+                i++;
+            }
+            resultVO.success(maps);
         }
 
         return resultVO;
