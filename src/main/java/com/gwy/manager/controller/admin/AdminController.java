@@ -114,8 +114,7 @@ public class AdminController {
         target.setTargetObject(intTargetType);
 
         System.out.println(target);
-        return null;
-        //return targetService.addTarget(target);
+        return targetService.addTarget(target);
     }
 
     /**
