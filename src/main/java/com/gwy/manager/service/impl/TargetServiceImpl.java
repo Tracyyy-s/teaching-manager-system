@@ -79,11 +79,13 @@ public class TargetServiceImpl implements TargetService {
             List<Object> list = new ArrayList<>();
             int i = 0;
             for (Target target : targetList) {
-                Map<String, Object> map = BeanUtil.beanToMap(target);
+                LinkedHashMap<String, Object> map = new LinkedHashMap<>();
                 map.put("index", (++i));
+                map.putAll(BeanUtil.beanToMap(target));
 
                 list.add(map);
             }
+
             resultVO.success(list);
         }
 
