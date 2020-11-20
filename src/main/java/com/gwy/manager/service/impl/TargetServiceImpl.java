@@ -6,10 +6,14 @@ import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.mapper.TargetMapper;
 import com.gwy.manager.service.TargetService;
+import com.gwy.manager.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Tracy
@@ -71,7 +75,16 @@ public class TargetServiceImpl implements TargetService {
         if (targetList.size() == 0) {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO.success(targetList);
+
+            List<Object> list = new ArrayList<>();
+            int i = 0;
+            for (Target target : targetList) {
+                Map<String, Object> map = BeanUtil.beanToMap(target);
+                map.put("index", (++i));
+
+                list.add(map);
+            }
+            resultVO.success(list);
         }
 
         return resultVO;
