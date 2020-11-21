@@ -33,7 +33,7 @@ public class SafetyAspect {
         //参数判空
         for (Object arg : args) {
             if (arg == null) {
-                resultVO.setData(ResponseDataMsg.ErrorParams.getMsg());
+                resultVO.setData(ResponseDataMsg.BadRequest.getMsg());
                 return resultVO;
             }
         }

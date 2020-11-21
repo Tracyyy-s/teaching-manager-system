@@ -122,7 +122,7 @@ public class RootController {
             list = (List<String>)map.get("deptIdList");
         } catch (Exception e) {
             ResultVO resultVO = new ResultVO();
-            resultVO.setData(ResponseDataMsg.ErrorParams.getMsg());
+            resultVO.setData(ResponseDataMsg.BadRequest.getMsg());
 
             return resultVO;
         }

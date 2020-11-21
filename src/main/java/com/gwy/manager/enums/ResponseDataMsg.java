@@ -11,7 +11,7 @@ public enum ResponseDataMsg {
     Success("Success"),
     Fail("Fail"),
     PermissionDeny("Permission Deny"),
-    ErrorParams("Error Parameters");
+    BadRequest("Bad Request");
 
     ResponseDataMsg() {
     }
