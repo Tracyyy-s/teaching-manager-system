@@ -46,8 +46,7 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.insert(student);
     }
 
-    @Override
-    public Student getStudent(String studentNo) {
+    private Student getStudent(String studentNo) {
         return studentMapper.selectByPrimaryKey(studentNo);
     }
 
@@ -168,7 +167,7 @@ public class StudentServiceImpl implements StudentService {
         ResultVO resultVO = new ResultVO();
 
         List<Student> students = studentMapper.selectStudentsByDept(deptId);
-        if (students.size() == 0) {
+        if (students == null || students.size() == 0) {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
             resultVO.success(BeanUtil.beansToList(students));
@@ -186,6 +185,21 @@ public class StudentServiceImpl implements StudentService {
         } else {
             resultVO.success(BeanUtil.beansToList(students));
         }
+        return resultVO;
+    }
+
+    @Override
+    public ResultVO getStudentsMatchName(String deptId, String name) {
+
+        ResultVO resultVO = new ResultVO();
+
+        List<Student> students = studentMapper.selectStudentsMatchName(deptId, name);
+        if (students.size() == 0) {
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO.success(BeanUtil.beansToList(students));
+        }
+
         return resultVO;
     }
 }

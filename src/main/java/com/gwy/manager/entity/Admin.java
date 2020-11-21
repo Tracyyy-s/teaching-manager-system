@@ -9,6 +9,8 @@ public class Admin {
 
     private String deptId;
 
+    private String availableDeptIds;
+
     public String getAdminNo() {
         return adminNo;
     }
@@ -41,12 +43,22 @@ public class Admin {
         this.deptId = deptId == null ? null : deptId.trim();
     }
 
+    public String getAvailableDeptIds() {
+        return availableDeptIds;
+    }
+
+    public void setAvailableDeptIds(String availableDeptIds) {
+        this.availableDeptIds = availableDeptIds;
+    }
+
     @Override
     public String toString() {
         return "Admin{" +
                 "adminNo='" + adminNo + '\'' +
                 ", adminName='" + adminName + '\'' +
+                ", password='" + password + '\'' +
                 ", deptId='" + deptId + '\'' +
+                ", availableDeptIds='" + availableDeptIds + '\'' +
                 '}';
     }
 }

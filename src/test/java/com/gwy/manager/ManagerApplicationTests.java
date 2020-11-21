@@ -4,6 +4,7 @@ import ch.qos.logback.core.util.FileUtil;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.*;
 import com.gwy.manager.mapper.*;
+import com.gwy.manager.service.impl.RootServiceImpl;
 import com.gwy.manager.service.impl.TargetServiceImpl;
 import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.MD5Util;
@@ -123,12 +124,10 @@ class ManagerApplicationTests {
     private CourseMapper courseMapper;
 
     @Autowired
-    private TeacherCourseMapper teacherCourseMapper;
+    private RootServiceImpl rootService;
 
     @Test
     void test07() {
-        List<TeacherCourse> all = teacherCourseMapper.selectAll();
-
-        System.out.println(all);
+        System.out.println(rootService.login(null, null).getData());
     }
 }

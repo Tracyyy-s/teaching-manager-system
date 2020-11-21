@@ -19,13 +19,6 @@ public interface StudentService {
     int addStudent(Student student);
 
     /**
-     * 通过学号获取学生
-     * @param studentNo 学号
-     * @return  结果集
-     */
-    Student getStudent(String studentNo);
-
-    /**
      * 修改学生信息
      * @param student 预修改
      * @return  影响行数
@@ -72,16 +65,23 @@ public interface StudentService {
 
     /**
      * 获取某学院的所有学生
-     * @param deptId
-     * @return
+     * @param deptId 学院id
+     * @return  结果集
      */
     ResultVO getStudentsByDept(String deptId);
 
     /**
      * 获取某个班级的所有学生
-     * @param classId
-     * @return
+     * @param classId 班号
+     * @return  结果集
      */
     ResultVO getStudentByClass(String classId);
 
+    /**
+     * 根据学生名字进行模糊匹配
+     * @param deptId 学院id
+     * @param name  学生姓名
+     * @return  结果集
+     */
+    ResultVO getStudentsMatchName(String deptId, String name);
 }

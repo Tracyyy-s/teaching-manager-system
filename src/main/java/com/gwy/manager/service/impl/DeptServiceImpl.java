@@ -1,10 +1,14 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Dept;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Tracy
@@ -34,5 +38,20 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public Dept getDeptByName(String name) {
         return deptMapper.getDeptByName(name);
+    }
+
+    @Override
+    public ResultVO getAllDepts() {
+
+        ResultVO resultVO = new ResultVO();
+
+        List<Dept> depts = deptMapper.selectAll();
+        if (depts.size() == 0) {
+            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO.success(depts);
+        }
+
+        return resultVO;
     }
 }

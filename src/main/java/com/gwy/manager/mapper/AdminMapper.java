@@ -21,4 +21,6 @@ public interface AdminMapper {
     int updatePassword(@Param("adminNo") String adminNo, @Param("password") String password);
 
     String selectMaxAdminNo();
+
+    int updateDeptIds(@Param("adminNo") String adminNo, @Param("deptIds") String deptIds);
 }

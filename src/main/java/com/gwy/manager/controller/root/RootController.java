@@ -2,10 +2,14 @@ package com.gwy.manager.controller.root;
 
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Admin;
+import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.service.impl.AdminServiceImpl;
+import com.gwy.manager.service.impl.DeptServiceImpl;
 import com.gwy.manager.service.impl.RootServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +23,12 @@ public class RootController {
 
     @Autowired
     private RootServiceImpl rootService;
+
+    @Autowired
+    private DeptServiceImpl deptService;
+
+    @Autowired
+    private AdminServiceImpl adminService;
 
     /**
      * root用户登录
@@ -51,7 +61,7 @@ public class RootController {
      */
     @PostMapping("/getAllAdmins")
     public ResultVO getAllAdmins() {
-        return rootService.getAllAdmins();
+        return adminService.getAllAdmins();
     }
 
     /**
@@ -61,7 +71,7 @@ public class RootController {
      */
     @PostMapping("/addAdmin")
     public ResultVO addAdmin(@RequestBody Admin admin) {
-        return rootService.addAdmin(admin);
+        return adminService.addAdmin(admin);
     }
 
     /**
@@ -73,6 +83,51 @@ public class RootController {
     public ResultVO deleteAdmin(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
-        return rootService.deleteAdmin(adminNo);
+        return adminService.deleteAdmin(adminNo);
+    }
+
+    /**
+     * 获得所有学院信息
+     * @return  结果集
+     */
+    @PostMapping("/getAllDepts")
+    public ResultVO getAllDepts() {
+
+        return deptService.getAllDepts();
+    }
+
+    /**
+     * 获得指定管理员管理的所有学院
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getAdminDepts")
+    public ResultVO getAdminDepts(@RequestBody Map<String, String> map) {
+
+        String adminNo = map.get("adminNo");
+        return adminService.getDeptsById(adminNo);
+    }
+
+    /**
+     * 更新管理员可管理的学院
+     * @param map   请求体
+     * @return  结果集
+     */
+    @SuppressWarnings("unchecked")
+    @PostMapping("/updateAdminDeptIds")
+    public ResultVO updateAdminsDeptsIds(@RequestBody Map<String, Object> map) {
+
+        List<String> list;
+        try {
+            list = (List<String>)map.get("deptIdList");
+        } catch (Exception e) {
+            ResultVO resultVO = new ResultVO();
+            resultVO.setData(ResponseDataMsg.ErrorParams.getMsg());
+
+            return resultVO;
+        }
+
+        String adminNo = (String) map.get("adminNo");
+        return adminService.updateDeptIds(adminNo, list);
     }
 }

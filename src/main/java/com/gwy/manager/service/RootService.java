@@ -24,24 +24,4 @@ public interface RootService {
      */
     ResultVO updatePassword(String password);
 
-    /**
-     * 获得所有的管理员
-     * @return  结果集
-     */
-    ResultVO getAllAdmins();
-
-    /**
-     * root用户添加admin用户
-     * @param admin 预添加
-     * @return  结果集
-     */
-    ResultVO addAdmin(Admin admin);
-
-    /**
-     * 删除admin用户
-     * @param adminNo   adminNo
-     * @return  结果集
-     */
-    ResultVO deleteAdmin(String adminNo);
-
 }

@@ -10,7 +10,8 @@ public enum ResponseDataMsg {
     PasswordIncorrect("Password Incorrect"),
     Success("Success"),
     Fail("Fail"),
-    PermissionDeny("Permission Deny");
+    PermissionDeny("Permission Deny"),
+    ErrorParams("Error Parameters");
 
     ResponseDataMsg() {
     }

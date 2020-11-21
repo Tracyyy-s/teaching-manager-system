@@ -1,5 +1,6 @@
 package com.gwy.manager.service;
 
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Dept;
 
 /**
@@ -10,29 +11,35 @@ public interface DeptService {
 
     /**
      * 添加学院信息
-     * @param dept
-     * @return
+     * @param dept  预添加
+     * @return  结果集
      */
     int addDept(Dept dept);
 
     /**
      * 修改学院信息
-     * @param dept
-     * @return
+     * @param dept  预修改
+     * @return  结果集
      */
     int updateDept(Dept dept);
 
     /**
      * 获得指定学院
-     * @param deptId
-     * @return
+     * @param deptId 学院id
+     * @return  结果集
      */
     Dept getDeptById(String deptId);
 
     /**
      * 通过学院名获取学院
-     * @param name
-     * @return
+     * @param name  学院名
+     * @return  结果集
      */
     Dept getDeptByName(String name);
+
+    /**
+     * 获得所有学院
+     * @return  结果集
+     */
+    ResultVO getAllDepts();
 }

@@ -3,10 +3,7 @@ package com.gwy.manager.controller.admin;
 import com.gwy.manager.enums.ResponseStatus;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Target;
-import com.gwy.manager.service.impl.AdminServiceImpl;
-import com.gwy.manager.service.impl.CourserServiceImpl;
-import com.gwy.manager.service.impl.TargetServiceImpl;
-import com.gwy.manager.service.impl.TeacherServiceImpl;
+import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.ExcelHeaderFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +32,9 @@ public class AdminController {
 
     @Autowired
     private CourserServiceImpl courserService;
+
+    @Autowired
+    private StudentServiceImpl studentService;
 
     /**
      * 管理员登录
@@ -173,18 +173,6 @@ public class AdminController {
     }
 
     /**
-     * 获得某教师所教授的全部课程
-     * @param map   请求体
-     * @return  结果集
-     */
-    @PostMapping("/getCoursesOfTeacher")
-    public ResultVO getCoursesOfTeacher(@RequestBody Map<String, String> map) {
-
-        String teacherNo = map.get("teacherNo");
-        return courserService.getCoursesOfTeacher(teacherNo);
-    }
-
-    /**
      * 在学院内模糊匹配教师姓名
      * @param map   结果集
      * @return  返回集
@@ -195,6 +183,55 @@ public class AdminController {
         String deptId = map.get("deptId");
         String name = map.get("name");
         return teacherService.getTeacherMatchNameInDept(deptId, name);
+    }
+
+    /**
+     * 获得某学院的所有学生
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getStudentsByDept")
+    public ResultVO getStudentsByDept(@RequestBody Map<String, String> map) {
+
+        String deptId = map.get("deptId");
+        return studentService.getStudentsByDept(deptId);
+    }
+
+    /**
+     * 根据学号获得某学生
+     * @param map   请求体
+     * @return  返回值
+     */
+    @PostMapping("/getStudentById")
+    public ResultVO getStudentByStudentNo(@RequestBody Map<String, String> map) {
+
+        String studentNo = map.get("studentNo");
+        return studentService.getStudentInfo(studentNo);
+    }
+
+    /**
+     * 根据姓名匹配某学院的学生
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getStudentsMatchNameInDept")
+    public ResultVO getStudentsMatchName(@RequestBody Map<String, String> map) {
+
+        String deptId = map.get("deptId");
+        String name = map.get("name");
+        return studentService.getStudentsMatchName(deptId, name);
+    }
+
+    /**
+     * 获得某教师所教授的全部课程
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getCoursesOfTeacher")
+    public ResultVO getCoursesOfTeacher(@RequestBody Map<String, String> map) {
+
+        String teacherNo = map.get("teacherNo");
+        return courserService.getCoursesOfTeacher(teacherNo);
     }
 
     /**

@@ -85,4 +85,11 @@
     set password = #{password,jdbcType=VARCHAR}
     where student_no = #{studentNo,jdbcType=VARCHAR}
   </update>
+  <select id="selectStudentsMatchName" resultMap="BaseResultMap">
+    select student_no, student_name, password, gender, birth, email, class_id, political, dept_id,
+    entry_year
+    from ts_student
+    where dept_id = #{deptId,jdbcType=VARCHAR} and
+    student_name like concat('%', #{name,jdbcType=VARCHAR}, '%')
+  </select>
 </mapper>
