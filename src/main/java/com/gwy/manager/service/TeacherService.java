@@ -13,13 +13,6 @@ import java.util.List;
 public interface TeacherService {
 
     /**
-     * 通过teacherNo获取教师
-     * @param teacherNo 教师teacherNo
-     * @return  查询结果
-     */
-    Teacher getTeacher(String teacherNo);
-
-    /**
      * 通过学院id和teacherNo获取教师
      * @param deptId 学院id
      * @param tno 教师tno
@@ -55,7 +48,7 @@ public interface TeacherService {
      * @param password  密码
      * @return  返回结果
      */
-    ResultVO login(String teacherNo, String password);
+    //ResultVO login(String teacherNo, String password);
 
     /**
      * 获得学院内所有老师
@@ -73,4 +66,17 @@ public interface TeacherService {
      */
     ResultVO importTeachersByFile(String deptId, String headerType, MultipartFile file);
 
+    /**
+     * 修改教师角色状态
+     * @param teacherNo 教师号
+     * @return  结果集
+     */
+    ResultVO updateTeacherRole(String teacherNo);
+
+    /**
+     * 获得教师信息
+     * @param teacherNo 教师号
+     * @return  结果集
+     */
+    ResultVO getTeacherInfo(String teacherNo);
 }

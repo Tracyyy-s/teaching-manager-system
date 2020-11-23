@@ -27,6 +27,10 @@ public class RedisUtil {
         return s + ":Code";
     }
 
+    public String getUserKeyInRedis(String roleName, String username) {
+        return roleName + "_" + username;
+    }
+
     /**
      * 指定缓存失效时间
      *

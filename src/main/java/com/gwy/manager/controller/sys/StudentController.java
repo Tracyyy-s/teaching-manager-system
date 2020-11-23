@@ -1,8 +1,10 @@
 package com.gwy.manager.controller.sys;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.StudentAssess;
 import com.gwy.manager.service.impl.*;
+import com.gwy.manager.util.DateUtilCustom;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,10 +54,10 @@ public class StudentController {
     }
 
     @PostMapping("/getStudentInfo")
-    public ResultVO getStudentInfo(@RequestBody Map<String, String> map) {
+    public String getStudentInfo(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
-        return studentService.getStudentInfo(studentNo);
+        return JSONObject.toJSONStringWithDateFormat(studentService.getStudentInfo(studentNo), DateUtilCustom.DATE_PATTERN);
     }
 
     /**

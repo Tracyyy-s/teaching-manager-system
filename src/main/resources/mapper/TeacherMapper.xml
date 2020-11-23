@@ -15,7 +15,7 @@
     <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
     <result column="professional" property="professional" jdbcType="VARCHAR" />
     <result column="professional_time" property="professionalTime" jdbcType="DATE" />
-    <result column="is_leader" property="isLeader" jdbcType="INTEGER"/>
+    <result column="role_id" property="roleId" jdbcType="INTEGER"/>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ts_teacher
@@ -25,13 +25,13 @@
     insert into ts_teacher (teacher_no, teacher_name, gender, 
       password, birth, degree, 
       graduated, political, entry_year, sum_hour
-      dept_id, professional, professional_time, is_leader
+      dept_id, professional, professional_time, role_id
       )
     values (#{teacherNo,jdbcType=VARCHAR}, #{teacherName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
       #{password,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{degree,jdbcType=VARCHAR}, 
       #{graduated,jdbcType=VARCHAR}, #{political,jdbcType=VARCHAR}, #{entryYear,jdbcType=INTEGER},
       #{sumHour,jdbcType=INTEGER} #{deptId,jdbcType=VARCHAR}, #{professional,jdbcType=VARCHAR},
-      #{professionalTime,jdbcType=DATE}, #{isLeader, jdbcType=INTEGER}
+      #{professionalTime,jdbcType=DATE}, #{roleId, jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Teacher" >
@@ -48,24 +48,24 @@
       dept_id = #{deptId,jdbcType=VARCHAR},
       professional = #{professional,jdbcType=VARCHAR},
       professional_time = #{professionalTime,jdbcType=DATE},
-      is_leader = #{isLeader,jdbcType=INTEGER}
+      role_id = #{roleId,jdbcType=INTEGER}
     where teacher_no = #{teacherNo,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select teacher_no, teacher_name, gender, password, birth, degree, graduated, political, 
-    entry_year, sum_hour, dept_id, professional, professional_time, is_leader
+    entry_year, sum_hour, dept_id, professional, professional_time, role_id
     from ts_teacher
     where teacher_no = #{teacherNo,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select teacher_no, teacher_name, gender, password, birth, degree, graduated, political, 
-    entry_year, sum_hour, dept_id, professional, professional_time, is_leader
+    entry_year, sum_hour, dept_id, professional, professional_time, role_id
     from ts_teacher
   </select>
   <!-- 获取学院内所有教师 -->
   <select id="selectByDeptId" resultMap="BaseResultMap">
     select teacher_no, teacher_name, gender, password, birth, degree, graduated, political,
-    entry_year, sum_hour, dept_id, professional, professional_time, is_leader
+    entry_year, sum_hour, dept_id, professional, professional_time, role_id
     from ts_teacher where dept_id = #{deptId,jdbcType=VARCHAR}
   </select>
   <!-- 批量导入教师 -->
@@ -73,7 +73,7 @@
     insert into ts_teacher (teacher_no, teacher_name, gender,
       password, birth, degree,
       graduated, political, entry_year, sum_hour
-      dept_id, professional, professional_time, is_leader
+      dept_id, professional, professional_time, role_id
       )
     values
     <foreach collection="teachers" separator="," item="teacher">
@@ -84,7 +84,7 @@
       #{teacher.graduated,jdbcType=VARCHAR}, #{teacher.political,jdbcType=VARCHAR},
       #{teacher.entryYear,jdbcType=INTEGER}, #{teacher.sumHour,jdbcType=INTEGER},
       #{teacher.deptId,jdbcType=VARCHAR},#{teacher.professional,jdbcType=VARCHAR},
-      #{teacher.professionalTime,jdbcType=DATE}, #{teacher.isLeader,jdbcType=INTEGER}
+      #{teacher.professionalTime,jdbcType=DATE}, #{teacher.roleId,jdbcType=INTEGER}
     )
     </foreach>
   </insert>
@@ -96,7 +96,7 @@
   <!-- 根据教师名对学院内的教师进行模糊匹配 -->
   <select id="getTeachersMatchNameInDept" resultMap="BaseResultMap">
     select teacher_no, teacher_name, gender, password, birth, degree, graduated, political,
-    entry_year, sum_hour, dept_id, professional, professional_time, is_leader
+    entry_year, sum_hour, dept_id, professional, professional_time, role_id
     from ts_teacher where dept_id = #{deptId,jdbcType=VARCHAR}
     and teacher_name like concat('%', #{name,jdbcType=VARCHAR}, '%')
   </select>
@@ -108,4 +108,9 @@
         #{teacherNo,jdbcType=VARCHAR}
     </foreach>
   </select>
+  <update id="updateTeacherRole">
+  update ts_teacher
+  set role_id = case when role_id = 2 then 3 else 2 end
+  where teacher_no = #{teacherNo,jdbcType=VARCHAR}
+  </update>
 </mapper>

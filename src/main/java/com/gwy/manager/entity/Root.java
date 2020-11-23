@@ -5,6 +5,8 @@ public class Root {
 
     private String password;
 
+    private Integer roleId;
+
     public String getAccount() {
         return account;
     }
@@ -19,5 +21,13 @@ public class Root {
 
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 }

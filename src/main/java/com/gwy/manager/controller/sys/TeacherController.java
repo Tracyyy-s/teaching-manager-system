@@ -1,5 +1,6 @@
 package com.gwy.manager.controller.sys;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Teacher;
 import com.gwy.manager.entity.TeacherAssess;
@@ -7,6 +8,7 @@ import com.gwy.manager.service.impl.TeacherAssessServiceImpl;
 import com.gwy.manager.service.impl.TeacherCourseServiceImpl;
 import com.gwy.manager.service.impl.TeacherServiceImpl;
 import com.gwy.manager.service.impl.TermTargetServiceImpl;
+import com.gwy.manager.util.DateUtilCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +34,13 @@ public class TeacherController {
 
     @Autowired
     private TeacherAssessServiceImpl teacherAssessService;
+
+    @PostMapping("/getTeacherInfo")
+    public String getTeacherInfo(@RequestBody Map<String, String> map) {
+
+        String teacherNo = map.get("teacherNo");
+        return JSONObject.toJSONStringWithDateFormat(teacherService.getTeacherInfo(teacherNo), DateUtilCustom.DATE_PATTERN);
+    }
 
     /**
      * 教师修改密码

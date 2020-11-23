@@ -64,7 +64,8 @@
 <!--        <table tableName="ts_teacher_assess" domainObjectName="TeacherAssess"/>-->
 <!--        <table tableName="ts_term" domainObjectName="Term"/>-->
 <!--        <table tableName="ts_term_target" domainObjectName="TermTarget"/>-->
-            <table tableName="ts_root" domainObjectName="Root"/>
+<!--            <table tableName="ts_root" domainObjectName="Root"/>-->
 <!--        <table tableName="test" domainObjectName="TestTable"/>-->
+        <table tableName="ts_role" domainObjectName="Role"/>
     </context>
 </generatorConfiguration>

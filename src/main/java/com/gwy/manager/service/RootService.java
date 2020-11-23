@@ -15,7 +15,7 @@ public interface RootService {
      * @param password  密码
      * @return  结果集
      */
-    ResultVO login(String account, String password);
+    //ResultVO login(String account, String password);
 
     /**
      * root修改密码

@@ -29,7 +29,7 @@ public class Teacher {
 
     private Date professionalTime;
 
-    private Integer isLeader;
+    private Integer roleId;
 
     public String getTeacherNo() {
         return teacherNo;
@@ -135,12 +135,12 @@ public class Teacher {
         this.sumHour = sumHour;
     }
 
-    public Integer getIsLeader() {
-        return isLeader;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setIsLeader(Integer isLeader) {
-        this.isLeader = isLeader;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     @Override
@@ -158,7 +158,7 @@ public class Teacher {
                 ", deptId='" + deptId + '\'' +
                 ", professional='" + professional + '\'' +
                 ", professionalTime=" + professionalTime +
-                ", isLeader=" + isLeader +
+                ", roleId=" + roleId +
                 '}';
     }
 }

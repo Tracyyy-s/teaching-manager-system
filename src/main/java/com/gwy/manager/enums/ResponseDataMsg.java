@@ -11,7 +11,9 @@ public enum ResponseDataMsg {
     Success("Success"),
     Fail("Fail"),
     PermissionDeny("Permission Deny"),
-    BadRequest("Bad Request");
+    BadRequest("Bad Request"),
+    UserNameORPasswordError("Username or Password Error"),
+    NotLogin("Not Login! Login First!");
 
     ResponseDataMsg() {
     }

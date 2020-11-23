@@ -47,7 +47,7 @@ public interface StudentService {
      * @param password
      * @return
      */
-    ResultVO login(String studentNo, String password);
+    //ResultVO login(String studentNo, String password);
 
     /**
      * 获得学生信息

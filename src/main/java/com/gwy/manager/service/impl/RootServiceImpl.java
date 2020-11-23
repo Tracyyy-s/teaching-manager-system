@@ -13,6 +13,7 @@ import com.gwy.manager.service.RootService;
 import com.gwy.manager.util.MD5Util;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,30 +37,33 @@ public class RootServiceImpl implements RootService {
     @Autowired
     private DeptMapper deptMapper;
 
-    @Override
-    public ResultVO login(String account, String password) {
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-        ResultVO resultVO = new ResultVO();
-
-        Root root = rootMapper.getRoot();
-
-        if (account.equals(root.getAccount())) {
-            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
-        } else if (!root.getPassword().equals(MD5Util.inputToDb(password))) {
-            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
-        } else {
-            resultVO.success(ResponseDataMsg.Success.getMsg());
-        }
-
-        return resultVO;
-    }
+//    @Override
+//    public ResultVO login(String account, String password) {
+//
+//        ResultVO resultVO = new ResultVO();
+//
+//        Root root = rootMapper.getRoot();
+//
+//        if (account.equals(root.getAccount())) {
+//            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+//        } else if (!root.getPassword().equals(MD5Util.inputToDb(password))) {
+//            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
+//        } else {
+//            resultVO.success(ResponseDataMsg.Success.getMsg());
+//        }
+//
+//        return resultVO;
+//    }
 
     @Override
     public ResultVO updatePassword(String password) {
 
         ResultVO resultVO = new ResultVO();
 
-        int i = rootMapper.updatePassword(MD5Util.inputToDb(password));
+        int i = rootMapper.updatePassword(passwordEncoder.encode(password));
         if (i == 0) {
             resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {

@@ -1,17 +1,20 @@
 package com.gwy.manager.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
+import com.gwy.manager.constant.RoleName;
 import com.gwy.manager.entity.Dept;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Admin;
 import com.gwy.manager.mapper.AdminMapper;
 import com.gwy.manager.mapper.DeptMapper;
+import com.gwy.manager.mapper.RoleMapper;
 import com.gwy.manager.service.AdminService;
 import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.MD5Util;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,22 +33,28 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private DeptMapper deptMapper;
 
-    @Override
-    public ResultVO login(String adminNo, String password) {
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-        ResultVO resultVO = new ResultVO();
+    @Autowired
+    private RoleMapper roleMapper;
 
-        Admin admin = adminMapper.selectByPrimaryKey(adminNo);
-        if (admin == null) {
-            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
-        } else if (!admin.getPassword().equals(MD5Util.inputToDb(password))) {
-            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
-        } else {
-            resultVO.success(BeanUtil.beanToMap(admin));
-        }
-
-        return resultVO;
-    }
+//    @Override
+//    public ResultVO login(String adminNo, String password) {
+//
+//        ResultVO resultVO = new ResultVO();
+//
+//        Admin admin = adminMapper.selectByPrimaryKey(adminNo);
+//        if (admin == null) {
+//            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+//        } else if (!admin.getPassword().equals(MD5Util.inputToDb(password))) {
+//            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
+//        } else {
+//            resultVO.success(BeanUtil.beanToMap(admin));
+//        }
+//
+//        return resultVO;
+//    }
 
     @Transactional
     @Override
@@ -53,7 +62,7 @@ public class AdminServiceImpl implements AdminService {
 
         ResultVO resultVO = new ResultVO();
 
-        String newPassword = MD5Util.inputToDb(password);
+        String newPassword = passwordEncoder.encode(password);
 
         int i = adminMapper.updatePassword(adminNo, newPassword);
         if (i == 0) {
@@ -146,7 +155,13 @@ public class AdminServiceImpl implements AdminService {
             maxAdminNo = "10000";
         }
 
+        //设置管理员id
         admin.setAdminNo(String.valueOf(Integer.parseInt(maxAdminNo) + 1));
+        //设置加密密码
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        //设置角色id
+        admin.setRoleId(roleMapper.selectRoleIdByName(RoleName.ADMIN1));
+
         int i = adminMapper.insert(admin);
         if (i == 0) {
             resultVO.setData(ResponseDataMsg.Fail.getMsg());
@@ -207,7 +222,10 @@ public class AdminServiceImpl implements AdminService {
             sb.append(s).append(",");
         }
 
-        int i = adminMapper.updateDeptIds(adminNo, sb.toString());
+        String deptIds = sb.toString();
+        int deptCnt = deptIds.split(",").length;
+
+        int i = adminMapper.updateDeptIds(adminNo, deptIds, deptCnt);
         if (i == 0) {
             resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {

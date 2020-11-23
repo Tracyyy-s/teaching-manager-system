@@ -8,4 +8,6 @@ public interface RootMapper {
     Root getRoot();
 
     int updatePassword(@Param("password") String password);
+
+    Root selectByPrimaryKey(String account);
 }

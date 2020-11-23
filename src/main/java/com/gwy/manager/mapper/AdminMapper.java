@@ -22,5 +22,7 @@ public interface AdminMapper {
 
     String selectMaxAdminNo();
 
-    int updateDeptIds(@Param("adminNo") String adminNo, @Param("deptIds") String deptIds);
+    int updateDeptIds(@Param("adminNo") String adminNo,
+                      @Param("deptIds") String deptIds,
+                      @Param("deptCnt") Integer deptCnt);
 }

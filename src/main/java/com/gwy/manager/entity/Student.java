@@ -25,6 +25,8 @@ public class Student {
 
     private String entryYear;
 
+    private Integer roleId;
+
     public String getStudentNo() {
         return studentNo;
     }
@@ -105,6 +107,14 @@ public class Student {
         this.email = email;
     }
 
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -117,6 +127,7 @@ public class Student {
                 ", political='" + political + '\'' +
                 ", deptId='" + deptId + '\'' +
                 ", entryYear='" + entryYear + '\'' +
+                ", roleId=" + roleId +
                 '}';
     }
 }

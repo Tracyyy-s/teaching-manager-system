@@ -17,7 +17,7 @@ public interface AdminService {
      * @param password  管理员密码
      * @return  返回结果集
      */
-    ResultVO login(String adminNo, String password);
+    //ResultVO login(String adminNo, String password);
 
     /**
      * 修改密码

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
@@ -126,8 +127,14 @@ class ManagerApplicationTests {
     @Autowired
     private RootServiceImpl rootService;
 
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+
     @Test
     void test07() {
-        System.out.println(rootService.login(null, null).getData());
+        boolean b = passwordEncoder.matches("123456", "$2a$10$CO2FQwaBe16TrfoJSciAnOxY4W0vpVcVI0L9R6yrZnAn5Cg4ZxTdq");
+        System.out.println(b);
+
+        System.out.println(passwordEncoder.encode("123456"));
     }
 }

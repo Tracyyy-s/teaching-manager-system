@@ -11,6 +11,8 @@ public class Admin {
 
     private String availableDeptIds;
 
+    private Integer roleId;
+
     public String getAdminNo() {
         return adminNo;
     }
@@ -51,14 +53,22 @@ public class Admin {
         this.availableDeptIds = availableDeptIds;
     }
 
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
         return "Admin{" +
                 "adminNo='" + adminNo + '\'' +
                 ", adminName='" + adminName + '\'' +
-                ", password='" + password + '\'' +
                 ", deptId='" + deptId + '\'' +
                 ", availableDeptIds='" + availableDeptIds + '\'' +
+                ", roleId=" + roleId +
                 '}';
     }
 }

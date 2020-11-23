@@ -15,6 +15,7 @@ import com.gwy.manager.redis.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +42,9 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private RabbitmqProducer producer;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public int addStudent(Student student) {
         return studentMapper.insert(student);
@@ -65,24 +69,24 @@ public class StudentServiceImpl implements StudentService {
         return resultVO;
     }
 
-    @Override
-    public ResultVO login(String studentNo, String password) {
-        ResultVO resultVO = new ResultVO();
-
-        Student student = this.getStudent(studentNo);
-
-        if (student == null) {
-            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
-        } else if (!MD5Util.inputToDb(password).equals(student.getPassword())) {
-            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
-        } else {
-            Map<String, String> map = new HashMap<>();
-            map.put("role", UserOption.STUDENT.getUserType());
-            resultVO.success(map);
-        }
-
-        return resultVO;
-    }
+//    @Override
+//    public ResultVO login(String studentNo, String password) {
+//        ResultVO resultVO = new ResultVO();
+//
+//        Student student = this.getStudent(studentNo);
+//
+//        if (student == null) {
+//            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+//        } else if (!MD5Util.inputToDb(password).equals(student.getPassword())) {
+//            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
+//        } else {
+//            Map<String, String> map = new HashMap<>();
+//            map.put("role", UserOption.STUDENT.getUserType());
+//            resultVO.success(map);
+//        }
+//
+//        return resultVO;
+//    }
 
     @Transactional
     @Override
@@ -97,7 +101,7 @@ public class StudentServiceImpl implements StudentService {
         } else if (!vrCode.equals(code)) {
             resultVO.setData("Code Error");
         } else {
-            int result = studentMapper.updatePassword(studentNo, MD5Util.inputToDb(password));
+            int result = studentMapper.updatePassword(studentNo, passwordEncoder.encode(password));
             if (result == 0) {
                 resultVO.setData(ResponseDataMsg.Fail.getMsg());
             } else {

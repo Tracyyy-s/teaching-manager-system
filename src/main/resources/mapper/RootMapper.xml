@@ -4,13 +4,19 @@
   <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Root" >
     <result column="account" property="account" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER"/>
   </resultMap>
   <select id="getRoot" resultMap="BaseResultMap">
-    select account, password
+    select account, password, role_id
     from ts_root
   </select>
   <update id="updatePassword">
     update ts_root
     set password = #{password,jdbcType=VARCHAR}
   </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select account, password, role_id
+    from ts_root
+    where account = #{account,jdbcType=VARCHAR}
+  </select>
 </mapper>
