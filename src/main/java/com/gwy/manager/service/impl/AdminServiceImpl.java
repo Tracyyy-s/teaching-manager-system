@@ -116,7 +116,6 @@ public class AdminServiceImpl implements AdminService {
         //通过id列表获得dept列表
         Map<String, Dept> deptList = deptMapper.getDeptByIds(deptIdList);
 
-        int i = 1;
         for (Admin admin : admins) {
             Map<String, String> tmpMap = new LinkedHashMap<>();
             tmpMap.put("adminNo", admin.getAdminNo());
