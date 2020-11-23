@@ -58,13 +58,13 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
         //获得当前学期
         String currentTerm = termMapper.getCurrentTerm(DateUtilCustom.getDate());
         try {
-            List<TeacherCourse> courses = teacherCourseMapper
+            List<TeacherCourse> teacherCourses = teacherCourseMapper
                     .getTeacherCoursesByTeacherNoAndTermId(teacherNo, currentTerm);
 
-            if (courses.size() == 0) {
+            if (teacherCourses.size() == 0) {
                 resultVO.setData(ResponseDataMsg.NotFound.getMsg());
             } else {
-                resultVO.success(courses);
+                resultVO.success(this.teacherCourseFormat(teacherCourses));
             }
         } catch (Exception e) {
             resultVO.setData(ResponseDataMsg.Fail.getMsg());
@@ -84,52 +84,56 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
         if (teacherCourses.size() == 0) {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
-            Collection<Map<String, Object>> maps = BeanUtil.beansToList(teacherCourses);
-
-            List<String> courseNos = new ArrayList<>();
-            List<String> teacherNos = new ArrayList<>();
-
-            for (Map<String, Object> map : maps) {
-                //先将教师号和课程号添加至列表以便查找
-                courseNos.add((String) map.get("courseNo"));
-                teacherNos.add((String) map.get("teacherNo"));
-
-                //将上课时间格式化
-                String allTime = (String) map.get("time");
-                String[] times = allTime.split(",");
-
-                Map<String, Object> timeMap = new LinkedHashMap<>();
-                int i = 0;
-                for (String time : times) {
-                    Map<String, String> classes = new LinkedHashMap<>();
-
-                    String[] s = time.split("_");
-                    classes.put("day", s[0]);
-
-                    String[] numClass = s[1].split("-");
-                    classes.put("clock", "第" + numClass[0] + "节-第" + numClass[1] + "节");
-
-                    timeMap.put("第" + (++i) + "次", classes);
-                }
-
-                map.put("time", timeMap);
-            }
-
-            List<Course> courses = courseMapper.getCoursesByIds(courseNos);
-            List<String> teacherNames = teacherMapper.getTeachersByIds(teacherNos);
-
-            int i = 0;
-            for (Map<String, Object> map : maps) {
-                map.put("courseName", courses.get(i).getCourseName());
-                map.put("courseHour", courses.get(i).getHour());
-                map.put("credit", courses.get(i).getCredit());
-                map.put("teacherName", teacherNames.get(i));
-
-                i++;
-            }
-            resultVO.success(maps);
+            resultVO.success(this.teacherCourseFormat(teacherCourses));
         }
 
         return resultVO;
+    }
+
+    private Collection<Map<String, Object>> teacherCourseFormat(List<TeacherCourse> teacherCourses) {
+        Collection<Map<String, Object>> maps = BeanUtil.beansToList(teacherCourses);
+
+        List<String> courseNos = new ArrayList<>();
+        List<String> teacherNos = new ArrayList<>();
+
+        for (Map<String, Object> map : maps) {
+            //先将教师号和课程号添加至列表以便查找
+            courseNos.add((String) map.get("courseNo"));
+            teacherNos.add((String) map.get("teacherNo"));
+
+            //将上课时间格式化
+            String allTime = (String) map.get("time");
+            String[] times = allTime.split(",");
+
+            Map<String, Object> timeMap = new LinkedHashMap<>();
+            int i = 0;
+            for (String time : times) {
+                Map<String, String> classes = new LinkedHashMap<>();
+
+                String[] s = time.split("_");
+                classes.put("day", s[0]);
+
+                String[] numClass = s[1].split("-");
+                classes.put("clock", "第" + numClass[0] + "节-第" + numClass[1] + "节");
+
+                timeMap.put("第" + (++i) + "次", classes);
+            }
+
+            map.put("time", timeMap);
+        }
+
+        List<Course> courses = courseMapper.getCoursesByIds(courseNos);
+        List<String> teacherNames = teacherMapper.getTeachersByIds(teacherNos);
+
+        int i = 0;
+        for (Map<String, Object> map : maps) {
+            map.put("courseName", courses.get(i).getCourseName());
+            map.put("courseHour", courses.get(i).getHour());
+            map.put("credit", courses.get(i).getCredit());
+            map.put("teacherName", teacherNames.get(i));
+
+            i++;
+        }
+        return maps;
     }
 }
