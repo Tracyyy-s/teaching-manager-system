@@ -222,9 +222,23 @@ public class AdminServiceImpl implements AdminService {
         }
 
         String deptIds = sb.toString();
-        int deptCnt = deptIds.split(",").length;
 
-        int i = adminMapper.updateDeptIds(adminNo, deptIds, deptCnt);
+        int i = adminMapper.updateDeptIds(adminNo, deptIds);
+        if (i == 0) {
+            resultVO.setData(ResponseDataMsg.Fail.getMsg());
+        } else {
+            resultVO.success(ResponseDataMsg.Success.getMsg());
+        }
+
+        return resultVO;
+    }
+
+    @Override
+    public ResultVO updateAdminRole(String adminNo) {
+
+        ResultVO resultVO = new ResultVO();
+
+        int i = adminMapper.updateAdminRole(adminNo);
         if (i == 0) {
             resultVO.setData(ResponseDataMsg.Fail.getMsg());
         } else {

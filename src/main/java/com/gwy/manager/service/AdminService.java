@@ -67,4 +67,11 @@ public interface AdminService {
      * @return  结果集
      */
     ResultVO updateDeptIds(String adminNo, List<String> list);
+
+    /**
+     * 修改管理员的身份
+     * @param adminNo   管理员id
+     * @return  结果集
+     */
+    ResultVO updateAdminRole(String adminNo);
 }

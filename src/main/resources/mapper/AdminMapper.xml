@@ -48,8 +48,12 @@
   </select>
   <update id="updateDeptIds">
     update ts_admin
-    set available_dept_ids = #{deptIds,jdbcType=VARCHAR},
-    role_id = case when #{deptCnt,jdbcType=INTEGER} = 1 then 4 else 5 end
+    set available_dept_ids = #{deptIds,jdbcType=VARCHAR}
+    where admin_no = #{adminNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateAdminRole">
+    update ts_admin
+    set role_id = case when role_id = 4 then 5 else 4 end
     where admin_no = #{adminNo,jdbcType=VARCHAR}
   </update>
 </mapper>

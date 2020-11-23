@@ -130,4 +130,17 @@ public class RootController {
         String adminNo = (String) map.get("adminNo");
         return adminService.updateDeptIds(adminNo, list);
     }
+
+    /**
+     * 修改管理员的身份
+     * 高级管理员可设置普通教师为督导
+     * @param map
+     * @return
+     */
+    @PostMapping("/updateAdminRole")
+    public ResultVO updateAdminROle(@RequestBody Map<String, String> map) {
+
+        String adminNo = map.get("adminNo");
+        return adminService.updateAdminRole(adminNo);
+    }
 }
