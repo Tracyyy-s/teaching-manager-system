@@ -37,4 +37,20 @@
     from ts_role
     where role_name = #{roleName,jdbcType=VARCHAR}
   </select>
+  <!-- 查找用户拥有的所有角色 -->
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select role_id, role_name
+    from ts_role
+    where role_id in (select role_id
+                      from ts_user_role
+                      where user_id = #{userId,jdbcType=VARCHAR})
+  </select>
+  <select id="selectRoleIdsByNames" resultType="java.lang.Integer">
+    select role_id
+    from ts_role
+    where role_name in
+    <foreach collection="roleNames" item="roleName" open="(" close=")" separator=",">
+        #{roleName,jdbcType=VARCHAR}
+    </foreach>
+  </select>
 </mapper>

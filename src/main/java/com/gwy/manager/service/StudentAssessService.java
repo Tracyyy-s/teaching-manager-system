@@ -16,7 +16,7 @@ public interface StudentAssessService {
      * @param studentAssess 学生评价
      * @return  影响行数
      */
-    int addStudentAssess(StudentAssess studentAssess);
+    ResultVO addStudentAssess(StudentAssess studentAssess);
 
     /**
      * 删除学生对某课程的评价
@@ -25,13 +25,6 @@ public interface StudentAssessService {
      * @return
      */
     int deleteAppraise(String studentNo, String tcId);
-
-    /**
-     * 修改学生对某课程的评价
-     * @param studentAssess
-     * @return
-     */
-    ResultVO updateAppraise(StudentAssess studentAssess);
 
     /**
      * 获取学生对某课程的评价

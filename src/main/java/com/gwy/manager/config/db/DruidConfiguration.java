@@ -1,4 +1,4 @@
-package com.gwy.manager.config;
+package com.gwy.manager.config.db;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
@@ -21,10 +22,11 @@ import java.util.Map;
  * @date 2020/11/1 16:46
  */
 @Configuration
+@PropertySource({"classpath:db-config.properties"})
 public class DruidConfiguration {
 
     @Bean
-    @ConfigurationProperties("spring.datasource")
+    @ConfigurationProperties(prefix = "db")
     public DataSource dataSource() {
         return new DruidDataSource();
     }

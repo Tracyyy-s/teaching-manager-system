@@ -19,8 +19,8 @@ public interface MajorMapper {
 
     /**
      * 获得某学院的所有专业
-     * @param deptId
-     * @return
+     * @param deptId    学院id
+     * @return  返回结果
      */
     List<Major> selectByDept(String deptId);
 }

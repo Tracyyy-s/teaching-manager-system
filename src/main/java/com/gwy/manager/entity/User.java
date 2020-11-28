@@ -2,14 +2,16 @@ package com.gwy.manager.entity;
 
 import java.util.Date;
 
-public class Teacher {
-    private String teacherNo;
+public class User {
+    private String userId;
 
-    private String teacherName;
+    private String username;
 
     private Integer gender;
 
     private String password;
+
+    private String email;
 
     private Date birth;
 
@@ -29,22 +31,22 @@ public class Teacher {
 
     private Date professionalTime;
 
-    private Integer roleId;
+    private String availableDeptIds;
 
-    public String getTeacherNo() {
-        return teacherNo;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setTeacherNo(String teacherNo) {
-        this.teacherNo = teacherNo == null ? null : teacherNo.trim();
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getTeacherName() {
-        return teacherName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName == null ? null : teacherName.trim();
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Integer getGender() {
@@ -60,7 +62,7 @@ public class Teacher {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public Date getBirth() {
@@ -76,7 +78,7 @@ public class Teacher {
     }
 
     public void setDegree(String degree) {
-        this.degree = degree == null ? null : degree.trim();
+        this.degree = degree;
     }
 
     public String getGraduated() {
@@ -84,7 +86,7 @@ public class Teacher {
     }
 
     public void setGraduated(String graduated) {
-        this.graduated = graduated == null ? null : graduated.trim();
+        this.graduated = graduated;
     }
 
     public String getPolitical() {
@@ -92,7 +94,7 @@ public class Teacher {
     }
 
     public void setPolitical(String political) {
-        this.political = political == null ? null : political.trim();
+        this.political = political;
     }
 
     public Integer getEntryYear() {
@@ -103,12 +105,20 @@ public class Teacher {
         this.entryYear = entryYear;
     }
 
+    public Integer getSumHour() {
+        return sumHour;
+    }
+
+    public void setSumHour(Integer sumHour) {
+        this.sumHour = sumHour;
+    }
+
     public String getDeptId() {
         return deptId;
     }
 
     public void setDeptId(String deptId) {
-        this.deptId = deptId == null ? null : deptId.trim();
+        this.deptId = deptId;
     }
 
     public String getProfessional() {
@@ -116,7 +126,7 @@ public class Teacher {
     }
 
     public void setProfessional(String professional) {
-        this.professional = professional == null ? null : professional.trim();
+        this.professional = professional;
     }
 
     public Date getProfessionalTime() {
@@ -127,28 +137,29 @@ public class Teacher {
         this.professionalTime = professionalTime;
     }
 
-    public Integer getSumHour() {
-        return sumHour;
+    public String getAvailableDeptIds() {
+        return availableDeptIds;
     }
 
-    public void setSumHour(Integer sumHour) {
-        this.sumHour = sumHour;
+    public void setAvailableDeptIds(String availableDeptIds) {
+        this.availableDeptIds = availableDeptIds;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
     public String toString() {
-        return "Teacher{" +
-                "teacherNo='" + teacherNo + '\'' +
-                ", teacherName='" + teacherName + '\'' +
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", username='" + username + '\'' +
                 ", gender=" + gender +
+                ", email='" + email + '\'' +
                 ", birth=" + birth +
                 ", degree='" + degree + '\'' +
                 ", graduated='" + graduated + '\'' +
@@ -158,7 +169,7 @@ public class Teacher {
                 ", deptId='" + deptId + '\'' +
                 ", professional='" + professional + '\'' +
                 ", professionalTime=" + professionalTime +
-                ", roleId=" + roleId +
+                ", availableDeptIds='" + availableDeptIds + '\'' +
                 '}';
     }
 }

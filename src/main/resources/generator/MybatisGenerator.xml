@@ -15,7 +15,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://cdb-neqw262o.cd.tencentcdb.com:10127/TeachingDB?useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;nullCatalogMeansCurrent=true&amp;serverTimezone=UTC"
+                        connectionURL="jdbc:mysql://cdb-neqw262o.cd.tencentcdb.com:10127/TQMS?useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;nullCatalogMeansCurrent=true&amp;serverTimezone=UTC"
                         userId="root"
                         password="GONGRAN0812qweabc!">
         </jdbcConnection>
@@ -27,7 +27,7 @@
         <!--    配置Java实体类生成位置    -->
         <javaModelGenerator
                 targetPackage="com.gwy.manager.entity"
-                targetProject="D:/IDEA_/SpringBoot-plus/Teaching-quality--management-system/src/main/java">
+                targetProject="F:\GitHubRepository\NewTQMS\src\main\java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -35,7 +35,7 @@
         <!--    sql映射文件生成位置    -->
         <sqlMapGenerator
                 targetPackage="mapper"
-                targetProject="D:/IDEA_/SpringBoot-plus/Teaching-quality--management-system/src/main/resources">
+                targetProject="F:\GitHubRepository\NewTQMS\src\main\resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
@@ -43,7 +43,7 @@
         <javaClientGenerator
                 type="XMLMAPPER"
                 targetPackage="com.gwy.manager.mapper"
-                targetProject="D:/IDEA_/SpringBoot-plus/Teaching-quality--management-system/src/main/java">
+                targetProject="F:\GitHubRepository\NewTQMS\src\main\java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
@@ -66,6 +66,10 @@
 <!--        <table tableName="ts_term_target" domainObjectName="TermTarget"/>-->
 <!--            <table tableName="ts_root" domainObjectName="Root"/>-->
 <!--        <table tableName="test" domainObjectName="TestTable"/>-->
-        <table tableName="ts_role" domainObjectName="Role"/>
+<!--        <table tableName="ts_role" domainObjectName="Role"/>-->
+<!--        <table tableName="ts_user" domainObjectName="User"/>-->
+<!--        <table tableName="ts_user_role" domainObjectName="UserRole"/>-->
+        <table tableName="ts_permission" domainObjectName="Permission"/>
+        <table tableName="ts_role_permission" domainObjectName="RolePermission"/>
     </context>
 </generatorConfiguration>

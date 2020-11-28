@@ -33,4 +33,11 @@ public interface TeacherAssessService {
      * @return  返回列表
      */
     List<TeacherAssess> getTeacherAssessesByTermAndDept(String deptId, String termId);
+
+    /**
+     * 获得某用户的历史评价
+     * @param tno   教师用户id
+     * @return  结果集
+     */
+    ResultVO getHistoryAssessesOfTeacher(String tno);
 }

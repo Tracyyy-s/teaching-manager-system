@@ -20,8 +20,8 @@ public interface StudentMapper {
 
     /**
      * 批量添加学生
-     * @param students
-     * @return
+     * @param students  学生列表
+     * @return  结果集
      */
     int insertStudentBatch(@Param("students") List<Student> students);
 

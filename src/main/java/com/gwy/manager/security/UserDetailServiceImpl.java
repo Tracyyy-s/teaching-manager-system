@@ -1,20 +1,19 @@
 package com.gwy.manager.security;
 
-import com.gwy.manager.entity.Admin;
-import com.gwy.manager.entity.Root;
-import com.gwy.manager.entity.Student;
-import com.gwy.manager.entity.Teacher;
+import com.gwy.manager.entity.*;
 import com.gwy.manager.mapper.*;
 import com.gwy.manager.redis.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,13 +27,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private StudentMapper studentMapper;
 
     @Autowired
-    private AdminMapper adminMapper;
-
-    @Autowired
-    private TeacherMapper teacherMapper;
-
-    @Autowired
-    private RootMapper rootMapper;
+    private UserMapper userMapper;
 
     @Autowired
     private RoleMapper roleMapper;
@@ -45,24 +38,16 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
         //权限集合
-        List<GrantedAuthority> role;
+        List<GrantedAuthority> roles = new ArrayList<>();
         //用户密码
         String password;
 
         Object object = studentMapper.selectByPrimaryKey(account);
         if (object == null) {
-            object = teacherMapper.selectByPrimaryKey(account);
+            object = userMapper.selectByPrimaryKey(account);
 
             if (object == null) {
-                object = adminMapper.selectByPrimaryKey(account);
-
-                if (object == null) {
-                    object = rootMapper.selectByPrimaryKey(account);
-
-                    if (object == null) {
-                        throw new UsernameNotFoundException(account + " Not Found");
-                    }
-                }
+                throw new UsernameNotFoundException(account + " Not Found");
             }
         }
 
@@ -70,39 +55,38 @@ public class UserDetailServiceImpl implements UserDetailsService {
             Student student = (Student) object;
 
             password = student.getPassword();
-            role = AuthorityUtils.commaSeparatedStringToAuthorityList(
-                            "ROLE_" + roleMapper.selectRoleNameById(student.getRoleId()));
+            Role studentRole = roleMapper.selectByUserId(student.getStudentNo()).get(0);
+            roles = AuthorityUtils.commaSeparatedStringToAuthorityList(
+                            "ROLE_" + studentRole.getRoleName());
 
-        } else if (object instanceof Teacher) {
-            Teacher teacher = (Teacher) object;
-
-            password = teacher.getPassword();
-            role = AuthorityUtils
-                    .commaSeparatedStringToAuthorityList(
-                            "ROLE_" + roleMapper.selectRoleNameById(teacher.getRoleId()));
-        } else if (object instanceof Admin) {
-            Admin admin = (Admin) object;
-
-            password = admin.getPassword();
-            role = AuthorityUtils.commaSeparatedStringToAuthorityList(
-                            "ROLE_" + roleMapper.selectRoleNameById(admin.getRoleId()));
         } else {
-            Root root = (Root) object;
+            com.gwy.manager.entity.User user = ((com.gwy.manager.entity.User) object);
 
-            password = root.getPassword();
-            role = AuthorityUtils.commaSeparatedStringToAuthorityList(
-                    "ROLE_" + roleMapper.selectRoleNameById(root.getRoleId()));
+            password = user.getPassword();
+            List<Role> roleList = roleMapper.selectByUserId(user.getUserId());
+
+            //遍历用户的角色
+            for (Role role : roleList) {
+                roles.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = roles.size() - 1; i >= 0; i--) {
+            sb.append(roles.get(i).toString().split("_")[1]);
+            if (i != 0) {
+                sb.append("|");
+            }
         }
 
         //获得该用户在redis中的key
-        String keyInRedis = redisUtil.getUserKeyInRedis(role.get(0).toString(), account);
-
+        String keyInRedis = redisUtil.getUserKeyInRedis(sb.toString(), account);
         //将用户添加进redis
         redisUtil.set(keyInRedis, object);
 
         //设置用户在redis中的过期时间
         redisUtil.expire(keyInRedis, 60 * 60 * 24);
 
-        return new User(account, password, role);
+        return new User(account, password, roles);
     }
 }

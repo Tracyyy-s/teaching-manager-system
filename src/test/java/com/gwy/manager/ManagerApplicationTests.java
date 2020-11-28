@@ -1,14 +1,9 @@
 package com.gwy.manager;
 
-import ch.qos.logback.core.util.FileUtil;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.*;
 import com.gwy.manager.mapper.*;
-import com.gwy.manager.service.impl.RootServiceImpl;
 import com.gwy.manager.service.impl.TargetServiceImpl;
-import com.gwy.manager.util.BeanUtil;
-import com.gwy.manager.util.MD5Util;
-import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @SpringBootTest
 class ManagerApplicationTests {
@@ -85,11 +81,6 @@ class ManagerApplicationTests {
     }
 
     @Test
-    void test04() {
-        System.out.println(MD5Util.inputToDb("123456"));
-    }
-
-    @Test
     void test05() {
         Integer[] ins = new Integer[20];
 
@@ -104,37 +95,18 @@ class ManagerApplicationTests {
     }
 
     @Autowired
-    private DeptMapper deptMapper;
-
-    @Test
-    void test06() {
-        Map<String, String> map = null;
-        try {
-            map = BeanUtils.describe(new Teacher());
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        map.remove("class");
-        map.remove("password");
-
-
-        System.out.println(map);
-    }
-
-    @Autowired
-    private CourseMapper courseMapper;
-
-    @Autowired
-    private RootServiceImpl rootService;
-
-    @Autowired
     BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    UserMapper userMapper;
 
     @Test
     void test07() {
-        boolean b = passwordEncoder.matches("123456", "$2a$10$CO2FQwaBe16TrfoJSciAnOxY4W0vpVcVI0L9R6yrZnAn5Cg4ZxTdq");
-        System.out.println(b);
+        String pattern = "^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$";
 
-        System.out.println(passwordEncoder.encode("123456"));
+        String email = "1111@qq.com";
+
+        boolean matches = Pattern.matches(pattern, email);
+        System.out.println(matches);
     }
 }

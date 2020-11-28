@@ -5,9 +5,7 @@ import java.util.List;
 
 /**
  * 定义表格的数据对象
- * @author JIANGYOUYAO
- * @email 935090232@qq.com
- * @date 2017年12月20日
+ * @author Tracy
  */
 public class ExcelSheetPO {
 

@@ -1,8 +1,8 @@
-package com.gwy.manager.controller.admin;
+package com.gwy.manager.controller.sys.user;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.enums.ResponseStatus;
+import com.gwy.manager.entity.Student;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.service.impl.*;
@@ -11,8 +11,6 @@ import com.gwy.manager.util.ExcelHeaderFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -25,13 +23,7 @@ import java.util.Map;
 public class AdminController {
 
     @Autowired
-    private AdminServiceImpl adminService;
-
-    @Autowired
     private TargetServiceImpl targetService;
-
-    @Autowired
-    private TeacherServiceImpl teacherService;
 
     @Autowired
     private CourserServiceImpl courserService;
@@ -39,40 +31,8 @@ public class AdminController {
     @Autowired
     private StudentServiceImpl studentService;
 
-//    /**
-//     * 管理员登录
-//     * @param map   请求体
-//     * @param session   会话
-//     * @return  结果集
-//     */
-//    @PostMapping("/login")
-//    public ResultVO login(@RequestBody Map<String, String> map,
-//                          HttpSession session) {
-//
-//        String adminNo = map.get("adminNo");
-//        String password = map.get("password");
-//
-//        ResultVO resultVO = adminService.login(adminNo, password);
-//
-//        if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
-//            session.setAttribute("admin", resultVO.getData());
-//        }
-//
-//        return resultVO;
-//    }
-
-    /**
-     * 管理员修改密码
-     * @param map   请求体
-     * @return  结果集
-     */
-    @PostMapping("/updatePassword")
-    public ResultVO updatePassword(@RequestBody Map<String, String> map) {
-
-        String adminNo = map.get("adminNo");
-        String password = map.get("password");
-        return adminService.updatePassword(adminNo, password);
-    }
+    @Autowired
+    private UserServiceImpl userService;
 
     /**
      * 获得评价指标
@@ -159,7 +119,7 @@ public class AdminController {
     @PostMapping("/getTeachersByDept")
     public String getTeachersByDept(@RequestBody Map<String, String> map) {
         String deptId = map.get("deptId");
-        return JSONObject.toJSONStringWithDateFormat(teacherService.getTeachersOfDept(deptId), DateUtilCustom.DATE_PATTERN);
+        return JSONObject.toJSONStringWithDateFormat(userService.getUsersOfDept(deptId), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
@@ -167,12 +127,12 @@ public class AdminController {
      * @param map   请求体
      * @return  结果集
      */
-    @PostMapping("/getTeacherByTeacherNo")
+    @PostMapping("/getTeacherById")
     public String getTeacher(@RequestBody Map<String, String> map) {
 
-        String deptId = map.get("deptId");
-        String teacherNo = map.get("teacherNo");
-        return JSONObject.toJSONStringWithDateFormat(teacherService.getTeacherByTnoInDept(deptId, teacherNo), DateUtilCustom.DATE_PATTERN);
+        String adminNo = map.get("adminNo");
+        String userId = map.get("userId");
+        return JSONObject.toJSONStringWithDateFormat(userService.getUserById(adminNo, userId), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
@@ -183,9 +143,10 @@ public class AdminController {
     @PostMapping("/getTeachersMatchNameInDept")
     public String getTeachersMatchNameInDept(@RequestBody Map<String, String> map) {
 
+        String adminNo = map.get("adminNo");
         String deptId = map.get("deptId");
         String name = map.get("name");
-        return JSONObject.toJSONStringWithDateFormat(teacherService.getTeacherMatchNameInDept(deptId, name), DateUtilCustom.DATE_PATTERN);
+        return JSONObject.toJSONStringWithDateFormat(userService.getUserMatchNameInDept(adminNo, deptId, name), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
@@ -208,8 +169,9 @@ public class AdminController {
     @PostMapping("/getStudentById")
     public String getStudentByStudentNo(@RequestBody Map<String, String> map) {
 
+        String adminNo = map.get("adminNo");
         String studentNo = map.get("studentNo");
-        return JSONObject.toJSONStringWithDateFormat(studentService.getStudentInfo(studentNo), DateUtilCustom.DATE_PATTERN);
+        return JSONObject.toJSONStringWithDateFormat(studentService.getStudentInfoByAdmin(adminNo, studentNo), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
@@ -220,9 +182,21 @@ public class AdminController {
     @PostMapping("/getStudentsMatchNameInDept")
     public String getStudentsMatchName(@RequestBody Map<String, String> map) {
 
+        String adminNo = map.get("adminNo");
         String deptId = map.get("deptId");
         String name = map.get("name");
-        return JSONObject.toJSONStringWithDateFormat(studentService.getStudentsMatchName(deptId, name), DateUtilCustom.DATE_PATTERN);
+        return JSONObject.toJSONStringWithDateFormat(studentService.getStudentsMatchName(adminNo, deptId, name), DateUtilCustom.DATE_PATTERN);
+    }
+
+    /**
+     * 管理员修改学生信息
+     * @param student   学生信息
+     * @return  结果集
+     */
+    @PostMapping("/updateStudentInfo")
+    public ResultVO updateStudentInfo(@RequestBody Student student) {
+
+        return studentService.updateStudent(student);
     }
 
     /**
@@ -233,8 +207,20 @@ public class AdminController {
     @PostMapping("/getCoursesOfTeacher")
     public ResultVO getCoursesOfTeacher(@RequestBody Map<String, String> map) {
 
-        String teacherNo = map.get("teacherNo");
-        return courserService.getCoursesOfTeacher(teacherNo);
+        String userId = map.get("userId");
+        return courserService.getCoursesOfTeacher(userId);
+    }
+
+    /**
+     * 获得用户可管理的学院
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("getDeptsOfUser")
+    public ResultVO getDeptsOfUsr(@RequestBody Map<String, String> map) {
+
+        String userId = map.get("userId");
+        return userService.getDeptIdsOfUser(userId);
     }
 
     /**
@@ -244,9 +230,8 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/importTeachers")
-    public ResultVO importTeachers(@RequestParam("deptId") String deptId,
+    public String importTeachers(@RequestParam("deptId") String deptId,
                                    @RequestParam("file") MultipartFile file) {
-        return teacherService.importTeachersByFile(deptId, ExcelHeaderFormat.TeacherExcel, file);
+        return JSONObject.toJSONStringWithDateFormat(userService.importUsersByFile(deptId, ExcelHeaderFormat.TeacherExcel, file), DateUtilCustom.DATE_PATTERN);
     }
-
 }

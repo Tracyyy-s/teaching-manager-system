@@ -1,4 +1,4 @@
-package com.gwy.manager.entity;
+package com.gwy.manager.mail;
 
 /**
  * @author Tracy

@@ -1,6 +1,8 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Role;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface RoleMapper {
@@ -17,4 +19,8 @@ public interface RoleMapper {
     String selectRoleNameById(Integer roleId);
 
     Integer selectRoleIdByName(String roleName);
+
+    List<Integer> selectRoleIdsByNames(@Param("roleNames") List<String> roleNames);
+
+    List<Role> selectByUserId(String userId);
 }

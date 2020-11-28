@@ -38,7 +38,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
             logger.error("Authentication is null");
             resultVO.setData(ResponseDataMsg.NotLogin.getMsg());
         } else {
-            String roleName = AuthenticationUtil.getRoleName(authentication);
+            String roleName = AuthenticationUtil.getRoleNameNotWithRole(authentication);
             String username = AuthenticationUtil.getUsername(authentication);
 
             //获得redis中User的Key

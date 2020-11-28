@@ -44,6 +44,12 @@
   <!-- 获得教师在本学期的所有评价 -->
   <select id="getTeacherAssessesByDeptAndTerm" resultMap="BaseResultMap">
     select teacher_no, assessed_teacher_no, term_id, appraise_score, submit_time, appraise_content
-    from ts_teacher_assess where
+    from ts_teacher_assess
+    where dept_id = #{deptId,jdbcType=VARCHAR} and term_id = #{termId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllByTno" resultMap="BaseResultMap">
+    select teacher_no, assessed_teacher_no, term_id, appraise_score, submit_time, appraise_content
+    from ts_teacher_assess
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR}
   </select>
 </mapper>

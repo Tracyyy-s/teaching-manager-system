@@ -1,13 +1,11 @@
-package com.gwy.manager.controller.sys;
+package com.gwy.manager.controller.sys.student;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.StudentAssess;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
-import org.apache.ibatis.annotations.Param;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +20,6 @@ import java.util.Map;
 @RequestMapping("/student")
 public class StudentController {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private StudentServiceImpl studentService;
 
@@ -35,9 +31,6 @@ public class StudentController {
 
     @Autowired
     private StudentAssessServiceImpl studentAssessService;
-
-    @Autowired
-    private TermServiceImpl termService;
 
     /**
      * 修改密码
@@ -53,6 +46,11 @@ public class StudentController {
         return studentService.updatePassword(studentNo, password, vrCode);
     }
 
+    /**
+     * 获得学生信息
+     * @param map   请求体
+     * @return  结果集
+     */
     @PostMapping("/getStudentInfo")
     public String getStudentInfo(@RequestBody Map<String, String> map) {
 
@@ -88,13 +86,12 @@ public class StudentController {
 
     /**
      * 学生发送课程评价请求
-     *
      * @param studentAssess 学生评价
      * @return 返回结果
      */
     @PostMapping("/postAssess")
     public ResultVO postAssess(@RequestBody StudentAssess studentAssess) {
-        return studentAssessService.updateAppraise(studentAssess);
+        return studentAssessService.addStudentAssess(studentAssess);
     }
 
     /**

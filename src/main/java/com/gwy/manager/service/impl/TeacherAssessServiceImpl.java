@@ -7,6 +7,8 @@ import com.gwy.manager.mapper.TeacherAssessMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.TeacherAssessService;
 import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.ResultVOUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,16 +31,21 @@ public class TeacherAssessServiceImpl implements TeacherAssessService {
     @Override
     public ResultVO addTeacherAssess(TeacherAssess teacherAssess) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
-        Date time = DateUtilCustom.getTime();
-        teacherAssess.setSubmitTime(time);
+        if (teacherAssessMapper.selectByPrimaryKey(teacherAssess.getTeacherNo(),
+                teacherAssess.getAssessedTeacherNo(), teacherAssess.getTermId()) != null) {
 
-        int i = teacherAssessMapper.insert(teacherAssess);
-        if (i == 0) {
-            resultVO.setData(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVOUtil.error("Already Exist");
         } else {
-            resultVO.success(ResponseDataMsg.Success.getMsg());
+            teacherAssess.setSubmitTime(DateUtilCustom.getTime());
+
+            int i = teacherAssessMapper.insert(teacherAssess);
+            if (i == 0) {
+                resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            } else {
+                resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+            }
         }
 
         return resultVO;
@@ -52,5 +59,20 @@ public class TeacherAssessServiceImpl implements TeacherAssessService {
     @Override
     public List<TeacherAssess> getTeacherAssessesByTermAndDept(String deptId, String termId) {
         return teacherAssessMapper.getTeacherAssessesByDeptAndTerm(deptId, termId);
+    }
+
+    @Override
+    public ResultVO getHistoryAssessesOfTeacher(String tno) {
+
+        ResultVO resultVO;
+
+        List<TeacherAssess> teacherAssesses = teacherAssessMapper.selectAllByTno(tno);
+        if (CollectionUtils.isEmpty(teacherAssesses)) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO = ResultVOUtil.success(teacherAssesses);
+        }
+
+        return resultVO;
     }
 }

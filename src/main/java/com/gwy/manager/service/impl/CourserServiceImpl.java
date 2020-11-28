@@ -5,6 +5,7 @@ import com.gwy.manager.entity.Course;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.CourseMapper;
 import com.gwy.manager.service.CourseService;
+import com.gwy.manager.util.ResultVOUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,13 +40,13 @@ public class CourserServiceImpl implements CourseService {
     @Override
     public ResultVO getCoursesOfTeacher(String teacherNo) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         List<Course> coursesOfTeacher = courseMapper.getCoursesOfTeacher(teacherNo);
         if (CollectionUtils.isEmpty(coursesOfTeacher)) {
-            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO.success(coursesOfTeacher);
+            resultVO = ResultVOUtil.success(coursesOfTeacher);
         }
 
         return resultVO;

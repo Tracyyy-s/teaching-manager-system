@@ -45,4 +45,10 @@ public interface TeacherAssessMapper {
                                      @Param("assessedTeacherNo") String assessedTeacherNo,
                                      @Param("termId") String termId);
 
+    /**
+     * 获得某教师的所有评价
+     * @param teacherNo 教师id
+     * @return  返回列表
+     */
+    List<TeacherAssess> selectAllByTno(String teacherNo);
 }

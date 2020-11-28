@@ -4,10 +4,7 @@ import com.gwy.manager.entity.Course;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.TeacherCourse;
-import com.gwy.manager.mapper.CourseMapper;
-import com.gwy.manager.mapper.TeacherCourseMapper;
-import com.gwy.manager.mapper.TeacherMapper;
-import com.gwy.manager.mapper.TermMapper;
+import com.gwy.manager.mapper.*;
 import com.gwy.manager.service.TeacherCourseService;
 import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.DateUtilCustom;
@@ -33,7 +30,7 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
     private CourseMapper courseMapper;
 
     @Autowired
-    private TeacherMapper teacherMapper;
+    private UserMapper userMapper;
 
     @Override
     public int addTeacherCourse(TeacherCourse teacherCourse) {
@@ -123,7 +120,7 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
         }
 
         List<Course> courses = courseMapper.getCoursesByIds(courseNos);
-        List<String> teacherNames = teacherMapper.getTeachersByIds(teacherNos);
+        List<String> teacherNames = userMapper.selectUserNamesByIds(teacherNos);
 
         int i = 0;
         for (Map<String, Object> map : maps) {

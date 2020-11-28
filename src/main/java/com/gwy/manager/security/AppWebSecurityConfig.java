@@ -47,13 +47,17 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        //配置自定义过滤器 增加post json 支持
+        http.addFilterAt(UserAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
         http
                 .formLogin()//  定义当需要用户登录时候，转到的登录页面。
                 .and()
-                .authorizeRequests().antMatchers("/**").permitAll()
+//                .authorizeRequests().antMatchers("/**").permitAll()
 //                // 定义哪些URL需要被保护、哪些不需要被保护
-//                .authorizeRequests().antMatchers("/login").permitAll() //不需要保护的URL
-//                .and()
+                .authorizeRequests().antMatchers("/login").permitAll() //不需要保护的URL
+                .anyRequest().authenticated()
+                .and()
 //                //teacher访问路径
 //                .authorizeRequests().antMatchers("/teacher/**").hasAnyRole(RoleName.TEACHER + "," + RoleName.LEADER)
 //                .and()
@@ -68,18 +72,18 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                //root访问路径
 //                .authorizeRequests().antMatchers("/root/**").hasRole(RoleName.ROOT)
-                .and()
+//                .and()
                 .logout().permitAll() // 登出
                 .logoutSuccessHandler(customizeLogoutSuccessHandler)
                 .deleteCookies("JSESSIONID")
                 .and()
                 .csrf().disable();
-
-        //配置自定义过滤器 增加post json 支持
-        http.addFilterAt(UserAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
-        //配置访问错误
-        http.exceptionHandling().authenticationEntryPoint(customizeAuthenticationEntryPoint);
-        http.exceptionHandling().accessDeniedHandler(customizeAccessDeniedHandler); // 无权访问
+        //访问错误配置
+        //未登录
+        http
+                .exceptionHandling()
+                .authenticationEntryPoint(customizeAuthenticationEntryPoint)
+                .accessDeniedHandler(customizeAccessDeniedHandler);
     }
 
     private CustomizeAuthenticationFilter UserAuthenticationFilterBean() throws Exception {

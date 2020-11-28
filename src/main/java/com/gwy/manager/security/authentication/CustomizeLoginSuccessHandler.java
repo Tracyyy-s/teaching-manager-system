@@ -2,7 +2,9 @@ package com.gwy.manager.security.authentication;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -29,10 +31,7 @@ public class CustomizeLoginSuccessHandler implements AuthenticationSuccessHandle
 
         ResultVO resultVO = new ResultVO();
 
-        Map<String, String> map = new HashMap<>();
-        map.put("role", AuthenticationUtil.getRoleNameNotWithRole(authentication));
-
-        resultVO.success(map);
+        resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
 
         response.getWriter().write(JSONObject.toJSONString(resultVO));
     }

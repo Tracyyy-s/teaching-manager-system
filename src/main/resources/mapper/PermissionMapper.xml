@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Permission" >
+    <id column="permission_id" property="permissionId" jdbcType="INTEGER" />
+    <result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
+    <result column="permission_url" property="permissionUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ts_permission
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gwy.manager.entity.Permission" >
+    insert into ts_permission (permission_id, permission_name, permission_url
+      )
+    values (#{permissionId,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR}, #{permissionUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Permission" >
+    update ts_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR},
+      permission_url = #{permissionUrl,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select permission_id, permission_name, permission_url
+    from ts_permission
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select permission_id, permission_name, permission_url
+    from ts_permission
+  </select>
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select permission_id, permission_name, permission_url
+    from ts_permission
+    where permission_id in
+    <foreach collection="permissionIds" item="permissionId" open="(" close=")" separator=",">
+        #{permissionId,jdbcType=INTEGER}
+    </foreach>
+  </select>
+  <!-- 获得用户的权限 -->
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select permission_id, permission_name, permission_url
+    from ts_permission
+    where permission_id in (select permission_id
+                            from ts_role_permission
+                            where role_id in (select role_id
+                                              from ts_user_role
+                                              where user_id = #{userId,jdbcType=VARCHAR}))
+  </select>
+</mapper>

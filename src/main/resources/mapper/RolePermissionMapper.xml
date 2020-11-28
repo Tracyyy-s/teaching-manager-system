@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.RolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.RolePermission" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="permission_id" property="permissionId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey">
+    delete from ts_role_permission
+    where role_id = #{roleId,jdbcType=VARCHAR} and permission_id = #{permissionId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gwy.manager.entity.RolePermission" >
+    insert into ts_role_permission (role_id, permission_id)
+    values (#{roleId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select role_id, permission_id
+    from ts_role_permission
+  </select>
+  <select id="selectPermissionIdsByRoleIds" resultType="java.lang.Integer">
+    select permission_id
+    from ts_role_permission
+    where role_id in
+    <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+        #{roleId,jdbcType=INTEGER}
+    </foreach>
+  </select>
+  <select id="selectPermissionIdsByRoleId" resultType="java.lang.Integer">
+    select permission_id
+    from ts_role_permission
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+</mapper>

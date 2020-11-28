@@ -1,7 +1,7 @@
 package com.gwy.manager.rabbimq;
 
 import com.gwy.manager.config.rabbitmq.RabbitmqConfiguration;
-import com.gwy.manager.entity.MailForm;
+import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.mail.MailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

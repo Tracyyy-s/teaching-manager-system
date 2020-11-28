@@ -1,17 +1,22 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.entity.MailForm;
+import com.gwy.manager.constant.RoleName;
+import com.gwy.manager.entity.User;
+import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
-import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.mapper.StudentMapper;
+import com.gwy.manager.mapper.UserMapper;
 import com.gwy.manager.rabbimq.RabbitmqProducer;
 import com.gwy.manager.service.StudentService;
 import com.gwy.manager.util.BeanUtil;
-import com.gwy.manager.util.MD5Util;
 import com.gwy.manager.mail.MailUtil;
 import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.VRCodeUtil;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.text.translate.UnicodeUnescaper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +39,10 @@ public class StudentServiceImpl implements StudentService {
     private StudentMapper studentMapper;
 
     @Autowired
-    private RedisUtil redisUtil;
+    private UserMapper userMapper;
 
     @Autowired
-    private MailUtil mailUtil;
-
-    @Autowired
-    private RabbitmqProducer producer;
+    private VRCodeUtil vrCodeUtil;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -61,7 +63,7 @@ public class StudentServiceImpl implements StudentService {
 
         Student student = this.getStudent(studentNo);
         if (student == null) {
-            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
             resultVO.success(BeanUtil.beanToMap(student));
         }
@@ -69,24 +71,26 @@ public class StudentServiceImpl implements StudentService {
         return resultVO;
     }
 
-//    @Override
-//    public ResultVO login(String studentNo, String password) {
-//        ResultVO resultVO = new ResultVO();
-//
-//        Student student = this.getStudent(studentNo);
-//
-//        if (student == null) {
-//            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
-//        } else if (!MD5Util.inputToDb(password).equals(student.getPassword())) {
-//            resultVO.setData(ResponseDataMsg.PasswordIncorrect.getMsg());
-//        } else {
-//            Map<String, String> map = new HashMap<>();
-//            map.put("role", UserOption.STUDENT.getUserType());
-//            resultVO.success(map);
-//        }
-//
-//        return resultVO;
-//    }
+    @Override
+    public ResultVO getStudentInfoByAdmin(String adminNo, String studentNo) {
+        ResultVO resultVO = new ResultVO();
+
+        Student student = this.getStudent(studentNo);
+        if (student == null) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            //获得管理员角色用户
+            User adminUser = userMapper.selectByPrimaryKey(adminNo);
+            //若学生学院不在管理员可管理学院内
+            if (adminUser == null || !adminUser.getAvailableDeptIds().contains(student.getDeptId())) {
+                resultVO = ResultVOUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
+            } else {
+                resultVO.success(BeanUtil.beanToMap(student));
+            }
+        }
+
+        return resultVO;
+    }
 
     @Transactional
     @Override
@@ -94,12 +98,10 @@ public class StudentServiceImpl implements StudentService {
 
         ResultVO resultVO = new ResultVO();
 
-        String code = (String) redisUtil.get(studentNo + ":Code");
+        String code = vrCodeUtil.getCode(studentNo);
 
-        if (code == null) {
-            resultVO.setData("Not Found Code");
-        } else if (!vrCode.equals(code)) {
-            resultVO.setData("Code Error");
+        if (!vrCode.equals(code)) {
+            resultVO = ResultVOUtil.error("Code Error");
         } else {
             int result = studentMapper.updatePassword(studentNo, passwordEncoder.encode(password));
             if (result == 0) {
@@ -109,55 +111,31 @@ public class StudentServiceImpl implements StudentService {
             }
 
             //修改完毕后删除key
-            redisUtil.del(redisUtil.codeKey(studentNo));
+            vrCodeUtil.deleteCode(studentNo);
         }
 
         return resultVO;
     }
 
     @Override
-    public int updateStudent(Student student) {
-        return studentMapper.updateByPrimaryKey(student);
+    public ResultVO updateStudent(Student student) {
+
+        ResultVO resultVO;
+
+        int i = studentMapper.updateByPrimaryKey(student);
+        if (i == 0) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+        } else {
+            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+        }
+
+        return resultVO;
     }
 
     @Transactional
     @Override
     public ResultVO sendCode(String studentNo) {
-
-        ResultVO resultVO = new ResultVO();
-
-        //生成六位验证码
-        Random random = new Random();
-        StringBuilder code = new StringBuilder();
-        for (int i = 0; i < 6; i++) {
-            code.append(random.nextInt(10));
-        }
-
-        //获得学生email，并发送邮件
-        String email = studentMapper.selectByPrimaryKey(studentNo).getEmail();
-
-        MailForm mailForm = new MailForm();
-        mailForm.setSubject(mailUtil.getSubject());
-        mailForm.setText(mailUtil.getPrefix() + code.toString() + mailUtil.getSuffix());
-        mailForm.setHtml(true);
-        mailForm.setFrom(mailUtil.getSender());
-        mailForm.setTo(email);
-
-        //生产者将邮件体发送至rabbitmq
-        producer.sendMailToMq(mailForm);
-
-        //设置redis中的key
-        String key = redisUtil.codeKey(studentNo);
-        try {
-            redisUtil.set(key, code.toString());
-            redisUtil.expire(key, 300);
-        } catch (Exception e) {
-            resultVO.setData(ResponseDataMsg.Fail.getMsg());
-            return resultVO;
-        }
-
-        resultVO.success(ResponseDataMsg.Success.getMsg());
-        return resultVO;
+        return vrCodeUtil.sendCode(studentNo, RoleName.STUDENT);
     }
 
     @Override
@@ -193,12 +171,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResultVO getStudentsMatchName(String deptId, String name) {
+    public ResultVO getStudentsMatchName(String adminNo, String deptId, String name) {
 
         ResultVO resultVO = new ResultVO();
 
+        User adminUser = userMapper.selectByPrimaryKey(adminNo);
+        if (adminUser == null || !adminUser.getAvailableDeptIds().contains(deptId)) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
+            return resultVO;
+        }
+
         List<Student> students = studentMapper.selectStudentsMatchName(deptId, name);
-        if (students.size() == 0) {
+        if (CollectionUtils.isEmpty(students)) {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
             resultVO.success(BeanUtil.beansToList(students));

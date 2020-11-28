@@ -51,7 +51,7 @@ public class TermTargetServiceImpl implements TermTargetService {
      * 获得指定对象的学期指标
      * @param termId 学期id
      * @param obj   对象（可为学生或教师）
-     * @return
+     * @return  结果集
      */
     private ResultVO getObjectTermTargets(String termId, String obj) {
 

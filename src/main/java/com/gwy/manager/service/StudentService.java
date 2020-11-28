@@ -21,9 +21,9 @@ public interface StudentService {
     /**
      * 修改学生信息
      * @param student 预修改
-     * @return  影响行数
+     * @return  结果集
      */
-    int updateStudent(Student student);
+    ResultVO updateStudent(Student student);
 
     /**
      * 修改学生密码
@@ -40,14 +40,6 @@ public interface StudentService {
      * @return  返回行数
      */
     int addStudentBatch(List<Student> students);
-
-    /**
-     * 学生登录
-     * @param studentNo
-     * @param password
-     * @return
-     */
-    //ResultVO login(String studentNo, String password);
 
     /**
      * 获得学生信息
@@ -79,9 +71,18 @@ public interface StudentService {
 
     /**
      * 根据学生名字进行模糊匹配
+     * @param adminNo 管理员角色id
      * @param deptId 学院id
      * @param name  学生姓名
      * @return  结果集
      */
-    ResultVO getStudentsMatchName(String deptId, String name);
+    ResultVO getStudentsMatchName(String adminNo, String deptId, String name);
+
+    /**
+     * 管理员获得学生
+     * @param adminNo   userId
+     * @param studentNo 学号
+     * @return  结果集
+     */
+    ResultVO getStudentInfoByAdmin(String adminNo, String studentNo);
 }
