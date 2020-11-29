@@ -282,7 +282,7 @@ public class UserServiceImpl implements UserService {
         if (CollectionUtils.isEmpty(users)) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(users);
+            resultVO = ResultVOUtil.success(BeanUtil.beansToList(users));
         }
 
         return resultVO;

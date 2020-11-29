@@ -2,6 +2,8 @@ package com.gwy.manager.aspect;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.enums.ResponseStatus;
+import com.gwy.manager.util.ResultVOUtil;
 import com.gwy.manager.util.SysLogUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -51,7 +53,12 @@ public class RequestAspect {
             throwable.printStackTrace();
         }
 
-        ResultVO resultVO = JSONObject.parseObject(JSONObject.toJSONString(result), ResultVO.class);
+        ResultVO resultVO;
+        if (!(result instanceof String)) {
+            resultVO = JSONObject.parseObject(JSONObject.toJSONString(result), ResultVO.class);
+        } else {
+            resultVO = JSONObject.parseObject((String) result, ResultVO.class);
+        }
 
         //记录日志
         logUtil.recordLog(request, args, resultVO);
