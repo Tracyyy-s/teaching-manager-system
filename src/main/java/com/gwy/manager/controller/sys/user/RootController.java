@@ -54,6 +54,10 @@ public class RootController {
         return JSONObject.toJSONStringWithDateFormat(userService.getAllAdmin(), DateUtilCustom.DATE_PATTERN);
     }
 
+    /**
+     * 获得所有用户
+     * @return  结果集
+     */
     @PostMapping("/getAllUsers")
     public String getAllUsers() {
         return JSONObject.toJSONStringWithDateFormat(userService.getAllUsers(), DateUtilCustom.DATE_PATTERN);
