@@ -54,7 +54,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
             redisUtil.del(keyInRedis);
 
             //添加登出成功日志
-            logUtil.addLoginLog(request, authentication);
+            logUtil.addLog(request, authentication);
 
             resultVO = ResultVOUtil.success("Logout Success");
         }

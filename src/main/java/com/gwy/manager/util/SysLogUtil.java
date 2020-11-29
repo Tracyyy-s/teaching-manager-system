@@ -62,15 +62,15 @@ public class SysLogUtil {
         producer.addLog(sysLog);
     }
 
-    public void addLoginLog(HttpServletRequest request, Authentication authentication) {
-        this.addLoginLog(request, authentication, null);
+    public void addLog(HttpServletRequest request, Authentication authentication) {
+        this.addLog(request, authentication, null);
     }
 
-    public void addLoginLog(HttpServletRequest request, AuthenticationException ex) {
-        this.addLoginLog(request, null, ex);
+    public void addLog(HttpServletRequest request, AuthenticationException ex) {
+        this.addLog(request, null, ex);
     }
 
-    private void addLoginLog(HttpServletRequest request, Authentication authentication, AuthenticationException ex) {
+    private void addLog(HttpServletRequest request, Authentication authentication, AuthenticationException ex) {
         SysLog sysLog = new SysLog();
 
         sysLog.setRequestUrl(request.getRequestURL().toString());

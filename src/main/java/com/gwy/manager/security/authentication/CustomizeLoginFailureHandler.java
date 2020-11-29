@@ -41,7 +41,7 @@ public class CustomizeLoginFailureHandler implements AuthenticationFailureHandle
         }
 
         //添加登录失败日志
-        logUtil.addLoginLog(request, ex);
+        logUtil.addLog(request, ex);
 
         response.getWriter().write(JSONObject.toJSONString(resultVO));
     }

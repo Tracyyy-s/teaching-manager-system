@@ -39,7 +39,7 @@ public class CustomizeLoginSuccessHandler implements AuthenticationSuccessHandle
         resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
 
         //添加登录成功日志
-        logUtil.addLoginLog(request, authentication);
+        logUtil.addLog(request, authentication);
 
         response.getWriter().write(JSONObject.toJSONString(resultVO));
     }
