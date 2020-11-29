@@ -11,6 +11,7 @@ import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -84,14 +85,17 @@ public class RootController {
     @PostMapping("/updateUserRole")
     public ResultVO updateUserRole(@RequestBody Map<String, Object> map) {
 
-        List<Integer> roles;
+        List<Integer> rolesId = new ArrayList<>();
         String userId = (String) map.get("userId");
         try {
-            roles = (List<Integer>)map.get("roles");
+            List<String> rolesStr = (List<String>)map.get("data");
+            for (String roleStr : rolesStr) {
+                rolesId.add(Integer.parseInt(roleStr));
+            }
         } catch (Exception e) {
             return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
         }
-        return userService.updateUserRole(userId, roles);
+        return userService.updateUserRole(userId, rolesId);
     }
 
     /**
