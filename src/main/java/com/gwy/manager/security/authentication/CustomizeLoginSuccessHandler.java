@@ -5,6 +5,7 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.redis.RedisUtil;
 import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.SysLogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -24,14 +25,21 @@ import java.util.Map;
 @Component
 public class CustomizeLoginSuccessHandler implements AuthenticationSuccessHandler {
 
+    @Autowired
+    private SysLogUtil logUtil;
+
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
 
         response.setContentType("application/json;charset=UTF-8");
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+
+        //添加登录成功日志
+        logUtil.addLoginLog(request, authentication);
 
         response.getWriter().write(JSONObject.toJSONString(resultVO));
     }

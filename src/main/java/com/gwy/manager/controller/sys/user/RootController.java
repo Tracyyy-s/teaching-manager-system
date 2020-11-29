@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.service.impl.DeptServiceImpl;
+import com.gwy.manager.service.impl.UserRoleServiceImpl;
 import com.gwy.manager.service.impl.UserServiceImpl;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ResultVOUtil;
@@ -28,6 +29,9 @@ public class RootController {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private UserRoleServiceImpl userRoleService;
+
     /**
      * root用户修改密码
      * @param map   请求体
@@ -50,6 +54,23 @@ public class RootController {
         return JSONObject.toJSONStringWithDateFormat(userService.getAllAdmin(), DateUtilCustom.DATE_PATTERN);
     }
 
+    @PostMapping("/getAllUsers")
+    public String getAllUsers() {
+        return JSONObject.toJSONStringWithDateFormat(userService.getAllUsers(), DateUtilCustom.DATE_PATTERN);
+    }
+
+    /**
+     * 获得某用户的所有角色
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getUserRoles")
+    public ResultVO getUserRole(@RequestBody Map<String, String> map) {
+
+        String userId = map.get("userId");
+        return userRoleService.getUserRoles(userId);
+    }
+
     /**
      * 修改用户的角色
      * @param map   请求体
@@ -59,10 +80,10 @@ public class RootController {
     @PostMapping("/updateUserRole")
     public ResultVO updateUserRole(@RequestBody Map<String, Object> map) {
 
-        List<String> roles;
+        List<Integer> roles;
         String userId = (String) map.get("userId");
         try {
-            roles = (List<String>)map.get("roles");
+            roles = (List<Integer>)map.get("roles");
         } catch (Exception e) {
             return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
         }

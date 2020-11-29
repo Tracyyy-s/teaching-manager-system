@@ -34,11 +34,7 @@ public class UserRolePermissionServiceImpl implements UserRolePermissionService 
         if (CollectionUtils.isEmpty(permissions)) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            Map<String, String> map = new LinkedHashMap<>();
-            for (Permission permission : permissions) {
-                map.put(permission.getPermissionName(), permission.getPermissionUrl());
-            }
-            resultVO = ResultVOUtil.success(map);
+            resultVO = ResultVOUtil.success(permissions);
         }
 
         return resultVO;

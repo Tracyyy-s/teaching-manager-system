@@ -210,14 +210,19 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public ResultVO updateUserRole(String userId, List<String> roles) {
+    public ResultVO updateUserRole(String userId, List<Integer> roles) {
 
         ResultVO resultVO;
 
-        roles.remove(RoleName.TEACHER);
+        Integer teacherRoleId = roleMapper.selectRoleIdByName(RoleName.TEACHER);
 
         //存储修改后用户的roleIds
-        List<Integer> roleIds = roleMapper.selectRoleIdsByNames(roles);
+        List<Integer> roleIds = new ArrayList<>();
+        for (Integer role : roles) {
+            if (!role.equals(teacherRoleId)) {
+                roleIds.add(role);
+            }
+        }
 
         //查询管理员角色id
         Integer adminRoleId = roleMapper.selectRoleIdByName(RoleName.ADMIN);
@@ -269,12 +274,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResultVO getAllUsers() {
+
+        ResultVO resultVO;
+
+        List<User> users = userMapper.selectAll();
+        if (CollectionUtils.isEmpty(users)) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO = ResultVOUtil.success(users);
+        }
+
+        return resultVO;
+    }
+
+    @Override
     public ResultVO updateAvailableDeptIds(String userId, List<String> list) {
 
         ResultVO resultVO;
 
         //获得用户所有的角色
         List<Role> roles = roleMapper.selectByUserId(userId);
+
         //存储用户所有角色id
         List<Integer> roleIds = new ArrayList<>();
         for (Role role : roles) {
@@ -325,14 +346,27 @@ public class UserServiceImpl implements UserService {
                 users.addAll((List<User>)dataMap.get("dataList"));
             }
 
-            int i;
+            Integer teacherRoleId = roleMapper.selectRoleIdByName(RoleName.TEACHER);
+
+            //存储用户id, 增加用户-角色
+            List<UserRole> userRoles = new ArrayList<>();
+            for (User user : users) {
+                UserRole userRole = new UserRole();
+                userRole.setUserId(user.getUserId());
+                userRole.setRoleId(teacherRoleId);
+
+                userRoles.add(userRole);
+            }
+
+            int i, j;
             try {
                 i = userMapper.insertUsersByBatch(users);
+                j = userRoleMapper.insertByBatch(userRoles);
             } catch (Exception e) {
                 resultVO = ResultVOUtil.error("Exception in Executing");
                 return resultVO;
             }
-            if (i == 0) {
+            if (i == 0 || j == 0) {
                 resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
             } else {
                 resultVO = ResultVOUtil.success(BeanUtil.beansToList(users));

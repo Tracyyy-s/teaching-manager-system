@@ -19,8 +19,7 @@
     from ts_user_role
   </select>
   <insert id="addRolesForUser">
-    insert into
-    ts_user_role
+    insert into ts_user_role (user_id, role_id)
     values
     <foreach collection="roleIds" item="roleId" separator=",">
     (
@@ -32,4 +31,13 @@
     delete from ts_user_role
     where user_id = #{userId,jdbcType=VARCHAR} and role_id != 2
   </delete>
+  <insert id="insertByBatch">
+    insert into ts_user_role (user_id, role_id)
+    values
+    <foreach collection="userRoles" item="userRole" separator=",">
+    (
+        #{userRole.userId,jdbcType=VARCHAR}, #{userRole.roleId,jdbcType=INTEGER}
+    )
+    </foreach>
+  </insert>
 </mapper>

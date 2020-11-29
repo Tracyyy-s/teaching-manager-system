@@ -9,6 +9,8 @@ public interface UserRoleMapper {
 
     int insert(UserRole record);
 
+    int insertByBatch(@Param("userRoles") List<UserRole> userRoles);
+
     List<UserRole> selectAll();
 
     int deleteRoleOfUser(@Param("userId") String userId);

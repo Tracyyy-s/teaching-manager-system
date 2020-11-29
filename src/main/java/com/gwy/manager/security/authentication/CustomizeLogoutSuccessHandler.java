@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.SysLogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,14 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private SysLogUtil logUtil;
+
     private Logger logger = LoggerFactory.getLogger(CustomizeLogoutSuccessHandler.class);
 
     @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
+                                Authentication authentication) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
 
         ResultVO resultVO = new ResultVO();
@@ -47,7 +53,10 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
             //删除redis中相关user的key
             redisUtil.del(keyInRedis);
 
-            resultVO.success("Logout Success");
+            //添加登出成功日志
+            logUtil.addLoginLog(request, authentication);
+
+            resultVO = ResultVOUtil.success("Logout Success");
         }
 
         response.getWriter().write(JSONObject.toJSONString(resultVO));

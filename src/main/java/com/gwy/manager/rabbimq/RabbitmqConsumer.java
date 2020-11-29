@@ -1,8 +1,10 @@
 package com.gwy.manager.rabbimq;
 
 import com.gwy.manager.config.rabbitmq.RabbitmqConfiguration;
+import com.gwy.manager.entity.SysLog;
 import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.mail.MailUtil;
+import com.gwy.manager.util.SysLogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -25,6 +27,9 @@ public class RabbitmqConsumer {
     @Autowired
     private MailUtil mailUtil;
 
+    @Autowired
+    private SysLogUtil logUtil;
+
     /**
      * 监听邮件队列，并将监听得到的邮件进行发送
      * @param mailForm  邮件表单体
@@ -43,6 +48,19 @@ public class RabbitmqConsumer {
 
             mailUtil.sendMimeMail(mimeMessage);
         } catch (MessagingException e) {
+            logger.error("{}", e.getMessage());
+        }
+    }
+
+    /**
+     * 监听日志队列，判断是否有日志加入
+     * @param sysLog    预添加
+     */
+    @RabbitListener(queues = RabbitmqConfiguration.QUEUE_LOG)
+    public void onLogging(SysLog sysLog) {
+        try {
+            logUtil.addLog(sysLog);
+        } catch (Exception e) {
             logger.error("{}", e.getMessage());
         }
     }

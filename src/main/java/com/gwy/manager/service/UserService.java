@@ -81,13 +81,19 @@ public interface UserService {
      * @param roles  添加的角色集
      * @return  结果集
      */
-    ResultVO updateUserRole(String userId, List<String> roles);
+    ResultVO updateUserRole(String userId, List<Integer> roles);
 
     /**
      * 获得所有管理员
      * @return  获得结果集
      */
     ResultVO getAllAdmin();
+
+    /**
+     * 获得所有用户
+     * @return  结果集
+     */
+    ResultVO getAllUsers();
 
     /**
      * 修改root密码
@@ -110,5 +116,4 @@ public interface UserService {
      * @return  结果集
      */
     ResultVO updateAvailableDeptIds(String userId, List<String> list);
-
 }

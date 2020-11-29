@@ -3,6 +3,9 @@ package com.gwy.manager.security.authentication;
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.SysLogUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,18 +24,24 @@ import java.io.IOException;
 @Component
 public class CustomizeLoginFailureHandler implements AuthenticationFailureHandler {
 
+    @Autowired
+    private SysLogUtil logUtil;
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException ex) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         if (ex instanceof UsernameNotFoundException || ex instanceof BadCredentialsException) {
-            resultVO.setData(ResponseDataMsg.UserNameORPasswordError.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.UserNameORPasswordError.getMsg());
         } else {
-            resultVO.setData(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
         }
+
+        //添加登录失败日志
+        logUtil.addLoginLog(request, ex);
 
         response.getWriter().write(JSONObject.toJSONString(resultVO));
     }

@@ -2,10 +2,12 @@ package com.gwy.manager.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.service.impl.TermServiceImpl;
 import com.gwy.manager.service.impl.UserRolePermissionServiceImpl;
 import com.gwy.manager.service.impl.UserRoleServiceImpl;
 import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,11 @@ public class BaseController {
 
     @Autowired
     private UserRolePermissionServiceImpl userRolePermissionService;
+
+    @GetMapping("/login")
+    public ResultVO login() {
+        return ResultVOUtil.error(ResponseDataMsg.NotLogin.getMsg());
+    }
 
     /**
      * 获得所有的学期信息
