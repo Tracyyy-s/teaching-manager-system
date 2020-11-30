@@ -38,6 +38,9 @@ public class RootController {
     @Autowired
     private PermissionServiceImpl permissionService;
 
+    @Autowired
+    private RoleServiceImpl roleService;
+
     /**
      * root用户修改密码
      * @param map   请求体
@@ -70,6 +73,17 @@ public class RootController {
     @PreAuthorize("hasRole('ROLE_root')")
     public String getAllUsers() {
         return JSONObject.toJSONStringWithDateFormat(userService.getAllUsers(), DateUtilCustom.DATE_PATTERN);
+    }
+
+    /**
+     * 获得所有角色信息
+     * @return  结果集
+     */
+    @PostMapping("/getAllRoles")
+    @PreAuthorize("hasRole('ROLE_root')")
+    public ResultVO getAllRoles() {
+
+        return roleService.getAllRoles();
     }
 
     /**

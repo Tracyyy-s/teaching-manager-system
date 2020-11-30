@@ -25,6 +25,12 @@ public interface PermissionService {
     ResultVO getPermissionsByRoleId(Integer roleId);
 
     /**
+     * 获得所有权限
+     * @return  结果集
+     */
+    ResultVO getAllPermissions();
+
+    /**
      * 根据权限id列表获得权限
      * @param permissionIds 权限id列表
      * @return  结果集

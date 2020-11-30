@@ -43,6 +43,20 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public ResultVO getAllPermissions() {
+
+        ResultVO resultVO;
+
+        List<Permission> permissions = permissionMapper.selectAll();
+        if (CollectionUtils.isEmpty(permissions)) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO = ResultVOUtil.success(permissions);
+        }
+        return resultVO;
+    }
+
+    @Override
     public ResultVO getPermissionsByRoleId(Integer roleId) {
         ResultVO resultVO;
 
