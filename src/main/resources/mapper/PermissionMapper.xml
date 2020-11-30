@@ -49,4 +49,22 @@
                                               from ts_user_role
                                               where user_id = #{userId,jdbcType=VARCHAR}))
   </select>
+  <select id="selectByRoleIds" resultMap="BaseResultMap">
+    select permission_id, permission_name, permission_url
+    from ts_permission
+    where permission_id in (select permission_id
+                            from ts_role_permission
+                            where role_id in
+                            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                                #{roleId, jdbcType=INTEGER}
+                            </foreach>
+                            )
+  </select>
+  <select id="selectByRoleId" resultMap="BaseResultMap">
+    select permission_id, permission_name, permission_url
+    from ts_permission
+    where permission_id in (select permission_id
+                            from ts_role_permission
+                            where role_id = #{roleId,jdbcType=INTEGER})
+  </select>
 </mapper>

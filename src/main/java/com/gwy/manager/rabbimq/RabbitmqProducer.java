@@ -40,6 +40,10 @@ public class RabbitmqProducer {
                 correlationData);
     }
 
+    /**
+     * 生产者添加日志进入消息队列
+     * @param sysLog    日志信息
+     */
     public void addLog(SysLog sysLog) {
         String uuid = UUID.randomUUID().toString();
 

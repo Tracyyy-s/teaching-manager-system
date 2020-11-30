@@ -16,4 +16,8 @@ public interface RolePermissionMapper {
     List<Integer> selectPermissionIdsByRoleIds(@Param("roleIds") List<Integer> roleIds);
 
     List<Integer> selectPermissionIdsByRoleId(Integer roleId);
+
+    int deleteByRoleId(Integer roleId);
+
+    int insertBatch(@Param("roleId")Integer roleId, @Param("permissionIds") List<Integer> permissionIds);
 }
