@@ -87,6 +87,16 @@ public class RootController {
     }
 
     /**
+     * 获得所有权限信息
+     * @return  结果集
+     */
+    @PostMapping("/getAllPermissions")
+    @PreAuthorize("hasRole('ROLE_root')")
+    public ResultVO getAllPermissions() {
+        return permissionService.getAllPermissions();
+    }
+
+    /**
      * 获得某用户的所有角色
      * @param map   请求体
      * @return  结果集
