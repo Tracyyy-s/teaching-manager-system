@@ -109,4 +109,10 @@ class ManagerApplicationTests {
         System.out.println(resultVO.getMessage());
         System.out.println(resultVO.getData());
     }
+
+    @Test
+    void decode() {
+        String a = "123456";
+        System.out.println(passwordEncoder.encode(a));;
+    }
 }

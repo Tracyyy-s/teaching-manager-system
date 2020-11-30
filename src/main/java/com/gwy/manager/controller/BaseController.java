@@ -5,7 +5,6 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.service.impl.TermServiceImpl;
 import com.gwy.manager.service.impl.UserRolePermissionServiceImpl;
-import com.gwy.manager.service.impl.UserRoleServiceImpl;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,6 @@ package com.gwy.manager.controller.sys.student;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.StudentAssess;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
