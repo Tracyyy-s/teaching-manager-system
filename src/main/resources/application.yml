@@ -29,7 +29,12 @@ spring:
         max-concurrency: 20
         prefetch: 50
 
-
 mybatis:
   # 指定映射配置文件路径
   mapper-locations: classpath:mapper/*.xml
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

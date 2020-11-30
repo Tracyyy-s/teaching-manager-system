@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -118,11 +117,11 @@ public class RootController {
     @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO getPermissionsByRoleId(@RequestBody Map<String, String> map) {
 
-        Integer roleId = null;
+        int roleId;
         try {
             roleId = Integer.parseInt(map.get("roleId"));
         } catch (Exception e) {
-            e.printStackTrace();
+            return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
         }
         return permissionService.getPermissionsByRoleId(roleId);
     }
@@ -137,13 +136,11 @@ public class RootController {
     @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO updateUserRole(@RequestBody Map<String, Object> map) {
 
-        List<Integer> roleIds = new ArrayList<>();
+        List<Integer> roleIds;
         String userId = (String) map.get("userId");
         try {
-            List<String> rolesStr = (List<String>)map.get("data");
-            for (String roleStr : rolesStr) {
-                roleIds.add(Integer.parseInt(roleStr));
-            }
+            roleIds = (List<Integer>)map.get("data");
+
         } catch (Exception e) {
             return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
         }
@@ -161,14 +158,11 @@ public class RootController {
     public ResultVO updateRolePermission(@RequestBody Map<String, Object> map) {
 
         Integer roleId = Integer.parseInt((String)map.get("roleId"));
-        List<String> permissionIdsStr = (List<String>)map.get("data");
-        List<Integer> permissionIds = new ArrayList<>();
+        List<Integer> permissionIds;
         try {
-            for (String permissionIdStr : permissionIdsStr) {
-                permissionIds.add(Integer.parseInt(permissionIdStr));
-            }
+            permissionIds = (List<Integer>)map.get("data");
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
         }
         return permissionService.updateRolePermission(roleId, permissionIds);
     }
