@@ -6,6 +6,7 @@ import com.gwy.manager.entity.StudentAssess;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -37,6 +38,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/updatePassword")
+    @PreAuthorize("hasRole('ROLE_student')")
     public ResultVO updatePassword(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
@@ -51,6 +53,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getStudentInfo")
+    @PreAuthorize("hasRole('ROLE_student')")
     public String getStudentInfo(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
@@ -63,6 +66,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getTermCourses")
+    @PreAuthorize("hasRole('ROLE_student')")
     public ResultVO getTermCourses(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
@@ -77,6 +81,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getTermTargets")
+    @PreAuthorize("hasRole('ROLE_student')")
     public ResultVO getStudentTermTargets(@RequestBody Map<String, String> map) {
 
         String termId = map.get("termId");
@@ -89,6 +94,7 @@ public class StudentController {
      * @return 返回结果
      */
     @PostMapping("/postAssess")
+    @PreAuthorize("hasRole('ROLE_student')")
     public ResultVO postAssess(@RequestBody StudentAssess studentAssess) {
         return studentAssessService.addStudentAssess(studentAssess);
     }
@@ -99,6 +105,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/sendCode")
+    @PreAuthorize("hasRole('ROLE_student')")
     public ResultVO postCode(@RequestBody Map<String, String> map) {
         String studentNo = map.get("studentNo");
         return studentService.sendCode(studentNo);

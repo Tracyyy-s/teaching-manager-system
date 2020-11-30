@@ -8,6 +8,7 @@ import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ExcelHeaderFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class AdminController {
      * @return  返回结果集
      */
     @PostMapping("/getTargets")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public ResultVO getTargets(@RequestBody Map<String, String> map) {
 
         String userType = map.get("userType");
@@ -50,6 +52,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/addTarget")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public ResultVO addStudentTarget(@RequestBody Map<String, String> map) {
 
         String targetType = map.get("targetType");
@@ -85,6 +88,7 @@ public class AdminController {
      * @return  返回结果集
      */
     @PostMapping("/updateTarget")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public ResultVO updateTarget(@RequestBody Target target) {
         return targetService.updateTarget(target);
     }
@@ -95,6 +99,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/deleteTarget")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public ResultVO deleteTarget(@RequestBody Map<String, String> map) {
 
         String targetId = map.get("targetId");
@@ -116,6 +121,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getTeachersByDept")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String getTeachersByDept(@RequestBody Map<String, String> map) {
         String deptId = map.get("deptId");
         return JSONObject.toJSONStringWithDateFormat(userService.getUsersOfDept(deptId), DateUtilCustom.DATE_PATTERN);
@@ -127,6 +133,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getTeacherById")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String getTeacher(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
@@ -140,6 +147,7 @@ public class AdminController {
      * @return  返回集
      */
     @PostMapping("/getTeachersMatchNameInDept")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String getTeachersMatchNameInDept(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
@@ -154,6 +162,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getStudentsByDept")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String getStudentsByDept(@RequestBody Map<String, String> map) {
 
         String deptId = map.get("deptId");
@@ -166,6 +175,7 @@ public class AdminController {
      * @return  返回值
      */
     @PostMapping("/getStudentById")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String getStudentByStudentNo(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
@@ -179,6 +189,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getStudentsMatchNameInDept")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String getStudentsMatchName(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
@@ -193,6 +204,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/updateStudentInfo")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public ResultVO updateStudentInfo(@RequestBody Student student) {
 
         return studentService.updateStudent(student);
@@ -204,6 +216,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getCoursesOfTeacher")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public ResultVO getCoursesOfTeacher(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -216,6 +229,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("getDeptsOfUser")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public ResultVO getDeptsOfUsr(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -229,6 +243,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/importTeachers")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String importTeachers(@RequestParam("deptId") String deptId,
                                    @RequestParam("file") MultipartFile file) {
         return JSONObject.toJSONStringWithDateFormat(userService.importUsersByFile(deptId, ExcelHeaderFormat.TeacherExcel, file), DateUtilCustom.DATE_PATTERN);

@@ -7,6 +7,7 @@ import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/changePassword")
+    @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO changePassword(@RequestBody Map<String, String> map) {
 
         String password = map.get("password");
@@ -55,6 +57,7 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getAllAdmins")
+    @PreAuthorize("hasRole('ROLE_root')")
     public String getAllAdmins() {
         return JSONObject.toJSONStringWithDateFormat(userService.getAllAdmin(), DateUtilCustom.DATE_PATTERN);
     }
@@ -64,6 +67,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getAllUsers")
+    @PreAuthorize("hasRole('ROLE_root')")
     public String getAllUsers() {
         return JSONObject.toJSONStringWithDateFormat(userService.getAllUsers(), DateUtilCustom.DATE_PATTERN);
     }
@@ -74,6 +78,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getUserRoles")
+    @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO getUserRole(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -86,6 +91,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getPermissionsByRoleId")
+    @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO getPermissionsByRoleId(@RequestBody Map<String, String> map) {
 
         Integer roleId = null;
@@ -104,6 +110,7 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateUserRole")
+    @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO updateUserRole(@RequestBody Map<String, Object> map) {
 
         List<Integer> roleIds = new ArrayList<>();
@@ -126,6 +133,7 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateRolePermission")
+    @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO updateRolePermission(@RequestBody Map<String, Object> map) {
 
         Integer roleId = Integer.parseInt((String)map.get("roleId"));
@@ -146,6 +154,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getAllDepts")
+    @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO getAllDepts() {
 
         return deptService.getAllDepts();
@@ -158,6 +167,7 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateAvailableDeptIds")
+    @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO updateAvailableDeptIds(@RequestBody Map<String, Object> map) {
 
         List<String> list;
