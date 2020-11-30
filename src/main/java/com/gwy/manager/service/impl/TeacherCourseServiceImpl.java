@@ -8,6 +8,7 @@ import com.gwy.manager.mapper.*;
 import com.gwy.manager.service.TeacherCourseService;
 import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,7 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
     @Override
     public ResultVO getCoursesByTeacherAndTerm(String teacherNo) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         //获得当前学期
         String currentTerm = termMapper.getCurrentTerm(DateUtilCustom.getDate());
@@ -59,12 +60,12 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
                     .getTeacherCoursesByTeacherNoAndTermId(teacherNo, currentTerm);
 
             if (teacherCourses.size() == 0) {
-                resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+                resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
             } else {
-                resultVO.success(this.teacherCourseFormat(teacherCourses));
+                resultVO = ResultVOUtil.success(this.teacherCourseFormat(teacherCourses));
             }
         } catch (Exception e) {
-            resultVO.setData(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
         }
 
         return resultVO;
@@ -73,15 +74,15 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
     @Override
     public ResultVO getCoursesByStudentAndTerm(String studentNo, String termId) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         List<TeacherCourse> teacherCourses = teacherCourseMapper
                 .getTeacherCourseByStudentNoAndTermId(studentNo, termId);
 
         if (teacherCourses.size() == 0) {
-            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO.success(this.teacherCourseFormat(teacherCourses));
+            resultVO = ResultVOUtil.success(this.teacherCourseFormat(teacherCourses));
         }
 
         return resultVO;
