@@ -218,6 +218,7 @@ public class UserServiceImpl implements UserService {
 
         //存储修改后用户的roleIds
         List<Integer> roleIds = new ArrayList<>();
+        roleIds.add(teacherRoleId);
         for (Integer role : roles) {
             if (!role.equals(teacherRoleId)) {
                 roleIds.add(role);

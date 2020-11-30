@@ -29,7 +29,7 @@
   </insert>
   <delete id="deleteRoleOfUser">
     delete from ts_user_role
-    where user_id = #{userId,jdbcType=VARCHAR} and role_id != 2
+    where user_id = #{userId,jdbcType=VARCHAR}
   </delete>
   <insert id="insertByBatch">
     insert into ts_user_role (user_id, role_id)
