@@ -82,10 +82,12 @@ public class UserDetailServiceImpl implements UserDetailsService {
         //获得该用户在redis中的key
         String keyInRedis = redisUtil.getUserKeyInRedis(sb.toString(), account);
         //将用户添加进redis
-        redisUtil.set(keyInRedis, object);
+        if (!redisUtil.hasKey(keyInRedis)) {
+            redisUtil.set(keyInRedis, object);
 
-        //设置用户在redis中的过期时间
-        redisUtil.expire(keyInRedis, 60 * 60 * 24);
+            //设置用户在redis中的过期时间
+            redisUtil.expire(keyInRedis, 60 * 60 * 24);
+        }
 
         return new User(account, password, roles);
     }

@@ -2,6 +2,7 @@ package com.gwy.manager.aspect;
 
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.util.ResultVOUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,14 +27,14 @@ public class SafetyAspect {
     @Around(value = "pointcut()")
     public Object doAround(ProceedingJoinPoint pjp) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO = null;
 
         Object[] args = pjp.getArgs();
 
         //参数判空
         for (Object arg : args) {
             if (arg == null) {
-                resultVO.setData(ResponseDataMsg.BadRequest.getMsg());
+                resultVO = ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
                 return resultVO;
             }
         }

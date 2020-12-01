@@ -87,13 +87,13 @@ public interface UserService {
      * 获得所有管理员
      * @return  获得结果集
      */
-    ResultVO getAllAdmin();
+    ResultVO getAllAdmin(int pageNum, int pageSize);
 
     /**
      * 获得所有用户
      * @return  结果集
      */
-    ResultVO getAllUsers();
+    ResultVO getAllUsers(int pageNum, int pageSize);
 
     /**
      * 修改root密码

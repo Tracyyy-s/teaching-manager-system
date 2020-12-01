@@ -1,5 +1,7 @@
 package com.gwy.manager.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gwy.manager.constant.RoleName;
 import com.gwy.manager.entity.User;
 import com.gwy.manager.mail.MailForm;
@@ -13,6 +15,7 @@ import com.gwy.manager.service.StudentService;
 import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.mail.MailUtil;
 import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.util.PageHelperUtil;
 import com.gwy.manager.util.ResultVOUtil;
 import com.gwy.manager.util.VRCodeUtil;
 import org.apache.commons.collections4.CollectionUtils;
@@ -186,6 +189,21 @@ public class StudentServiceImpl implements StudentService {
             resultVO.setData(ResponseDataMsg.NotFound.getMsg());
         } else {
             resultVO.success(BeanUtil.beansToList(students));
+        }
+
+        return resultVO;
+    }
+
+    @Override
+    public ResultVO getAllStudents(int pageNum, int pageSize) {
+        ResultVO resultVO;
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<Student> students = studentMapper.selectAll();
+        if (CollectionUtils.isEmpty(students)) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO = ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(students)));
         }
 
         return resultVO;

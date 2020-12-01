@@ -34,14 +34,10 @@ public class CustomizeLoginSuccessHandler implements AuthenticationSuccessHandle
 
         response.setContentType("application/json;charset=UTF-8");
 
-        ResultVO resultVO;
-
-        resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
-
         //添加登录成功日志
         logUtil.addLog(request, authentication);
 
-        response.getWriter().write(JSONObject.toJSONString(resultVO));
+        response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.success(ResponseDataMsg.Success.getMsg())));
     }
 
 }

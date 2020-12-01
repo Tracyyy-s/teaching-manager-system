@@ -23,7 +23,7 @@ import java.io.IOException;
  * @date 2020/11/22 12:54
  */
 @Component
-public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
+public class CustomizeLogoutHandler implements LogoutSuccessHandler {
 
     @Autowired
     private RedisUtil redisUtil;
@@ -31,7 +31,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     @Autowired
     private SysLogUtil logUtil;
 
-    private Logger logger = LoggerFactory.getLogger(CustomizeLogoutSuccessHandler.class);
+    private Logger logger = LoggerFactory.getLogger(CustomizeLogoutHandler.class);
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,

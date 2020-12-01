@@ -1,5 +1,7 @@
 package com.gwy.manager.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gwy.manager.constant.RoleName;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.*;
@@ -11,10 +13,7 @@ import com.gwy.manager.mapper.UserMapper;
 import com.gwy.manager.mapper.UserRoleMapper;
 import com.gwy.manager.security.GlobalPasswordEncoder;
 import com.gwy.manager.service.UserService;
-import com.gwy.manager.util.BeanUtil;
-import com.gwy.manager.util.ExcelHeaderFormat;
-import com.gwy.manager.util.ResultVOUtil;
-import com.gwy.manager.util.VRCodeUtil;
+import com.gwy.manager.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Tracy
@@ -156,7 +152,7 @@ public class UserServiceImpl implements UserService {
             List<String> ids = Arrays.asList(user.getAvailableDeptIds().split(","));
             Map<String, Dept> res = deptMapper.getDeptByIds(ids);
             List<Dept> depts = new ArrayList<>();
-            for (Map.Entry<String, Dept> dept: res.entrySet()) {
+            for (Map.Entry<String, Dept> dept : res.entrySet()) {
                 depts.add(dept.getValue());
             }
             resultVO = ResultVOUtil.success(depts);
@@ -260,30 +256,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultVO getAllAdmin() {
+    public ResultVO getAllAdmin(int pageNum, int pageSize) {
 
         ResultVO resultVO;
 
+        PageHelper.startPage(pageNum, pageSize);
         List<User> users = userMapper.selectUsersByRoleName(RoleName.ADMIN);
         if (CollectionUtils.isEmpty(users)) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(BeanUtil.beansToList(users));
+            resultVO = ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(users)));
         }
 
         return resultVO;
     }
 
     @Override
-    public ResultVO getAllUsers() {
+    public ResultVO getAllUsers(int pageNum, int pageSize) {
 
         ResultVO resultVO;
 
+        PageHelper.startPage(pageNum, pageSize);
         List<User> users = userMapper.selectAll();
         if (CollectionUtils.isEmpty(users)) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(BeanUtil.beansToList(users));
+            resultVO = ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(users)));
         }
 
         return resultVO;
@@ -338,13 +336,13 @@ public class UserServiceImpl implements UserService {
 
         if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
             Object data = resultVO.getData();
-            Map<String, Object> map = (Map<String, Object>)data;
+            Map<String, Object> map = (Map<String, Object>) data;
 
             List<User> users = new ArrayList<>();
 
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                Map<String, Object> dataMap = (Map<String, Object>)entry.getValue();
-                users.addAll((List<User>)dataMap.get("dataList"));
+                Map<String, Object> dataMap = (Map<String, Object>) entry.getValue();
+                users.addAll((List<User>) dataMap.get("dataList"));
             }
 
             Integer teacherRoleId = roleMapper.selectRoleIdByName(RoleName.TEACHER);

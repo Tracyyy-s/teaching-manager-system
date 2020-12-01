@@ -1,7 +1,8 @@
 package com.gwy.manager.security;
 
-import com.gwy.manager.constant.RoleName;
 import com.gwy.manager.security.authentication.*;
+import com.gwy.manager.security.filter.JwtTokenAuthenticationFilter;
+import com.gwy.manager.security.filter.JwtLoginAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,13 +32,16 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     CustomizeLoginFailureHandler customizeLoginFailureHandler;
 
     @Autowired
-    CustomizeLogoutSuccessHandler customizeLogoutSuccessHandler;
+    CustomizeLogoutHandler customizeLogoutHandler;
 
     @Autowired
     CustomizeAuthenticationEntryPoint customizeAuthenticationEntryPoint;
 
     @Autowired
     CustomizeAccessDeniedHandler customizeAccessDeniedHandler;
+
+    @Autowired
+    JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,7 +53,8 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         //配置自定义过滤器 增加post json 支持
-        http.addFilterAt(UserAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(jwtLoginFilterBean(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http
                 .formLogin()//  定义当需要用户登录时候，转到的登录页面。
                 .and()
@@ -74,9 +79,12 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authorizeRequests().antMatchers("/root/**").hasRole(RoleName.ROOT)
 //                .and()
                 .logout().permitAll() // 登出
-                .logoutSuccessHandler(customizeLogoutSuccessHandler)
-                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler(customizeLogoutHandler)
+                .invalidateHttpSession(true)
                 .and()
+                //不需要session
+                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //.and()
                 .csrf().disable();
         //访问错误配置
         //未登录
@@ -86,12 +94,12 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(customizeAccessDeniedHandler);
     }
 
-    private CustomizeAuthenticationFilter UserAuthenticationFilterBean() throws Exception {
-        CustomizeAuthenticationFilter customizeAuthenticationFilter = new CustomizeAuthenticationFilter();
-        customizeAuthenticationFilter.setAuthenticationManager(authenticationManager());
-        customizeAuthenticationFilter.setAuthenticationSuccessHandler(customizeLoginSuccessHandler);
-        customizeAuthenticationFilter.setAuthenticationFailureHandler(customizeLoginFailureHandler);
-        return customizeAuthenticationFilter;
+    private JwtLoginAuthenticationFilter jwtLoginFilterBean() throws Exception {
+        JwtLoginAuthenticationFilter jwtLoginAuthenticationFilter = new JwtLoginAuthenticationFilter();
+        jwtLoginAuthenticationFilter.setAuthenticationManager(authenticationManager());
+        jwtLoginAuthenticationFilter.setAuthenticationSuccessHandler(customizeLoginSuccessHandler);
+        jwtLoginAuthenticationFilter.setAuthenticationFailureHandler(customizeLoginFailureHandler);
+        return jwtLoginAuthenticationFilter;
     }
 
 }

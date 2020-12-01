@@ -55,7 +55,7 @@ public class VRCodeUtil {
         }
 
         //获得email，并发送邮件
-        String email = null;
+        String email;
         if (userType.equals(RoleName.USER)) {
             email = userMapper.selectByPrimaryKey(userId).getEmail();
         } else {

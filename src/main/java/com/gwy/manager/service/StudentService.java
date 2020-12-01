@@ -85,4 +85,12 @@ public interface StudentService {
      * @return  结果集
      */
     ResultVO getStudentInfoByAdmin(String adminNo, String studentNo);
+
+    /**
+     * 获得所有学生并疯转
+     * @param pageNum   页码
+     * @param pageSize  页面大小
+     * @return  结果集
+     */
+    ResultVO getAllStudents(int pageNum, int pageSize);
 }

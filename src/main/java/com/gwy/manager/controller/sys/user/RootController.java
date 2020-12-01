@@ -1,10 +1,12 @@
 package com.gwy.manager.controller.sys.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.gwy.manager.constant.PageHelperConst;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.PageHelperUtil;
 import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,13 +34,13 @@ public class RootController {
     private UserRoleServiceImpl userRoleService;
 
     @Autowired
-    private UserRolePermissionServiceImpl userRolePermissionService;
-
-    @Autowired
     private PermissionServiceImpl permissionService;
 
     @Autowired
     private RoleServiceImpl roleService;
+
+    @Autowired
+    private StudentServiceImpl studentService;
 
     /**
      * root用户修改密码
@@ -60,22 +62,44 @@ public class RootController {
      */
     @PostMapping("/getAllAdmins")
     @PreAuthorize("hasRole('ROLE_root')")
-    public String getAllAdmins() {
-        return JSONObject.toJSONStringWithDateFormat(userService.getAllAdmin(), DateUtilCustom.DATE_PATTERN);
+    public String getAllAdmins(@RequestBody Map<String, Object> map) {
+
+        PageHelperUtil.pageMsg(map);
+        int pageNum = (int) map.get(PageHelperConst.pageNum);
+        int pageSize = (int) map.get(PageHelperConst.pageSize);
+        return JSONObject.toJSONStringWithDateFormat(userService.getAllAdmin(pageNum, pageSize), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
-     * 获得所有用户
+     * root用户获得所有用户
      * @return  结果集
      */
     @PostMapping("/getAllUsers")
     @PreAuthorize("hasRole('ROLE_root')")
-    public String getAllUsers() {
-        return JSONObject.toJSONStringWithDateFormat(userService.getAllUsers(), DateUtilCustom.DATE_PATTERN);
+    public String getAllUsers(@RequestBody Map<String, Object> map) {
+
+        PageHelperUtil.pageMsg(map);
+        int pageNum = (int) map.get(PageHelperConst.pageNum);
+        int pageSize = (int) map.get(PageHelperConst.pageSize);
+        return JSONObject.toJSONStringWithDateFormat(userService.getAllUsers(pageNum, pageSize), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
-     * 获得所有角色信息
+     * root用户获得所有学生信息
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getAllStudents")
+    public String getAllStudents(@RequestBody Map<String, Object> map) {
+
+        PageHelperUtil.pageMsg(map);
+        int pageNum = (int) map.get(PageHelperConst.pageNum);
+        int pageSize = (int) map.get(PageHelperConst.pageSize);
+        return JSONObject.toJSONStringWithDateFormat(studentService.getAllStudents(pageNum, pageSize), DateUtilCustom.DATE_PATTERN);
+    }
+
+    /**
+     * root用户获得所有角色信息
      * @return  结果集
      */
     @PostMapping("/getAllRoles")
@@ -86,7 +110,7 @@ public class RootController {
     }
 
     /**
-     * 获得所有权限信息
+     * root用户获得所有权限信息
      * @return  结果集
      */
     @PostMapping("/getAllPermissions")
@@ -96,7 +120,7 @@ public class RootController {
     }
 
     /**
-     * 获得某用户的所有角色
+     * root用户获得某用户的所有角色
      * @param map   请求体
      * @return  结果集
      */
@@ -109,7 +133,7 @@ public class RootController {
     }
 
     /**
-     * 通过角色id获得权限
+     * root用户通过角色id获得权限
      * @param map   请求体
      * @return  结果集
      */
@@ -127,7 +151,7 @@ public class RootController {
     }
 
     /**
-     * 修改用户的角色
+     * root用户修改用户的角色
      * @param map   请求体
      * @return  结果集
      */
@@ -148,7 +172,7 @@ public class RootController {
     }
 
     /**
-     * 修改角色权限
+     * root用户修改角色权限
      * @param map   请求体
      * @return  结果集
      */
@@ -168,7 +192,7 @@ public class RootController {
     }
 
     /**
-     * 获得所有学院信息
+     * root用户获得所有学院信息
      * @return  结果集
      */
     @PostMapping("/getAllDepts")
@@ -179,7 +203,7 @@ public class RootController {
     }
 
     /**
-     * 更新管理员可管理的学院
+     * root用户更新管理员可管理的学院
      * @param map   请求体
      * @return  结果集
      */
@@ -192,8 +216,8 @@ public class RootController {
         try {
             list = (List<String>)map.get("deptIdList");
         } catch (Exception e) {
-            ResultVO resultVO = new ResultVO();
-            resultVO.setData(ResponseDataMsg.BadRequest.getMsg());
+            ResultVO resultVO;
+            resultVO = ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
 
             return resultVO;
         }

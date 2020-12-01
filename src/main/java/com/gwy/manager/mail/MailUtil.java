@@ -28,7 +28,7 @@ public class MailUtil {
 
     /**
      * 创建复杂邮件实例
-     * @return
+     * @return  创建出邮件
      */
     public MimeMessage createMimeMessage() {
         return mailSender.createMimeMessage();
@@ -36,7 +36,7 @@ public class MailUtil {
 
     /**
      * 创建复杂邮件编写工具
-     * @return
+     * @return  返回结果
      */
     public MimeMessageHelper newMessageHelper(MimeMessage mimeMessage) {
         return new MimeMessageHelper(mimeMessage);

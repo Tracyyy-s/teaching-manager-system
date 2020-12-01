@@ -112,7 +112,6 @@ class ManagerApplicationTests {
 
     @Test
     void decode() {
-        String a = "123456";
-        System.out.println(passwordEncoder.encode(a));;
+        System.out.println(passwordEncoder.matches("577074958", "$2a$10$.p.AM96VLrzqP9PfQEtbru2PJZkh0GjslxEc8H4MYr3siyd5hZvYS"));
     }
 }

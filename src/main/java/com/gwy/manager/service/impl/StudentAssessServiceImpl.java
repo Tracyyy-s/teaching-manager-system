@@ -27,14 +27,14 @@ public class StudentAssessServiceImpl implements StudentAssessService {
 
         ResultVO resultVO;
 
-        if (studentAssessMapper.selectByPrimaryKey(studentAssess.getStudentNo(),
-                studentAssess.getTcId()) != null) {
-
-            resultVO = ResultVOUtil.error("Already Exist!");
+        //判断学生是否提交过
+        StudentAssess assess = studentAssessMapper.selectByPrimaryKey(studentAssess.getStudentNo(), studentAssess.getTcId());
+        if (assess.getAppraiseScore() != null || assess.getSubmitTime() != null) {
+            resultVO = ResultVOUtil.error("Already Assessed!");
         } else {
             //设置评论提交时间
             studentAssess.setSubmitTime(DateUtilCustom.getTime());
-            int i = studentAssessMapper.insert(studentAssess);
+            int i = studentAssessMapper.updateByPrimaryKey(studentAssess);
             if (i == 0) {
                 resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
             } else {

@@ -7,6 +7,7 @@ import com.gwy.manager.entity.Target;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ExcelHeaderFormat;
+import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -78,7 +79,6 @@ public class AdminController {
         target.setWeight(intWeight);
         target.setTargetObject(intTargetType);
 
-        System.out.println(target);
         return targetService.addTarget(target);
     }
 
@@ -107,9 +107,7 @@ public class AdminController {
         try {
             intTargetId = Integer.parseInt(targetId);
         } catch (NumberFormatException e) {
-            ResultVO resultVO = new ResultVO();
-            resultVO.setData("NumberFormatException");
-            return resultVO;
+            return ResultVOUtil.error("NumberFormatException");
         }
 
         return targetService.deleteTarget(intTargetId);

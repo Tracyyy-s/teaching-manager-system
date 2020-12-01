@@ -19,9 +19,9 @@ public interface StudentAssessMapper {
 
     /**
      * 获取学生在本学期的评价列表
-     * @param studentNo
-     * @param termId
-     * @return
+     * @param studentNo 学号
+     * @param termId    学期号
+     * @return  结果集
      */
     List<StudentAssess> getStudentAssessByTerm(@Param("studentNo") String studentNo,
                                                @Param("termId") String termId);

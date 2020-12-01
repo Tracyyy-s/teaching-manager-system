@@ -9,16 +9,16 @@ import java.util.Map;
  */
 public class RoleName {
 
-    public static final String STUDENT = "student";
+    public static final String STUDENT    =   "student";
 
-    public static final String TEACHER = "teacher";
+    public static final String TEACHER    =   "teacher";
 
-    public static final String LEADER = "leader";
+    public static final String LEADER     =   "leader";
 
-    public static final String ADMIN = "admin";
+    public static final String ADMIN      =   "admin";
 
-    public static final String ROOT = "root";
+    public static final String ROOT       =   "root";
 
-    public static final String USER = "user";
+    public static final String USER       =   "user";
 
 }

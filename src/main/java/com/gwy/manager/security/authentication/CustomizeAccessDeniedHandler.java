@@ -7,6 +7,8 @@ import com.gwy.manager.enums.ResponseDataMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +34,5 @@ public class CustomizeAccessDeniedHandler implements AccessDeniedHandler {
         resultVO.setData(ResponseDataMsg.PermissionDeny.getMsg());
 
         response.getWriter().write(JSONObject.toJSONString(resultVO));
-
     }
 }
