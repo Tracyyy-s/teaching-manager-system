@@ -5,6 +5,8 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Term;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.TermService;
+import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -58,5 +60,11 @@ public class TermServiceImpl implements TermService {
     @Override
     public int addTermsByBatch(List<Term> terms) {
         return 0;
+    }
+
+    @Cacheable(keyGenerator = "currentTerm")
+    @Override
+    public ResultVO getCurrentTerm() {
+        return ResultVOUtil.success(termMapper.getCurrentTerm(DateUtilCustom.getDate()));
     }
 }

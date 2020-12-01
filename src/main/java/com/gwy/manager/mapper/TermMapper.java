@@ -21,5 +21,5 @@ public interface TermMapper {
 
     int insertByBatch(@Param("terms") List<Term> terms);
 
-    String getCurrentTerm(Date date);
+    Term getCurrentTerm(Date date);
 }

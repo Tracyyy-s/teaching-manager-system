@@ -10,6 +10,8 @@ import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.mapper.TermTargetMapper;
 import com.gwy.manager.service.TermTargetService;
 import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.ResultVOUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +64,7 @@ public class TermTargetServiceImpl implements TermTargetService {
 
         Term term = termMapper.selectByPrimaryKey(termId);
         if (term == null) {
-            resultVO.setData("Term Not Exist");
+            resultVO = ResultVOUtil.error("Term Not Exist");
         } else if (today.after(term.getBeginDate()) && today.before(term.getEndDate())) {
 
             //存储指标id的列表
@@ -79,17 +81,17 @@ public class TermTargetServiceImpl implements TermTargetService {
             }
 
             //判断本学期是否发布评价
-            if (targetIds.size() == 0) {
-                resultVO.setData("Not Publish Yet");
+            if (CollectionUtils.isEmpty(targetIds)) {
+                resultVO = ResultVOUtil.error("Not Publish Yet");
             } else {
                 //若发布则返回发布的评价
                 List<Target> targets = targetMapper.getTargetsByIds(targetIds);
-                resultVO.success(targets);
+                resultVO = ResultVOUtil.success(targets);
             }
         } else if (today.before(term.getBeginDate())) {
-            resultVO.setData("Too Early");
+            resultVO = ResultVOUtil.error("Too Early");
         } else if (today.after(term.getEndDate())) {
-            resultVO.setData("Too Late");
+            resultVO = ResultVOUtil.error("Too Late");
         }
 
         return resultVO;

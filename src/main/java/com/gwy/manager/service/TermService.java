@@ -44,4 +44,11 @@ public interface TermService {
      * @return  影响行数
      */
     int addTermsByBatch(List<Term> terms);
+
+    /**
+     * 获得当前学期
+     * @return  结果集
+     */
+    ResultVO getCurrentTerm();
+
 }

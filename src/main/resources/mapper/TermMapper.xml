@@ -46,8 +46,8 @@
     </foreach>
   </insert>
   <!-- 获得当前日期的学期id -->
-  <select id="getCurrentTerm" resultType="java.lang.String">
-    select term_id
+  <select id="getCurrentTerm" resultMap="BaseResultMap">
+    select term_id, term_name, begin_date, end_date
     from ts_term
     where #{date,jdbcType=TIMESTAMP} between begin_date and end_date
   </select>

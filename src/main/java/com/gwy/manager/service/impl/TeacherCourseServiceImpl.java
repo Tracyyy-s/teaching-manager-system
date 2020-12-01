@@ -9,6 +9,7 @@ import com.gwy.manager.service.TeacherCourseService;
 import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ResultVOUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,12 +55,12 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
         ResultVO resultVO;
 
         //获得当前学期
-        String currentTerm = termMapper.getCurrentTerm(DateUtilCustom.getDate());
+        String currentTermId = termMapper.getCurrentTerm(DateUtilCustom.getDate()).getTermId();
         try {
             List<TeacherCourse> teacherCourses = teacherCourseMapper
-                    .getTeacherCoursesByTeacherNoAndTermId(teacherNo, currentTerm);
+                    .getTeacherCoursesByTeacherNoAndTermId(teacherNo, currentTermId);
 
-            if (teacherCourses.size() == 0) {
+            if (CollectionUtils.isEmpty(teacherCourses)) {
                 resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
             } else {
                 resultVO = ResultVOUtil.success(this.teacherCourseFormat(teacherCourses));

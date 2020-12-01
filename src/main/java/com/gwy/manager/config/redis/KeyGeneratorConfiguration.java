@@ -4,6 +4,8 @@ import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.lang.reflect.Method;
+
 /**
  * @author Tracy
  * @date 2020/11/9 13:36
@@ -24,5 +26,10 @@ public class KeyGeneratorConfiguration {
     @Bean("teacherTermTargets")
     public KeyGenerator teacherTermTargetKey() {
         return (target, method, params) -> "teacher:" + params[0];
+    }
+
+    @Bean("currentTerm")
+    public KeyGenerator currentTermKey() {
+        return (target, method, params) -> "currentTerm";
     }
 }

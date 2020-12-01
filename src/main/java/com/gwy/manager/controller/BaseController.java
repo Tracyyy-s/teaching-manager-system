@@ -41,6 +41,15 @@ public class BaseController {
     }
 
     /**
+     * 获得当前学期信息
+     * @return  结果集
+     */
+    @PostMapping("/getCurrentTerm")
+    public String getCurrentTerm() {
+        return JSONObject.toJSONStringWithDateFormat(termService.getCurrentTerm(), DateUtilCustom.DATE_PATTERN);
+    }
+
+    /**
      * 获得用户所有权限
      * @param map   请求体
      * @return  结果集
