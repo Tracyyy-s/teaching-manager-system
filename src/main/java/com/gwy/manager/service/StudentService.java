@@ -2,6 +2,7 @@ package com.gwy.manager.service;
 
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -93,4 +94,13 @@ public interface StudentService {
      * @return  结果集
      */
     ResultVO getAllStudents(int pageNum, int pageSize);
+
+    /**
+     * Excel文件导入学生
+     * @param deptId    学院id
+     * @param headerType    用户类型
+     * @param file  导入文件
+     * @return  结果集
+     */
+    ResultVO importStudentsByFile(String deptId, String headerType, MultipartFile file);
 }

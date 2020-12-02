@@ -7,6 +7,7 @@ import com.gwy.manager.entity.Target;
 import com.gwy.manager.mapper.TargetMapper;
 import com.gwy.manager.service.TargetService;
 import com.gwy.manager.util.BeanUtil;
+import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,15 +35,15 @@ public class TargetServiceImpl implements TargetService {
         //没有匹配的指标类型
         if (!targetType.equals(UserOption.STUDENT.getTargetType()) &&
                 !targetType.equals(UserOption.TEACHER.getTargetType())) {
-            resultVO.setData("No That Target Type");
+            resultVO = ResultVOUtil.error("No That Target Type");
             return resultVO;
         }
 
         int res = targetMapper.insert(target);
         if (res == 0) {
-            resultVO.setData(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO.success(ResponseDataMsg.Success.getMsg());
+            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -56,14 +57,14 @@ public class TargetServiceImpl implements TargetService {
     @Override
     public ResultVO getTargets(String userType) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         List<Target> targetList;
 
         //既不是教师对象也不是学生对象
         if (!UserOption.STUDENT.getUserType().equals(userType) &&
                 !UserOption.TEACHER.getUserType().equals(userType)) {
-            resultVO.setData("No That User Type");
+            resultVO = ResultVOUtil.error("No That User Type");
             return resultVO;
         } else if (UserOption.STUDENT.getUserType().equals(userType)) {
             targetList = targetMapper.getStudentTargets();
@@ -73,7 +74,7 @@ public class TargetServiceImpl implements TargetService {
 
         //未找到任何指标
         if (targetList.size() == 0) {
-            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
 
             List<Object> list = new ArrayList<>();
@@ -86,7 +87,7 @@ public class TargetServiceImpl implements TargetService {
                 list.add(map);
             }
 
-            resultVO.success(list);
+            resultVO = ResultVOUtil.success(list);
         }
 
         return resultVO;
@@ -95,13 +96,13 @@ public class TargetServiceImpl implements TargetService {
     @Override
     public ResultVO updateTarget(Target target) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         int i = targetMapper.updateByPrimaryKey(target);
         if (i == 0) {
-            resultVO.setData(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO.success(ResponseDataMsg.Success.getMsg());
+            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -115,13 +116,13 @@ public class TargetServiceImpl implements TargetService {
     @Override
     public ResultVO deleteTarget(Integer targetId) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         int i = targetMapper.deleteByPrimaryKey(targetId);
         if (i == 0) {
-            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO.success(ResponseDataMsg.Success.getMsg());
+            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;

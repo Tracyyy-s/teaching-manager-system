@@ -110,8 +110,13 @@ class ManagerApplicationTests {
         System.out.println(resultVO.getData());
     }
 
+    @Autowired
+    TeacherCourseMapper teacherCourseMapper;
     @Test
     void decode() {
-        System.out.println(passwordEncoder.matches("577074958", "$2a$10$.p.AM96VLrzqP9PfQEtbru2PJZkh0GjslxEc8H4MYr3siyd5hZvYS"));
+        TeacherCourse teacherCourse = new TeacherCourse();
+        teacherCourse.setTcId("11111");
+        teacherCourse.setAppraiseSum(9);
+        teacherCourseMapper.insert(teacherCourse);
     }
 }

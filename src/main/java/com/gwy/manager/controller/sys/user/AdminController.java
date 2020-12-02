@@ -243,7 +243,20 @@ public class AdminController {
     @PostMapping("/importTeachers")
     @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String importTeachers(@RequestParam("deptId") String deptId,
-                                   @RequestParam("file") MultipartFile file) {
+                                 @RequestParam("file") MultipartFile file) {
         return JSONObject.toJSONStringWithDateFormat(userService.importUsersByFile(deptId, ExcelHeaderFormat.TeacherExcel, file), DateUtilCustom.DATE_PATTERN);
+    }
+
+    /**
+     * 上传Excel文件批量添加教师
+     * @param deptId 学院id
+     * @param file  文件
+     * @return  结果集
+     */
+    @PostMapping("/importStudents")
+    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    public String importStudents(@RequestParam("deptId") String deptId,
+                                 @RequestParam("file") MultipartFile file) {
+        return JSONObject.toJSONStringWithDateFormat(studentService.importStudentsByFile(deptId, ExcelHeaderFormat.StudentExcel, file), DateUtilCustom.DATE_PATTERN);
     }
 }

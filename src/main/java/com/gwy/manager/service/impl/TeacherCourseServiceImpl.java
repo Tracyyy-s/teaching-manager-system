@@ -66,6 +66,7 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
                 resultVO = ResultVOUtil.success(this.teacherCourseFormat(teacherCourses));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
         }
 

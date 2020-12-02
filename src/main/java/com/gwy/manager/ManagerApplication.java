@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.gwy.manager.mapper")
 @EnableCaching
 @EnableRabbit
-//@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement(proxyTargetClass = true)
 @SpringBootApplication
 public class ManagerApplication extends SpringBootServletInitializer {
 

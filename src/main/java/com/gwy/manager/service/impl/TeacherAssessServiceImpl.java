@@ -33,6 +33,7 @@ public class TeacherAssessServiceImpl implements TeacherAssessService {
 
         ResultVO resultVO;
 
+        //如果该教师在本学期已经评价过某教师
         if (teacherAssessMapper.selectByPrimaryKey(teacherAssess.getTeacherNo(),
                 teacherAssess.getAssessedTeacherNo(), teacherAssess.getTermId()) != null) {
 

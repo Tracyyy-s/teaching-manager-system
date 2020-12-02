@@ -7,6 +7,7 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.*;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.ResponseStatus;
+import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.mapper.RoleMapper;
 import com.gwy.manager.mapper.UserMapper;
@@ -181,27 +182,11 @@ public class UserServiceImpl implements UserService {
         return vrCodeUtil.sendCode(userId, RoleName.USER);
     }
 
+    @Transactional
     @Override
     public ResultVO updatePassword(String userId, String password, String vrCode) {
-        ResultVO resultVO;
 
-        String code = vrCodeUtil.getCode(userId);
-
-        if (!vrCode.equals(code)) {
-            resultVO = ResultVOUtil.error("Code Error");
-        } else {
-            int result = userMapper.updatePassword(userId, passwordEncoder.encode(password));
-            if (result == 0) {
-                resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
-            } else {
-                resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
-            }
-
-            //修改完毕后删除key
-            vrCodeUtil.deleteCode(userId);
-        }
-
-        return resultVO;
+        return vrCodeUtil.updatePasswordByCode(UserOption.TEACHER.getUserType(), userId, password, vrCode);
     }
 
     @Transactional(rollbackFor = {Exception.class})
@@ -312,6 +297,11 @@ public class UserServiceImpl implements UserService {
         //若用户拥有管理员角色
         //添加用户可管理学院
         StringBuilder sb = new StringBuilder();
+        //若修改后的学院id列表不存在用户所在学院id，则自动添加
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (!list.contains(user.getDeptId())) {
+            sb.append(user.getDeptId()).append(",");
+        }
         for (String s : list) {
             sb.append(s).append(",");
         }
@@ -335,8 +325,7 @@ public class UserServiceImpl implements UserService {
         ResultVO resultVO = headerFormat.importBeansByFile(deptId, headerType, file);
 
         if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
-            Object data = resultVO.getData();
-            Map<String, Object> map = (Map<String, Object>) data;
+            Map<String, Object> map = (Map<String, Object>) resultVO.getData();
 
             List<User> users = new ArrayList<>();
 

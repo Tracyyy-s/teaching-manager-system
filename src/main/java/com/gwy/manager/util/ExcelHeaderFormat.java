@@ -1,7 +1,9 @@
 package com.gwy.manager.util;
 
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.User;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.entity.Dept;
 import com.gwy.manager.dto.ExcelSheetPO;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -25,6 +28,8 @@ import java.util.regex.Pattern;
 public class ExcelHeaderFormat {
 
     public static final String TeacherExcel = "teacher";
+
+    public static final String StudentExcel = "student";
 
     public static final String TargetExcel = "target";
 
@@ -42,6 +47,11 @@ public class ExcelHeaderFormat {
             "政治面貌", "入职年份", "总学时", "入职学院", "职称", "职称获取时间"
     };
 
+    private static final String[] StudentHeaders = new String[]{
+            "学号", "姓名", "性别", "密码", "邮箱", "生日", "班号",
+            "政治面貌", "入学学院", "入学年份"
+    };
+
     /**
      * 根据传递来的标题头和对象类型检测是否合法
      *
@@ -53,6 +63,8 @@ public class ExcelHeaderFormat {
 
         if (headerType.equals(ExcelHeaderFormat.TeacherExcel)) {
             return Arrays.equals(headers, TeacherHeaders);
+        } else if (headerType.equals(ExcelHeaderFormat.StudentExcel)) {
+            return Arrays.equals(headers, StudentHeaders);
         }
 
         return false;
@@ -80,9 +92,9 @@ public class ExcelHeaderFormat {
 
         //返回结果
         Map<String, Object> result = new HashMap<>();
-        result.put("msg", "Fail");
+        result.put("msg", ResponseDataMsg.Fail.getMsg());
 
-        //如果批量导入教师
+        //如果导入教师
         if (headerType.equals(UserOption.TEACHER.getUserType())) {
             User user = new User();
 
@@ -98,30 +110,10 @@ public class ExcelHeaderFormat {
                 //设置教师名
                 objMap.put("username", obj.get(1));
 
-                //设置教师性别
-                if (obj.get(2).equals("男")) {
-                    objMap.put("gender", 1);
-                } else if (obj.get(2).equals("女")) {
-                    objMap.put("gender", 0);
-                } else {
-                    result.put("data", "Incorrect Gender");
+                //抽取公共字段并校验
+                if (isNotCorrectOnUserPublicFields(obj, objMap, result)) {
                     return result;
                 }
-
-                //设置教师密码
-                objMap.put("password", passwordEncoder.encode(obj.get(3).toString()));
-
-                boolean matches = Pattern.matches(EmailRegex, obj.get(4).toString());
-
-                if (matches) {
-                    objMap.put("email", obj.get(4));
-                } else {
-                    result.put("data", "Incorrect Email");
-                    return result;
-                }
-
-                //设置教师生日
-                objMap.put("birth", DateUtilCustom.string2Date((String) obj.get(5)));
 
                 //设置教师学历
                 objMap.put("degree", obj.get(6));
@@ -152,19 +144,93 @@ public class ExcelHeaderFormat {
                 return result;
             }
 
+            return mapToBean(user, objMap, result);
+
+        } else if (headerType.equals(UserOption.STUDENT.getUserType())) {
+            Student student = new Student();
+
             try {
-                BeanUtils.populate(user, objMap);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                result.put("data", "Incorrect Data Type to Package Into Bean");
+                if (obj.get(0).toString().endsWith(".00")) {
+                    result.put("data", "Incorrect studentId");
+                    return result;
+                }
+
+                //设置学号
+                objMap.put("studentNo", obj.get(0).toString());
+
+                //设置学生姓名
+                objMap.put("studentName", obj.get(1));
+
+                //检查公共字段
+                if (isNotCorrectOnUserPublicFields(obj, objMap, result)) {
+                    return result;
+                }
+
+                //设置学生班级
+                objMap.put("classId", obj.get(6));
+
+                //设置学生政治面貌
+                objMap.put("political", obj.get(7));
+
+                //设置学生学院
+                objMap.put("deptId", obj.get(8));
+
+                //设置学生入学年份
+                objMap.put("entryYear", Integer.parseInt((String) obj.get(9)));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                result.put("data", "Data ParseException");
                 return result;
             }
 
-            result.put("msg", "Success");
-            result.put("data", user);
-            return result;
+            return mapToBean(student, objMap, result);
         }
 
         return null;
+    }
+
+    private static <T> Map<String, Object> mapToBean(T bean, Map<String, Object> map, Map<String, Object> result) {
+
+        try {
+            BeanUtils.populate(bean, map);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            result.put("data", "Incorrect Data Type to Package Into Bean");
+            return result;
+        }
+
+        result.put("msg", ResponseDataMsg.Success.getMsg());
+        result.put("data", bean);
+        return result;
+    }
+
+    private static boolean isNotCorrectOnUserPublicFields(List<Object> obj, Map<String, Object> objMap, Map<String, Object> result) throws ParseException {
+        //设置性别
+        if (obj.get(2).equals("男")) {
+            objMap.put("gender", 1);
+        } else if (obj.get(2).equals("女")) {
+            objMap.put("gender", 0);
+        } else {
+            result.put("data", "Incorrect Gender");
+            return true;
+        }
+
+        //设置密码
+        objMap.put("password", passwordEncoder.encode(obj.get(3).toString()));
+
+        boolean matches = Pattern.matches(EmailRegex, obj.get(4).toString());
+
+        if (matches) {
+            objMap.put("email", obj.get(4));
+        } else {
+            result.put("data", "Incorrect Email");
+            return true;
+        }
+
+        //设置生日
+        objMap.put("birth", DateUtilCustom.string2Date((String) obj.get(5)));
+
+        return false;
     }
 
     /**
@@ -206,7 +272,7 @@ public class ExcelHeaderFormat {
                 titleMap.put("Failure", "表格标题不匹配");
                 titleMap.put("Expected", ExcelHeaderFormat.getValidHeaders(headerType));
 
-                resultVO.setData(titleMap);
+                resultVO = ResultVOUtil.error(titleMap);
                 return resultVO;
             }
 
@@ -225,10 +291,10 @@ public class ExcelHeaderFormat {
                 Map<String, Object> thisData = ExcelHeaderFormat.dataToBean(headerType, objects);
 
                 //如果数据识别错误
-                if (thisData != null && thisData.get("msg").equals("Fail")) {
-                    resultVO.setData(thisData.get("data"));
+                if (thisData != null && thisData.get("msg").equals(ResponseDataMsg.Fail.getMsg())) {
+                    resultVO = ResultVOUtil.error(thisData.get("data"));
                     return resultVO;
-                } else if (thisData != null && thisData.get("msg").equals("Success")) {
+                } else if (thisData != null && thisData.get("msg").equals(ResponseDataMsg.Success.getMsg())) {
 
                     //如果传递的是教师类型
                     if (headerType.equals(ExcelHeaderFormat.TeacherExcel)) {
@@ -237,7 +303,7 @@ public class ExcelHeaderFormat {
                         //如果院系不为管理员所在学院
                         //****封装时将Excel中的学院名字段赋予deptId****
                         if (!user.getDeptId().equals(dept.getDeptName())) {
-                            resultVO.setData("添加的教师仅可属于管理员所在学院");
+                            resultVO = ResultVOUtil.error("添加的教师仅可属于管理员所在学院");
                             return resultVO;
                         } else {
                             user.setDeptId(dept.getDeptId());
@@ -245,9 +311,23 @@ public class ExcelHeaderFormat {
 
                         //识别成功，添加
                         data.add((T) user);
+                    } else if (headerType.equals(ExcelHeaderFormat.StudentExcel)) {
+                        //如果是学生类型
+                        Student student = (Student) thisData.get("data");
+
+                        //如果院系不为管理员所在学院
+                        //****封装时将Excel中的学院名字段赋予deptId****
+                        if (!student.getDeptId().equals(dept.getDeptName())) {
+                            resultVO = ResultVOUtil.error("添加的学生仅可属于管理员所在学院");
+                            return resultVO;
+                        } else {
+                            student.setDeptId(dept.getDeptId());
+                        }
+
+                        //识别成功，添加
+                        data.add((T) student);
                     }
-                    //数据识别成功
-                    //data.add((T) thisData.get("data"));
+
                 }
             }
 

@@ -3,8 +3,8 @@ package com.gwy.manager.enums;
 /**
  * excel版本枚举
  *
- * @author JIANGYOUYAO
- * @date 2017年12月20日
+ * @author Tracy
+ * @date 2020年11月20日
  */
 public enum ExcelVersion {
 

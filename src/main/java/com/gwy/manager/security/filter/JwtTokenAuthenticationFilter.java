@@ -41,6 +41,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             //从token中获取用户信息，jwtUtils自定义的token加解密方式
             String username = JwtTokenUtils.getUsername(authToken);
 
+            //如果用户名存在但环境中不存在则添加
             if (!username.equals(JwtTokenUtils.ERROR_TOKEN) && SecurityContextHolder.getContext().getAuthentication() == null) {
                 //根据用户名获取用户对象
                 UserDetails userDetails = userDetailService.loadUserByUsername(username);
@@ -52,7 +53,8 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                     //设置为已登录
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            } else if (username.equals(JwtTokenUtils.ERROR_TOKEN)) {  //如果token不正确
+            } else if (username.equals(JwtTokenUtils.ERROR_TOKEN)) {
+                //如果token不正确
                 response.setContentType("application/json;charset=UTF-8");
                 response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("Error Token")));
                 return;

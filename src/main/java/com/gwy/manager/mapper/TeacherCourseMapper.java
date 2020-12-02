@@ -30,26 +30,26 @@ public interface TeacherCourseMapper {
 
     /**
      * 获得教师在某学期教授的全部课程
-     * @param teacherNo
-     * @param termId
-     * @return
+     * @param teacherNo 教师id
+     * @param termId    学期id
+     * @return  返回结果
      */
     List<TeacherCourse> getTeacherCoursesByTeacherNoAndTermId(@Param("teacherNo") String teacherNo,
                                                               @Param("termId") String termId);
 
     /**
      * 获得学生在某学期学习的全部课程
-     * @param studentNo
-     * @param termId
-     * @return
+     * @param studentNo 学号
+     * @param termId    学期
+     * @return  返回结果
      */
     List<TeacherCourse> getTeacherCourseByStudentNoAndTermId(@Param("studentNo") String studentNo,
                                                              @Param("termId") String termId);
 
     /**
      * 批量添加教师-课程信息
-     * @param teacherCourses
-     * @return
+     * @param teacherCourses    预添加
+     * @return  结果集
      */
     int insertBatch(@Param("teacherCourses") List<TeacherCourse> teacherCourses);
 }

@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,6 +37,16 @@ public class RequestAspect {
 
         Object[] args = pjp.getArgs();
 
+        //用于记录日志的参数
+        Object[] argsForLog = new Object[args.length];
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof MultipartFile) {
+                argsForLog[i] = "file";
+            } else {
+                argsForLog[i] = args[i];
+            }
+        }
+
         try {
             result = pjp.proceed(args);
         } catch (Throwable throwable) {
@@ -50,7 +61,7 @@ public class RequestAspect {
         }
 
         //记录日志
-        logUtil.recordLog(request, args, resultVO);
+        logUtil.recordLog(request, argsForLog, resultVO);
 
         return result;
     }

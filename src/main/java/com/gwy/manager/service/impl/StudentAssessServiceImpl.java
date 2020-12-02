@@ -4,6 +4,7 @@ import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.StudentAssess;
 import com.gwy.manager.mapper.StudentAssessMapper;
+import com.gwy.manager.mapper.TeacherCourseMapper;
 import com.gwy.manager.service.StudentAssessService;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ResultVOUtil;
@@ -22,6 +23,9 @@ public class StudentAssessServiceImpl implements StudentAssessService {
     @Autowired
     private StudentAssessMapper studentAssessMapper;
 
+    @Autowired
+    private TeacherCourseMapper teacherCourseMapper;
+
     @Override
     public ResultVO addStudentAssess(StudentAssess studentAssess) {
 
@@ -32,10 +36,18 @@ public class StudentAssessServiceImpl implements StudentAssessService {
         if (assess.getAppraiseScore() != null || assess.getSubmitTime() != null) {
             resultVO = ResultVOUtil.error("Already Assessed!");
         } else {
+            if (studentAssess.getAppraiseScore() <= 0) {
+                return ResultVOUtil.error("Error Score!");
+            }
+
             //设置评论提交时间
             studentAssess.setSubmitTime(DateUtilCustom.getTime());
             int i = studentAssessMapper.updateByPrimaryKey(studentAssess);
-            if (i == 0) {
+
+            //修改教师课程评价总分
+            int j = teacherCourseMapper.updateAppraiseScore(studentAssess.getTcId(), studentAssess.getAppraiseScore());
+
+            if (i == 0 || j == 0) {
                 resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
             } else {
                 resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());

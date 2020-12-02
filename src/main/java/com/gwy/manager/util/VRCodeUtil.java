@@ -3,12 +3,14 @@ package com.gwy.manager.util;
 import com.gwy.manager.constant.RoleName;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.mail.MailUtil;
 import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.mapper.UserMapper;
 import com.gwy.manager.rabbimq.RabbitmqProducer;
 import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.security.GlobalPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,9 @@ public class VRCodeUtil {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private GlobalPasswordEncoder passwordEncoder;
 
     public String getCode(String userId) {
         return  (String) redisUtil.get(userId + ":Code");
@@ -83,6 +88,45 @@ public class VRCodeUtil {
         }
 
         resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+        return resultVO;
+    }
+
+    /**
+     * 使用code更新密码
+     * @param userType  用户类型
+     * @param userId    用户id
+     * @param password  密码
+     * @param vrCode    验证码
+     * @return  结果集
+     */
+    public ResultVO updatePasswordByCode(String userType,
+                                         String userId,
+                                         String password,
+                                         String vrCode) {
+
+        String code = this.getCode(userId);
+        if (!vrCode.equals(code)) {
+            return ResultVOUtil.error("Code Error");
+        }
+
+        ResultVO resultVO;
+
+        int result;
+        if (userType.equals(UserOption.STUDENT.getUserType())) {
+            result = studentMapper.updatePassword(userId, passwordEncoder.encode(password));
+        } else {
+            result = userMapper.updatePassword(userId, passwordEncoder.encode(password));
+        }
+
+        if (result == 0) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+        } else {
+            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+        }
+
+        //修改完毕后删除key
+        this.deleteCode(userId);
+
         return resultVO;
     }
 }
