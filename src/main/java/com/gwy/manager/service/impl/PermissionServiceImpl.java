@@ -9,6 +9,9 @@ import com.gwy.manager.service.PermissionService;
 import com.gwy.manager.util.ResultVOUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,7 @@ import java.util.List;
  * @author Tracy
  * @date 2020/11/30 8:59
  */
+@CacheConfig(cacheNames = "permissions")
 @Service
 public class PermissionServiceImpl implements PermissionService {
 
@@ -27,6 +31,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
 
+    @Cacheable(keyGenerator = "byRoleIds")
     @Override
     public ResultVO getPermissionsByRoleIds(List<Integer> roleIds) {
 
@@ -42,6 +47,7 @@ public class PermissionServiceImpl implements PermissionService {
         return resultVO;
     }
 
+    @Cacheable(key = "'all'")
     @Override
     public ResultVO getAllPermissions() {
 
@@ -56,6 +62,7 @@ public class PermissionServiceImpl implements PermissionService {
         return resultVO;
     }
 
+    @Cacheable(keyGenerator = "byRoleId")
     @Override
     public ResultVO getPermissionsByRoleId(Integer roleId) {
         ResultVO resultVO;
@@ -70,6 +77,7 @@ public class PermissionServiceImpl implements PermissionService {
         return resultVO;
     }
 
+    @Cacheable(keyGenerator = "byIds")
     @Override
     public ResultVO getPermissionsByIds(List<Integer> permissionIds) {
 
@@ -85,6 +93,7 @@ public class PermissionServiceImpl implements PermissionService {
         return resultVO;
     }
 
+    @CacheEvict(allEntries = true, beforeInvocation = true)
     @Transactional
     @Override
     public ResultVO updateRolePermission(Integer roleId, List<Integer> permissionIds) {

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author Tracy
@@ -31,5 +32,39 @@ public class KeyGeneratorConfiguration {
     @Bean("currentTerm")
     public KeyGenerator currentTermKey() {
         return (target, method, params) -> "currentTerm";
+    }
+
+    @Bean("userRoleIds")
+    public KeyGenerator userRoleIds() {
+        return (target, method, params) -> "'" + params[0] + "'" + "roleIds";
+    }
+
+    @Bean("userRoles")
+    public KeyGenerator userRoles() {
+        return (target, method, params) -> "'" + params[0] + "'" + "roles";
+    }
+
+    @SuppressWarnings("unchecked")
+    @Bean("byRoleIds")
+    public KeyGenerator permissionsByRoleIds() {
+        return (target, method, params) -> {
+
+            List<Integer> roleIds = (List<Integer>) params[0];
+            return "roleIds::" + roleIds.toString();
+        };
+    }
+
+    @Bean("byRoleId")
+    public KeyGenerator permissionsByRoleId() {
+        return (target, method, params) -> "roleIds::" + params[0];
+    }
+
+    @SuppressWarnings("unchecked")
+    @Bean("byIds")
+    public KeyGenerator permissionByIds() {
+        return (target, method, params) -> {
+            List<Integer> ids = (List<Integer>) params[0];
+            return "ids::" + ids.toString();
+        };
     }
 }

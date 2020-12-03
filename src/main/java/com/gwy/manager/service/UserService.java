@@ -76,14 +76,6 @@ public interface UserService {
     ResultVO updatePassword(String userId, String password, String vrCode);
 
     /**
-     * 修改用户的角色
-     * @param userId 用户id
-     * @param roles  添加的角色集
-     * @return  结果集
-     */
-    ResultVO updateUserRole(String userId, List<Integer> roles);
-
-    /**
      * 获得所有管理员
      * @return  获得结果集
      */

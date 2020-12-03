@@ -63,21 +63,6 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/login").permitAll() //不需要保护的URL
                 .anyRequest().authenticated()
                 .and()
-//                //teacher访问路径
-//                .authorizeRequests().antMatchers("/teacher/**").hasAnyRole(RoleName.TEACHER + "," + RoleName.LEADER)
-//                .and()
-//                //student访问路径
-//                .authorizeRequests().antMatchers("/student/**").hasRole(RoleName.STUDENT)
-//                .and()
-//                //admin访问路径
-//                .authorizeRequests().antMatchers("/admin/**").hasAnyRole(RoleName.ADMIN1 + "," + RoleName.ADMIN2)
-//                .and()
-//                //高级admin访问路径
-//                .authorizeRequests().antMatchers("/adminplus/**").hasRole(RoleName.ADMIN2)
-//                .and()
-//                //root访问路径
-//                .authorizeRequests().antMatchers("/root/**").hasRole(RoleName.ROOT)
-//                .and()
                 .logout().permitAll() // 登出
                 .logoutSuccessHandler(customizeLogoutHandler)
                 .invalidateHttpSession(true)

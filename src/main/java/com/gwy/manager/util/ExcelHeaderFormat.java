@@ -10,6 +10,7 @@ import com.gwy.manager.dto.ExcelSheetPO;
 import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.security.GlobalPasswordEncoder;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -302,7 +303,7 @@ public class ExcelHeaderFormat {
 
                         //如果院系不为管理员所在学院
                         //****封装时将Excel中的学院名字段赋予deptId****
-                        if (!user.getDeptId().equals(dept.getDeptName())) {
+                        if (!StringUtils.isEmpty(user.getDeptId()) && !user.getDeptId().equals(dept.getDeptName())) {
                             resultVO = ResultVOUtil.error("添加的教师仅可属于管理员所在学院");
                             return resultVO;
                         } else {

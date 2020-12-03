@@ -6,6 +6,8 @@ import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
  * @author Tracy
  * @date 2020/11/1 23:09
  */
+@CacheConfig(cacheNames = "depts")
 @Service
 public class DeptServiceImpl implements DeptService {
 
@@ -40,6 +43,7 @@ public class DeptServiceImpl implements DeptService {
         return deptMapper.getDeptByName(name);
     }
 
+    @Cacheable(key = "'all'")
     @Override
     public ResultVO getAllDepts() {
 

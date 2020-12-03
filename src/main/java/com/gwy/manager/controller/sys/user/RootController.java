@@ -138,7 +138,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getPermissionsByRoleId")
-    @PreAuthorize("hasRole('ROLE_root')")
+    @PreAuthorize("hasAuthority('role_permission_modify')")
     public ResultVO getPermissionsByRoleId(@RequestBody Map<String, String> map) {
 
         int roleId;
@@ -157,7 +157,7 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateUserRole")
-    @PreAuthorize("hasRole('ROLE_root')")
+    @PreAuthorize("hasAuthority('role_permission_modify')")
     public ResultVO updateUserRole(@RequestBody Map<String, Object> map) {
 
         List<Integer> roleIds;
@@ -168,7 +168,7 @@ public class RootController {
         } catch (Exception e) {
             return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
         }
-        return userService.updateUserRole(userId, roleIds);
+        return userRoleService.updateUserRole(userId, roleIds);
     }
 
     /**
@@ -178,7 +178,7 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateRolePermission")
-    @PreAuthorize("hasRole('ROLE_root')")
+    @PreAuthorize("hasAuthority('role_permission_modify')")
     public ResultVO updateRolePermission(@RequestBody Map<String, Object> map) {
 
         Integer roleId = Integer.parseInt((String)map.get("roleId"));
@@ -189,17 +189,6 @@ public class RootController {
             return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
         }
         return permissionService.updateRolePermission(roleId, permissionIds);
-    }
-
-    /**
-     * root用户获得所有学院信息
-     * @return  结果集
-     */
-    @PostMapping("/getAllDepts")
-    @PreAuthorize("hasRole('ROLE_root')")
-    public ResultVO getAllDepts() {
-
-        return deptService.getAllDepts();
     }
 
     /**

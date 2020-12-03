@@ -38,7 +38,6 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/updatePassword")
-    @PreAuthorize("hasRole('ROLE_student')")
     public ResultVO updatePassword(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
@@ -53,7 +52,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getStudentInfo")
-    @PreAuthorize("hasRole('ROLE_student')")
+    @PreAuthorize("hasAuthority('studentInfo')")
     public String getStudentInfo(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
@@ -66,7 +65,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getTermCourses")
-    @PreAuthorize("hasRole('ROLE_student')")
+    @PreAuthorize("hasAuthority('studentSchedule')")
     public ResultVO getTermCourses(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
@@ -81,7 +80,6 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getTermTargets")
-    @PreAuthorize("hasRole('ROLE_student')")
     public ResultVO getStudentTermTargets(@RequestBody Map<String, String> map) {
 
         String termId = map.get("termId");
@@ -94,7 +92,7 @@ public class StudentController {
      * @return 返回结果
      */
     @PostMapping("/postAssess")
-    @PreAuthorize("hasRole('ROLE_student')")
+    @PreAuthorize("hasAuthority('Evaluation')")
     public ResultVO postAssess(@RequestBody StudentAssess studentAssess) {
         return studentAssessService.addStudentAssess(studentAssess);
     }

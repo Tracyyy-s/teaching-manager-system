@@ -189,57 +189,6 @@ public class UserServiceImpl implements UserService {
         return vrCodeUtil.updatePasswordByCode(UserOption.TEACHER.getUserType(), userId, password, vrCode);
     }
 
-    @Transactional(rollbackFor = {Exception.class})
-    @Override
-    public ResultVO updateUserRole(String userId, List<Integer> roles) {
-
-        ResultVO resultVO;
-
-        Integer teacherRoleId = roleMapper.selectRoleIdByName(RoleName.TEACHER);
-
-        //存储修改后用户的roleIds
-        List<Integer> roleIds = new ArrayList<>();
-        roleIds.add(teacherRoleId);
-        for (Integer role : roles) {
-            if (!role.equals(teacherRoleId)) {
-                roleIds.add(role);
-            }
-        }
-
-        //查询管理员角色id
-        Integer adminRoleId = roleMapper.selectRoleIdByName(RoleName.ADMIN);
-
-        //如果修改后没有管理员权限，则删除可管理学院列表
-        if (!roleIds.contains(adminRoleId)) {
-            userMapper.updateAvailableDeptIds(userId, "");
-        } else {
-            //如果有管理员权限
-            //先判断用户之前是否为管理员
-            User user = userMapper.selectByPrimaryKey(userId);
-
-            //如果用户可管理学院列表为空
-            if (StringUtils.isEmpty(user.getAvailableDeptIds())) {
-
-                //添加本学院为可管理学院
-                user.setAvailableDeptIds(user.getDeptId() + ",");
-                userMapper.updateByPrimaryKey(user);
-            }
-        }
-
-        //删除用户原有角色
-        userRoleMapper.deleteRoleOfUser(userId);
-
-        //为用户添加新角色
-        int i = userRoleMapper.addRolesForUser(userId, roleIds);
-        if (i == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
-        } else {
-            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
-        }
-
-        return resultVO;
-    }
-
     @Override
     public ResultVO getAllAdmin(int pageNum, int pageSize) {
 

@@ -1,8 +1,11 @@
 package com.gwy.manager.security;
 
+import com.gwy.manager.constant.RoleName;
+import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.*;
 import com.gwy.manager.mapper.*;
 import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.service.impl.PermissionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -33,12 +36,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private RoleMapper roleMapper;
 
     @Autowired
-    private RedisUtil redisUtil;
+    private PermissionMapper permissionMapper;
 
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-        //权限集合
-        List<GrantedAuthority> roles = new ArrayList<>();
+
         //用户密码
         String password;
 
@@ -51,44 +53,47 @@ public class UserDetailServiceImpl implements UserDetailsService {
             }
         }
 
+        List<Role> roles = new ArrayList<>();
+        List<Permission> permissions = new ArrayList<>();
+
         if (object instanceof Student) {
             Student student = (Student) object;
 
             password = student.getPassword();
             Role studentRole = roleMapper.selectByUserId(student.getStudentNo()).get(0);
-            roles = AuthorityUtils.commaSeparatedStringToAuthorityList(
-                            "ROLE_" + studentRole.getRoleName());
 
+            //添加学生角色
+            roles.add(studentRole);
+            //将学生角色权限添加至列表
+            permissions.addAll(permissionMapper.selectByRoleId(studentRole.getRoleId()));
         } else {
             com.gwy.manager.entity.User user = ((com.gwy.manager.entity.User) object);
 
             password = user.getPassword();
             List<Role> roleList = roleMapper.selectByUserId(user.getUserId());
 
+            List<Integer> roleIds = new ArrayList<>();
             //遍历用户的角色
             for (Role role : roleList) {
-                roles.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+                roleIds.add(role.getRoleId());
             }
+
+            //添加角色
+            roles.addAll(roleList);
+            //添加所有角色的权限
+            permissions.addAll(permissionMapper.selectByRoleIds(roleIds));
+
         }
 
         StringBuilder sb = new StringBuilder();
-        for (int i = roles.size() - 1; i >= 0; i--) {
-            sb.append(roles.get(i).toString().split("_")[1]);
-            if (i != 0) {
-                sb.append("|");
-            }
+        for (Role role : roles) {
+            sb.append(RoleName.ROLE_PREFIX).append(role.getRoleName()).append(", ");
         }
 
-        //获得该用户在redis中的key
-        String keyInRedis = redisUtil.getUserKeyInRedis(sb.toString(), account);
-        //将用户添加进redis
-        if (!redisUtil.hasKey(keyInRedis)) {
-            redisUtil.set(keyInRedis, object);
-
-            //设置用户在redis中的过期时间
-            redisUtil.expire(keyInRedis, 60 * 60 * 24);
+        for (Permission permission : permissions) {
+            sb.append(permission.getPermissionUrl()).append(", ");
         }
 
-        return new User(account, password, roles);
+        return new User(account, password, AuthorityUtils.commaSeparatedStringToAuthorityList(sb.toString()));
     }
 }

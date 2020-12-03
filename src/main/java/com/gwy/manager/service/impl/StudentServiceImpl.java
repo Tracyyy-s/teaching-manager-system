@@ -11,10 +11,7 @@ import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
-import com.gwy.manager.mapper.RoleMapper;
-import com.gwy.manager.mapper.StudentMapper;
-import com.gwy.manager.mapper.UserMapper;
-import com.gwy.manager.mapper.UserRoleMapper;
+import com.gwy.manager.mapper.*;
 import com.gwy.manager.rabbimq.RabbitmqProducer;
 import com.gwy.manager.service.StudentService;
 import com.gwy.manager.util.*;
@@ -39,8 +36,6 @@ import java.util.*;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
-
     @Autowired
     private StudentMapper studentMapper;
 
@@ -57,10 +52,10 @@ public class StudentServiceImpl implements StudentService {
     private VRCodeUtil vrCodeUtil;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private ExcelHeaderFormat headerFormat;
 
     @Autowired
-    private ExcelHeaderFormat headerFormat;
+    private DeptMapper deptMapper;
 
     @Override
     public int addStudent(Student student) {
@@ -74,13 +69,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResultVO getStudentInfo(String studentNo) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         Student student = this.getStudent(studentNo);
         if (student == null) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(BeanUtil.beanToMap(student));
+            Map<String, Object> studentMap = BeanUtil.beanToMap(student);
+            studentMap.put("deptName", deptMapper.selectByPrimaryKey(student.getDeptId()).getDeptName());
+            resultVO = ResultVOUtil.success(studentMap);
         }
 
         return resultVO;
@@ -88,7 +85,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public ResultVO getStudentInfoByAdmin(String adminNo, String studentNo) {
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         Student student = this.getStudent(studentNo);
         if (student == null) {
@@ -100,7 +97,9 @@ public class StudentServiceImpl implements StudentService {
             if (adminUser == null || !adminUser.getAvailableDeptIds().contains(student.getDeptId())) {
                 resultVO = ResultVOUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
             } else {
-                resultVO.success(BeanUtil.beanToMap(student));
+                Map<String, Object> studentMap = BeanUtil.beanToMap(student);
+                studentMap.put("deptName", deptMapper.selectByPrimaryKey(student.getDeptId()).getDeptName());
+                resultVO = ResultVOUtil.success(studentMap);
             }
         }
 
@@ -143,7 +142,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResultVO getStudentsByDept(String deptId) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         List<Student> students = studentMapper.selectStudentsByDept(deptId);
         if (students == null || students.size() == 0) {
@@ -156,7 +155,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public ResultVO getStudentByClass(String classId) {
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         List<Student> students = studentMapper.selectStudentsByClass(classId);
         if (students.size() == 0) {
@@ -170,7 +169,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResultVO getStudentsMatchName(String adminNo, String deptId, String name) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         User adminUser = userMapper.selectByPrimaryKey(adminNo);
         if (adminUser == null || !adminUser.getAvailableDeptIds().contains(deptId)) {

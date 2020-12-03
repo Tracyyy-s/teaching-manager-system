@@ -88,7 +88,7 @@ public class AdminController {
      * @return  返回结果集
      */
     @PostMapping("/updateTarget")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAnyAuthority('modifyStudentEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO updateTarget(@RequestBody Target target) {
         return targetService.updateTarget(target);
     }
@@ -99,7 +99,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/deleteTarget")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAnyAuthority('modifyStudentEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO deleteTarget(@RequestBody Map<String, String> map) {
 
         String targetId = map.get("targetId");
@@ -214,7 +214,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getCoursesOfTeacher")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAuthority('teacherSchedule')")
     public ResultVO getCoursesOfTeacher(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -241,20 +241,20 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/importTeachers")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAuthority('teacherListImporting')")
     public String importTeachers(@RequestParam("deptId") String deptId,
                                  @RequestParam("file") MultipartFile file) {
         return JSONObject.toJSONStringWithDateFormat(userService.importUsersByFile(deptId, ExcelHeaderFormat.TeacherExcel, file), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
-     * 上传Excel文件批量添加教师
+     * 上传Excel文件批量添加学生
      * @param deptId 学院id
      * @param file  文件
      * @return  结果集
      */
     @PostMapping("/importStudents")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAuthority('studentListImporting')")
     public String importStudents(@RequestParam("deptId") String deptId,
                                  @RequestParam("file") MultipartFile file) {
         return JSONObject.toJSONStringWithDateFormat(studentService.importStudentsByFile(deptId, ExcelHeaderFormat.StudentExcel, file), DateUtilCustom.DATE_PATTERN);

@@ -38,21 +38,12 @@ public class CustomizeLogoutHandler implements LogoutSuccessHandler {
                                 Authentication authentication) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         if (authentication == null) {
             logger.error("Authentication is null");
-            resultVO.setData(ResponseDataMsg.NotLogin.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotLogin.getMsg());
         } else {
-            String roleName = AuthenticationUtil.getRoleNameNotWithRole(authentication);
-            String username = AuthenticationUtil.getUsername(authentication);
-
-            //获得redis中User的Key
-            String keyInRedis = redisUtil.getUserKeyInRedis(roleName, username);
-
-            //删除redis中相关user的key
-            redisUtil.del(keyInRedis);
-
             //添加登出成功日志
             logUtil.addLog(request, authentication);
 

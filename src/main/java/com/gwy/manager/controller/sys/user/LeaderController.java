@@ -8,6 +8,7 @@ import com.gwy.manager.service.impl.TermTargetServiceImpl;
 import com.gwy.manager.service.impl.UserServiceImpl;
 import com.gwy.manager.util.DateUtilCustom;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -48,6 +49,7 @@ public class LeaderController {
      * @return  结果集
      */
     @PostMapping("/postAssess")
+    @PreAuthorize("hasAuthority('teacherEvaluation')")
     public ResultVO postAssess(@RequestBody TeacherAssess teacherAssess) {
         return teacherAssessService.addTeacherAssess(teacherAssess);
     }

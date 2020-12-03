@@ -21,9 +21,6 @@ public class RabbitmqProducer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private SysLogMapper sysLogMapper;
-
     /**
      * 邮件生产者，将邮件加入mq中
      * @param mailForm  邮件表单

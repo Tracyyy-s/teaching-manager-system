@@ -24,4 +24,12 @@ public interface UserRoleService {
      * @return  结果集
      */
     ResultVO getUserRoleIds(String account);
+
+    /**
+     * 修改用户的角色
+     * @param userId 用户id
+     * @param roles  添加的角色集
+     * @return  结果集
+     */
+    ResultVO updateUserRole(String userId, List<Integer> roles);
 }
