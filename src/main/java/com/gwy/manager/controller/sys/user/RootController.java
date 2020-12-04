@@ -61,7 +61,7 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getAllAdmins")
-    @PreAuthorize("hasRole('ROLE_root')")
+    @PreAuthorize("hasAuthority('user_role_list')")
     public String getAllAdmins(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
@@ -75,7 +75,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getAllUsers")
-    @PreAuthorize("hasRole('ROLE_root')")
+    @PreAuthorize("hasAuthority('user_role_list')")
     public String getAllUsers(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
@@ -103,7 +103,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getAllRoles")
-    @PreAuthorize("hasRole('ROLE_root')")
+    @PreAuthorize("hasAnyAuthority('user_role_list', 'role_permission_modify')")
     public ResultVO getAllRoles() {
 
         return roleService.getAllRoles();
@@ -114,7 +114,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getAllPermissions")
-    @PreAuthorize("hasRole('ROLE_root')")
+    @PreAuthorize("hasAuthority('role_permission_modify')")
     public ResultVO getAllPermissions() {
         return permissionService.getAllPermissions();
     }
@@ -125,7 +125,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getUserRoles")
-    @PreAuthorize("hasRole('ROLE_root')")
+    @PreAuthorize("hasAuthority('user_role_list')")
     public ResultVO getUserRole(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -157,7 +157,7 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateUserRole")
-    @PreAuthorize("hasAuthority('role_permission_modify')")
+    @PreAuthorize("hasAuthority('user_role_list')")
     public ResultVO updateUserRole(@RequestBody Map<String, Object> map) {
 
         List<Integer> roleIds;
@@ -198,7 +198,6 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateAvailableDeptIds")
-    @PreAuthorize("hasRole('ROLE_root')")
     public ResultVO updateAvailableDeptIds(@RequestBody Map<String, Object> map) {
 
         List<String> list;

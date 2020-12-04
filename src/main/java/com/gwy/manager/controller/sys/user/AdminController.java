@@ -66,11 +66,7 @@ public class AdminController {
             intTargetType = Integer.parseInt(targetType);
             intWeight = Integer.parseInt(weight);
         } catch (NumberFormatException e) {
-
-            ResultVO resultVO = new ResultVO();
-            resultVO.setData("NumberFormatException");
-
-            return resultVO;
+            return ResultVOUtil.error("NumberFormatException");
         }
 
         Target target = new Target();

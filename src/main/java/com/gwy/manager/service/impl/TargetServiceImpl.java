@@ -29,7 +29,7 @@ public class TargetServiceImpl implements TargetService {
     @Override
     public ResultVO addTarget(Target target) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         Integer targetType = target.getTargetObject();
         //没有匹配的指标类型
