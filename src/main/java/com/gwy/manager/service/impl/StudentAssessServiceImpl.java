@@ -85,7 +85,6 @@ public class StudentAssessServiceImpl implements StudentAssessService {
     @Override
     public ResultVO getStudentAssessesByTcId(String tcId) {
 
-        ResultVO resultVO;
         List<StudentAssess> studentAssesses = studentAssessMapper.selectByTcId(tcId);
         if (CollectionUtils.isEmpty(studentAssesses)) {
             return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
@@ -96,13 +95,13 @@ public class StudentAssessServiceImpl implements StudentAssessService {
             studentNos.add(studentAssess.getStudentNo());
         }
 
-        List<Student> students = studentMapper.selectStudentNamesByIds(studentNos);
         List<Map<String, Object>> assessMap = ((List<Map<String, Object>>) BeanUtil.beansToList(studentAssesses));
 
+        List<Map<String, Object>> maps = studentMapper.selectStudentNamesByIds(studentNos);
         for (int i = 0; i < assessMap.size(); i++) {
             Map<String, Object> tmpMap = assessMap.get(i);
-            tmpMap.put("classId", students.get(i).getClassId());
-            tmpMap.put("studentName", students.get(i).getStudentName());
+            tmpMap.put("classId", maps.get(i).get("class_id"));
+            tmpMap.put("studentName", maps.get(i).get("student_name"));
         }
 
         return ResultVOUtil.success(assessMap);

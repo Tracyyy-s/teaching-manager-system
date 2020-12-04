@@ -114,9 +114,9 @@ class ManagerApplicationTests {
     TeacherCourseMapper teacherCourseMapper;
     @Test
     void decode() {
-        TeacherCourse teacherCourse = new TeacherCourse();
-        teacherCourse.setTcId("11111");
-        teacherCourse.setAppraiseSum(9);
-        teacherCourseMapper.insert(teacherCourse);
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("2018110114");
+        List<Map<String, Object>> maps = studentMapper.selectStudentNamesByIds(strings);
+        System.out.println(maps);
     }
 }

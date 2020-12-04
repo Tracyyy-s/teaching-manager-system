@@ -92,7 +92,7 @@
     where dept_id = #{deptId,jdbcType=VARCHAR} and
     student_name like concat('%', #{name,jdbcType=VARCHAR}, '%')
   </select>
-  <select id="selectStudentNamesByIds" resultMap="BaseResultMap">
+  <select id="selectStudentNamesByIds" resultType="java.util.Map">
     select student_no, student_name, class_id
     from ts_student
     where student_no in

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public interface StudentMapper {
@@ -34,5 +35,5 @@ public interface StudentMapper {
     List<Student> selectStudentsMatchName(@Param("deptId") String deptId,
                                           @Param("name")String name);
 
-    List<Student> selectStudentNamesByIds(@Param("studentNos") List<String> studentNos);
+    List<Map<String, Object>> selectStudentNamesByIds(@Param("studentNos") List<String> studentNos);
 }
