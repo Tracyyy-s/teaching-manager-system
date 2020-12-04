@@ -35,6 +35,12 @@ public class AdminController {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private StudentAssessServiceImpl studentAssessService;
+
+    @Autowired
+    private TeacherCourseServiceImpl teacherCourseService;
+
     /**
      * 获得评价指标
      * @return  返回结果集
@@ -228,6 +234,31 @@ public class AdminController {
 
         String userId = map.get("userId");
         return userService.getDeptIdsOfUser(userId);
+    }
+
+    /**
+     * 获得某学院在某学期的所有课程
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getCoursesOfDeptInTerm")
+    public ResultVO getCoursesOfDeptInTerm(@RequestBody Map<String, String> map) {
+
+        String deptId = map.get("deptId");
+        String termId = map.get("termId");
+        return teacherCourseService.getCoursesByDeptAndTerm(deptId, termId);
+    }
+
+    /**
+     * 获得某门课程的学生评价
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getStudentAssessesByTcId")
+    public ResultVO getStudentAssesses(@RequestBody Map<String, String> map) {
+
+        String tcId = map.get("tcId");
+        return studentAssessService.getStudentAssessesByTcId(tcId);
     }
 
     /**

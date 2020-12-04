@@ -1,17 +1,24 @@
 package com.gwy.manager.service.impl;
 
+import com.gwy.manager.entity.Student;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.StudentAssess;
 import com.gwy.manager.mapper.StudentAssessMapper;
+import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.mapper.TeacherCourseMapper;
 import com.gwy.manager.service.StudentAssessService;
+import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ResultVOUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Tracy
@@ -25,6 +32,9 @@ public class StudentAssessServiceImpl implements StudentAssessService {
 
     @Autowired
     private TeacherCourseMapper teacherCourseMapper;
+
+    @Autowired
+    private StudentMapper studentMapper;
 
     @Override
     public ResultVO addStudentAssess(StudentAssess studentAssess) {
@@ -69,6 +79,34 @@ public class StudentAssessServiceImpl implements StudentAssessService {
 
     @Override
     public List<StudentAssess> getStudentAssessesByTerm(String sno, String termId) {
-        return studentAssessMapper.getStudentAssessByTerm(sno, termId);
+        return studentAssessMapper.selectByStudentNoAndTerm(sno, termId);
     }
+
+    @Override
+    public ResultVO getStudentAssessesByTcId(String tcId) {
+
+        ResultVO resultVO;
+        List<StudentAssess> studentAssesses = studentAssessMapper.selectByTcId(tcId);
+        if (CollectionUtils.isEmpty(studentAssesses)) {
+            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        }
+
+        List<String> studentNos = new ArrayList<>();
+        for (StudentAssess studentAssess : studentAssesses) {
+            studentNos.add(studentAssess.getStudentNo());
+        }
+
+        List<Student> students = studentMapper.selectStudentNamesByIds(studentNos);
+        List<Map<String, Object>> assessMap = ((List<Map<String, Object>>) BeanUtil.beansToList(studentAssesses));
+
+        for (int i = 0; i < assessMap.size(); i++) {
+            Map<String, Object> tmpMap = assessMap.get(i);
+            tmpMap.put("classId", students.get(i).getClassId());
+            tmpMap.put("studentName", students.get(i).getStudentName());
+        }
+
+        return ResultVOUtil.success(assessMap);
+    }
+
+
 }

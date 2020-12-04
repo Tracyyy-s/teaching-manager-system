@@ -47,13 +47,13 @@
     end_week
     from ts_teacher_course
   </select>
-  <select id="getTeacherCoursesByTeacherNoAndTermId" resultMap="BaseResultMap">
+  <select id="selectByTeacherNoAndTermId" resultMap="BaseResultMap">
     select tc_id, course_no, teacher_no, term_id, appraise_sum, address, time, begin_week,
     end_week
     from ts_teacher_course
     where teacher_no = #{teacherNo,jdbcType=VARCHAR} and term_id = #{termId,jdbcType=VARCHAR}
   </select>
-  <select id="getTeacherCourseByStudentNoAndTermId" resultMap="BaseResultMap">
+  <select id="selectByStudentNoAndTermId" resultMap="BaseResultMap">
     select tc_id, course_no, teacher_no, term_id, appraise_sum, address, time, begin_week,
     end_week
     from ts_teacher_course
@@ -84,4 +84,13 @@
     set appraise_sum = appraise_sum + #{changeScore,jdbcType=INTEGER}
     where tc_id = #{tcId,jdbcType=VARCHAR}
   </update>
+  <select id="selectByTermAndDept" resultMap="BaseResultMap">
+    select tc_id, course_no, teacher_no, term_id, appraise_sum, address, time, begin_week,
+    end_week
+    from ts_teacher_course
+    where term_id = #{termId,jdbcType=VARCHAR}
+    and course_no in (select course_no
+                      from ts_course
+                      where dept_id = #{deptId,jdbcType=VARCHAR})
+  </select>
 </mapper>

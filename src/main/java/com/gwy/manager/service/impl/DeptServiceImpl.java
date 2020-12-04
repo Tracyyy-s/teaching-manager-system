@@ -5,6 +5,7 @@ import com.gwy.manager.entity.Dept;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.service.DeptService;
+import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,9 +34,18 @@ public class DeptServiceImpl implements DeptService {
         return deptMapper.updateByPrimaryKey(dept);
     }
 
+    @Cacheable(key = "#deptId")
     @Override
-    public Dept getDeptById(String deptId) {
-        return deptMapper.selectByPrimaryKey(deptId);
+    public ResultVO getDeptById(String deptId) {
+
+        ResultVO resultVO;
+
+        if (deptMapper.selectByPrimaryKey(deptId) == null) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+        }
+        return resultVO;
     }
 
     @Override

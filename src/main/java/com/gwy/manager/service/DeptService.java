@@ -28,7 +28,7 @@ public interface DeptService {
      * @param deptId 学院id
      * @return  结果集
      */
-    Dept getDeptById(String deptId);
+    ResultVO getDeptById(String deptId);
 
     /**
      * 通过学院名获取学院

@@ -75,9 +75,7 @@ public class StudentServiceImpl implements StudentService {
         if (student == null) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            Map<String, Object> studentMap = BeanUtil.beanToMap(student);
-            studentMap.put("deptName", deptMapper.selectByPrimaryKey(student.getDeptId()).getDeptName());
-            resultVO = ResultVOUtil.success(studentMap);
+            resultVO = ResultVOUtil.success(BeanUtil.beanToMap(student));
         }
 
         return resultVO;
@@ -97,9 +95,7 @@ public class StudentServiceImpl implements StudentService {
             if (adminUser == null || !adminUser.getAvailableDeptIds().contains(student.getDeptId())) {
                 resultVO = ResultVOUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
             } else {
-                Map<String, Object> studentMap = BeanUtil.beanToMap(student);
-                studentMap.put("deptName", deptMapper.selectByPrimaryKey(student.getDeptId()).getDeptName());
-                resultVO = ResultVOUtil.success(studentMap);
+                resultVO = ResultVOUtil.success(BeanUtil.beanToMap(student));
             }
         }
 

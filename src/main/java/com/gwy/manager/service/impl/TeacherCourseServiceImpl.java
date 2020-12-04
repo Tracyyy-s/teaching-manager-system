@@ -58,7 +58,7 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
         String currentTermId = termMapper.getCurrentTerm(DateUtilCustom.getDate()).getTermId();
         try {
             List<TeacherCourse> teacherCourses = teacherCourseMapper
-                    .getTeacherCoursesByTeacherNoAndTermId(teacherNo, currentTermId);
+                    .selectByTeacherNoAndTermId(teacherNo, currentTermId);
 
             if (CollectionUtils.isEmpty(teacherCourses)) {
                 resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
@@ -79,7 +79,7 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
         ResultVO resultVO;
 
         List<TeacherCourse> teacherCourses = teacherCourseMapper
-                .getTeacherCourseByStudentNoAndTermId(studentNo, termId);
+                .selectByStudentNoAndTermId(studentNo, termId);
 
         if (teacherCourses.size() == 0) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
@@ -87,6 +87,21 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
             resultVO = ResultVOUtil.success(this.teacherCourseFormat(teacherCourses));
         }
 
+        return resultVO;
+    }
+
+    @Override
+    public ResultVO getCoursesByDeptAndTerm(String deptId, String termId) {
+
+        ResultVO resultVO;
+
+        List<TeacherCourse> teacherCourses = teacherCourseMapper
+                .selectByTermAndDept(deptId, termId);
+        if (CollectionUtils.isEmpty(teacherCourses)) {
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        } else {
+            resultVO = ResultVOUtil.success(this.teacherCourseFormat(teacherCourses));
+        }
         return resultVO;
     }
 

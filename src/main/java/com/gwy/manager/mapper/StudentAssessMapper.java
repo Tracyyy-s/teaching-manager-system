@@ -23,6 +23,13 @@ public interface StudentAssessMapper {
      * @param termId    学期号
      * @return  结果集
      */
-    List<StudentAssess> getStudentAssessByTerm(@Param("studentNo") String studentNo,
+    List<StudentAssess> selectByStudentNoAndTerm(@Param("studentNo") String studentNo,
                                                @Param("termId") String termId);
+
+    /**
+     * 获得某门课的评价
+     * @param tcId  课程号
+     * @return  结果集
+     */
+    List<StudentAssess> selectByTcId(String tcId);
 }

@@ -87,4 +87,16 @@ public class BaseController {
 
         return rolesOfUser;
     }
+
+    /**
+     * 根据学院id获得学院
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("getDeptById")
+    public ResultVO getDeptById(@RequestBody Map<String, String> map) {
+
+        String deptId = map.get("deptId");
+        return deptService.getDeptById(deptId);
+    }
 }

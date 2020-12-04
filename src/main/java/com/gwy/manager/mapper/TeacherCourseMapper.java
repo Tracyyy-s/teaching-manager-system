@@ -34,7 +34,7 @@ public interface TeacherCourseMapper {
      * @param termId    学期id
      * @return  返回结果
      */
-    List<TeacherCourse> getTeacherCoursesByTeacherNoAndTermId(@Param("teacherNo") String teacherNo,
+    List<TeacherCourse> selectByTeacherNoAndTermId(@Param("teacherNo") String teacherNo,
                                                               @Param("termId") String termId);
 
     /**
@@ -43,8 +43,17 @@ public interface TeacherCourseMapper {
      * @param termId    学期
      * @return  返回结果
      */
-    List<TeacherCourse> getTeacherCourseByStudentNoAndTermId(@Param("studentNo") String studentNo,
+    List<TeacherCourse> selectByStudentNoAndTermId(@Param("studentNo") String studentNo,
                                                              @Param("termId") String termId);
+
+    /**
+     * 获得某学院某学期开设的所有课程
+     * @param deptId    学院id
+     * @param termId    学期id
+     * @return  结果集
+     */
+    List<TeacherCourse> selectByTermAndDept(@Param("deptId") String deptId,
+                                            @Param("termId") String termId);
 
     /**
      * 批量添加教师-课程信息

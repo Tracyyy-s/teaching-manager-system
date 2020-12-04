@@ -28,24 +28,32 @@ public interface TeacherCourseService {
 
     /**
      * 批量添加教师-课程信息
-     * @param teacherCourses
-     * @return
+     * @param teacherCourses    教师课程
+     * @return  返回结果
      */
     int addTeacherCoursesBatch(List<TeacherCourse> teacherCourses);
 
     /**
      * 获得某学生某学期的课程
-     * @param studentNo
-     * @param termId
-     * @return
+     * @param studentNo 学号
+     * @param termId    学期号
+     * @return  返回结果
      */
     ResultVO getCoursesByStudentAndTerm(String studentNo, String termId);
 
     /**
      * 获得某教师某学期的课程
-     * @param teacherNo
-     * @return
+     * @param teacherNo 教师号
+     * @return  返回结果
      */
     ResultVO getCoursesByTeacherAndTerm(String teacherNo);
+
+    /**
+     * 获得某学院某学期开设的所有课程
+     * @param deptId    学院id
+     * @param termId    学期id
+     * @return  结果集
+     */
+    ResultVO getCoursesByDeptAndTerm(String deptId, String termId);
 
 }

@@ -20,25 +20,32 @@ public interface StudentAssessService {
 
     /**
      * 删除学生对某课程的评价
-     * @param studentNo
-     * @param tcId
-     * @return
+     * @param studentNo 学号
+     * @param tcId  课程号
+     * @return  结果集
      */
     int deleteAppraise(String studentNo, String tcId);
 
     /**
      * 获取学生对某课程的评价
-     * @param sno
-     * @param tcId
-     * @return
+     * @param sno   学号
+     * @param tcId  课程号
+     * @return  结果集
      */
     StudentAssess getStudentAssesses(String sno, String tcId);
 
     /**
      * 获取学生本学期的所有评价
-     * @param sno
-     * @param termId
-     * @return
+     * @param sno   学号
+     * @param termId    学期号
+     * @return  结果集
      */
     List<StudentAssess> getStudentAssessesByTerm(String sno, String termId);
+
+    /**
+     * 获得某门课的所有学生评价
+     * @param tcId  课程id
+     * @return  结果集
+     */
+    ResultVO getStudentAssessesByTcId(String tcId);
 }
