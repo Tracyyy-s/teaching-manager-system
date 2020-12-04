@@ -40,10 +40,11 @@ public class DeptServiceImpl implements DeptService {
 
         ResultVO resultVO;
 
-        if (deptMapper.selectByPrimaryKey(deptId) == null) {
+        Dept dept = deptMapper.selectByPrimaryKey(deptId);
+        if (dept == null) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+            resultVO = ResultVOUtil.success(dept);
         }
         return resultVO;
     }
