@@ -62,16 +62,6 @@ public class BaseController {
     }
 
     /**
-     * root用户获得所有学院信息
-     * @return  结果集
-     */
-    @PostMapping("/getAllDepts")
-    public ResultVO getAllDepts() {
-
-        return deptService.getAllDepts();
-    }
-
-    /**
      * 获得用户所有权限
      * @param map   请求体
      * @return  结果集

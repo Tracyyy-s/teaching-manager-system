@@ -213,4 +213,14 @@ public class RootController {
         String userId = (String) map.get("userId");
         return userService.updateAvailableDeptIds(userId, list);
     }
+
+    /**
+     * root用户获得所有学院信息
+     * @return  结果集
+     */
+    @PostMapping("/getAllDepts")
+    public ResultVO getAllDepts() {
+
+        return deptService.getAllDepts();
+    }
 }
