@@ -2,7 +2,7 @@ package com.gwy.manager.entity;
 
 import java.util.Date;
 
-public class SysLog {
+public class SysLog implements Comparable<SysLog>{
 
     private String userId;
 
@@ -29,6 +29,11 @@ public class SysLog {
     private String params;
 
     public SysLog() {
+    }
+
+    @Override
+    public int compareTo(SysLog sysLog) {
+        return -1 * this.getCreateTime().compareTo(sysLog.createTime);
     }
 
     public String getUserId() {

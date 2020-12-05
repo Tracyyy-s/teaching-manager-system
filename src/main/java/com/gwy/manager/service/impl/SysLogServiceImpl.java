@@ -112,7 +112,8 @@ public class SysLogServiceImpl implements SysLogService {
         if (CollectionUtils.isEmpty(sysLogs)) {
             return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+            Collections.sort(sysLogs);
+            return ResultVOUtil.success(sysLogs);
         }
 
     }

@@ -49,6 +49,5 @@
     data, create_time, params, data_explain, type, type_explain
     from ts_log
     where type = #{type,jdbcType=VARCHAR}
-    order by create_time desc
   </select>
 </mapper>

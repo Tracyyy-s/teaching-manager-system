@@ -264,7 +264,7 @@ public class RootController {
      * @param map   请求体
      * @return  结果集
      */
-    @PostMapping("/getLogInfoByData")
+    @PostMapping("/getLogInfoByType")
     @PreAuthorize("hasAuthority('Log')")
     public String getLogs(@RequestBody Map<String, Object> map) {
 
