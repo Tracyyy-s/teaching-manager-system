@@ -4,7 +4,7 @@ import com.gwy.manager.config.rabbitmq.RabbitmqConfiguration;
 import com.gwy.manager.entity.SysLog;
 import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.mail.MailUtil;
-import com.gwy.manager.util.SysLogUtil;
+import com.gwy.manager.service.impl.SysLogServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -28,7 +28,7 @@ public class RabbitmqConsumer {
     private MailUtil mailUtil;
 
     @Autowired
-    private SysLogUtil logUtil;
+    private SysLogServiceImpl logService;
 
     /**
      * 监听邮件队列，并将监听得到的邮件进行发送
@@ -59,7 +59,7 @@ public class RabbitmqConsumer {
     @RabbitListener(queues = RabbitmqConfiguration.QUEUE_LOG)
     public void onLogging(SysLog sysLog) {
         try {
-            logUtil.addLog(sysLog);
+            logService.insertLog(sysLog);
         } catch (Exception e) {
             logger.error("{}", e.getMessage());
         }

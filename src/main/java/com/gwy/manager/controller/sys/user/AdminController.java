@@ -46,7 +46,7 @@ public class AdminController {
      * @return  返回结果集
      */
     @PostMapping("/getTargets")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAnyAuthority('modifyStudentsEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO getTargets(@RequestBody Map<String, String> map) {
 
         String userType = map.get("userType");
@@ -59,7 +59,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/addTarget")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAnyAuthority('modifyStudentsEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO addStudentTarget(@RequestBody Map<String, String> map) {
 
         String targetType = map.get("targetType");
@@ -90,7 +90,7 @@ public class AdminController {
      * @return  返回结果集
      */
     @PostMapping("/updateTarget")
-    @PreAuthorize("hasAnyAuthority('modifyStudentEvaluationForm', 'modifyTeacherEvaluationForm')")
+    @PreAuthorize("hasAnyAuthority('modifyStudentsEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO updateTarget(@RequestBody Target target) {
         return targetService.updateTarget(target);
     }
@@ -101,7 +101,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/deleteTarget")
-    @PreAuthorize("hasAnyAuthority('modifyStudentEvaluationForm', 'modifyTeacherEvaluationForm')")
+    @PreAuthorize("hasAnyAuthority('modifyStudentsEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO deleteTarget(@RequestBody Map<String, String> map) {
 
         String targetId = map.get("targetId");
@@ -121,7 +121,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getTeachersByDept")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAuthority('teacherListImporting')")
     public String getTeachersByDept(@RequestBody Map<String, String> map) {
         String deptId = map.get("deptId");
         return JSONObject.toJSONStringWithDateFormat(userService.getUsersOfDept(deptId), DateUtilCustom.DATE_PATTERN);
@@ -162,7 +162,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getStudentsByDept")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAuthority('studentListImporting')")
     public String getStudentsByDept(@RequestBody Map<String, String> map) {
 
         String deptId = map.get("deptId");

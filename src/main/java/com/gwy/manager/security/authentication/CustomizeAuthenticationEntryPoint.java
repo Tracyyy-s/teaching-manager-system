@@ -1,9 +1,11 @@
 package com.gwy.manager.security.authentication;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.security.exception.AuthException;
+import com.gwy.manager.service.impl.SysLogServiceImpl;
 import com.gwy.manager.util.ResultVOUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -20,9 +22,14 @@ import java.io.IOException;
 @Component
 public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    @Autowired
+    SysLogServiceImpl logService;
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8");
+
+        logService.addLog(request, new AuthException(ResponseDataMsg.NotLogin.name()));
 
         response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error(ResponseDataMsg.NotLogin.getMsg())));
     }

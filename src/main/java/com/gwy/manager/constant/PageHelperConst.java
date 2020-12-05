@@ -10,6 +10,8 @@ public class PageHelperConst {
 
     public static final String pageSize      =    "pageSize";
 
+    public static final String pages         =    "pages";
+
     public static final String nextPage      =    "nextPage";
 
     public static final String prePage       =    "prePage";

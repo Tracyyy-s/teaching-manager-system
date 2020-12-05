@@ -15,7 +15,7 @@ public class PageHelperUtil {
     public static void pageMsg(Map<String, Object> map) {
 
         map.putIfAbsent(PageHelperConst.pageNum, 1);
-        map.putIfAbsent(PageHelperConst.pageSize, 5);
+        map.putIfAbsent(PageHelperConst.pageSize, 10);
     }
 
     public static <T> Map<String, Object> pageInfoToMap(PageInfo<T> info) {
@@ -23,7 +23,8 @@ public class PageHelperUtil {
         Map<String, Object> map = new LinkedHashMap<>();
 
         map.put(PageHelperConst.pageNum, info.getPageNum());
-        map.put(PageHelperConst.pageSize, info.getPages());
+        map.put(PageHelperConst.pageSize, info.getPageSize());
+        map.put(PageHelperConst.pages, info.getPages());
         map.put(PageHelperConst.nextPage, info.getNextPage());
         map.put(PageHelperConst.prePage, info.getPrePage());
         map.put(PageHelperConst.hasNextPage, info.isHasNextPage());

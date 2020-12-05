@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.constant.PageHelperConst;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.enums.SysLogType;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.PageHelperUtil;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +44,9 @@ public class RootController {
 
     @Autowired
     private StudentServiceImpl studentService;
+
+    @Autowired
+    private SysLogServiceImpl logService;
 
     /**
      * root用户修改密码
@@ -222,5 +228,50 @@ public class RootController {
     public ResultVO getAllDepts() {
 
         return deptService.getAllDepts();
+    }
+
+    /**
+     * 获取所有日志类别
+     * @return  结果集
+     */
+    @PostMapping("/getLogTypes")
+    @PreAuthorize("hasAuthority('Log')")
+    public ResultVO getLogTypes() {
+
+        SysLogType[] types = SysLogType.values();
+        List<Map<String, String>> typeList = new ArrayList<>();
+        for (SysLogType type : types) {
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put("value", type.getType());
+            map.put("label", type.getTypeExplain());
+            typeList.add(map);
+        }
+        return ResultVOUtil.success(typeList);
+    }
+
+    /**
+     * 获得所有日志类型已经相应的数量
+     * @return  结果集
+     */
+    @PostMapping("/getLogTypeAndCount")
+    @PreAuthorize("hasAuthority('Log')")
+    public ResultVO getLogTypeAndCount() {
+        return logService.getLogTypeAndCount();
+    }
+
+    /**
+     * 通过日志类型获得所有日志
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getLogInfoByData")
+    @PreAuthorize("hasAuthority('Log')")
+    public String getLogs(@RequestBody Map<String, Object> map) {
+
+        PageHelperUtil.pageMsg(map);
+        int pageNum = (int) map.get(PageHelperConst.pageNum);
+        int pageSize = (int) map.get(PageHelperConst.pageSize);
+        String type = (String) map.get("type");
+        return JSONObject.toJSONStringWithDateFormat(logService.getLogInfoByType(type, pageNum, pageSize), DateUtilCustom.TIME_PATTERN);
     }
 }

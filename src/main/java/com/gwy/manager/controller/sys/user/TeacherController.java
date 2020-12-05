@@ -85,7 +85,7 @@ public class TeacherController {
      * @return  返回集
      */
     @PostMapping("/getTermCourses")
-    @PreAuthorize("hasAnyRole('ROLE_teacher', 'ROLE_root')")
+    @PreAuthorize("hasAuthority('timetableImporting')")
     public ResultVO getTermCourses(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");

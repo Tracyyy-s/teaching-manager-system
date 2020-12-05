@@ -18,6 +18,12 @@ public class SysLog {
 
     private String data;
 
+    private String dataExplain;
+
+    private String type;
+
+    private String typeExplain;
+
     private Date createTime;
 
     private String params;
@@ -95,5 +101,29 @@ public class SysLog {
 
     public void setParams(String params) {
         this.params = params == null ? null : params.trim();
+    }
+
+    public String getDataExplain() {
+        return dataExplain;
+    }
+
+    public void setDataExplain(String dataExplain) {
+        this.dataExplain = dataExplain;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTypeExplain() {
+        return typeExplain;
+    }
+
+    public void setTypeExplain(String typeExplain) {
+        this.typeExplain = typeExplain;
     }
 }

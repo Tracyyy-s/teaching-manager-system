@@ -3,8 +3,9 @@ package com.gwy.manager.security.authentication;
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.security.exception.AuthException;
+import com.gwy.manager.service.impl.SysLogServiceImpl;
 import com.gwy.manager.util.ResultVOUtil;
-import com.gwy.manager.util.SysLogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -25,24 +26,16 @@ import java.io.IOException;
 public class CustomizeLoginFailureHandler implements AuthenticationFailureHandler {
 
     @Autowired
-    private SysLogUtil logUtil;
+    private SysLogServiceImpl logService;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException ex) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
 
-        ResultVO resultVO;
-
-        if (ex instanceof UsernameNotFoundException || ex instanceof BadCredentialsException) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.UserNameORPasswordError.getMsg());
-        } else {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
-        }
-
         //添加登录失败日志
-        logUtil.addLog(request, ex);
+        logService.addLog(request, new AuthException(ResponseDataMsg.UserNameORPasswordError.name()));
 
-        response.getWriter().write(JSONObject.toJSONString(resultVO));
+        response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error(ResponseDataMsg.UserNameORPasswordError.getMsg())));
     }
 }

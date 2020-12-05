@@ -9,26 +9,46 @@
     <result column="locale" property="locale" jdbcType="VARCHAR" />
     <result column="result_message" property="resultMessage" jdbcType="VARCHAR" />
     <result column="data" property="data" jdbcType="VARCHAR" />
+    <result column="data_explain" property="dataExplain" jdbcType="VARCHAR"/>
+    <result column="type" property="type" jdbcType="VARCHAR"/>
+    <result column="type_explain" property="typeExplain" jdbcType="VARCHAR"/>
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="params" property="params" jdbcType="LONGVARCHAR" />
   </resultMap>
   <insert id="insert" parameterType="com.gwy.manager.entity.SysLog" >
     insert into ts_log (user_id, authorities, request_url,
       ip, locale, result_message, 
-      data, create_time, params
+      data, create_time, params, data_explain,
+      type, type_explain
       )
     values (#{userId,jdbcType=VARCHAR}, #{authorities,jdbcType=VARCHAR}, #{requestUrl,jdbcType=VARCHAR},
       #{ip,jdbcType=VARCHAR}, #{locale,jdbcType=VARCHAR}, #{resultMessage,jdbcType=VARCHAR}, 
-      #{data,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{params,jdbcType=LONGVARCHAR}
+      #{data,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{params,jdbcType=LONGVARCHAR},
+      #{dataExplain,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{typeExplain,jdbcType=VARCHAR}
       )
   </insert>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select user_id, authorities, request_url, ip, locale, result_message, data, create_time, params
+    select user_id, authorities, request_url, ip, locale, result_message,
+    data, create_time, params, data_explain, type, type_explain
     from ts_log
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select user_id, authorities, request_url, ip, locale, result_message, data, create_time, params
+    select user_id, authorities, request_url, ip, locale, result_message,
+    data, create_time, params, data_explain, type, type_explain
     from ts_log
+    order by create_time desc
+  </select>
+  <select id="selectDataExplainAndCount" resultType="java.util.Map">
+    select data_explain type, count(*) count
+    from ts_log
+    group by data_explain
+  </select>
+  <select id="selectByType" resultMap="BaseResultMap">
+    select user_id, authorities, request_url, ip, locale, result_message,
+    data, create_time, params, data_explain, type, type_explain
+    from ts_log
+    where type = #{type,jdbcType=VARCHAR}
+    order by create_time desc
   </select>
 </mapper>

@@ -3,9 +3,8 @@ package com.gwy.manager.security.authentication;
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.service.impl.SysLogServiceImpl;
 import com.gwy.manager.util.ResultVOUtil;
-import com.gwy.manager.util.SysLogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,7 @@ import java.io.IOException;
 public class CustomizeLogoutHandler implements LogoutSuccessHandler {
 
     @Autowired
-    private RedisUtil redisUtil;
-
-    @Autowired
-    private SysLogUtil logUtil;
+    private SysLogServiceImpl logService;
 
     private Logger logger = LoggerFactory.getLogger(CustomizeLogoutHandler.class);
 
@@ -45,7 +41,7 @@ public class CustomizeLogoutHandler implements LogoutSuccessHandler {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotLogin.getMsg());
         } else {
             //添加登出成功日志
-            logUtil.addLog(request, authentication);
+            logService.addLog(request, authentication);
 
             resultVO = ResultVOUtil.success("Logout Success");
         }

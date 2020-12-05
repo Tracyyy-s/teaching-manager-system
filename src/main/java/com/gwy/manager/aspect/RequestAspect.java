@@ -2,7 +2,7 @@ package com.gwy.manager.aspect;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.util.SysLogUtil;
+import com.gwy.manager.service.impl.SysLogServiceImpl;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,7 +28,7 @@ public class RequestAspect {
     private HttpServletRequest request;
 
     @Autowired
-    private SysLogUtil logUtil;
+    private SysLogServiceImpl logService;
 
     @Around(value = "pointcut()")
     public Object doAround(ProceedingJoinPoint pjp) {
@@ -61,7 +61,7 @@ public class RequestAspect {
         }
 
         //记录日志
-        logUtil.recordLog(request, argsForLog, resultVO);
+        logService.recordLog(request, argsForLog, resultVO);
 
         return result;
     }
