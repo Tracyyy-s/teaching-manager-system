@@ -37,7 +37,6 @@
     select user_id, authorities, request_url, ip, locale, result_message,
     data, create_time, params, data_explain, type, type_explain
     from ts_log
-    order by create_time desc
   </select>
   <select id="selectDataExplainAndCount" resultType="java.util.Map">
     select data_explain type, count(*) count
