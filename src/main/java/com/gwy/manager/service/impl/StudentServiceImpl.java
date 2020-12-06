@@ -237,7 +237,7 @@ public class StudentServiceImpl implements StudentService {
             if (i == 0 || j == 0) {
                 resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
             } else {
-                resultVO = ResultVOUtil.success(BeanUtil.beansToList(students));
+                resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
             }
         }
 
