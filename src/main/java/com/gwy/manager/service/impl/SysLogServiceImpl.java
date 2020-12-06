@@ -2,6 +2,7 @@ package com.gwy.manager.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gwy.manager.constant.RoleName;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.SysLog;
@@ -12,6 +13,7 @@ import com.gwy.manager.mapper.SysLogMapper;
 import com.gwy.manager.rabbimq.RabbitmqProducer;
 import com.gwy.manager.service.SysLogService;
 import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.PageHelperUtil;
 import com.gwy.manager.util.ResultVOUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,7 +118,7 @@ public class SysLogServiceImpl implements SysLogService {
             return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
             Collections.sort(sysLogs);
-            return ResultVOUtil.success(sysLogs);
+            return ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(sysLogs)));
         }
 
     }
