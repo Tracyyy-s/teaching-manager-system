@@ -108,7 +108,7 @@ public class ExcelUtil {
             //如果标题行不匹配
             if (!ExcelHeaderFormat.judgeHeaders(headerType, headers)) {
                 List<ExcelSheetPO> list = new ArrayList<>();
-                sheetPO.setTitle(ExcelHeaderFormat.InvalidHeaders);
+                sheetPO.setTitle(ExcelHeaderFormat.INVALID_HEADERS);
                 list.add(sheetPO);
                 return list;
             }
@@ -148,11 +148,15 @@ public class ExcelUtil {
     private static Object getCellValue(Workbook wb, Cell cell) {
         Object columnValue = null;
         if (cell != null) {
-            DecimalFormat df = new DecimalFormat("0");// 格式化 number
+            // 格式化 number
+            DecimalFormat df = new DecimalFormat("0");
+
             // String
             // 字符
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 格式化日期字符串
-            DecimalFormat nf = new DecimalFormat("0.00");// 格式化数字
+            // 格式化日期字符串
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            // 格式化数字
+            DecimalFormat nf = new DecimalFormat("0.00");
             switch (cell.getCellType()) {
                 case Cell.CELL_TYPE_STRING:
                     columnValue = cell.getStringCellValue();
@@ -319,7 +323,8 @@ public class ExcelUtil {
                 return new HSSFWorkbook();
             case V2007:
                 return new XSSFWorkbook();
+            default:
+                return null;
         }
-        return null;
     }
 }

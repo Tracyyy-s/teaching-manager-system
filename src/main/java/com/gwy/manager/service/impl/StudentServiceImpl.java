@@ -102,7 +102,7 @@ public class StudentServiceImpl implements StudentService {
         return resultVO;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public ResultVO updatePassword(String studentNo, String password, String vrCode) {
 
@@ -124,7 +124,7 @@ public class StudentServiceImpl implements StudentService {
         return resultVO;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public ResultVO sendCode(String studentNo) {
         return vrCodeUtil.sendCode(studentNo, RoleName.STUDENT);

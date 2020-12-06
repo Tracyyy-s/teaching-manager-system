@@ -2,9 +2,15 @@ package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * @author Tracy
+ * @date 2020/11/10 15:40
+ */
+@Component
 public interface UserMapper {
     int deleteByPrimaryKey(String userId);
 

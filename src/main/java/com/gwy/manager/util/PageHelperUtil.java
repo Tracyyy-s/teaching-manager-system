@@ -14,23 +14,23 @@ public class PageHelperUtil {
 
     public static void pageMsg(Map<String, Object> map) {
 
-        map.putIfAbsent(PageHelperConst.pageNum, 1);
-        map.putIfAbsent(PageHelperConst.pageSize, 10);
+        map.putIfAbsent(PageHelperConst.PAGE_NUM, 1);
+        map.putIfAbsent(PageHelperConst.PAGE_SIZE, 10);
     }
 
     public static <T> Map<String, Object> pageInfoToMap(PageInfo<T> info) {
 
         Map<String, Object> map = new LinkedHashMap<>();
 
-        map.put(PageHelperConst.pageNum, info.getPageNum());
-        map.put(PageHelperConst.pageSize, info.getPageSize());
-        map.put(PageHelperConst.pages, info.getPages());
-        map.put(PageHelperConst.nextPage, info.getNextPage());
-        map.put(PageHelperConst.prePage, info.getPrePage());
-        map.put(PageHelperConst.hasNextPage, info.isHasNextPage());
-        map.put(PageHelperConst.hasPrePage, info.isHasPreviousPage());
-        map.put(PageHelperConst.total, info.getTotal());
-        map.put(PageHelperConst.list, BeanUtil.beansToList(info.getList()));
+        map.put(PageHelperConst.PAGE_NUM, info.getPageNum());
+        map.put(PageHelperConst.PAGE_SIZE, info.getPageSize());
+        map.put(PageHelperConst.PAGES, info.getPages());
+        map.put(PageHelperConst.NEXT_PAGE, info.getNextPage());
+        map.put(PageHelperConst.PRE_PAGE, info.getPrePage());
+        map.put(PageHelperConst.HAS_NEXT_PAGE, info.isHasNextPage());
+        map.put(PageHelperConst.HAS_PRE_PAGE, info.isHasPreviousPage());
+        map.put(PageHelperConst.TOTAL, info.getTotal());
+        map.put(PageHelperConst.LIST, BeanUtil.beansToList(info.getList()));
 
         return map;
     }

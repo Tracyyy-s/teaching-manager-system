@@ -6,6 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Tracy
+ * @date 2020/11/10 15:40
+ */
 @Component
 public interface TermTargetMapper {
     int deleteByPrimaryKey(@Param("termId") String termId, @Param("targetId") Integer targetId);
@@ -20,22 +24,22 @@ public interface TermTargetMapper {
 
     /**
      * 添加本学期的所有评价指标
-     * @param termTargets
-     * @return
+     * @param termTargets   学期评价指标
+     * @return  结果集
      */
     int insertTermTargets(@Param("termTargets") List<TermTarget> termTargets);
 
     /**
      * 获得学期所有学生评价指标
-     * @param termId
-     * @return
+     * @param termId    学期
+     * @return  结果集
      */
     List<Integer> getStudentTermTargets(String termId);
 
     /**
      * 获得学期所有教师评价指标
-     * @param termId
-     * @return
+     * @param termId    学期
+     * @return  结果集
      */
     List<Integer> getTeacherTermTargets(String termId);
 }

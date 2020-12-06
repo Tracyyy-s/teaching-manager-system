@@ -17,9 +17,9 @@ import org.springframework.stereotype.Repository;
  */
 @Aspect
 @Repository
-public class SafetyAspect {
+public class RequestParamValidateAspect {
 
-    private Logger logger = LoggerFactory.getLogger(SafetyAspect.class);
+    private Logger logger = LoggerFactory.getLogger(RequestParamValidateAspect.class);
 
     @Pointcut("execution(public com.gwy.manager.dto.ResultVO com.gwy.manager.service.impl.*.*(..))")
     public void pointcut(){}

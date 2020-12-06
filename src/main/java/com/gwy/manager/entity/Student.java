@@ -1,9 +1,11 @@
 package com.gwy.manager.entity;
 
-import org.springframework.validation.annotation.Validated;
-
 import java.util.Date;
 
+/**
+ * @author Tracy
+ * @date 2020/11/10 15:40
+ */
 public class Student {
     private String studentNo;
 

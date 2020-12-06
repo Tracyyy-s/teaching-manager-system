@@ -6,21 +6,21 @@ package com.gwy.manager.constant;
  */
 public class PageHelperConst {
 
-    public static final String pageNum       =    "pageNum";
+    public static final String PAGE_NUM       =    "pageNum";
 
-    public static final String pageSize      =    "pageSize";
+    public static final String PAGE_SIZE      =    "pageSize";
 
-    public static final String pages         =    "pages";
+    public static final String PAGES         =    "pages";
 
-    public static final String nextPage      =    "nextPage";
+    public static final String NEXT_PAGE      =    "nextPage";
 
-    public static final String prePage       =    "prePage";
+    public static final String PRE_PAGE       =    "prePage";
 
-    public static final String hasNextPage   =    "hasNextPage";
+    public static final String HAS_NEXT_PAGE   =    "hasNextPage";
 
-    public static final String hasPrePage    =    "hasPrePage";
+    public static final String HAS_PRE_PAGE    =    "hasPrePage";
 
-    public static final String total         =    "total";
+    public static final String TOTAL         =    "total";
 
-    public static final String list          =    "list";
+    public static final String LIST          =    "list";
 }

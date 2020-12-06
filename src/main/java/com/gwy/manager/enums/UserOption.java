@@ -6,6 +6,9 @@ package com.gwy.manager.enums;
  */
 public enum UserOption {
 
+    /**
+     * 定义用户种类，以及评价类别
+     */
     STUDENT("student", 1),
     TEACHER("teacher", 0);
 

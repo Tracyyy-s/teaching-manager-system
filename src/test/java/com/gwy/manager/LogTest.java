@@ -1,10 +1,12 @@
 package com.gwy.manager;
 
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.util.DateUtilCustom;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * @author Tracy
@@ -27,5 +29,12 @@ public class LogTest {
         }
         System.out.println(i);
         System.out.println(ResponseDataMsg.valueOf("NotFound").name());
+    }
+
+    @Test
+    void test02() {
+        Date time = DateUtilCustom.getDate();
+        System.out.println(time);
+        System.out.println(DateUtilCustom.date2String(time));;
     }
 }

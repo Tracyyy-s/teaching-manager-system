@@ -6,6 +6,9 @@ package com.gwy.manager.enums;
  */
 public enum ResponseDataMsg {
 
+    /**
+     * 定义返回结果集以及解释
+     */
     NotFound("Not Found", "查找数据为空"),
     PasswordIncorrect("Password Incorrect"),
     Success("Success", "操作成功"),

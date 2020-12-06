@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Tracy
+ * @date 2020/11/10 15:40
+ */
 @Component
 public interface StudentMapper {
     int deleteByPrimaryKey(String studentNo);

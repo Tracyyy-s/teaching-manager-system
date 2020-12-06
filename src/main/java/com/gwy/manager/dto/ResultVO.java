@@ -54,4 +54,13 @@ public class ResultVO {
         this.setMessage(ResponseStatus.SUCCESS.getMessage());
         this.setData(data);
     }
+
+    @Override
+    public String toString() {
+        return "ResultVO{" +
+                "resultCode=" + resultCode +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

@@ -2,6 +2,10 @@ package com.gwy.manager.entity;
 
 import java.util.Date;
 
+/**
+ * @author Tracy
+ * @date 2020/11/10 15:40
+ */
 public class TeacherAssess {
     private String teacherNo;
 

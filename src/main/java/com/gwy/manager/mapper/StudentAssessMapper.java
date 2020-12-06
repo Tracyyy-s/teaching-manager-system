@@ -5,6 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Tracy
+ * @date 2020/11/10 15:40
+ */
 @Component
 public interface StudentAssessMapper {
     int deleteByPrimaryKey(@Param("studentNo") String studentNo, @Param("tcId") String tcId);

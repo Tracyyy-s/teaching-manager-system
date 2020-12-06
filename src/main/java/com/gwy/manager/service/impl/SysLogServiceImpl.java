@@ -30,6 +30,9 @@ import java.util.*;
  */
 @Service
 public class SysLogServiceImpl implements SysLogService {
+
+    private static final String LOGIN_SUFFIX = "/login";
+
     @Autowired
     private SysLogMapper sysLogMapper;
 
@@ -47,11 +50,11 @@ public class SysLogServiceImpl implements SysLogService {
         SysLog sysLog = new SysLog();
         Authentication authentication = (Authentication) request.getUserPrincipal();
 
-        String user_id = ((User) authentication.getPrincipal()).getUsername();
+        String userId = ((User) authentication.getPrincipal()).getUsername();
         String url = request.getRequestURL().toString();
         Locale locale = request.getLocale();
 
-        sysLog.setUserId(user_id);
+        sysLog.setUserId(userId);
         sysLog.setAuthorities(Arrays.toString(this.getRoleFromAuthorities(authentication.getAuthorities()).toArray()));
         sysLog.setRequestUrl(url);
         sysLog.setIp(((WebAuthenticationDetails)authentication.getDetails()).getRemoteAddress());
@@ -169,7 +172,7 @@ public class SysLogServiceImpl implements SysLogService {
             sysLog.setDataExplain(ResponseDataMsg.Success.getExplain());
 
             //判断是登录还是登出请求
-            if (sysLog.getRequestUrl().endsWith("/login")) {
+            if (sysLog.getRequestUrl().endsWith(LOGIN_SUFFIX)) {
                 sysLog.setType(SysLogType.LoginLog.getType());
                 sysLog.setTypeExplain(SysLogType.LoginLog.getTypeExplain());
             } else {

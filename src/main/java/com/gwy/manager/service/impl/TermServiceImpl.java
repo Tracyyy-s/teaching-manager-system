@@ -49,9 +49,9 @@ public class TermServiceImpl implements TermService {
         List<Term> terms;
         try {
             terms = termMapper.selectAll();
-            resultVO.success(terms);
+            resultVO = ResultVOUtil.success(terms);
         } catch (Exception e) {
-            resultVO.setData(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
         }
 
         return resultVO;

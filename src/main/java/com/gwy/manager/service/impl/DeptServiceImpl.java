@@ -58,13 +58,13 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public ResultVO getAllDepts() {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         List<Dept> depts = deptMapper.selectAll();
         if (depts.size() == 0) {
-            resultVO.setData(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO.success(depts);
+            resultVO = ResultVOUtil.success(depts);
         }
 
         return resultVO;

@@ -25,8 +25,11 @@ import java.io.IOException;
 @Component
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
+    /**
+     * 用户信息service
+     */
     @Autowired
-    private UserDetailServiceImpl userDetailService; //用户信息service
+    private UserDetailServiceImpl userDetailService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {

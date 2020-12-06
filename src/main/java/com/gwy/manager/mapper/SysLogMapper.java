@@ -4,6 +4,10 @@ import com.gwy.manager.entity.SysLog;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Tracy
+ * @date 2020/11/10 15:40
+ */
 public interface SysLogMapper {
 
     int insert(SysLog record);

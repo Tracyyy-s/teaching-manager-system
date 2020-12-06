@@ -71,8 +71,8 @@ public class RootController {
     public String getAllAdmins(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
-        int pageNum = (int) map.get(PageHelperConst.pageNum);
-        int pageSize = (int) map.get(PageHelperConst.pageSize);
+        int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
+        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
         return JSONObject.toJSONStringWithDateFormat(userService.getAllAdmin(pageNum, pageSize), DateUtilCustom.DATE_PATTERN);
     }
 
@@ -85,8 +85,8 @@ public class RootController {
     public String getAllUsers(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
-        int pageNum = (int) map.get(PageHelperConst.pageNum);
-        int pageSize = (int) map.get(PageHelperConst.pageSize);
+        int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
+        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
         return JSONObject.toJSONStringWithDateFormat(userService.getAllUsers(pageNum, pageSize), DateUtilCustom.DATE_PATTERN);
     }
 
@@ -99,8 +99,8 @@ public class RootController {
     public String getAllStudents(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
-        int pageNum = (int) map.get(PageHelperConst.pageNum);
-        int pageSize = (int) map.get(PageHelperConst.pageSize);
+        int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
+        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
         return JSONObject.toJSONStringWithDateFormat(studentService.getAllStudents(pageNum, pageSize), DateUtilCustom.DATE_PATTERN);
     }
 
@@ -269,8 +269,8 @@ public class RootController {
     public String getLogs(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
-        int pageNum = (int) map.get(PageHelperConst.pageNum);
-        int pageSize = (int) map.get(PageHelperConst.pageSize);
+        int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
+        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
         String type = (String) map.get("type");
         return JSONObject.toJSONStringWithDateFormat(logService.getLogInfoByType(type, pageNum, pageSize), DateUtilCustom.TIME_PATTERN);
     }

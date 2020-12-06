@@ -5,6 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Tracy
+ * @date 2020/11/10 15:40
+ */
 @Component
 public interface TeacherAssessMapper {
 
@@ -16,10 +20,10 @@ public interface TeacherAssessMapper {
 
     /**
      * 删除教师提交的评价
-     * @param teacherNo
-     * @param assessedTeacherNo
-     * @param termId
-     * @return
+     * @param teacherNo 教师号
+     * @param assessedTeacherNo 被评价的教师号
+     * @param termId    学期id
+     * @return  jieugoji
      */
     int deleteByPrimaryKey(@Param("teacherNo") String teacherNo,
                            @Param("assessedTeacherNo") String assessedTeacherNo,
@@ -27,19 +31,19 @@ public interface TeacherAssessMapper {
 
     /**
      * 获取某学院的教师在某学期的评价列表
-     * @param deptId
-     * @param termId
-     * @return
+     * @param deptId    学院id
+     * @param termId    学期id
+     * @return  结果集
      */
     List<TeacherAssess> getTeacherAssessesByDeptAndTerm(@Param("deptId") String deptId,
                                                         @Param("termId") String termId);
 
     /**
      * 获得某教师在某学期对某个教师的评价
-     * @param teacherNo
-     * @param assessedTeacherNo
-     * @param termId
-     * @return
+     * @param teacherNo 教师号
+     * @param assessedTeacherNo 被评价教师号
+     * @param termId    学期id
+     * @return  结果集
      */
     TeacherAssess selectByPrimaryKey(@Param("teacherNo") String teacherNo,
                                      @Param("assessedTeacherNo") String assessedTeacherNo,

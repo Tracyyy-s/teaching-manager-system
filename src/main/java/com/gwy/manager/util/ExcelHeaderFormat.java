@@ -28,27 +28,27 @@ import java.util.regex.Pattern;
 @Component
 public class ExcelHeaderFormat {
 
-    public static final String TeacherExcel = "teacher";
+    public static final String TEACHER_EXCEL = "teacher";
 
-    public static final String StudentExcel = "student";
+    public static final String STUDENT_EXCEL = "student";
 
-    public static final String TargetExcel = "target";
+    public static final String TARGET_EXCEL = "target";
 
-    public static final String InvalidHeaders = "Invalid Headers";
+    public static final String INVALID_HEADERS = "Invalid Headers";
 
-    private static final GlobalPasswordEncoder passwordEncoder = new GlobalPasswordEncoder();
+    private static final GlobalPasswordEncoder PASSWORD_ENCODER = new GlobalPasswordEncoder();
 
-    private static final String EmailRegex = "^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$";
+    private static final String EMAIL_REGEX = "^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$";
 
     @Autowired
     private DeptMapper deptMapper;
 
-    private static final String[] TeacherHeaders = new String[]{
+    private static final String[] TEACHER_HEADERS = new String[]{
             "教师号", "姓名", "性别", "密码", "邮箱", "生日", "学历", "毕业院校",
             "政治面貌", "入职年份", "总学时", "入职学院", "职称", "职称获取时间"
     };
 
-    private static final String[] StudentHeaders = new String[]{
+    private static final String[] STUDENT_HEADERS = new String[]{
             "学号", "姓名", "性别", "密码", "邮箱", "生日", "班号",
             "政治面貌", "入学学院", "入学年份"
     };
@@ -62,10 +62,10 @@ public class ExcelHeaderFormat {
      */
     public static boolean judgeHeaders(String headerType, String[] headers) {
 
-        if (headerType.equals(ExcelHeaderFormat.TeacherExcel)) {
-            return Arrays.equals(headers, TeacherHeaders);
-        } else if (headerType.equals(ExcelHeaderFormat.StudentExcel)) {
-            return Arrays.equals(headers, StudentHeaders);
+        if (headerType.equals(ExcelHeaderFormat.TEACHER_EXCEL)) {
+            return Arrays.equals(headers, TEACHER_HEADERS);
+        } else if (headerType.equals(ExcelHeaderFormat.STUDENT_EXCEL)) {
+            return Arrays.equals(headers, STUDENT_HEADERS);
         }
 
         return false;
@@ -79,8 +79,10 @@ public class ExcelHeaderFormat {
      */
     public static String getValidHeaders(String headerType) {
 
-        if (headerType.equals(ExcelHeaderFormat.TeacherExcel)) {
-            return Arrays.toString(ExcelHeaderFormat.TeacherHeaders);
+        if (headerType.equals(TEACHER_EXCEL)) {
+            return Arrays.toString(TEACHER_HEADERS);
+        } else if (headerType.equals(STUDENT_EXCEL)) {
+            return Arrays.toString(STUDENT_HEADERS);
         }
 
         return null;
@@ -92,7 +94,7 @@ public class ExcelHeaderFormat {
         Map<String, Object> objMap = new LinkedHashMap<>();
 
         //返回结果
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(5);
         result.put("msg", ResponseDataMsg.Fail.getMsg());
 
         //如果导入教师
@@ -207,9 +209,9 @@ public class ExcelHeaderFormat {
 
     private static boolean isNotCorrectOnUserPublicFields(List<Object> obj, Map<String, Object> objMap, Map<String, Object> result) throws ParseException {
         //设置性别
-        if (obj.get(2).equals("男")) {
+        if ("男".equals(obj.get(2))) {
             objMap.put("gender", 1);
-        } else if (obj.get(2).equals("女")) {
+        } else if ("女".equals(obj.get(2))) {
             objMap.put("gender", 0);
         } else {
             result.put("data", "Incorrect Gender");
@@ -217,9 +219,9 @@ public class ExcelHeaderFormat {
         }
 
         //设置密码
-        objMap.put("password", passwordEncoder.encode(obj.get(3).toString()));
+        objMap.put("password", PASSWORD_ENCODER.encode(obj.get(3).toString()));
 
-        boolean matches = Pattern.matches(EmailRegex, obj.get(4).toString());
+        boolean matches = Pattern.matches(EMAIL_REGEX, obj.get(4).toString());
 
         if (matches) {
             objMap.put("email", obj.get(4));
@@ -267,7 +269,7 @@ public class ExcelHeaderFormat {
         //遍历所有页
         for (ExcelSheetPO po : pos) {
 
-            if (po.getTitle() != null && po.getTitle().equals(ExcelHeaderFormat.InvalidHeaders)) {
+            if (po.getTitle() != null && po.getTitle().equals(INVALID_HEADERS)) {
 
                 Map<String, Object> titleMap = new LinkedHashMap<>();
                 titleMap.put("Failure", "表格标题不匹配");
@@ -298,7 +300,7 @@ public class ExcelHeaderFormat {
                 } else if (thisData != null && thisData.get("msg").equals(ResponseDataMsg.Success.getMsg())) {
 
                     //如果传递的是教师类型
-                    if (headerType.equals(ExcelHeaderFormat.TeacherExcel)) {
+                    if (headerType.equals(TEACHER_EXCEL)) {
                         User user = (User) thisData.get("data");
 
                         //如果院系不为管理员所在学院
@@ -312,7 +314,7 @@ public class ExcelHeaderFormat {
 
                         //识别成功，添加
                         data.add((T) user);
-                    } else if (headerType.equals(ExcelHeaderFormat.StudentExcel)) {
+                    } else if (headerType.equals(STUDENT_EXCEL)) {
                         //如果是学生类型
                         Student student = (Student) thisData.get("data");
 

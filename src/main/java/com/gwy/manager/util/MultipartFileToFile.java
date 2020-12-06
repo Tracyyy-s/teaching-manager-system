@@ -1,5 +1,6 @@
 package com.gwy.manager.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -17,13 +18,13 @@ public class MultipartFileToFile {
     /**
      * MultipartFile 转 File
      *
-     * @param file
-     * @throws Exception
+     * @param file  文件
+     * @throws Exception    异常
      */
     public static File multipartFileToFile(MultipartFile file) throws Exception {
 
         File toFile = null;
-        if (file.getName().equals("") || file.getSize() <= 0) {
+        if (StringUtils.isEmpty(file.getName()) || file.getSize() <= 0) {
             file = null;
         } else {
             InputStream ins = null;
@@ -35,7 +36,11 @@ public class MultipartFileToFile {
         return toFile;
     }
 
-    //获取流文件
+    /**
+     * 获取流文件
+     * @param ins   输入流
+     * @param file  文件
+     */
     private static void inputStreamToFile(InputStream ins, File file) {
         try {
             OutputStream os = new FileOutputStream(file);

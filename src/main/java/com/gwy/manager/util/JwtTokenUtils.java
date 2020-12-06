@@ -20,14 +20,22 @@ public class JwtTokenUtils {
     private static final String ISS            =      "echisan";
 
 
-
-    // 过期时间是3600秒，既是1个小时
+    /**
+     * 过期时间是3600秒，即是1个小时
+     */
     private static final long EXPIRATION = 3600L;
 
-    // 选择了记住我之后的过期时间为7天
+    /**
+     * 选择了记住我之后的过期时间为7天
+     */
     private static final long EXPIRATION_REMEMBER = 604800L;
 
-    // 创建token
+    /**
+     * 创建token
+     * @param username  用户名
+     * @param isRememberMe  记住我
+     * @return  结果集
+     */
     public static String createToken(String username, boolean isRememberMe) {
         long expiration = isRememberMe ? EXPIRATION_REMEMBER : EXPIRATION;
         return Jwts.builder()
@@ -39,7 +47,11 @@ public class JwtTokenUtils {
                 .compact();
     }
 
-    // 从token中获取用户名
+    /**
+     * 从token中获取用户名
+     * @param token token
+     * @return  结果
+     */
     public static String getUsername(String token) {
         try {
             return getTokenBody(token).getSubject();
@@ -48,7 +60,11 @@ public class JwtTokenUtils {
         }
     }
 
-    // 是否已过期
+    /**
+     * 是否已过期
+     * @param token token
+     * @return  结果
+     */
     public static boolean isExpiration(String token) {
         return getTokenBody(token).getExpiration().before(new Date());
     }

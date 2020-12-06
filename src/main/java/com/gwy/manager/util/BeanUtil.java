@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public class BeanUtil {
 
+    private static final String PASSWORD = "password";
+
     /**
      * 将对象转换为map
      * @param bean 对象
@@ -55,7 +57,7 @@ public class BeanUtil {
         for (Field field : fields) {
             field.setAccessible(true);
             String name = field.getName();
-            if (!name.equals("password")) {
+            if (!name.equals(PASSWORD)) {
                 try {
                     map.put(name, field.get(bean));
                 } catch (IllegalAccessException e) {

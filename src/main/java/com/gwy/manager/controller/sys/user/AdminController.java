@@ -271,7 +271,7 @@ public class AdminController {
     @PreAuthorize("hasAuthority('teacherListImporting')")
     public String importTeachers(@RequestParam("deptId") String deptId,
                                  @RequestParam("file") MultipartFile file) {
-        return JSONObject.toJSONStringWithDateFormat(userService.importUsersByFile(deptId, ExcelHeaderFormat.TeacherExcel, file), DateUtilCustom.DATE_PATTERN);
+        return JSONObject.toJSONStringWithDateFormat(userService.importUsersByFile(deptId, ExcelHeaderFormat.TEACHER_EXCEL, file), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
@@ -284,6 +284,6 @@ public class AdminController {
     @PreAuthorize("hasAuthority('studentListImporting')")
     public String importStudents(@RequestParam("deptId") String deptId,
                                  @RequestParam("file") MultipartFile file) {
-        return JSONObject.toJSONStringWithDateFormat(studentService.importStudentsByFile(deptId, ExcelHeaderFormat.StudentExcel, file), DateUtilCustom.DATE_PATTERN);
+        return JSONObject.toJSONStringWithDateFormat(studentService.importStudentsByFile(deptId, ExcelHeaderFormat.STUDENT_EXCEL, file), DateUtilCustom.DATE_PATTERN);
     }
 }

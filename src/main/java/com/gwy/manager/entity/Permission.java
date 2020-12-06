@@ -1,5 +1,9 @@
 package com.gwy.manager.entity;
 
+/**
+ * @author Tracy
+ * @date 2020/11/10 15:40
+ */
 public class Permission {
     private Integer permissionId;
 

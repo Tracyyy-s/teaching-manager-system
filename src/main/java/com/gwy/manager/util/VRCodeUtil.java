@@ -23,6 +23,8 @@ import java.util.Random;
 @Component
 public class VRCodeUtil {
 
+    private static final int VR_CODE_LENGTH = 6;
+
     @Autowired
     private StudentMapper studentMapper;
 
@@ -55,7 +57,7 @@ public class VRCodeUtil {
         //生成六位验证码
         Random random = new Random();
         StringBuilder code = new StringBuilder();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < VR_CODE_LENGTH; i++) {
             code.append(random.nextInt(10));
         }
 

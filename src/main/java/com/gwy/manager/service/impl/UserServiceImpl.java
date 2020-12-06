@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
         return vrCodeUtil.sendCode(userId, RoleName.USER);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public ResultVO updatePassword(String userId, String password, String vrCode) {
 

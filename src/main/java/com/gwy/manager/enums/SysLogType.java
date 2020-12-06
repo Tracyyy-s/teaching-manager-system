@@ -6,6 +6,9 @@ package com.gwy.manager.enums;
  */
 public enum SysLogType {
 
+    /**
+     * 定义日志种类以及相应解释
+     */
     LoginLog("LoginLog", "登录日志"),
     SystemLog("SystemLog", "系统日志"),
     OperationLog("OperationLog", "操作日志");

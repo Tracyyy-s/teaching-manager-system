@@ -2,7 +2,7 @@ package com.gwy.manager.security.authentication;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.security.exception.AuthException;
+import com.gwy.manager.security.exception.GlobalAuthorizeException;
 import com.gwy.manager.service.impl.SysLogServiceImpl;
 import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoi
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8");
 
-        logService.addLog(request, new AuthException(ResponseDataMsg.NotLogin.name()));
+        logService.addLog(request, new GlobalAuthorizeException(ResponseDataMsg.NotLogin.name()));
 
         response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error(ResponseDataMsg.NotLogin.getMsg())));
     }

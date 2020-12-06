@@ -58,9 +58,9 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()//  定义当需要用户登录时候，转到的登录页面。
                 .and()
-//                .authorizeRequests().antMatchers("/**").permitAll()
-//                // 定义哪些URL需要被保护、哪些不需要被保护
-                .authorizeRequests().antMatchers("/login").permitAll() //不需要保护的URL
+                // 定义哪些URL需要被保护、哪些不需要被保护
+                //不需要保护的URL
+                .authorizeRequests().antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().permitAll() // 登出
@@ -72,7 +72,6 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.and()
                 .csrf().disable();
         //访问错误配置
-        //未登录
         http
                 .exceptionHandling()
                 .authenticationEntryPoint(customizeAuthenticationEntryPoint)

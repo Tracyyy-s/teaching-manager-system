@@ -6,6 +6,9 @@ package com.gwy.manager.enums;
  */
 public enum ResponseStatus {
 
+    /**
+     * 定义请求响应码和响应集
+     */
     SUCCESS(1, "SUCCESS"),
     FAIL(-1, "ERROR");
 

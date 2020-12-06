@@ -94,7 +94,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @CacheEvict(allEntries = true, beforeInvocation = true)
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public ResultVO updateRolePermission(Integer roleId, List<Integer> permissionIds) {
 
