@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.SysLogMapper" >
   <resultMap id="BaseResultMap" type="com.gwy.manager.entity.SysLog" >
+    <result column="id" property="id" jdbcType="INTEGER"/>
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="authorities" property="authorities" jdbcType="VARCHAR"/>
     <result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
@@ -34,9 +35,10 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select user_id, authorities, request_url, ip, locale, result_message,
+    select id, user_id, authorities, request_url, ip, locale, result_message,
     data, create_time, params, data_explain, type, type_explain
     from ts_log
+    order by id desc
   </select>
   <select id="selectDataExplainAndCount" resultType="java.util.Map">
     select data_explain type, count(*) count
@@ -44,9 +46,17 @@
     group by data_explain
   </select>
   <select id="selectByType" resultMap="BaseResultMap">
-    select user_id, authorities, request_url, ip, locale, result_message,
+    select id, user_id, authorities, request_url, ip, locale, result_message,
     data, create_time, params, data_explain, type, type_explain
     from ts_log
     where type = #{type,jdbcType=VARCHAR}
+    order by id desc
   </select>
+  <delete id="deleteByPrimaryKeys">
+    delete from ts_log
+    where id in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+        #{id,jdbcType=INTEGER}
+    </foreach>
+  </delete>
 </mapper>

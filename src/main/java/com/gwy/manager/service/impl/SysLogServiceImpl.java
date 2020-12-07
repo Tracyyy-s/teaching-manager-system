@@ -22,6 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -117,10 +118,21 @@ public class SysLogServiceImpl implements SysLogService {
         if (CollectionUtils.isEmpty(sysLogs)) {
             return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            Collections.sort(sysLogs);
             return ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(sysLogs)));
         }
 
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public ResultVO deleteByBatch(List<Integer> ids) {
+
+        int i = sysLogMapper.deleteByPrimaryKeys(ids);
+        if (i != ids.size()) {
+            return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+        }
+
+        return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
     }
 
     @Override
@@ -130,7 +142,6 @@ public class SysLogServiceImpl implements SysLogService {
         if (CollectionUtils.isEmpty(sysLogs)) {
             return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            Collections.sort(sysLogs);
             return ResultVOUtil.success(sysLogs);
         }
     }

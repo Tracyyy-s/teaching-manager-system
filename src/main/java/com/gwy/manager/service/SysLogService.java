@@ -4,6 +4,7 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.SysLog;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Tracy
@@ -39,6 +40,13 @@ public interface SysLogService {
      * @return  结果集
      */
     ResultVO getLogInfoByType(String type, int pageNum, int pageSize);
+
+    /**
+     * 批量删除日志
+     * @param ids   id
+     * @return  结果集
+     */
+    ResultVO deleteByBatch(List<Integer> ids);
 
     /**
      * 分页获得日志

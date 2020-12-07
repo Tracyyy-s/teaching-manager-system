@@ -1,10 +1,13 @@
 package com.gwy.manager;
 
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.mapper.SysLogMapper;
 import com.gwy.manager.util.DateUtilCustom;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -14,6 +17,9 @@ import java.util.Date;
  */
 @SpringBootTest
 public class LogTest {
+
+    @Autowired
+    private SysLogMapper logMapper;
 
     @Test
     void test01() {
@@ -36,5 +42,16 @@ public class LogTest {
         Date time = DateUtilCustom.getDate();
         System.out.println(time);
         System.out.println(DateUtilCustom.date2String(time));;
+    }
+
+    @Test
+    void test03() {
+
+        ArrayList<Integer> integers = new ArrayList<>();
+        integers.add(1680);
+        integers.add(1681);
+        integers.add(1682);
+
+        logMapper.deleteByPrimaryKeys(integers);
     }
 }

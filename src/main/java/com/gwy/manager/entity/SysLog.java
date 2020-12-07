@@ -6,7 +6,9 @@ import java.util.Date;
  * @author Tracy
  * @date 2020/11/10 15:40
  */
-public class SysLog implements Comparable<SysLog>{
+public class SysLog {
+
+    private Integer id;
 
     private String userId;
 
@@ -35,9 +37,12 @@ public class SysLog implements Comparable<SysLog>{
     public SysLog() {
     }
 
-    @Override
-    public int compareTo(SysLog sysLog) {
-        return -1 * this.getCreateTime().compareTo(sysLog.createTime);
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUserId() {
@@ -134,5 +139,24 @@ public class SysLog implements Comparable<SysLog>{
 
     public void setTypeExplain(String typeExplain) {
         this.typeExplain = typeExplain;
+    }
+
+    @Override
+    public String toString() {
+        return "SysLog{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", authorities='" + authorities + '\'' +
+                ", requestUrl='" + requestUrl + '\'' +
+                ", ip='" + ip + '\'' +
+                ", locale='" + locale + '\'' +
+                ", resultMessage='" + resultMessage + '\'' +
+                ", data='" + data + '\'' +
+                ", dataExplain='" + dataExplain + '\'' +
+                ", type='" + type + '\'' +
+                ", typeExplain='" + typeExplain + '\'' +
+                ", createTime=" + createTime +
+                ", params='" + params + '\'' +
+                '}';
     }
 }

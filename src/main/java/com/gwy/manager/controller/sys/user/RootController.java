@@ -274,4 +274,24 @@ public class RootController {
         String type = (String) map.get("type");
         return JSONObject.toJSONStringWithDateFormat(logService.getLogInfoByType(type, pageNum, pageSize), DateUtilCustom.TIME_PATTERN);
     }
+
+    /**
+     * 批量删除日志
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/deleteLogs")
+    @PreAuthorize("hasAuthority('Log')")
+    @SuppressWarnings("unchecked")
+    public ResultVO deleteLogs(@RequestBody Map<String, Object> map) {
+
+        List<Integer> deleteId;
+        try {
+            deleteId = (List<Integer>) map.get("deleteId");
+        } catch (Exception e) {
+            return ResultVOUtil.error("NumberFormatException");
+        }
+
+        return logService.deleteByBatch(deleteId);
+    }
 }
