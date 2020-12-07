@@ -248,7 +248,7 @@ public class ExcelHeaderFormat {
     @SuppressWarnings("unchecked")
     public <T> ResultVO importBeansByFile(String deptId, String headerType, MultipartFile file) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
         List<ExcelSheetPO> pos = new ArrayList<>();
 
         try {

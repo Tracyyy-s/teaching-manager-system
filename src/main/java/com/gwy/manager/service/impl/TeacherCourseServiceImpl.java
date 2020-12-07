@@ -22,6 +22,8 @@ import java.util.*;
 @Service
 public class TeacherCourseServiceImpl implements TeacherCourseService {
 
+    private static final String ASSESS_STATE = "assessed";
+
     @Autowired
     private TeacherCourseMapper teacherCourseMapper;
 
@@ -33,6 +35,9 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private StudentAssessMapper studentAssessMapper;
 
     @Override
     public int addTeacherCourse(TeacherCourse teacherCourse) {
@@ -81,10 +86,23 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
         List<TeacherCourse> teacherCourses = teacherCourseMapper
                 .selectByStudentNoAndTermId(studentNo, termId);
 
-        if (teacherCourses.size() == 0) {
+        if (CollectionUtils.isEmpty(teacherCourses)) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(this.teacherCourseFormat(teacherCourses));
+            List<String> tcIds = new ArrayList<>();
+            for (TeacherCourse teacherCourse : teacherCourses) {
+                tcIds.add(teacherCourse.getTcId());
+            }
+
+            List<Integer> assessStates = studentAssessMapper.selectStateByStudentAndTcIds(studentNo, tcIds);
+            Collection<Map<String, Object>> maps = this.teacherCourseFormat(teacherCourses);
+
+            int i = 0;
+            for (Map<String, Object> map : maps) {
+                map.put(ASSESS_STATE, assessStates.get(i++) == 1);
+            }
+
+            resultVO = ResultVOUtil.success(maps);
         }
 
         return resultVO;

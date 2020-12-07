@@ -36,4 +36,13 @@ public interface StudentAssessMapper {
      * @return  结果集
      */
     List<StudentAssess> selectByTcId(String tcId);
+
+    /**
+     * 获得学生对课程评价状态
+     * @param studentNo 学号
+     * @param tcIds 教师课程号
+     * @return  结果集
+     */
+    List<Integer> selectStateByStudentAndTcIds(@Param("studentNo") String studentNo,
+                                               @Param("tcIds") List<String> tcIds);
 }
