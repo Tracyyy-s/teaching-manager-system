@@ -41,7 +41,12 @@ public class KeyGeneratorConfiguration {
 
     @Bean("userRoles")
     public KeyGenerator userRoles() {
-        return (target, method, params) -> "'" + params[0] + "'" + "roles";
+         return (target, method, params) -> {
+             if (params[0] != null) {
+                 return "'" + params[0] + "'" + "roles";
+             }
+             return "NULL";
+         };
     }
 
     @SuppressWarnings("unchecked")
