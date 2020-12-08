@@ -50,8 +50,9 @@ public class RootController {
 
     /**
      * root用户修改密码
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @PostMapping("/changePassword")
     @PreAuthorize("hasRole('ROLE_root')")
@@ -64,6 +65,7 @@ public class RootController {
 
     /**
      * root用户获得所有管理员
+     *
      * @return 结果集
      */
     @PostMapping("/getAllAdmins")
@@ -78,7 +80,8 @@ public class RootController {
 
     /**
      * root用户获得所有用户
-     * @return  结果集
+     *
+     * @return 结果集
      */
     @PostMapping("/getAllUsers")
     @PreAuthorize("hasAuthority('user_role_list')")
@@ -92,8 +95,9 @@ public class RootController {
 
     /**
      * root用户获得所有学生信息
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @PostMapping("/getAllStudents")
     public String getAllStudents(@RequestBody Map<String, Object> map) {
@@ -106,7 +110,8 @@ public class RootController {
 
     /**
      * root用户获得所有角色信息
-     * @return  结果集
+     *
+     * @return 结果集
      */
     @PostMapping("/getAllRoles")
     @PreAuthorize("hasAnyAuthority('user_role_list', 'role_permission_modify')")
@@ -117,7 +122,8 @@ public class RootController {
 
     /**
      * root用户获得所有权限信息
-     * @return  结果集
+     *
+     * @return 结果集
      */
     @PostMapping("/getAllPermissions")
     @PreAuthorize("hasAuthority('role_permission_modify')")
@@ -127,8 +133,9 @@ public class RootController {
 
     /**
      * root用户获得某用户的所有角色
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @PostMapping("/getUserRoles")
     @PreAuthorize("hasAuthority('user_role_list')")
@@ -140,8 +147,9 @@ public class RootController {
 
     /**
      * root用户通过角色id获得权限
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @PostMapping("/getPermissionsByRoleId")
     @PreAuthorize("hasAuthority('role_permission_modify')")
@@ -158,8 +166,9 @@ public class RootController {
 
     /**
      * root用户修改用户的角色
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateUserRole")
@@ -169,7 +178,7 @@ public class RootController {
         List<Integer> roleIds;
         String userId = (String) map.get("userId");
         try {
-            roleIds = (List<Integer>)map.get("data");
+            roleIds = (List<Integer>) map.get("data");
 
         } catch (Exception e) {
             return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
@@ -179,18 +188,19 @@ public class RootController {
 
     /**
      * root用户修改角色权限
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateRolePermission")
     @PreAuthorize("hasAuthority('role_permission_modify')")
     public ResultVO updateRolePermission(@RequestBody Map<String, Object> map) {
 
-        Integer roleId = Integer.parseInt((String)map.get("roleId"));
+        Integer roleId = Integer.parseInt((String) map.get("roleId"));
         List<Integer> permissionIds;
         try {
-            permissionIds = (List<Integer>)map.get("data");
+            permissionIds = (List<Integer>) map.get("data");
         } catch (NumberFormatException e) {
             return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
         }
@@ -199,8 +209,9 @@ public class RootController {
 
     /**
      * root用户更新管理员可管理的学院
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateAvailableDeptIds")
@@ -208,7 +219,7 @@ public class RootController {
 
         List<String> list;
         try {
-            list = (List<String>)map.get("deptIdList");
+            list = (List<String>) map.get("deptIdList");
         } catch (Exception e) {
             ResultVO resultVO;
             resultVO = ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
@@ -222,7 +233,8 @@ public class RootController {
 
     /**
      * root用户获得所有学院信息
-     * @return  结果集
+     *
+     * @return 结果集
      */
     @PostMapping("/getAllDepts")
     public ResultVO getAllDepts() {
@@ -232,7 +244,8 @@ public class RootController {
 
     /**
      * 获取所有日志类别
-     * @return  结果集
+     *
+     * @return 结果集
      */
     @PostMapping("/getLogTypes")
     @PreAuthorize("hasAuthority('Log')")
@@ -251,7 +264,8 @@ public class RootController {
 
     /**
      * 获得所有日志类型已经相应的数量
-     * @return  结果集
+     *
+     * @return 结果集
      */
     @PostMapping("/getLogTypeAndCount")
     @PreAuthorize("hasAuthority('Log')")
@@ -261,8 +275,9 @@ public class RootController {
 
     /**
      * 通过日志类型获得所有日志
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @PostMapping("/getLogInfoByType")
     @PreAuthorize("hasAuthority('Log')")
@@ -277,8 +292,9 @@ public class RootController {
 
     /**
      * 批量删除日志
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @PostMapping("/deleteLogs")
     @PreAuthorize("hasAuthority('Log')")
