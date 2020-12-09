@@ -2,20 +2,24 @@ package com.gwy.manager;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.*;
-import com.gwy.manager.mapper.*;
+import com.gwy.manager.entity.Student;
+import com.gwy.manager.entity.Term;
+import com.gwy.manager.mapper.StudentMapper;
+import com.gwy.manager.mapper.TeacherAssessMapper;
+import com.gwy.manager.mapper.TermMapper;
+import com.gwy.manager.mapper.UserMapper;
 import com.gwy.manager.service.impl.TargetServiceImpl;
-import org.apache.commons.beanutils.BeanUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 @SpringBootTest
 class ManagerApplicationTests {
@@ -111,12 +115,18 @@ class ManagerApplicationTests {
     }
 
     @Autowired
-    TeacherCourseMapper teacherCourseMapper;
+    TeacherAssessMapper teacherAssessMapper;
     @Test
     void decode() {
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("2018110114");
-        List<Map<String, Object>> maps = studentMapper.selectStudentNamesByIds(strings);
-        System.out.println(maps);
+        String teacherNo = "2001110002";
+        String termId = "2020-2021-1";
+        List<String> list = new ArrayList<>();
+
+        list.add("10000");
+        list.add("201011059");
+        list.add("20000");
+        List<String> res = teacherAssessMapper.judgeAssessed(teacherNo, list, termId);
+
+        System.out.println(res);
     }
 }

@@ -1,5 +1,6 @@
-package com.gwy.manager.util;
+package com.gwy.manager.util.file;
 
+import com.gwy.manager.constant.ExcelConstants;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.User;
@@ -9,6 +10,8 @@ import com.gwy.manager.entity.Dept;
 import com.gwy.manager.dto.ExcelSheetPO;
 import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.security.GlobalPasswordEncoder;
+import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.ResultVOUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,32 +29,10 @@ import java.util.regex.Pattern;
  * @date 2020/11/6 20:36
  */
 @Component
-public class ExcelHeaderFormat {
-
-    public static final String TEACHER_EXCEL = "teacher";
-
-    public static final String STUDENT_EXCEL = "student";
-
-    public static final String TARGET_EXCEL = "target";
-
-    public static final String INVALID_HEADERS = "Invalid Headers";
-
-    private static final GlobalPasswordEncoder PASSWORD_ENCODER = new GlobalPasswordEncoder();
-
-    private static final String EMAIL_REGEX = "^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$";
+public class ImportExcelFileUtil {
 
     @Autowired
     private DeptMapper deptMapper;
-
-    private static final String[] TEACHER_HEADERS = new String[]{
-            "教师号", "姓名", "性别", "密码", "邮箱", "生日", "学历", "毕业院校",
-            "政治面貌", "入职年份", "总学时", "入职学院", "职称", "职称获取时间"
-    };
-
-    private static final String[] STUDENT_HEADERS = new String[]{
-            "学号", "姓名", "性别", "密码", "邮箱", "生日", "班号",
-            "政治面貌", "入学学院", "入学年份"
-    };
 
     /**
      * 根据传递来的标题头和对象类型检测是否合法
@@ -62,10 +43,10 @@ public class ExcelHeaderFormat {
      */
     public static boolean judgeHeaders(String headerType, String[] headers) {
 
-        if (headerType.equals(ExcelHeaderFormat.TEACHER_EXCEL)) {
-            return Arrays.equals(headers, TEACHER_HEADERS);
-        } else if (headerType.equals(ExcelHeaderFormat.STUDENT_EXCEL)) {
-            return Arrays.equals(headers, STUDENT_HEADERS);
+        if (headerType.equals(ExcelConstants.TEACHER_EXCEL)) {
+            return Arrays.equals(headers, ExcelConstants.TEACHER_HEADERS);
+        } else if (headerType.equals(ExcelConstants.STUDENT_EXCEL)) {
+            return Arrays.equals(headers, ExcelConstants.STUDENT_HEADERS);
         }
 
         return false;
@@ -79,15 +60,21 @@ public class ExcelHeaderFormat {
      */
     public static String getValidHeaders(String headerType) {
 
-        if (headerType.equals(TEACHER_EXCEL)) {
-            return Arrays.toString(TEACHER_HEADERS);
-        } else if (headerType.equals(STUDENT_EXCEL)) {
-            return Arrays.toString(STUDENT_HEADERS);
+        if (headerType.equals(ExcelConstants.TEACHER_EXCEL)) {
+            return Arrays.toString(ExcelConstants.TEACHER_HEADERS);
+        } else if (headerType.equals(ExcelConstants.STUDENT_EXCEL)) {
+            return Arrays.toString(ExcelConstants.STUDENT_HEADERS);
         }
 
         return null;
     }
 
+    /**
+     * 将Excel中读取的数据解析为bean对象
+     * @param headerType    用户类型
+     * @param obj   传入的list, 里面封装Excel中读取的信息
+     * @return  结果集
+     */
     public static Map<String, Object> dataToBean(String headerType, List<Object> obj) {
 
         //通过BeanUtils转化为pojo
@@ -97,102 +84,134 @@ public class ExcelHeaderFormat {
         Map<String, Object> result = new HashMap<>(5);
         result.put("msg", ResponseDataMsg.Fail.getMsg());
 
-        //如果导入教师
+        //如果导入用户
         if (headerType.equals(UserOption.TEACHER.getUserType())) {
-            User user = new User();
 
-            try {
-                if (obj.get(0).toString().endsWith(".00")) {
-                    result.put("data", "Incorrect UserId");
-                    return result;
-                }
-
-                //设置教师号
-                objMap.put("userId", obj.get(0).toString());
-
-                //设置教师名
-                objMap.put("username", obj.get(1));
-
-                //抽取公共字段并校验
-                if (isNotCorrectOnUserPublicFields(obj, objMap, result)) {
-                    return result;
-                }
-
-                //设置教师学历
-                objMap.put("degree", obj.get(6));
-
-                //设置教师毕业院校
-                objMap.put("graduated", obj.get(7));
-
-                //设置教师政治面貌
-                objMap.put("political", obj.get(8));
-
-                //设置教师入职年份
-                objMap.put("entryYear", Integer.parseInt((String) obj.get(9)));
-
-                //设置教师总学时
-                objMap.put("sumHour", Integer.parseInt((String) obj.get(10)));
-
-                //设置教师入职学院
-                objMap.put("deptId", obj.get(11));
-
-                //设置教师职称
-                objMap.put("professional", obj.get(12));
-
-                //设置教师职称获得时间
-                objMap.put("professionalTime", DateUtilCustom.string2Date((String) obj.get(13)));
-            } catch (Exception e) {
-                e.printStackTrace();
-                result.put("data", "Data ParseException");
-                return result;
-            }
-
-            return mapToBean(user, objMap, result);
+            return userDataToMap(obj, objMap, result);
 
         } else if (headerType.equals(UserOption.STUDENT.getUserType())) {
-            Student student = new Student();
 
-            try {
-                if (obj.get(0).toString().endsWith(".00")) {
-                    result.put("data", "Incorrect studentId");
-                    return result;
-                }
-
-                //设置学号
-                objMap.put("studentNo", obj.get(0).toString());
-
-                //设置学生姓名
-                objMap.put("studentName", obj.get(1));
-
-                //检查公共字段
-                if (isNotCorrectOnUserPublicFields(obj, objMap, result)) {
-                    return result;
-                }
-
-                //设置学生班级
-                objMap.put("classId", obj.get(6));
-
-                //设置学生政治面貌
-                objMap.put("political", obj.get(7));
-
-                //设置学生学院
-                objMap.put("deptId", obj.get(8));
-
-                //设置学生入学年份
-                objMap.put("entryYear", Integer.parseInt((String) obj.get(9)));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                result.put("data", "Data ParseException");
-                return result;
-            }
-
-            return mapToBean(student, objMap, result);
+            return studentDataToMap(obj, objMap, result);
         }
 
         return null;
     }
 
+    /**
+     * 将用户信息转化为map
+     * @param obj   Excel一行
+     * @param objMap    对象map
+     * @param result    结果
+     * @return  返回结果map
+     */
+    private static Map<String, Object> userDataToMap(List<Object> obj, Map<String, Object> objMap, Map<String, Object> result) {
+        User user = new User();
+
+        try {
+            if (obj.get(0).toString().endsWith(".00")) {
+                result.put("data", "Incorrect UserId");
+                return result;
+            }
+
+            //设置教师号
+            objMap.put("userId", obj.get(0).toString());
+
+            //设置教师名
+            objMap.put("username", obj.get(1));
+
+            //抽取公共字段并校验
+            if (isNotCorrectOnUserPublicFields(obj, objMap, result)) {
+                return result;
+            }
+
+            //设置教师学历
+            objMap.put("degree", obj.get(6));
+
+            //设置教师毕业院校
+            objMap.put("graduated", obj.get(7));
+
+            //设置教师政治面貌
+            objMap.put("political", obj.get(8));
+
+            //设置教师入职年份
+            objMap.put("entryYear", Integer.parseInt((String) obj.get(9)));
+
+            //设置教师总学时
+            objMap.put("sumHour", Integer.parseInt((String) obj.get(10)));
+
+            //设置教师入职学院
+            objMap.put("deptId", obj.get(11));
+
+            //设置教师职称
+            objMap.put("professional", obj.get(12));
+
+            //设置教师职称获得时间
+            objMap.put("professionalTime", DateUtilCustom.string2Date((String) obj.get(13)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("data", "Data ParseException");
+            return result;
+        }
+
+        return mapToBean(user, objMap, result);
+    }
+
+    /**
+     * 将学生信息封装为map
+     * @param obj   Excel一整行
+     * @param objMap    对象map
+     * @param result    结果map
+     * @return  结果集
+     */
+    private static Map<String, Object> studentDataToMap(List<Object> obj, Map<String, Object> objMap, Map<String, Object> result) {
+        Student student = new Student();
+
+        try {
+            if (obj.get(0).toString().endsWith(".00")) {
+                result.put("data", "Incorrect studentId");
+                return result;
+            }
+
+            //设置学号
+            objMap.put("studentNo", obj.get(0).toString());
+
+            //设置学生姓名
+            objMap.put("studentName", obj.get(1));
+
+            //检查公共字段
+            if (isNotCorrectOnUserPublicFields(obj, objMap, result)) {
+                return result;
+            }
+
+            //设置学生班级
+            objMap.put("classId", obj.get(6));
+
+            //设置学生政治面貌
+            objMap.put("political", obj.get(7));
+
+            //设置学生学院
+            objMap.put("deptId", obj.get(8));
+
+            //设置学生入学年份
+            objMap.put("entryYear", Integer.parseInt((String) obj.get(9)));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("data", "Data ParseException");
+            return result;
+        }
+
+        return mapToBean(student, objMap, result);
+    }
+
+    /**
+     * 将map转化为Bean对象
+     * @param bean  bean对象
+     * @param map   存储对象信息的map
+     * @param result    返回结果
+     * @param <T>   bean对象的类型
+     * @return  结果map
+     */
     private static <T> Map<String, Object> mapToBean(T bean, Map<String, Object> map, Map<String, Object> result) {
 
         try {
@@ -207,6 +226,14 @@ public class ExcelHeaderFormat {
         return result;
     }
 
+    /**
+     * 判断公共字段是否合法
+     * @param obj   Excel数据集
+     * @param objMap    对象map
+     * @param result    结果map
+     * @return  返回结果
+     * @throws ParseException   数据转换异常
+     */
     private static boolean isNotCorrectOnUserPublicFields(List<Object> obj, Map<String, Object> objMap, Map<String, Object> result) throws ParseException {
         //设置性别
         if ("男".equals(obj.get(2))) {
@@ -219,9 +246,9 @@ public class ExcelHeaderFormat {
         }
 
         //设置密码
-        objMap.put("password", PASSWORD_ENCODER.encode(obj.get(3).toString()));
+        objMap.put("password", ExcelConstants.PASSWORD_ENCODER.encode(obj.get(3).toString()));
 
-        boolean matches = Pattern.matches(EMAIL_REGEX, obj.get(4).toString());
+        boolean matches = Pattern.matches(ExcelConstants.EMAIL_REGEX, obj.get(4).toString());
 
         if (matches) {
             objMap.put("email", obj.get(4));
@@ -253,8 +280,14 @@ public class ExcelHeaderFormat {
 
         try {
             //将MultipartFile转化为File
-            File tmpFile = MultipartFileToFile.multipartFileToFile(file);
+            File tmpFile = MultipartFileUtil.multipartFileToFile(file);
+
+            //使用Excel工具类加载Excel文件内容
             pos = ExcelUtil.readExcel(headerType, tmpFile);
+
+            //删除临时文件
+            MultipartFileUtil.deleteTempFile(tmpFile);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -264,20 +297,22 @@ public class ExcelHeaderFormat {
 
         Map<String, Object> map = new LinkedHashMap<>();
 
-        Dept dept = deptMapper.selectByPrimaryKey(deptId);
+        Dept dept;
 
         //遍历所有页
         for (ExcelSheetPO po : pos) {
 
-            if (po.getTitle() != null && po.getTitle().equals(INVALID_HEADERS)) {
+            if (po.getTitle() != null && po.getTitle().equals(ExcelConstants.INVALID_HEADERS)) {
 
                 Map<String, Object> titleMap = new LinkedHashMap<>();
                 titleMap.put("Failure", "表格标题不匹配");
-                titleMap.put("Expected", ExcelHeaderFormat.getValidHeaders(headerType));
+                titleMap.put("Expected", ImportExcelFileUtil.getValidHeaders(headerType));
 
                 resultVO = ResultVOUtil.error(titleMap);
                 return resultVO;
             }
+
+            dept = deptMapper.selectByPrimaryKey(deptId);
 
             Map<String, Object> thisSheet = new LinkedHashMap<>();
 
@@ -289,9 +324,9 @@ public class ExcelHeaderFormat {
 
             data = new ArrayList<>();
 
-            //遍历本页中的所有数据
+            //按行遍历本页中的所有数据
             for (List<Object> objects : dataList) {
-                Map<String, Object> thisData = ExcelHeaderFormat.dataToBean(headerType, objects);
+                Map<String, Object> thisData = ImportExcelFileUtil.dataToBean(headerType, objects);
 
                 //如果数据识别错误
                 if (thisData != null && thisData.get("msg").equals(ResponseDataMsg.Fail.getMsg())) {
@@ -300,7 +335,7 @@ public class ExcelHeaderFormat {
                 } else if (thisData != null && thisData.get("msg").equals(ResponseDataMsg.Success.getMsg())) {
 
                     //如果传递的是教师类型
-                    if (headerType.equals(TEACHER_EXCEL)) {
+                    if (headerType.equals(ExcelConstants.TEACHER_EXCEL)) {
                         User user = (User) thisData.get("data");
 
                         //如果院系不为管理员所在学院
@@ -314,7 +349,7 @@ public class ExcelHeaderFormat {
 
                         //识别成功，添加
                         data.add((T) user);
-                    } else if (headerType.equals(STUDENT_EXCEL)) {
+                    } else if (headerType.equals(ExcelConstants.STUDENT_EXCEL)) {
                         //如果是学生类型
                         Student student = (Student) thisData.get("data");
 

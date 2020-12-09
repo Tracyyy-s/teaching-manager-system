@@ -1,16 +1,13 @@
 package com.gwy.manager;
 
 import com.gwy.manager.dto.ExcelSheetPO;
-import com.gwy.manager.util.DateUtilCustom;
-import com.gwy.manager.util.ExcelUtil;
-import org.apache.commons.beanutils.BeanUtils;
+import com.gwy.manager.util.file.ExcelUtil;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -65,5 +62,14 @@ public class FileTest {
         }
 
         System.out.println(noSubmit);
+    }
+
+    @Test
+    void test03() throws IOException {
+
+//        FileOutputStream stream = new FileOutputStream(new File("hello.txt"));
+//
+//        stream.write("hello world".getBytes());
+        FileUtils.deleteQuietly(new File("hello.txt"));
     }
 }

@@ -44,6 +44,14 @@ public interface UserService {
     ResultVO getUsersOfDept(String deptId);
 
     /**
+     * 指定用户获得学院内所有用户
+     * @param userId  用户id
+     * @param deptId  学院id
+     * @return  结果集
+     */
+    ResultVO getUsersOfDept(String userId, String deptId);
+
+    /**
      * 传入Excel批量添加用户
      * @param deptId 学院id
      * @param headerType Excel的header类型

@@ -3,6 +3,7 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.SysLog;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,10 @@ public interface SysLogMapper {
     List<Map<String, Object>> selectDataExplainAndCount();
 
     List<SysLog> selectByType(String type);
+
+    List<SysLog> selectByInterval(@Param("beginTime") Date beginTime,
+                                  @Param("endTime") Date endTime,
+                                  @Param("type") String type);
 
     int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
 }

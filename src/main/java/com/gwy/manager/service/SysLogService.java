@@ -4,6 +4,7 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.SysLog;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,6 +48,15 @@ public interface SysLogService {
      * @return  结果集
      */
     ResultVO deleteByBatch(List<Integer> ids);
+
+    /**
+     * 获得指定时间内的指定时间内的日志，用于导出
+     * @param beginTime 开始时间
+     * @param endTime   结束时间
+     * @param type  日志类型
+     * @return  结果集
+     */
+    ResultVO getLogByInterval(Date beginTime, Date endTime, String type);
 
     /**
      * 分页获得日志

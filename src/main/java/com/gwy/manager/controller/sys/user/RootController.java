@@ -13,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * @author Tracy
@@ -309,5 +307,29 @@ public class RootController {
         }
 
         return logService.deleteByBatch(deleteId);
+    }
+
+    /**
+     * 按条件导出日志
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/exportLogs")
+    @PreAuthorize("hasAuthority('Log')")
+    public ResultVO exportLogs(@RequestBody Map<String, String> map) {
+
+        String strBeginTime = map.get("beginTime");
+        String strEndTime = map.get("endTime");
+        String type = map.get("type");
+
+        Date beginTime, endTime;
+        try {
+            beginTime = DateUtilCustom.string2Time(strBeginTime);
+            endTime = DateUtilCustom.string2Time(strEndTime);
+        } catch (ParseException e) {
+            return ResultVOUtil.error("ParseException");
+        }
+
+        return logService.getLogByInterval(beginTime, endTime, type);
     }
 }

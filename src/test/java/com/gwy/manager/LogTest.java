@@ -1,12 +1,16 @@
 package com.gwy.manager;
 
+import com.gwy.manager.entity.SysLog;
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.enums.SysLogType;
 import com.gwy.manager.mapper.SysLogMapper;
 import com.gwy.manager.util.DateUtilCustom;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -38,20 +42,48 @@ public class LogTest {
     }
 
     @Test
-    void test02() {
-        Date time = DateUtilCustom.getDate();
-        System.out.println(time);
-        System.out.println(DateUtilCustom.date2String(time));;
+    void test02() throws ParseException {
+//        String start = "2020-12-07 16:39:00";
+//        String end = "2020-12-08 16:39:00";
+//        Date startDate = DateUtilCustom.string2Time(start);
+//        Date endDate = DateUtilCustom.string2Time(end);
+//        System.out.println(logMapper.selectByInterval(startDate, endDate, SysLogType.All.getType()));
+
     }
 
     @Test
     void test03() {
 
-        ArrayList<Integer> integers = new ArrayList<>();
-        integers.add(1680);
-        integers.add(1681);
-        integers.add(1682);
+        SysLog sysLog = new SysLog();
+        sysLog.setId(1);
+        sysLog.setUserId("12");
+        sysLog.setAuthorities("1");
+        sysLog.setRequestUrl("1");
+        sysLog.setIp("1");
+        sysLog.setLocale("1");
+        sysLog.setResultMessage("2");
+        sysLog.setData("$");
+        sysLog.setCreateTime(new Date());
+        sysLog.setParams("G");
+        sysLog.setDataExplain("F");
+        sysLog.setType("S");
+        sysLog.setTypeExplain("S");
 
-        logMapper.deleteByPrimaryKeys(integers);
+        Class<? extends SysLog> clazz = sysLog.getClass();
+
+        Field[] fields = clazz.getDeclaredFields();
+        System.out.println(Arrays.toString(fields));
+        for (Field field : fields) {
+            String name = field.getName();
+            field.setAccessible(true);
+            Object o = null;
+            try {
+                o = field.get(sysLog);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            System.out.println(name + " " + o);
+        }
+
     }
 }

@@ -7,22 +7,15 @@ import com.gwy.manager.entity.User;
 import com.gwy.manager.entity.UserRole;
 import com.gwy.manager.enums.ResponseStatus;
 import com.gwy.manager.enums.UserOption;
-import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.mapper.*;
-import com.gwy.manager.rabbimq.RabbitmqProducer;
 import com.gwy.manager.service.StudentService;
 import com.gwy.manager.util.*;
-import com.gwy.manager.mail.MailUtil;
-import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.util.file.ImportExcelFileUtil;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.text.translate.UnicodeUnescaper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,7 +45,7 @@ public class StudentServiceImpl implements StudentService {
     private VRCodeUtil vrCodeUtil;
 
     @Autowired
-    private ExcelHeaderFormat headerFormat;
+    private ImportExcelFileUtil importExcelFileUtil;
 
     @Autowired
     private DeptMapper deptMapper;
@@ -202,7 +195,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResultVO importStudentsByFile(String deptId, String headerType, MultipartFile file) {
 
-        ResultVO resultVO = headerFormat.importBeansByFile(deptId, headerType, file);
+        ResultVO resultVO = importExcelFileUtil.importBeansByFile(deptId, headerType, file);
 
         if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
             Map<String, Object> map = (Map<String, Object>) resultVO.getData();

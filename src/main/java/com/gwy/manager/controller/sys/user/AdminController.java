@@ -1,12 +1,13 @@
 package com.gwy.manager.controller.sys.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.gwy.manager.constant.ExcelConstants;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
-import com.gwy.manager.util.ExcelHeaderFormat;
+import com.gwy.manager.util.file.ImportExcelFileUtil;
 import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -271,7 +272,7 @@ public class AdminController {
     @PreAuthorize("hasAuthority('teacherListImporting')")
     public String importTeachers(@RequestParam("deptId") String deptId,
                                  @RequestParam("file") MultipartFile file) {
-        return JSONObject.toJSONStringWithDateFormat(userService.importUsersByFile(deptId, ExcelHeaderFormat.TEACHER_EXCEL, file), DateUtilCustom.DATE_PATTERN);
+        return JSONObject.toJSONStringWithDateFormat(userService.importUsersByFile(deptId, ExcelConstants.TEACHER_EXCEL, file), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
@@ -284,6 +285,6 @@ public class AdminController {
     @PreAuthorize("hasAuthority('studentListImporting')")
     public String importStudents(@RequestParam("deptId") String deptId,
                                  @RequestParam("file") MultipartFile file) {
-        return JSONObject.toJSONStringWithDateFormat(studentService.importStudentsByFile(deptId, ExcelHeaderFormat.STUDENT_EXCEL, file), DateUtilCustom.DATE_PATTERN);
+        return JSONObject.toJSONStringWithDateFormat(studentService.importStudentsByFile(deptId, ExcelConstants.STUDENT_EXCEL, file), DateUtilCustom.DATE_PATTERN);
     }
 }

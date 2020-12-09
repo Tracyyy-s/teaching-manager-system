@@ -136,6 +136,17 @@ public class SysLogServiceImpl implements SysLogService {
     }
 
     @Override
+    public ResultVO getLogByInterval(Date beginTime, Date endTime, String type) {
+
+        List<SysLog> sysLogs = sysLogMapper.selectByInterval(beginTime, endTime, type);
+        if (CollectionUtils.isEmpty(sysLogs)) {
+            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        }
+
+        return ResultVOUtil.success(sysLogs);
+    }
+
+    @Override
     public ResultVO getLogs(int pageNum, int pageSize) {
 
         List<SysLog> sysLogs = sysLogMapper.selectAll();

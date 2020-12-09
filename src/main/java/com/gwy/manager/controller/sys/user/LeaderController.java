@@ -39,8 +39,9 @@ public class LeaderController {
     @PostMapping("/getTeachersInDept")
     public String getTeachersByDept(@RequestBody Map<String, String> map) {
 
+        String userId = map.get("userId");
         String deptId = map.get("deptId");
-        return JSONObject.toJSONStringWithDateFormat(userService.getUsersOfDept(deptId), DateUtilCustom.DATE_PATTERN);
+        return JSONObject.toJSONStringWithDateFormat(userService.getUsersOfDept(userId, deptId), DateUtilCustom.DATE_PATTERN);
     }
 
     /**

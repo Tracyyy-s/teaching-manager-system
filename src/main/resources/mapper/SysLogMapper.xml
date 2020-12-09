@@ -49,7 +49,12 @@
     select id, user_id, authorities, request_url, ip, locale, result_message,
     data, create_time, params, data_explain, type, type_explain
     from ts_log
-    where type = #{type,jdbcType=VARCHAR}
+    where type like
+        case when #{type,jdbcType=VARCHAR} != 'All' then
+            #{type,jdbcType=VARCHAR}
+        else
+            '%'
+        end
     order by id desc
   </select>
   <delete id="deleteByPrimaryKeys">
@@ -59,4 +64,16 @@
         #{id,jdbcType=INTEGER}
     </foreach>
   </delete>
+  <select id="selectByInterval" resultMap="BaseResultMap">
+  select id, user_id, authorities, request_url, ip, locale, result_message,
+  data, create_time, params, data_explain, type, type_explain
+  from ts_log
+  where create_time between #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+  and type like
+    case when #{type,jdbcType=VARCHAR} != 'All' then
+        #{type,jdbcType=VARCHAR}
+    else
+        '%'
+    end
+  </select>
 </mapper>

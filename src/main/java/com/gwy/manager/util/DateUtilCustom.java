@@ -30,6 +30,10 @@ public class DateUtilCustom {
         return DateUtils.parseDate(date, DATE_PATTERN);
     }
 
+    public static Date string2Time(String time) throws ParseException {
+        return DateUtils.parseDate(time, TIME_PATTERN);
+    }
+
     public static String date2String(Date date) {
         return DateFormatUtils.format(date, DATE_PATTERN);
     }

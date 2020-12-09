@@ -55,4 +55,15 @@ public interface TeacherAssessMapper {
      * @return  返回列表
      */
     List<TeacherAssess> selectAllByTno(String teacherNo);
+
+    /**
+     * 获得某教师在某学期的所有评价
+     * @param teacherNo 教师id
+     * @param assessedTeacherNos    被评价的id
+     * @param termId    学期id
+     * @return  被评价的教师id列表
+     */
+    List<String> judgeAssessed(@Param("teacherNo") String teacherNo,
+                               @Param("assessedTeacherNos") List<String> assessedTeacherNos,
+                               @Param("termId") String termId);
 }

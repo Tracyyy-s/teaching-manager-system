@@ -8,15 +8,12 @@ import com.gwy.manager.entity.*;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.ResponseStatus;
 import com.gwy.manager.enums.UserOption;
-import com.gwy.manager.mapper.DeptMapper;
-import com.gwy.manager.mapper.RoleMapper;
-import com.gwy.manager.mapper.UserMapper;
-import com.gwy.manager.mapper.UserRoleMapper;
+import com.gwy.manager.mapper.*;
 import com.gwy.manager.security.GlobalPasswordEncoder;
 import com.gwy.manager.service.UserService;
 import com.gwy.manager.util.*;
+import com.gwy.manager.util.file.ImportExcelFileUtil;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +47,13 @@ public class UserServiceImpl implements UserService {
     private DeptMapper deptMapper;
 
     @Autowired
-    private ExcelHeaderFormat headerFormat;
+    private TermMapper termMapper;
+
+    @Autowired
+    private TeacherAssessMapper teacherAssessMapper;
+
+    @Autowired
+    private ImportExcelFileUtil importExcelFileUtil;
 
     @Override
     public ResultVO getUserById(String adminNo, String userId) {
@@ -129,16 +132,56 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO getUsersOfDept(String deptId) {
 
-        ResultVO resultVO;
-
         List<User> users = userMapper.selectUsersByDeptId(deptId);
         if (CollectionUtils.isEmpty(users)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
-        } else {
-            resultVO = ResultVOUtil.success(BeanUtil.beansToList(users));
+            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         }
 
-        return resultVO;
+        Collection<Map<String, Object>> maps = BeanUtil.beansToList(users);
+        Dept dept = deptMapper.selectByPrimaryKey(deptId);
+        for (Map<String, Object> map : maps) {
+            map.put("deptName", dept.getDeptName());
+        }
+
+        return ResultVOUtil.success(maps);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public ResultVO getUsersOfDept(String userId, String deptId) {
+
+        ResultVO resultUsers = this.getUsersOfDept(deptId);
+
+        if (resultUsers.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
+
+            //获得当前学期
+            Term term = termMapper.getCurrentTerm(DateUtilCustom.getDate());
+            if (term != null) {
+
+                //获得已经查询到的结果集
+                Collection<Map<String, Object>> maps = (Collection<Map<String, Object>>)resultUsers.getData();
+
+                //存储查询结果的userId
+                List<String> userIds = new ArrayList<>();
+                for (Map<String, Object> map : maps) {
+                    userIds.add((String)map.get("userId"));
+                }
+
+                //查询该教师在本学期已经评价的教师id
+                List<String> assessedUserIds = teacherAssessMapper
+                        .judgeAssessed(userId, userIds, term.getTermId());
+
+                //遍历查询结果，判断是否被评价
+                for (Map<String, Object> map : maps) {
+                    map.put("assessed", assessedUserIds.contains((String) map.get("userId")));
+                }
+
+                return ResultVOUtil.success(maps);
+            }
+
+        }
+
+        return resultUsers;
     }
 
     @Override
@@ -271,7 +314,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO importUsersByFile(String deptId, String headerType, MultipartFile file) {
 
-        ResultVO resultVO = headerFormat.importBeansByFile(deptId, headerType, file);
+        ResultVO resultVO = importExcelFileUtil.importBeansByFile(deptId, headerType, file);
 
         if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
             Map<String, Object> map = (Map<String, Object>) resultVO.getData();

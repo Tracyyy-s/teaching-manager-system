@@ -1,31 +1,24 @@
-package com.gwy.manager.util;
+package com.gwy.manager.util.file;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
+import com.gwy.manager.constant.ExcelConstants;
 import com.gwy.manager.dto.ExcelSheetPO;
 import com.gwy.manager.enums.ExcelVersion;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellValue;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.*;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * excel工具类 提供读取和写入excel的功能
@@ -60,7 +53,7 @@ public class ExcelUtil {
      * @param headerType 文件头类型
      * @return  数据集
      */
-    public static List<ExcelSheetPO> readExcel(String headerType, File file/*, Integer rowCount, Integer columnCount*/)
+    public static List<ExcelSheetPO> readExcel(String headerType, File file)
             throws IOException {
 
         // 根据后缀名称判断excel的版本
@@ -89,12 +82,8 @@ public class ExcelUtil {
             ExcelSheetPO sheetPO = new ExcelSheetPO();
             sheetPO.setSheetName(sheet.getSheetName());
             sheetPO.setDataList(dataList);
+
             int readRowCount = sheet.getPhysicalNumberOfRows();
-            /*if (rowCount == null || rowCount > sheet.getPhysicalNumberOfRows()) {
-                readRowCount = sheet.getPhysicalNumberOfRows();
-            } else {
-                readRowCount = rowCount;
-            }*/
 
             //解析sheet的标题行
             Row titles = sheet.getRow(0);
@@ -106,9 +95,9 @@ public class ExcelUtil {
             }
 
             //如果标题行不匹配
-            if (!ExcelHeaderFormat.judgeHeaders(headerType, headers)) {
+            if (!ImportExcelFileUtil.judgeHeaders(headerType, headers)) {
                 List<ExcelSheetPO> list = new ArrayList<>();
-                sheetPO.setTitle(ExcelHeaderFormat.INVALID_HEADERS);
+                sheetPO.setTitle(ExcelConstants.INVALID_HEADERS);
                 list.add(sheetPO);
                 return list;
             }
@@ -126,12 +115,9 @@ public class ExcelUtil {
                 if (row.getFirstCellNum() < 0) {
                     continue;
                 }
+
                 int readColumnCount = row.getLastCellNum();
-                /*if (columnCount == null || columnCount > row.getLastCellNum()) {
-                    readColumnCount = row.getLastCellNum();
-                } else {
-                    readColumnCount = columnCount;
-                }*/
+
                 List<Object> rowValue = new LinkedList<>();
                 // 解析sheet 的列
                 for (int k = 0; k < readColumnCount; k++) {

@@ -52,4 +52,13 @@
     from ts_teacher_assess
     where teacher_no = #{teacherNo,jdbcType=VARCHAR}
   </select>
+  <select id="judgeAssessed" resultType="java.lang.String">
+    select assessed_teacher_no
+    from ts_teacher_assess
+    where teacher_no = #{teacherNo,jdbcType=VARCHAR} and term_id = #{termId,jdbcType=VARCHAR}
+    and assessed_teacher_no in
+    <foreach collection="assessedTeacherNos" item="assessedTeacherNo" open="(" close=")" separator="," >
+        #{assessedTeacherNo,jdbcType=VARCHAR}
+    </foreach>
+  </select>
 </mapper>
