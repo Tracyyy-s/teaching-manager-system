@@ -284,6 +284,7 @@ public class AdminController {
     @PreAuthorize("hasAuthority('studentListImporting')")
     public String importStudents(@RequestParam("deptId") String deptId,
                                  @RequestParam("file") MultipartFile file) {
+        System.out.println(deptId);
         return JSONObject.toJSONStringWithDateFormat(studentService.importStudentsByFile(deptId, ExcelHeaderFormat.STUDENT_EXCEL, file), DateUtilCustom.DATE_PATTERN);
     }
 }
