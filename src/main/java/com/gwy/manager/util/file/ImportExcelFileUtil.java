@@ -1,15 +1,15 @@
 package com.gwy.manager.util.file;
 
 import com.gwy.manager.constant.ExcelConstants;
+import com.gwy.manager.dto.ExcelSheetPO;
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.entity.Dept;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.User;
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.enums.ResponseStatus;
 import com.gwy.manager.enums.UserOption;
-import com.gwy.manager.entity.Dept;
-import com.gwy.manager.dto.ExcelSheetPO;
 import com.gwy.manager.mapper.DeptMapper;
-import com.gwy.manager.security.GlobalPasswordEncoder;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ResultVOUtil;
 import org.apache.commons.beanutils.BeanUtils;
@@ -71,9 +71,10 @@ public class ImportExcelFileUtil {
 
     /**
      * 将Excel中读取的数据解析为bean对象
-     * @param headerType    用户类型
-     * @param obj   传入的list, 里面封装Excel中读取的信息
-     * @return  结果集
+     *
+     * @param headerType 用户类型
+     * @param obj        传入的list, 里面封装Excel中读取的信息
+     * @return 结果集
      */
     public static Map<String, Object> dataToBean(String headerType, List<Object> obj) {
 
@@ -99,10 +100,11 @@ public class ImportExcelFileUtil {
 
     /**
      * 将用户信息转化为map
-     * @param obj   Excel一行
-     * @param objMap    对象map
-     * @param result    结果
-     * @return  返回结果map
+     *
+     * @param obj    Excel一行
+     * @param objMap 对象map
+     * @param result 结果
+     * @return 返回结果map
      */
     private static Map<String, Object> userDataToMap(List<Object> obj, Map<String, Object> objMap, Map<String, Object> result) {
         User user = new User();
@@ -158,10 +160,11 @@ public class ImportExcelFileUtil {
 
     /**
      * 将学生信息封装为map
-     * @param obj   Excel一整行
-     * @param objMap    对象map
-     * @param result    结果map
-     * @return  结果集
+     *
+     * @param obj    Excel一整行
+     * @param objMap 对象map
+     * @param result 结果map
+     * @return 结果集
      */
     private static Map<String, Object> studentDataToMap(List<Object> obj, Map<String, Object> objMap, Map<String, Object> result) {
         Student student = new Student();
@@ -206,11 +209,12 @@ public class ImportExcelFileUtil {
 
     /**
      * 将map转化为Bean对象
-     * @param bean  bean对象
-     * @param map   存储对象信息的map
-     * @param result    返回结果
-     * @param <T>   bean对象的类型
-     * @return  结果map
+     *
+     * @param bean   bean对象
+     * @param map    存储对象信息的map
+     * @param result 返回结果
+     * @param <T>    bean对象的类型
+     * @return 结果map
      */
     private static <T> Map<String, Object> mapToBean(T bean, Map<String, Object> map, Map<String, Object> result) {
 
@@ -228,11 +232,12 @@ public class ImportExcelFileUtil {
 
     /**
      * 判断公共字段是否合法
-     * @param obj   Excel数据集
-     * @param objMap    对象map
-     * @param result    结果map
-     * @return  返回结果
-     * @throws ParseException   数据转换异常
+     *
+     * @param obj    Excel数据集
+     * @param objMap 对象map
+     * @param result 结果map
+     * @return 返回结果
+     * @throws ParseException 数据转换异常
      */
     private static boolean isNotCorrectOnUserPublicFields(List<Object> obj, Map<String, Object> objMap, Map<String, Object> result) throws ParseException {
         //设置性别
@@ -269,13 +274,10 @@ public class ImportExcelFileUtil {
      * @param deptId     学院id
      * @param headerType 头类型
      * @param file       传入文件
-     * @param <T>        导入的pojo类型
      * @return 结果集
      */
-    @SuppressWarnings("unchecked")
-    public <T> ResultVO importBeansByFile(String deptId, String headerType, MultipartFile file) {
+    public ResultVO importBeansByFile(String deptId, String headerType, MultipartFile file) {
 
-        ResultVO resultVO;
         List<ExcelSheetPO> pos = new ArrayList<>();
 
         try {
@@ -293,10 +295,11 @@ public class ImportExcelFileUtil {
         }
 
         //存储每一页的数据
-        List<T> data;
+        List<Object> data;
 
         Map<String, Object> map = new LinkedHashMap<>();
 
+        //导入数据者系别
         Dept dept;
 
         //遍历所有页
@@ -308,8 +311,7 @@ public class ImportExcelFileUtil {
                 titleMap.put("Failure", "表格标题不匹配");
                 titleMap.put("Expected", ImportExcelFileUtil.getValidHeaders(headerType));
 
-                resultVO = ResultVOUtil.error(titleMap);
-                return resultVO;
+                return ResultVOUtil.error(titleMap);
             }
 
             dept = deptMapper.selectByPrimaryKey(deptId);
@@ -330,51 +332,72 @@ public class ImportExcelFileUtil {
 
                 //如果数据识别错误
                 if (thisData != null && thisData.get("msg").equals(ResponseDataMsg.Fail.getMsg())) {
-                    resultVO = ResultVOUtil.error(thisData.get("data"));
-                    return resultVO;
+                    return ResultVOUtil.error(thisData.get("data"));
                 } else if (thisData != null && thisData.get("msg").equals(ResponseDataMsg.Success.getMsg())) {
 
-                    //如果传递的是教师类型
-                    if (headerType.equals(ExcelConstants.TEACHER_EXCEL)) {
-                        User user = (User) thisData.get("data");
+                    Object objBean = thisData.get("data");
 
-                        //如果院系不为管理员所在学院
-                        //****封装时将Excel中的学院名字段赋予deptId****
-                        if (!StringUtils.isEmpty(user.getDeptId()) && !user.getDeptId().equals(dept.getDeptName())) {
-                            resultVO = ResultVOUtil.error("添加的教师仅可属于管理员所在学院");
-                            return resultVO;
-                        } else {
-                            user.setDeptId(dept.getDeptId());
-                        }
+                    //将bean对象加入本页面的list
+                    ResultVO resultVO = this.sheetListAddBean(data, headerType, objBean, dept);
 
-                        //识别成功，添加
-                        data.add((T) user);
-                    } else if (headerType.equals(ExcelConstants.STUDENT_EXCEL)) {
-                        //如果是学生类型
-                        Student student = (Student) thisData.get("data");
-
-                        //如果院系不为管理员所在学院
-                        //****封装时将Excel中的学院名字段赋予deptId****
-                        if (!student.getDeptId().equals(dept.getDeptName())) {
-                            resultVO = ResultVOUtil.error("添加的学生仅可属于管理员所在学院");
-                            return resultVO;
-                        } else {
-                            student.setDeptId(dept.getDeptId());
-                        }
-
-                        //识别成功，添加
-                        data.add((T) student);
+                    //如果添加错误
+                    if (!resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
+                        return resultVO;
                     }
-
                 }
             }
 
             //存储本页Excel的数据
             thisSheet.put("dataList", data);
+
+            //页名和数据以K-V方式存储
             map.put(po.getSheetName(), thisSheet);
         }
 
-        resultVO = ResultVOUtil.success(map);
-        return resultVO;
+        return ResultVOUtil.success(map);
+    }
+
+    /**
+     * 将实例bean对象加入list
+     *
+     * @param list       对象列表
+     * @param headerType 对象类型
+     * @param object     对象
+     * @param dept       系别
+     * @return 结果集
+     */
+    private ResultVO sheetListAddBean(List<Object> list,
+                                      String headerType,
+                                      Object object,
+                                      Dept dept) {
+
+        //如果传递的是教师类型
+        if (headerType.equals(ExcelConstants.TEACHER_EXCEL)) {
+            User user = ((User) object);
+
+            //如果院系不为管理员所在学院
+            //****封装时将Excel中的学院名字段赋予deptId****
+            if (!StringUtils.isEmpty(user.getDeptId()) && !user.getDeptId().equals(dept.getDeptName())) {
+                return ResultVOUtil.error("添加的教师仅可属于管理员所在学院");
+            } else {
+                user.setDeptId(dept.getDeptId());
+            }
+
+            //识别成功，添加
+            list.add(user);
+        } else if (headerType.equals(ExcelConstants.STUDENT_EXCEL)) {
+            //如果是学生类型
+            Student student = ((Student) object);
+
+            if (!StringUtils.isEmpty(student.getDeptId()) && !student.getDeptId().equals(dept.getDeptName())) {
+                return ResultVOUtil.error("添加的学生仅可属于管理员所在学院");
+            } else {
+                student.setDeptId(dept.getDeptId());
+            }
+
+            list.add(student);
+        }
+
+        return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
     }
 }

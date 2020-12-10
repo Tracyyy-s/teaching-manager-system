@@ -1,7 +1,6 @@
 package com.gwy.manager.util;
 
 import com.google.common.collect.Maps;
-import org.springframework.cglib.beans.BeanMap;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
