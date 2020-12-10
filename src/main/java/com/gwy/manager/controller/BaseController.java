@@ -38,9 +38,14 @@ public class BaseController {
     @Autowired
     private DeptServiceImpl deptService;
 
+    @GetMapping("/")
+    public ResultVO root() {
+        return ResultVOUtil.success("Welcome to Teaching Manager System.");
+    }
+
     @GetMapping("/login")
     public ResultVO login() {
-        return ResultVOUtil.error(ResponseDataMsg.NotLogin.getMsg());
+        return ResultVOUtil.error("Sorry, Not Found.");
     }
 
     /**
