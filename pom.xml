@@ -12,7 +12,7 @@
     <artifactId>manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>manager</name>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -210,7 +210,7 @@
     </dependencies>
 
     <build>
-        <finalName>TeachingSystem</finalName>
+        <finalName>TQMS-manager</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

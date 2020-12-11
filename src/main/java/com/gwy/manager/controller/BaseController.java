@@ -45,7 +45,7 @@ public class BaseController {
 
     @GetMapping("/login")
     public ResultVO login() {
-        return ResultVOUtil.error("Sorry, Not Found.");
+        return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
     }
 
     /**

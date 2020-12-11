@@ -51,18 +51,22 @@ public class SysLogServiceImpl implements SysLogService {
     @Override
     public void recordLog(HttpServletRequest request, Object[] args, ResultVO resultVO) {
         SysLog sysLog = new SysLog();
-        Authentication authentication = (Authentication) request.getUserPrincipal();
 
-        String userId = ((User) authentication.getPrincipal()).getUsername();
         String url = request.getRequestURL().toString();
         Locale locale = request.getLocale();
 
-        sysLog.setUserId(userId);
-        sysLog.setAuthorities(Arrays.toString(this.getRoleFromAuthorities(authentication.getAuthorities()).toArray()));
         sysLog.setRequestUrl(url);
-        sysLog.setIp(((WebAuthenticationDetails)authentication.getDetails()).getRemoteAddress());
-        sysLog.setParams(JSONObject.toJSONString(args));
         sysLog.setLocale(locale.toString());
+
+        Authentication authentication = (Authentication) request.getUserPrincipal();
+        if (authentication != null) {
+            String userId = ((User) authentication.getPrincipal()).getUsername();
+            sysLog.setUserId(userId);
+            sysLog.setAuthorities(Arrays.toString(this.getRoleFromAuthorities(authentication.getAuthorities()).toArray()));
+            sysLog.setIp(((WebAuthenticationDetails)authentication.getDetails()).getRemoteAddress());
+        }
+
+        sysLog.setParams(JSONObject.toJSONString(args));
 
         //设置返回信息
         sysLog.setResultMessage(resultVO.getMessage());
@@ -75,6 +79,7 @@ public class SysLogServiceImpl implements SysLogService {
             for (ResponseDataMsg value : ResponseDataMsg.values()) {
                 if (errData.equals(value.getMsg())) {
                     sysLog.setDataExplain(value.getExplain());
+                    break;
                 }
             }
         } else {
@@ -82,6 +87,7 @@ public class SysLogServiceImpl implements SysLogService {
             sysLog.setData(ResponseDataMsg.Success.getMsg());
             sysLog.setDataExplain(ResponseDataMsg.Success.getExplain());
         }
+
         sysLog.setType(SysLogType.OperationLog.getType());
         sysLog.setTypeExplain(SysLogType.OperationLog.getTypeExplain());
         sysLog.setCreateTime(DateUtilCustom.getTime());
