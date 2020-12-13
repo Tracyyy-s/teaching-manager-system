@@ -4,6 +4,7 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.TeacherAssess;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Tracy
@@ -40,4 +41,12 @@ public interface TeacherAssessService {
      * @return  结果集
      */
     ResultVO getHistoryAssessesOfTeacher(String tno);
+
+    /**
+     * 获得某学院某学期所有的教师评价及分数
+     * @param termId    学期id
+     * @param deptId    学院id
+     * @return  结果集
+     */
+    List<Map<String, Object>> getScoresByTermAndDept(String deptId, String termId);
 }

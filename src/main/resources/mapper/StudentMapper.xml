@@ -29,15 +29,35 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Student" >
     update ts_student
-    set student_name = #{studentName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=INTEGER},
-      birth = #{birth,jdbcType=DATE},
-      email = #{email, jdbcType=VARCHAR},
-      class_id = #{classId,jdbcType=VARCHAR},
-      political = #{political,jdbcType=VARCHAR},
-      dept_id = #{deptId,jdbcType=VARCHAR},
-      entry_year = #{entryYear,jdbcType=VARCHAR}
+    <set>
+        <if test="studentName != null and studentName != ''">
+           student_name = #{studentName,jdbcType=VARCHAR},
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password,jdbcType=VARCHAR},
+        </if>
+        <if test="gender != null">
+            gender = #{gender,jdbcType=INTEGER},
+        </if>
+        <if test="birth != null">
+            birth = #{birth,jdbcType=DATE},
+        </if>
+        <if test="email != null and email != ''">
+            email = #{email, jdbcType=VARCHAR},
+        </if>
+        <if test="classId != null and classId != ''">
+            class_id = #{classId,jdbcType=VARCHAR},
+        </if>
+        <if test="political != null and political != ''">
+            political = #{political,jdbcType=VARCHAR},
+        </if>
+        <if test="deptId != null and deptId != ''">
+            dept_id = #{deptId,jdbcType=VARCHAR},
+        </if>
+        <if test="entryYear != null and entryYear != ''">
+            entry_year = #{entryYear,jdbcType=VARCHAR}
+        </if>
+    </set>
     where student_no = #{studentNo,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

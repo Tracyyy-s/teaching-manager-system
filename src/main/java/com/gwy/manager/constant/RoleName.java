@@ -1,8 +1,5 @@
 package com.gwy.manager.constant;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Tracy
  * @date 2020/11/23 20:31

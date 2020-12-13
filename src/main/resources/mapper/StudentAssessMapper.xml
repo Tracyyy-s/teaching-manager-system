@@ -56,4 +56,20 @@
         #{tcId,jdbcType=VARCHAR}
     </foreach>
   </select>
+  <select id="selectByTeacherNosAndTerm" resultType="java.util.Map">
+    select teacher_no teacherNo, ts_student_assess.tc_id, course_name, sum(appraise_score) studentAppraiseScore, count(appraise_score) studentNum
+    from ts_student_assess
+    inner join ts_teacher_course
+    on ts_student_assess.tc_id = ts_teacher_course.tc_id
+    inner join ts_course
+    on ts_teacher_course.course_no = ts_course.course_no
+    where ts_student_assess.tc_id in (select tc_id
+                                      from ts_teacher_course
+                                      where term_id = #{termId,jdbcType=VARCHAR})
+    and teacher_no in
+    <foreach collection="teacherNos" item="teacherNo" open="(" close=")" separator=",">
+        #{teacherNo,jdbcType=VARCHAR}
+    </foreach>
+    group by ts_student_assess.tc_id, course_name
+  </select>
 </mapper>

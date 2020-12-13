@@ -316,7 +316,7 @@ public class RootController {
      */
     @PostMapping("/exportLogs")
     @PreAuthorize("hasAuthority('Log')")
-    public ResultVO exportLogs(@RequestBody Map<String, String> map) {
+    public String exportLogs(@RequestBody Map<String, String> map) {
 
         String strBeginTime = map.get("beginTime");
         String strEndTime = map.get("endTime");
@@ -327,9 +327,9 @@ public class RootController {
             beginTime = DateUtilCustom.string2Time(strBeginTime);
             endTime = DateUtilCustom.string2Time(strEndTime);
         } catch (ParseException e) {
-            return ResultVOUtil.error("ParseException");
+            return JSONObject.toJSONString(ResultVOUtil.error("ParseException"));
         }
 
-        return logService.getLogByInterval(beginTime, endTime, type);
+        return JSONObject.toJSONStringWithDateFormat(logService.getLogByInterval(beginTime, endTime, type), DateUtilCustom.TIME_PATTERN);
     }
 }

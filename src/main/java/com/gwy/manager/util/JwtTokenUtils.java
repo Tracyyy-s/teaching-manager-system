@@ -69,6 +69,11 @@ public class JwtTokenUtils {
         return getTokenBody(token).getExpiration().before(new Date());
     }
 
+    /**
+     * 获得token体
+     * @param token token
+     * @return  结果集
+     */
     public static Claims getTokenBody(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET)

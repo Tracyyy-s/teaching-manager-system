@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Tracy
@@ -75,5 +76,11 @@ public class TeacherAssessServiceImpl implements TeacherAssessService {
         }
 
         return resultVO;
+    }
+
+    @Override
+    public List<Map<String, Object>> getScoresByTermAndDept(String deptId, String termId) {
+
+        return teacherAssessMapper.selectByTermAndDept(deptId, termId);
     }
 }

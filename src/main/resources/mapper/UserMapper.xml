@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.gwy.manager.mapper.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.User" >
-    <id column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="INTEGER" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR"/>
-    <result column="birth" property="birth" jdbcType="DATE" />
-    <result column="degree" property="degree" jdbcType="VARCHAR" />
-    <result column="graduated" property="graduated" jdbcType="VARCHAR" />
-    <result column="political" property="political" jdbcType="VARCHAR" />
-    <result column="entry_year" property="entryYear" jdbcType="INTEGER" />
-    <result column="sum_hour" property="sumHour" jdbcType="INTEGER" />
-    <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
-    <result column="professional" property="professional" jdbcType="VARCHAR" />
-    <result column="professional_time" property="professionalTime" jdbcType="DATE" />
-    <result column="available_dept_ids" property="availableDeptIds" jdbcType="VARCHAR" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+<mapper namespace="com.gwy.manager.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.gwy.manager.entity.User">
+        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="INTEGER"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="birth" property="birth" jdbcType="DATE"/>
+        <result column="degree" property="degree" jdbcType="VARCHAR"/>
+        <result column="graduated" property="graduated" jdbcType="VARCHAR"/>
+        <result column="political" property="political" jdbcType="VARCHAR"/>
+        <result column="entry_year" property="entryYear" jdbcType="INTEGER"/>
+        <result column="sum_hour" property="sumHour" jdbcType="INTEGER"/>
+        <result column="dept_id" property="deptId" jdbcType="VARCHAR"/>
+        <result column="professional" property="professional" jdbcType="VARCHAR"/>
+        <result column="professional_time" property="professionalTime" jdbcType="DATE"/>
+        <result column="available_dept_ids" property="availableDeptIds" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from ts_user
     where user_id = #{userId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.User" >
+    </delete>
+    <insert id="insert" parameterType="com.gwy.manager.entity.User">
     insert into ts_user (user_id, username, gender,
       password, email, birth, degree,
       graduated, political, entry_year, 
@@ -33,85 +33,115 @@
       #{graduated,jdbcType=VARCHAR}, #{political,jdbcType=VARCHAR}, #{entryYear,jdbcType=INTEGER}, 
       #{sumHour,jdbcType=INTEGER}, #{deptId,jdbcType=VARCHAR}, #{professional,jdbcType=VARCHAR}, 
       #{professionalTime,jdbcType=DATE}, #{availableDeptIds,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.User" >
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.User">
     update ts_user
-    set username = #{username,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=INTEGER},
-      password = #{password,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      birth = #{birth,jdbcType=DATE},
-      degree = #{degree,jdbcType=VARCHAR},
-      graduated = #{graduated,jdbcType=VARCHAR},
-      political = #{political,jdbcType=VARCHAR},
-      entry_year = #{entryYear,jdbcType=INTEGER},
-      sum_hour = #{sumHour,jdbcType=INTEGER},
-      dept_id = #{deptId,jdbcType=VARCHAR},
-      professional = #{professional,jdbcType=VARCHAR},
-      professional_time = #{professionalTime,jdbcType=DATE},
-      available_dept_ids = #{availableDeptIds,jdbcType=VARCHAR}
+    <set>
+        <if test="username != null">
+            username = #{username,jdbcType=VARCHAR},
+        </if>
+        <if test="gender != null">
+            gender = #{gender,jdbcType=INTEGER},
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password,jdbcType=VARCHAR},
+        </if>
+        <if test="email != null and email != ''">
+            email = #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="birth != null">
+            birth = #{birth,jdbcType=DATE},
+        </if>
+        <if test="degree != null and degree != ''">
+            degree = #{degree,jdbcType=VARCHAR},
+        </if>
+        <if test="graduated != null and graduated != ''">
+            graduated = #{graduated,jdbcType=VARCHAR},
+        </if>
+        <if test="political != null and political != ''">
+            political = #{political,jdbcType=VARCHAR},
+        </if>
+        <if test="entryYear != null">
+            entry_year = #{entryYear,jdbcType=INTEGER},
+        </if>
+        <if test="sumHour != null">
+            sum_hour = #{sumHour,jdbcType=INTEGER},
+        </if>
+        <if test="deptId != null">
+            dept_id = #{deptId,jdbcType=VARCHAR},
+        </if>
+        <if test="professional != null and professional != ''">
+            professional = #{professional,jdbcType=VARCHAR},
+        </if>
+        <if test="professionalTime != null">
+            professional_time = #{professionalTime,jdbcType=DATE},
+        </if>
+        <if test="availableDeptIds != null and availableDeptIds != ''">
+            available_dept_ids = #{availableDeptIds,jdbcType=VARCHAR}
+        </if>
+    </set>
     where user_id = #{userId,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
     select user_id, username, gender, password, email, birth, degree, graduated, political,
     entry_year, sum_hour, dept_id, professional, professional_time, available_dept_ids
     from ts_user
     where user_id = #{userId,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
     select user_id, username, gender, password, email, birth, degree, graduated, political,
     entry_year, sum_hour, dept_id, professional, professional_time, available_dept_ids
     from ts_user
-  </select>
-  <select id="selectUsersByDeptId" resultMap="BaseResultMap">
+    </select>
+    <select id="selectUsersByDeptId" resultMap="BaseResultMap">
     select user_id, username, gender, password, email, birth, degree, graduated, political,
     entry_year, sum_hour, dept_id, professional, professional_time, available_dept_ids
     from ts_user
     where dept_id = #{deptId,jdbcType=VARCHAR}
-  </select>
-  <select id="selectUserNamesByIds" resultType="java.lang.String">
+    </select>
+    <select id="selectUserNamesByIds" resultType="java.lang.String">
     select username
     from ts_user
     where user_id in
     <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
         #{userId,jdbcType=VARCHAR}
     </foreach>
-  </select>
-  <insert id="insertUsersByBatch">
+    </select>
+    <insert id="insertUsersByBatch">
     insert into ts_user (user_id, username, gender,
       password, email, birth, degree,
       graduated, political, entry_year,
       sum_hour, dept_id, professional,
       professional_time, available_dept_ids)
     values
-    <foreach collection="users" separator="," item="user">
-    (
+        <foreach collection="users" separator="," item="user">
+            (
       #{user.userId,jdbcType=VARCHAR}, #{user.username,jdbcType=VARCHAR}, #{user.gender,jdbcType=INTEGER},
       #{user.password,jdbcType=VARCHAR}, #{user.email,jdbcType=VARCHAR}, #{user.birth,jdbcType=DATE}, #{user.degree,jdbcType=VARCHAR},
       #{user.graduated,jdbcType=VARCHAR}, #{user.political,jdbcType=VARCHAR}, #{user.entryYear,jdbcType=INTEGER},
       #{user.sumHour,jdbcType=INTEGER}, #{user.deptId,jdbcType=VARCHAR}, #{user.professional,jdbcType=VARCHAR},
       #{user.professionalTime,jdbcType=DATE}, #{user.availableDeptIds,jdbcType=VARCHAR}
     )
-    </foreach>
-  </insert>
-  <update id="updatePassword">
+        </foreach>
+    </insert>
+    <update id="updatePassword">
     update ts_user
     set password = #{password,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=VARCHAR}
-  </update>
-  <select id="getUsersMatchNameInDept" resultMap="BaseResultMap">
+    </update>
+    <select id="getUsersMatchNameInDept" resultMap="BaseResultMap">
     select user_id, username, gender, password, email, birth, degree, graduated, political,
     entry_year, sum_hour, dept_id, professional, professional_time, available_dept_ids
     from ts_user
     where username like concat('%', #{name,jdbcType=VARCHAR}, '%') and dept_id = #{deptId,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByUsername" resultMap="BaseResultMap">
+    </select>
+    <select id="selectByUsername" resultMap="BaseResultMap">
     select user_id, username, gender, password, email, birth, degree, graduated, political,
     entry_year, sum_hour, dept_id, professional, professional_time, available_dept_ids
     from ts_user
     where user_name = #{username,jdbcType=VARCHAR}
-  </select>
-  <select id="selectUsersByRoleName" resultMap="BaseResultMap">
+    </select>
+    <select id="selectUsersByRoleName" resultMap="BaseResultMap">
     select user_id, username, gender, password, email, birth, degree, graduated, political,
     entry_year, sum_hour, dept_id, professional, professional_time, available_dept_ids
     from ts_user
@@ -120,10 +150,10 @@
                       where role_id = (select role_id
                                         from ts_role
                                         where role_name = #{roleName,jdbcType=VARCHAR}))
-  </select>
-  <update id="updateAvailableDeptIds">
+    </select>
+    <update id="updateAvailableDeptIds">
     update ts_user
     set available_dept_ids = #{deptIds,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=VARCHAR}
-  </update>
+    </update>
 </mapper>

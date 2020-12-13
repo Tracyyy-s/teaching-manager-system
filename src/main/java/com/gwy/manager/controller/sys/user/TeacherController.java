@@ -29,8 +29,9 @@ public class TeacherController {
 
     /**
      * 获得用户基本信息
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @PostMapping("/getUserInfo")
     @PreAuthorize("hasAnyRole('ROLE_teacher', 'ROLE_root')")
@@ -42,8 +43,9 @@ public class TeacherController {
 
     /**
      * 教师用户发送验证码请求
-     * @param map   请求体
-     * @return  返回集
+     *
+     * @param map 请求体
+     * @return 返回集
      */
     @PostMapping("/sendCode")
     @PreAuthorize("hasAnyRole('ROLE_teacher', 'ROLE_root')")
@@ -55,8 +57,9 @@ public class TeacherController {
 
     /**
      * 用户修改密码
-     * @param map   请求体
-     * @return  结果集
+     *
+     * @param map 请求体
+     * @return 结果集
      */
     @PostMapping("/updatePassword")
     @PreAuthorize("hasAnyRole('ROLE_teacher', 'ROLE_root')")
@@ -70,20 +73,20 @@ public class TeacherController {
 
     /**
      * 修改用户信息
+     *
      * @param user 传递用户
-     * @return  返回结果
+     * @return 返回结果
      */
-    @PostMapping("/updateInfo")
-    @PreAuthorize("hasAnyRole('ROLE_teacher', 'ROLE_root')")
+    @PostMapping("/updateUserInfo")
     public ResultVO updateInfo(@RequestBody User user) {
-
         return userService.updateUser(user);
     }
 
     /**
      * 获得用户本学期的课程
-     * @param map   结果体
-     * @return  返回集
+     *
+     * @param map 结果体
+     * @return 返回集
      */
     @PostMapping("/getTermCourses")
     @PreAuthorize("hasAuthority('teacherSchedule')")

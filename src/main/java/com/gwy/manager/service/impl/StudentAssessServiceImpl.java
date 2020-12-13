@@ -107,5 +107,8 @@ public class StudentAssessServiceImpl implements StudentAssessService {
         return ResultVOUtil.success(assessMap);
     }
 
-
+    @Override
+    public List<Map<String, Object>> getScoresOfTeachersInTerm(List<String> teacherNos, String termId) {
+        return studentAssessMapper.selectByTeacherNosAndTerm(teacherNos, termId);
+    }
 }

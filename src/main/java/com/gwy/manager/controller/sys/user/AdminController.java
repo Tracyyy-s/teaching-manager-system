@@ -13,6 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +25,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+
+    private static final String TEACHER_NO = "teacherNo";
+
+    private static final String CLASSES = "classes";
 
     @Autowired
     private TargetServiceImpl targetService;
@@ -41,6 +47,9 @@ public class AdminController {
 
     @Autowired
     private TeacherCourseServiceImpl teacherCourseService;
+
+    @Autowired
+    private TeacherAssessServiceImpl teacherAssessService;
 
     /**
      * 获得评价指标
@@ -205,7 +214,6 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/updateStudentInfo")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public ResultVO updateStudentInfo(@RequestBody Student student) {
 
         return studentService.updateStudent(student);
@@ -260,6 +268,41 @@ public class AdminController {
 
         String tcId = map.get("tcId");
         return studentAssessService.getStudentAssessesByTcId(tcId);
+    }
+
+    /**
+     * 获得某学院某学期的评价结果
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getAssessResult")
+    @SuppressWarnings("unchecked")
+    public ResultVO getAssessOfDeptInTerm(@RequestBody Map<String, String> map) {
+
+        String deptId = map.get("deptId");
+        String termId = map.get("termId");
+
+        List<String> teacherNos = new ArrayList<>();
+
+        List<Map<String, Object>> tScores = teacherAssessService.getScoresByTermAndDept(deptId, termId);
+        for (Map<String, Object> tScore : tScores) {
+            tScore.put(CLASSES, new ArrayList<>());
+            teacherNos.add(((String) tScore.get(TEACHER_NO)));
+        }
+
+        List<Map<String, Object>> sScores = studentAssessService.getScoresOfTeachersInTerm(teacherNos, termId);
+        for (Map<String, Object> sScore : sScores) {
+            String teacherNo = (String) sScore.get(TEACHER_NO);
+            sScore.remove(TEACHER_NO);
+            for (Map<String, Object> tScore : tScores) {
+                if (tScore.get(TEACHER_NO).equals(teacherNo)) {
+                    ((List<Object>) tScore.get(CLASSES)).add(sScore);
+                    break;
+                }
+            }
+        }
+
+        return ResultVOUtil.success(tScores);
     }
 
     /**

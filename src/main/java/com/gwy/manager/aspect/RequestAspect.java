@@ -61,7 +61,9 @@ public class RequestAspect {
         }
 
         //记录日志
-        logService.recordLog(request, argsForLog, resultVO);
+        if (resultVO != null) {
+            logService.recordLog(request, argsForLog, resultVO);
+        }
 
         return result;
     }

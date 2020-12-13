@@ -51,6 +51,12 @@ public class BeanUtil {
         return list;
     }
 
+    /**
+     * 将bean对象的属性填充至map中
+     * @param bean  对象
+     * @param map   结果map
+     * @param <T>   对象泛型
+     */
     private static <T> void fillBeanFields(T bean, Map<String, Object> map) {
         Field[] fields = bean.getClass().getDeclaredFields();
         for (Field field : fields) {

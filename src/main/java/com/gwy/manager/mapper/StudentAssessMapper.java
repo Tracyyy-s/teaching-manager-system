@@ -2,6 +2,9 @@ package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.StudentAssess;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -45,4 +48,13 @@ public interface StudentAssessMapper {
      */
     List<Integer> selectStateByStudentAndTcIds(@Param("studentNo") String studentNo,
                                                @Param("tcIds") List<String> tcIds);
+
+    /**
+     * 获得某学期教师所有的课程评价
+     * @param teacherNos    教师id列表
+     * @param termId        学期id
+     * @return  结果集
+     */
+    List<Map<String, Object>> selectByTeacherNosAndTerm(@Param("teacherNos") List<String> teacherNos,
+                                                        @Param("termId") String termId);
 }

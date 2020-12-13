@@ -61,4 +61,12 @@
         #{assessedTeacherNo,jdbcType=VARCHAR}
     </foreach>
   </select>
+  <select id="selectByTermAndDept" resultType="map">
+    select user_id teacherNo, username teacherName, sum(appraise_score) teacherAppraiseScore, count(appraise_score) teacherNum
+    from ts_user
+    left join ts_teacher_assess
+    on user_id = assessed_teacher_no
+    where dept_id = #{deptId,jdbcType=VARCHAR} and term_id = #{termId,jdbcType=VARCHAR} or term_id is null
+    group by user_id
+  </select>
 </mapper>

@@ -4,6 +4,7 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.StudentAssess;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Tracy
@@ -48,4 +49,6 @@ public interface StudentAssessService {
      * @return  结果集
      */
     ResultVO getStudentAssessesByTcId(String tcId);
+
+    List<Map<String, Object>> getScoresOfTeachersInTerm(List<String> teacherNos, String termId);
 }
