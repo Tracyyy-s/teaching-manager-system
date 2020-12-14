@@ -79,14 +79,13 @@ public class BaseController {
         String code = map.get("code");
         String password = map.get("password");
 
-        if (studentService.updatePassword(userId, password, code).getResultCode().equals(ResponseStatus.FAIL.getCode())) {
-
-            if (userService.updatePassword(userId, password, code).getResultCode().equals(ResponseStatus.FAIL.getCode())) {
-                return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
-            }
+        ResultVO resultVO = studentService.getStudentInfo(userId);
+        if (resultVO.getResultCode().equals(ResponseStatus.FAIL.getCode())) {
+            
+            return userService.updatePassword(userId, password, code);
         }
 
-        return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+        return studentService.updatePassword(userId, password, code);
     }
 
     /**
