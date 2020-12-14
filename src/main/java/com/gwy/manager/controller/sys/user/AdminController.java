@@ -197,7 +197,7 @@ public class AdminController {
      * @return  返回值
      */
     @PostMapping("/getStudentById")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAuthority('studentListImporting')")
     public String getStudentByStudentNo(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
@@ -211,7 +211,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getStudentsMatchNameInDept")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
+    @PreAuthorize("hasAuthority('studentListImporting')")
     public String getStudentsMatchName(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
