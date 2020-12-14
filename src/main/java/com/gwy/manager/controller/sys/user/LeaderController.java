@@ -1,12 +1,14 @@
 package com.gwy.manager.controller.sys.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.gwy.manager.constant.PageHelperConst;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.TeacherAssess;
 import com.gwy.manager.service.impl.TeacherAssessServiceImpl;
 import com.gwy.manager.service.impl.TermTargetServiceImpl;
 import com.gwy.manager.service.impl.UserServiceImpl;
 import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.PageHelperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +39,14 @@ public class LeaderController {
      * @return  结果集
      */
     @PostMapping("/getTeachersInDept")
-    public String getTeachersByDept(@RequestBody Map<String, String> map) {
+    public String getTeachersByDept(@RequestBody Map<String, Object> map) {
 
-        String userId = map.get("userId");
-        String deptId = map.get("deptId");
-        return JSONObject.toJSONStringWithDateFormat(userService.getUsersOfDept(userId, deptId), DateUtilCustom.DATE_PATTERN);
+        PageHelperUtil.pageMsg(map);
+        String userId = ((String) map.get("userId"));
+        String deptId = ((String) map.get("deptId"));
+        int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
+        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
+        return JSONObject.toJSONStringWithDateFormat(userService.getUsersOfDept(pageNum, pageSize, userId, deptId), DateUtilCustom.DATE_PATTERN);
     }
 
     /**

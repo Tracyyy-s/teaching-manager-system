@@ -129,15 +129,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResultVO getStudentsByDept(String deptId) {
+    public ResultVO getStudentsByDept(int pageNum, int pageSize, String deptId) {
 
         ResultVO resultVO;
 
+        PageHelper.startPage(pageNum, pageSize);
         List<Student> students = studentMapper.selectStudentsByDept(deptId);
-        if (students == null || students.size() == 0) {
+        if (CollectionUtils.isEmpty(students)) {
             resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(BeanUtil.beansToList(students));
+            resultVO = ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(students)));
         }
         return resultVO;
     }

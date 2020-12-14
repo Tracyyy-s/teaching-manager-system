@@ -58,10 +58,12 @@ public interface StudentService {
 
     /**
      * 获取某学院的所有学生
+     * @param pageNum   页码
+     * @param pageSize  页面大小
      * @param deptId 学院id
      * @return  结果集
      */
-    ResultVO getStudentsByDept(String deptId);
+    ResultVO getStudentsByDept(int pageNum, int pageSize, String deptId);
 
     /**
      * 获取某个班级的所有学生

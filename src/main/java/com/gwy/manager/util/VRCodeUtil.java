@@ -2,6 +2,8 @@ package com.gwy.manager.util;
 
 import com.gwy.manager.constant.RoleName;
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.entity.Student;
+import com.gwy.manager.entity.User;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.mail.MailForm;
@@ -43,16 +45,30 @@ public class VRCodeUtil {
     @Autowired
     private GlobalPasswordEncoder passwordEncoder;
 
+    /**
+     * 获得用户验证码的key
+     * @param userId    用户id
+     * @return  结果集
+     */
     public String getCode(String userId) {
-        return  (String) redisUtil.get(userId + ":Code");
+        return (String) redisUtil.get(userId + ":Code");
     }
 
+    /**
+     * 删除用户
+     * @param userId    用户id
+     */
     public void deleteCode(String userId) {
         redisUtil.del(redisUtil.codeKey(userId));
     }
 
+    /**
+     * 向指定用户发送验证码
+     * @param userId    用户id
+     * @param userType  用户类型
+     * @return  结果集
+     */
     public ResultVO sendCode(String userId, String userType) {
-        ResultVO resultVO;
 
         //生成六位验证码
         Random random = new Random();
@@ -63,7 +79,20 @@ public class VRCodeUtil {
 
         //获得email，并发送邮件
         String email;
-        if (userType.equals(RoleName.USER)) {
+        if (userType == null) {
+            Student student = studentMapper.selectByPrimaryKey(userId);
+            if (student == null) {
+                User user = userMapper.selectByPrimaryKey(userId);
+
+                if (user == null) {
+                    return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+                }
+
+                email = user.getEmail();
+            } else {
+                email = student.getEmail();
+            }
+        } else if (userType.equals(RoleName.USER)) {
             email = userMapper.selectByPrimaryKey(userId).getEmail();
         } else {
             email = studentMapper.selectByPrimaryKey(userId).getEmail();
@@ -85,21 +114,24 @@ public class VRCodeUtil {
             redisUtil.set(key, code.toString());
             redisUtil.expire(key, 300);
         } catch (Exception e) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
-            return resultVO;
+            return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
         }
 
-        resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
-        return resultVO;
+        if (userType == null) {
+            return ResultVOUtil.success(email);
+        }
+
+        return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
     }
 
     /**
      * 使用code更新密码
-     * @param userType  用户类型
-     * @param userId    用户id
-     * @param password  密码
-     * @param vrCode    验证码
-     * @return  结果集
+     *
+     * @param userType 用户类型
+     * @param userId   用户id
+     * @param password 密码
+     * @param vrCode   验证码
+     * @return 结果集
      */
     public ResultVO updatePasswordByCode(String userType,
                                          String userId,

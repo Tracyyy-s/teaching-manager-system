@@ -38,18 +38,22 @@ public interface UserService {
 
     /**
      * 获得学院内所有用户
+     * @param pageNum   页码
+     * @param pageSize  页面大小
      * @param deptId 学院id
      * @return  结果集
      */
-    ResultVO getUsersOfDept(String deptId);
+    ResultVO getUsersOfDept(int pageNum, int pageSize, String deptId);
 
     /**
      * 指定用户获得学院内所有用户
+     * @param pageNum   页码
+     * @param pageSize  页面大小
      * @param userId  用户id
      * @param deptId  学院id
      * @return  结果集
      */
-    ResultVO getUsersOfDept(String userId, String deptId);
+    ResultVO getUsersOfDept(int pageNum, int pageSize, String userId, String deptId);
 
     /**
      * 传入Excel批量添加用户
@@ -94,13 +98,6 @@ public interface UserService {
      * @return  结果集
      */
     ResultVO getAllUsers(int pageNum, int pageSize);
-
-    /**
-     * 修改root密码
-     * @param password  密码
-     * @return  结果集
-     */
-    ResultVO updateRootPassword(String password, String newPassword);
 
     /**
      * 获得指定用户可管理的所有学院id

@@ -32,8 +32,8 @@ public class HttpRequestUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         try (InputStream inputStream = request.getInputStream()) {
             bodyParams = objectMapper.readValue(inputStream, HashMap.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+
         }
 
         bodyParams.putIfAbsent(ADMIN_NO, username);

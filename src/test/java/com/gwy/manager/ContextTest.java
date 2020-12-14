@@ -23,7 +23,10 @@ public class ContextTest {
     void test1() {
         HashMap<String, String> map = new HashMap<>();
         map.put("hello", "world");
-        map.put("hi", "how");
-        System.out.println(JSONObject.toJSONString(map));
+        map.put("hi", null);
+        map.putIfAbsent("hi", "nihao");
+
+        System.out.println(map);
     }
+
 }

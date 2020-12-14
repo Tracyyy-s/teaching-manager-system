@@ -2,6 +2,7 @@ package com.gwy.manager.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.gwy.manager.constant.PageHelperConst;
 import com.gwy.manager.constant.RoleName;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.*;
@@ -58,21 +59,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO getUserById(String adminNo, String userId) {
 
-        ResultVO resultVO;
-
         User user = userMapper.selectByPrimaryKey(userId);
         if (user == null) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
             User adminUser = userMapper.selectByPrimaryKey(adminNo);
             if (adminUser == null || !adminUser.getAvailableDeptIds().contains(user.getDeptId())) {
-                resultVO = ResultVOUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
+                return ResultVOUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
             } else {
-                resultVO = ResultVOUtil.success(BeanUtil.beanToMap(user));
+                return ResultVOUtil.success(BeanUtil.beanToMap(user));
             }
         }
-
-        return resultVO;
     }
 
     @Override
@@ -113,44 +110,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultVO updateRootPassword(String password, String newPassword) {
+    @SuppressWarnings("unchecked")
+    public ResultVO getUsersOfDept(int pageNum, int pageSize, String deptId) {
 
-        ResultVO resultVO;
-        User user = userMapper.selectByUsername(RoleName.ROOT);
-
-        boolean matches = passwordEncoder.matches(user.getPassword(), passwordEncoder.encode(password));
-        if (matches) {
-            userMapper.updatePassword(user.getUserId(), passwordEncoder.encode(newPassword));
-            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
-        } else {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.PasswordIncorrect);
-        }
-
-        return resultVO;
-    }
-
-    @Override
-    public ResultVO getUsersOfDept(String deptId) {
-
+        PageHelper.startPage(pageNum, pageSize);
         List<User> users = userMapper.selectUsersByDeptId(deptId);
         if (CollectionUtils.isEmpty(users)) {
             return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         }
 
-        Collection<Map<String, Object>> maps = BeanUtil.beansToList(users);
+        Map<String, Object> infoMap = PageHelperUtil.pageInfoToMap(new PageInfo<>(users));
+        Collection<Map<String, Object>> userMaps = (Collection<Map<String, Object>>) infoMap.get(PageHelperConst.LIST);
         Dept dept = deptMapper.selectByPrimaryKey(deptId);
-        for (Map<String, Object> map : maps) {
+        for (Map<String, Object> map : userMaps) {
             map.put("deptName", dept.getDeptName());
         }
 
-        return ResultVOUtil.success(maps);
+        return ResultVOUtil.success(infoMap);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public ResultVO getUsersOfDept(String userId, String deptId) {
+    public ResultVO getUsersOfDept(int pageNum, int pageSize, String userId, String deptId) {
 
-        ResultVO resultUsers = this.getUsersOfDept(deptId);
+        ResultVO resultUsers = this.getUsersOfDept(pageNum, pageSize, deptId);
 
         if (resultUsers.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
 
@@ -159,7 +142,7 @@ public class UserServiceImpl implements UserService {
             if (term != null) {
 
                 //获得已经查询到的结果集
-                Collection<Map<String, Object>> maps = (Collection<Map<String, Object>>)resultUsers.getData();
+                Collection<Map<String, Object>> maps = (Collection<Map<String, Object>>) ((Map<String, Object>) resultUsers.getData()).get(PageHelperConst.LIST);
 
                 //存储查询结果的userId
                 List<String> userIds = new ArrayList<>();

@@ -22,6 +22,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String LOGIN_REQUEST = "/login";
+
+    private static final String SEND_CODE_REQUEST = "/sendCode";
+
+    private static final String UPDATE_PASSWORD_REQUEST = "/updatePassword";
+
     @Autowired
     UserDetailServiceImpl userDetailService;
 
@@ -60,7 +66,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 定义哪些URL需要被保护、哪些不需要被保护
                 //不需要保护的URL
-                .authorizeRequests().antMatchers("/login").permitAll()
+                .authorizeRequests().antMatchers(LOGIN_REQUEST, SEND_CODE_REQUEST, UPDATE_PASSWORD_REQUEST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().permitAll() // 登出

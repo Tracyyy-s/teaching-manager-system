@@ -5,12 +5,10 @@ import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Role;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.ResponseStatus;
-import com.gwy.manager.service.impl.DeptServiceImpl;
-import com.gwy.manager.service.impl.PermissionServiceImpl;
-import com.gwy.manager.service.impl.TermServiceImpl;
-import com.gwy.manager.service.impl.UserRoleServiceImpl;
+import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.VRCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +36,15 @@ public class BaseController {
     @Autowired
     private DeptServiceImpl deptService;
 
+    @Autowired
+    private VRCodeUtil vrCodeUtil;
+
+    @Autowired
+    private StudentServiceImpl studentService;
+
+    @Autowired
+    private UserServiceImpl userService;
+
     @GetMapping("/")
     public ResultVO root() {
         return ResultVOUtil.success("Welcome to Teaching Manager System.");
@@ -46,6 +53,40 @@ public class BaseController {
     @GetMapping("/login")
     public ResultVO login() {
         return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+    }
+
+    /**
+     * 忘记密码时，向绑定邮箱发送验证码
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/sendCode")
+    public ResultVO sendCode(@RequestBody Map<String, String> map) {
+
+        String userId = map.get("userId");
+        return vrCodeUtil.sendCode(userId, null);
+    }
+
+    /**
+     * 忘记密码时修改密码操作
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/updatePassword")
+    public ResultVO updatePassword(@RequestBody Map<String, String> map) {
+
+        String userId = map.get("userId");
+        String code = map.get("code");
+        String password = map.get("password");
+
+        if (studentService.updatePassword(userId, password, code).getResultCode().equals(ResponseStatus.FAIL.getCode())) {
+
+            if (userService.updatePassword(userId, password, code).getResultCode().equals(ResponseStatus.FAIL.getCode())) {
+                return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            }
+        }
+
+        return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
     }
 
     /**

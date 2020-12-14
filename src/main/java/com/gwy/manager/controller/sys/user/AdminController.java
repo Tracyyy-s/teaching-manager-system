@@ -2,11 +2,13 @@ package com.gwy.manager.controller.sys.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.constant.ExcelConstants;
+import com.gwy.manager.constant.PageHelperConst;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
+import com.gwy.manager.util.PageHelperUtil;
 import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -132,9 +134,13 @@ public class AdminController {
      */
     @PostMapping("/getTeachersByDept")
     @PreAuthorize("hasAuthority('teacherListImporting')")
-    public String getTeachersByDept(@RequestBody Map<String, String> map) {
-        String deptId = map.get("deptId");
-        return JSONObject.toJSONStringWithDateFormat(userService.getUsersOfDept(deptId), DateUtilCustom.DATE_PATTERN);
+    public String getTeachersByDept(@RequestBody Map<String, Object> map) {
+
+        PageHelperUtil.pageMsg(map);
+        String deptId = ((String) map.get("deptId"));
+        int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
+        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
+        return JSONObject.toJSONStringWithDateFormat(userService.getUsersOfDept(pageNum, pageSize, deptId), DateUtilCustom.DATE_PATTERN);
     }
 
     /**
@@ -173,10 +179,13 @@ public class AdminController {
      */
     @PostMapping("/getStudentsByDept")
     @PreAuthorize("hasAuthority('studentListImporting')")
-    public String getStudentsByDept(@RequestBody Map<String, String> map) {
+    public String getStudentsByDept(@RequestBody Map<String, Object> map) {
 
-        String deptId = map.get("deptId");
-        return JSONObject.toJSONStringWithDateFormat(studentService.getStudentsByDept(deptId), DateUtilCustom.DATE_PATTERN);
+        PageHelperUtil.pageMsg(map);
+        String deptId = ((String) map.get("deptId"));
+        int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
+        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
+        return JSONObject.toJSONStringWithDateFormat(studentService.getStudentsByDept(pageNum, pageSize, deptId), DateUtilCustom.DATE_PATTERN);
     }
 
     /**

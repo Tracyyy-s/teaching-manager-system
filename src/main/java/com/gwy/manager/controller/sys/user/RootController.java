@@ -47,21 +47,6 @@ public class RootController {
     private SysLogServiceImpl logService;
 
     /**
-     * root用户修改密码
-     *
-     * @param map 请求体
-     * @return 结果集
-     */
-    @PostMapping("/changePassword")
-    @PreAuthorize("hasRole('ROLE_root')")
-    public ResultVO changePassword(@RequestBody Map<String, String> map) {
-
-        String password = map.get("password");
-        String newPassword = map.get("newPassword");
-        return userService.updateRootPassword(password, newPassword);
-    }
-
-    /**
      * root用户获得所有管理员
      *
      * @return 结果集
