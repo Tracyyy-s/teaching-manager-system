@@ -163,6 +163,18 @@ public class RootController {
     }
 
     /**
+     * 删除指定角色
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/deleteRole")
+    public ResultVO deleteRole(@RequestBody Map<String, Integer> map) {
+
+        Integer roleId = map.get("roleId");
+        return roleService.deleteRole(roleId);
+    }
+
+    /**
      * root用户修改用户的角色
      *
      * @param map 请求体

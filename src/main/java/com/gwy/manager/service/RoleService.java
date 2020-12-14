@@ -20,4 +20,11 @@ public interface RoleService {
      * @return  结果集
      */
     ResultVO addRole(Role role);
+
+    /**
+     * 删除相关角色
+     * @param roleId    角色id
+     * @return  结果集
+     */
+    ResultVO deleteRole(Integer roleId);
 }

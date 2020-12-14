@@ -93,4 +93,24 @@ public class RoleServiceImpl implements RoleService {
 
         return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
     }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @CacheEvict(allEntries = true, beforeInvocation = true)
+    @Override
+    public ResultVO deleteRole(Integer roleId) {
+
+        try {
+            int i = roleMapper.deleteByPrimaryKey(roleId);
+            int j = rolePermissionMapper.deleteByRoleId(roleId);
+
+            if (i == 0 || j == 0) {
+                return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            }
+        } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+        }
+
+        return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+    }
 }

@@ -2,12 +2,14 @@ package com.gwy.manager.rabbimq;
 
 import com.gwy.manager.config.rabbitmq.RabbitmqConfiguration;
 import com.gwy.manager.entity.SysLog;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.mail.MailUtil;
 import com.gwy.manager.service.impl.SysLogServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -47,8 +49,9 @@ public class RabbitmqConsumer {
             helper.setTo(mailForm.getTo());
 
             mailUtil.sendMimeMail(mimeMessage);
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             logger.error("{}", e.getMessage());
+            throw new MessageConversionException(ResponseDataMsg.Fail.getMsg());
         }
     }
 
@@ -62,6 +65,7 @@ public class RabbitmqConsumer {
             logService.insertLog(sysLog);
         } catch (Exception e) {
             logger.error("{}", e.getMessage());
+            throw new MessageConversionException(ResponseDataMsg.Fail.getMsg());
         }
     }
 }
