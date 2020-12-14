@@ -26,6 +26,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Tracy
@@ -38,7 +40,19 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String LOGIN = "/login";
 
+    private static final String SEND_CODE = "/sendCode";
+
+    private static final String UPDATE_PASSWORD = "/updatePassword";
+
     private static final String POST = "POST";
+
+    private static final List<String> PASS_REQUESTS = new ArrayList<>();
+
+    static {
+        PASS_REQUESTS.add(LOGIN);
+        PASS_REQUESTS.add(SEND_CODE);
+        PASS_REQUESTS.add(UPDATE_PASSWORD);
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -73,7 +87,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 requestWrapper = new WebHttpServletRequestWrapper(request, username);
             }
 
-        } else if (!request.getRequestURI().endsWith(LOGIN) || !request.getMethod().equals(POST)) {
+        } else if (!PASS_REQUESTS.contains(request.getRequestURI()) || !request.getMethod().equals(POST)) {
             //没有token
             response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("No Token")));
             return;

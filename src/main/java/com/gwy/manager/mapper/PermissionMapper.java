@@ -29,4 +29,6 @@ public interface PermissionMapper {
     List<Permission> selectByRoleIds(@Param("roleIds") List<Integer> roleIds);
 
     List<Permission> selectByRoleId(@Param("roleId") Integer roleId);
+
+    Integer selectIdByName(String permissionName);
 }

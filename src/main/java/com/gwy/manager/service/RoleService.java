@@ -1,6 +1,7 @@
 package com.gwy.manager.service;
 
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.entity.Role;
 
 /**
  * @author Tracy
@@ -13,4 +14,10 @@ public interface RoleService {
      * @return  结果集
      */
     ResultVO getAllRoles();
+
+    /**
+     * 添加角色
+     * @return  结果集
+     */
+    ResultVO addRole(Role role);
 }

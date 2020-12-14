@@ -3,6 +3,7 @@ package com.gwy.manager.mapper;
 import com.gwy.manager.entity.Role;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer roleId);
 
+    @Transactional(rollbackFor = {Exception.class})
     int insert(Role record);
 
     Role selectByPrimaryKey(Integer roleId);

@@ -18,6 +18,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
@@ -321,18 +322,22 @@ public class UserServiceImpl implements UserService {
                 userRoles.add(userRole);
             }
 
-            int i, j;
             try {
-                i = userMapper.insertUsersByBatch(users);
-                j = userRoleMapper.insertByBatch(userRoles);
+                int i, j;
+                try {
+                    i = userMapper.insertUsersByBatch(users);
+                    j = userRoleMapper.insertByBatch(userRoles);
+                } catch (Exception e) {
+                    resultVO = ResultVOUtil.error("Exception in Executing");
+                    return resultVO;
+                }
+                if (i == 0 || j == 0) {
+                    resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+                } else {
+                    resultVO = ResultVOUtil.success(BeanUtil.beansToList(users));
+                }
             } catch (Exception e) {
-                resultVO = ResultVOUtil.error("Exception in Executing");
-                return resultVO;
-            }
-            if (i == 0 || j == 0) {
-                resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
-            } else {
-                resultVO = ResultVOUtil.success(BeanUtil.beansToList(users));
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             }
         }
 

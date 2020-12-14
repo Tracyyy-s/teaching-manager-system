@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
 
@@ -98,21 +99,22 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public ResultVO updateRolePermission(Integer roleId, List<Integer> permissionIds) {
 
-        ResultVO resultVO;
+        try {
+            int i = rolePermissionMapper.deleteByRoleId(roleId);
+            if (i == 0) {
+                return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            }
 
-        int i = rolePermissionMapper.deleteByRoleId(roleId);
-        if (i == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
-            return resultVO;
+            int j = rolePermissionMapper.insertBatch(roleId, permissionIds);
+            if (j == 0) {
+                return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            } else {
+                return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+            }
+        } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
 
-        int j = rolePermissionMapper.insertBatch(roleId, permissionIds);
-        if (j == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
-        } else {
-            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
-        }
-
-        return resultVO;
+        return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
     }
 }

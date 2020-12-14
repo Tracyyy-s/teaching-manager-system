@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Configuration
 @PropertySource({"classpath:db-config.properties"})
-public class DruidConfiguration {
+public class DataBaseConfiguration {
 
     @Bean
     @ConfigurationProperties(prefix = "db")
@@ -67,4 +67,5 @@ public class DruidConfiguration {
         bean.setUrlPatterns(Collections.singletonList("/*"));
         return bean;
     }
+
 }

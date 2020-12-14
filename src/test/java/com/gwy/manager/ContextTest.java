@@ -1,7 +1,9 @@
 package com.gwy.manager;
 
-import com.alibaba.fastjson.JSONObject;
+import com.gwy.manager.entity.Role;
+import com.gwy.manager.service.impl.RoleServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashMap;
@@ -27,6 +29,16 @@ public class ContextTest {
         map.putIfAbsent("hi", "nihao");
 
         System.out.println(map);
+    }
+
+    @Autowired
+    private RoleServiceImpl roleService;
+
+    @Test
+    void test02() {
+        Role role = new Role();
+        role.setRoleName("ffff");
+        roleService.addRole(role);
     }
 
 }

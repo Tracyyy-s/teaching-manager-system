@@ -67,4 +67,9 @@
                             from ts_role_permission
                             where role_id = #{roleId,jdbcType=INTEGER})
   </select>
+  <select id="selectIdByName" resultType="java.lang.Integer">
+    select permission_id
+    from ts_permission
+    where permission_url = #{permissionName,jdbcType=VARCHAR}
+  </select>
 </mapper>
