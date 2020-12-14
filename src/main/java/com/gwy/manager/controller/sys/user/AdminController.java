@@ -1,12 +1,15 @@
 package com.gwy.manager.controller.sys.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gwy.manager.constant.ExcelConstants;
 import com.gwy.manager.constant.PageHelperConst;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.service.impl.*;
+import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.PageHelperUtil;
 import com.gwy.manager.util.ResultVOUtil;
@@ -286,14 +289,19 @@ public class AdminController {
      */
     @PostMapping("/getAssessResult")
     @SuppressWarnings("unchecked")
-    public ResultVO getAssessOfDeptInTerm(@RequestBody Map<String, String> map) {
+    public ResultVO getAssessOfDeptInTerm(@RequestBody Map<String, Object> map) {
 
-        String deptId = map.get("deptId");
-        String termId = map.get("termId");
+        PageHelperUtil.pageMsg(map);
+        String deptId = ((String) map.get("deptId"));
+        String termId = ((String) map.get("termId"));
+        int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
+        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
 
         List<String> teacherNos = new ArrayList<>();
 
+        PageHelper.startPage(pageNum, pageSize);
         List<Map<String, Object>> tScores = teacherAssessService.getScoresByTermAndDept(deptId, termId);
+
         for (Map<String, Object> tScore : tScores) {
             tScore.put(CLASSES, new ArrayList<>());
             teacherNos.add(((String) tScore.get(TEACHER_NO)));
@@ -311,7 +319,7 @@ public class AdminController {
             }
         }
 
-        return ResultVOUtil.success(tScores);
+        return ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(tScores)));
     }
 
     /**

@@ -25,7 +25,15 @@ import java.util.Random;
 @Component
 public class VRCodeUtil {
 
+    /**
+     * 验证码的长度
+     */
     private static final int VR_CODE_LENGTH = 6;
+
+    /**
+     * 验证码过期时间，默认5min
+     */
+    private static final int EXPIRATION_TIME = 300;
 
     @Autowired
     private StudentMapper studentMapper;
@@ -112,7 +120,7 @@ public class VRCodeUtil {
         String key = redisUtil.codeKey(userId);
         try {
             redisUtil.set(key, code.toString());
-            redisUtil.expire(key, 300);
+            redisUtil.expire(key, EXPIRATION_TIME);
         } catch (Exception e) {
             return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
         }

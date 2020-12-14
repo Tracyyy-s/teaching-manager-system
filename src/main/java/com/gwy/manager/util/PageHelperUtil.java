@@ -3,6 +3,8 @@ package com.gwy.manager.util;
 import com.github.pagehelper.PageInfo;
 import com.gwy.manager.constant.PageHelperConst;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,7 +32,12 @@ public class PageHelperUtil {
         map.put(PageHelperConst.HAS_NEXT_PAGE, info.isHasNextPage());
         map.put(PageHelperConst.HAS_PRE_PAGE, info.isHasPreviousPage());
         map.put(PageHelperConst.TOTAL, info.getTotal());
-        map.put(PageHelperConst.LIST, BeanUtil.beansToList(info.getList()));
+
+        if (info.getList().get(0) instanceof Map) {
+            map.put(PageHelperConst.LIST, info.getList());
+        } else {
+            map.put(PageHelperConst.LIST, BeanUtil.beansToList(info.getList()));
+        }
 
         return map;
     }
