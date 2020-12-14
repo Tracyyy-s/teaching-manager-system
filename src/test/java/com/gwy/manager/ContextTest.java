@@ -34,7 +34,7 @@ public class ContextTest {
     @Autowired
     private RoleServiceImpl roleService;
 
-    @Test
+    //@Test
     void test02() {
         Role role = new Role();
         role.setRoleName("ffff");
