@@ -121,6 +121,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Map<String, Object> infoMap = PageHelperUtil.pageInfoToMap(new PageInfo<>(users));
+
         Collection<Map<String, Object>> userMaps = (Collection<Map<String, Object>>) infoMap.get(PageHelperConst.LIST);
         Dept dept = deptMapper.selectByPrimaryKey(deptId);
         for (Map<String, Object> map : userMaps) {
@@ -160,7 +161,7 @@ public class UserServiceImpl implements UserService {
                     map.put("assessed", assessedUserIds.contains((String) map.get("userId")));
                 }
 
-                return ResultVOUtil.success(maps);
+                return resultUsers;
             }
 
         }

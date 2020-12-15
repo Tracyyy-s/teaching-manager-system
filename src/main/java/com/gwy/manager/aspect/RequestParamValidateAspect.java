@@ -34,8 +34,7 @@ public class RequestParamValidateAspect {
         //参数判空
         for (Object arg : args) {
             if (arg == null) {
-                resultVO = ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
-                return resultVO;
+                return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
             }
         }
 

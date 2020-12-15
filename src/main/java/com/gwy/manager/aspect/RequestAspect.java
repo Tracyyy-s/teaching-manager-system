@@ -8,10 +8,18 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @author Tracy
@@ -60,11 +68,17 @@ public class RequestAspect {
             resultVO = JSONObject.parseObject((String) result, ResultVO.class);
         }
 
+        request = getServletRequest();
+
         //记录日志
         if (resultVO != null) {
             logService.recordLog(request, argsForLog, resultVO);
         }
 
         return result;
+    }
+
+    private static HttpServletRequest getServletRequest() {
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
     }
 }

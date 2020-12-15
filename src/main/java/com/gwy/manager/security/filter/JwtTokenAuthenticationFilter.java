@@ -1,16 +1,18 @@
 package com.gwy.manager.security.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.entity.User;
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.redis.RedisUtil;
 import com.gwy.manager.request.WebHttpServletRequestWrapper;
 import com.gwy.manager.security.UserDetailServiceImpl;
 import com.gwy.manager.util.JwtTokenUtils;
 import com.gwy.manager.util.ResultVOUtil;
-import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -53,6 +56,12 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         PASS_REQUESTS.add(SEND_CODE);
         PASS_REQUESTS.add(UPDATE_PASSWORD);
     }
+
+    @Autowired
+    private UserDetailServiceImpl userDetailService;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -82,6 +91,9 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
+            //根据token校验用户
+            doFilterInSecurity(username, authToken, request);
+
             //如果没有file类参数，则创建新的request
             if (request.getParameter(FILE) == null) {
                 requestWrapper = new WebHttpServletRequestWrapper(request, username);
@@ -99,5 +111,57 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         chain.doFilter(request, response);
+    }
+
+    /**
+     * 根据token和username自定义过滤器
+     * @param username  用户id
+     * @param token token
+     * @param request   请求体
+     */
+    private void doFilterInSecurity(String username, String token, HttpServletRequest request) {
+
+        //从redis中根据token获取用户
+        Object objUser = redisUtil.get(token);
+
+        CaseUser user;
+        //若用户存在
+        if (objUser != null) {
+            user = ((CaseUser) objUser);
+        } else {
+            //用户不存在则查询
+            UserDetails userDetails = this.userDetailService.loadUserByUsername(username);
+
+            //创建自定义的样例类用于redis的序列化
+            user = new CaseUser();
+            user.setUsername(userDetails.getUsername());
+            user.setPassword(userDetails.getPassword());
+            List<String> roleList = new ArrayList<>();
+            for (GrantedAuthority authority : userDetails.getAuthorities()) {
+                roleList.add(authority.getAuthority());
+            }
+            user.setAuthorities(roleList);
+
+            //放入redis中
+            redisUtil.set(token, user);
+            //设置token生存8小时
+            redisUtil.expire(token, 60 * 60 * 8);
+        }
+
+        //获得user的权限列表并转换
+        Collection<String> strAuthorities = user.getAuthorities();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (String strAuthority : strAuthorities) {
+            authorities.add(new SimpleGrantedAuthority(strAuthority));
+        }
+
+        //创建环境user
+        User userInContext = new User(user.getUsername(), user.getPassword(), authorities);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                userInContext, null, userInContext.getAuthorities());
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                request));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
     }
 }
