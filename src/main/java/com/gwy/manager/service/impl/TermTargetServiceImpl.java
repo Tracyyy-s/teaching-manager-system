@@ -1,6 +1,7 @@
 package com.gwy.manager.service.impl;
 
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.entity.Term;
@@ -45,8 +46,19 @@ public class TermTargetServiceImpl implements TermTargetService {
 
     @CacheEvict(allEntries = true, beforeInvocation = true)
     @Override
-    public int addTermTargets(List<TermTarget> termTargets) {
-        return termTargetMapper.insertTermTargets(termTargets);
+    public ResultVO addTermTargets(List<TermTarget> termTargets) {
+
+        int i = 0;
+        try {
+            i = termTargetMapper.insertTermTargets(termTargets);
+        } catch (Exception e) {
+            return ResultVOUtil.error("Already Published");
+        }
+        if (i != termTargets.size()) {
+            return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+        } else {
+            return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+        }
     }
 
     /**

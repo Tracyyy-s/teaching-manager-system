@@ -1,6 +1,7 @@
 package com.gwy.manager;
 
 import com.gwy.manager.entity.Role;
+import com.gwy.manager.mapper.PermissionMapper;
 import com.gwy.manager.service.impl.RoleServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,11 @@ public class ContextTest {
         roleService.addRole(role);
     }
 
+    @Autowired
+    private PermissionMapper permissionMapper;
+
+    //@Test
+    void test03() {
+        System.out.println(permissionMapper.selectAllForMap());
+    }
 }

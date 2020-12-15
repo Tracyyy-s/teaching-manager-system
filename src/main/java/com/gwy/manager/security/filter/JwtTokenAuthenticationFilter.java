@@ -1,6 +1,7 @@
 package com.gwy.manager.security.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.gwy.manager.constant.PassRequestPaths;
 import com.gwy.manager.redis.RedisUtil;
 import com.gwy.manager.request.WebHttpServletRequestWrapper;
 import com.gwy.manager.security.UserDetailServiceImpl;
@@ -8,7 +9,6 @@ import com.gwy.manager.util.JwtTokenUtils;
 import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,14 +20,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -41,20 +37,15 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String FILE = "file";
 
-    private static final String LOGIN = "/login";
-
-    private static final String SEND_CODE = "/sendCode";
-
-    private static final String UPDATE_PASSWORD = "/updatePassword";
-
     private static final String POST = "POST";
 
     private static final List<String> PASS_REQUESTS = new ArrayList<>();
 
     static {
-        PASS_REQUESTS.add(LOGIN);
-        PASS_REQUESTS.add(SEND_CODE);
-        PASS_REQUESTS.add(UPDATE_PASSWORD);
+        PASS_REQUESTS.add(PassRequestPaths.ROOT_REQUEST);
+        PASS_REQUESTS.add(PassRequestPaths.LOGIN_REQUEST);
+        PASS_REQUESTS.add(PassRequestPaths.SEND_CODE_REQUEST);
+        PASS_REQUESTS.add(PassRequestPaths.UPDATE_PASSWORD_REQUEST);
     }
 
     @Autowired
@@ -99,7 +90,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 requestWrapper = new WebHttpServletRequestWrapper(request, username);
             }
 
-        } else if (!PASS_REQUESTS.contains(request.getRequestURI()) || !request.getMethod().equals(POST)) {
+        } else if (!PASS_REQUESTS.contains(request.getServletPath()) && !request.getMethod().equals(POST)) {
             //没有token
             response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("No Token")));
             return;

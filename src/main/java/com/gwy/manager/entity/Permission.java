@@ -34,4 +34,13 @@ public class Permission {
     public void setPermissionUrl(String permissionUrl) {
         this.permissionUrl = permissionUrl == null ? null : permissionUrl.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "permissionId=" + permissionId +
+                ", permissionName='" + permissionName + '\'' +
+                ", permissionUrl='" + permissionUrl + '\'' +
+                '}';
+    }
 }

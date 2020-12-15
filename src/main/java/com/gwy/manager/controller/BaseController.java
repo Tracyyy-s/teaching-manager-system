@@ -45,14 +45,14 @@ public class BaseController {
     @Autowired
     private UserServiceImpl userService;
 
-    @GetMapping("/")
+    @RequestMapping("/")
     public ResultVO root() {
         return ResultVOUtil.success("Welcome to Teaching Manager System.");
     }
 
     @GetMapping("/login")
     public ResultVO login() {
-        return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+        return ResultVOUtil.error("Sorry, Not Found Resources");
     }
 
     /**

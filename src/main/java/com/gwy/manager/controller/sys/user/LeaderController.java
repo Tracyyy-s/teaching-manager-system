@@ -55,7 +55,6 @@ public class LeaderController {
      * @return  结果集
      */
     @PostMapping("/postAssess")
-    @PreAuthorize("hasAuthority('teacherEvaluation')")
     public ResultVO postAssess(@RequestBody TeacherAssess teacherAssess) {
         return teacherAssessService.addTeacherAssess(teacherAssess);
     }
@@ -77,10 +76,10 @@ public class LeaderController {
      * @return  结果集
      */
     @PostMapping("/getHistoryAssesses")
-    public ResultVO getHistoryAssesses(@RequestBody Map<String,String> map) {
+    public String getHistoryAssesses(@RequestBody Map<String,String> map) {
 
         String userId = map.get("userId");
-        return teacherAssessService.getHistoryAssessesOfTeacher(userId);
+        return JSONObject.toJSONStringWithDateFormat(teacherAssessService.getHistoryAssessesOfTeacher(userId), DateUtilCustom.TIME_PATTERN);
     }
 
 }

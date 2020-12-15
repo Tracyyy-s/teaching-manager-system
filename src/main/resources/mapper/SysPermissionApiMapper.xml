@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gwy.manager.mapper.SysPermissionApiMapper" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.SysPermissionApi" >
+    <id column="permission_id" property="permissionId" jdbcType="INTEGER" />
+    <id column="api" property="api" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from ts_permission_api
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+      and api = #{api,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gwy.manager.entity.SysPermissionApi" >
+    insert into ts_permission_api (permission_id, api)
+    values (#{permissionId,jdbcType=INTEGER}, #{api,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select permission_id, api
+    from ts_permission_api
+  </select>
+  <select id="selectPermissionIdsByApi" resultType="java.lang.Integer">
+    select permission_id
+    from ts_permission_api
+    where api = #{api,jdbcType=VARCHAR}
+  </select>
+</mapper>

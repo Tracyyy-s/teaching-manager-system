@@ -71,6 +71,7 @@
 <!--        <table tableName="ts_user_role" domainObjectName="UserRole"/>-->
 <!--        <table tableName="ts_permission" domainObjectName="Permission"/>-->
 <!--        <table tableName="ts_role_permission" domainObjectName="RolePermission"/>-->
-        <table tableName="ts_log" domainObjectName="SysLog"/>
+<!--        <table tableName="ts_log" domainObjectName="SysLog"/>-->
+        <table tableName="ts_permission_api" domainObjectName="SysPermissionApi"/>
     </context>
 </generatorConfiguration>

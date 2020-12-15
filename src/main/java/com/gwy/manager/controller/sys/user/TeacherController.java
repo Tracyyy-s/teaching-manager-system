@@ -34,7 +34,6 @@ public class TeacherController {
      * @return 结果集
      */
     @PostMapping("/getUserInfo")
-    @PreAuthorize("hasAnyRole('ROLE_teacher', 'ROLE_root')")
     public String getTeacherInfo(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -48,7 +47,6 @@ public class TeacherController {
      * @return 返回集
      */
     @PostMapping("/sendCode")
-    @PreAuthorize("hasAnyRole('ROLE_teacher', 'ROLE_root')")
     public ResultVO sendCode(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -62,7 +60,6 @@ public class TeacherController {
      * @return 结果集
      */
     @PostMapping("/updatePassword")
-    @PreAuthorize("hasAnyRole('ROLE_teacher', 'ROLE_root')")
     public ResultVO updatePassword(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -89,7 +86,6 @@ public class TeacherController {
      * @return 返回集
      */
     @PostMapping("/getTermCourses")
-    @PreAuthorize("hasAuthority('teacherSchedule')")
     public ResultVO getTermCourses(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");

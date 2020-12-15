@@ -1,8 +1,10 @@
 package com.gwy.manager.security;
 
+import com.gwy.manager.constant.PassRequestPaths;
 import com.gwy.manager.security.authentication.*;
-import com.gwy.manager.security.filter.JwtTokenAuthenticationFilter;
+import com.gwy.manager.security.authorize.AuthorizeSecurityInterceptor;
 import com.gwy.manager.security.filter.JwtLoginAuthenticationFilter;
+import com.gwy.manager.security.filter.JwtTokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
@@ -21,12 +24,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private static final String LOGIN_REQUEST = "/login";
-
-    private static final String SEND_CODE_REQUEST = "/sendCode";
-
-    private static final String UPDATE_PASSWORD_REQUEST = "/updatePassword";
 
     @Autowired
     UserDetailServiceImpl userDetailService;
@@ -47,6 +44,9 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     CustomizeAccessDeniedHandler customizeAccessDeniedHandler;
 
     @Autowired
+    AuthorizeSecurityInterceptor authorizeSecurityInterceptor;
+
+    @Autowired
     JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
 
     @Override
@@ -59,6 +59,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         //配置自定义过滤器 增加post json 支持
+        http.addFilterAt(authorizeSecurityInterceptor, FilterSecurityInterceptor.class);
         http.addFilterAt(jwtLoginFilterBean(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http
@@ -66,7 +67,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 定义哪些URL需要被保护、哪些不需要被保护
                 //不需要保护的URL
-                .authorizeRequests().antMatchers(LOGIN_REQUEST, SEND_CODE_REQUEST, UPDATE_PASSWORD_REQUEST).permitAll()
+                .authorizeRequests().antMatchers(PassRequestPaths.ROOT_REQUEST, PassRequestPaths.LOGIN_REQUEST, PassRequestPaths.SEND_CODE_REQUEST, PassRequestPaths.UPDATE_PASSWORD_REQUEST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().permitAll() // 登出

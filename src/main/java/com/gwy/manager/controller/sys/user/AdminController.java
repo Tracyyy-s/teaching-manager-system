@@ -8,6 +8,7 @@ import com.gwy.manager.constant.PageHelperConst;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.Target;
+import com.gwy.manager.entity.TermTarget;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.DateUtilCustom;
@@ -39,6 +40,9 @@ public class AdminController {
     private TargetServiceImpl targetService;
 
     @Autowired
+    private TermTargetServiceImpl termTargetService;
+
+    @Autowired
     private CourserServiceImpl courserService;
 
     @Autowired
@@ -61,7 +65,6 @@ public class AdminController {
      * @return  返回结果集
      */
     @PostMapping("/getTargets")
-    @PreAuthorize("hasAnyAuthority('modifyStudentsEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO getTargets(@RequestBody Map<String, String> map) {
 
         String userType = map.get("userType");
@@ -74,7 +77,6 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/addTarget")
-    @PreAuthorize("hasAnyAuthority('modifyStudentsEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO addStudentTarget(@RequestBody Map<String, String> map) {
 
         String targetType = map.get("targetType");
@@ -105,7 +107,6 @@ public class AdminController {
      * @return  返回结果集
      */
     @PostMapping("/updateTarget")
-    @PreAuthorize("hasAnyAuthority('modifyStudentsEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO updateTarget(@RequestBody Target target) {
         return targetService.updateTarget(target);
     }
@@ -116,7 +117,6 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/deleteTarget")
-    @PreAuthorize("hasAnyAuthority('modifyStudentsEvaluationForm', 'modifyTeacherEvaluationForm')")
     public ResultVO deleteTarget(@RequestBody Map<String, String> map) {
 
         String targetId = map.get("targetId");
@@ -131,12 +131,25 @@ public class AdminController {
     }
 
     /**
+     * 管理员发布当前学期的评价指标
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/publishTargets")
+    @SuppressWarnings("unchecked")
+    public ResultVO publishTarget(@RequestBody Map<String, Object> map) {
+
+        List<TermTarget> targetList = (List<TermTarget>) map.get("targetList");
+
+        return termTargetService.addTermTargets(targetList);
+    }
+
+    /**
      * 获得学院内所有的教师
      * @param map   请求体
      * @return  结果集
      */
     @PostMapping("/getTeachersByDept")
-    @PreAuthorize("hasAuthority('teacherListImporting')")
     public String getTeachersByDept(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
@@ -152,7 +165,6 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getTeacherById")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String getTeacher(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
@@ -166,7 +178,6 @@ public class AdminController {
      * @return  返回集
      */
     @PostMapping("/getTeachersMatchNameInDept")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public String getTeachersMatchNameInDept(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
@@ -181,7 +192,6 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getStudentsByDept")
-    @PreAuthorize("hasAuthority('studentListImporting')")
     public String getStudentsByDept(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
@@ -197,7 +207,6 @@ public class AdminController {
      * @return  返回值
      */
     @PostMapping("/getStudentById")
-    @PreAuthorize("hasAuthority('studentListImporting')")
     public String getStudentByStudentNo(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
@@ -211,7 +220,6 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getStudentsMatchNameInDept")
-    @PreAuthorize("hasAuthority('studentListImporting')")
     public String getStudentsMatchName(@RequestBody Map<String, String> map) {
 
         String adminNo = map.get("adminNo");
@@ -237,7 +245,6 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getCoursesOfTeacher")
-    @PreAuthorize("hasAuthority('teacherSchedule')")
     public ResultVO getCoursesOfTeacher(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -250,7 +257,6 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("getDeptsOfUser")
-    @PreAuthorize("hasAnyRole('ROLE_admin', 'ROLE_root')")
     public ResultVO getDeptsOfUsr(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -342,7 +348,6 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/importStudents")
-    @PreAuthorize("hasAuthority('studentListImporting')")
     public String importStudents(@RequestParam("deptId") String deptId,
                                  @RequestParam("file") MultipartFile file) {
         return JSONObject.toJSONStringWithDateFormat(studentService.importStudentsByFile(deptId, ExcelConstants.STUDENT_EXCEL, file), DateUtilCustom.DATE_PATTERN);

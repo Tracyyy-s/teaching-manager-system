@@ -1,10 +1,12 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Permission;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Tracy
@@ -31,4 +33,7 @@ public interface PermissionMapper {
     List<Permission> selectByRoleId(@Param("roleId") Integer roleId);
 
     Integer selectIdByName(String permissionName);
+
+    @MapKey("permissionId")
+    Map<Integer, Permission> selectAllForMap();
 }

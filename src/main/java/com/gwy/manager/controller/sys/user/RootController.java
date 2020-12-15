@@ -53,7 +53,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getAllAdmins")
-    @PreAuthorize("hasAuthority('user_role_list')")
     public String getAllAdmins(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
@@ -68,7 +67,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getAllUsers")
-    @PreAuthorize("hasAuthority('user_role_list')")
     public String getAllUsers(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
@@ -98,7 +96,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getAllRoles")
-    @PreAuthorize("hasAnyAuthority('user_role_list', 'role_permission_modify')")
     public ResultVO getAllRoles() {
 
         return roleService.getAllRoles();
@@ -110,7 +107,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getAllPermissions")
-    @PreAuthorize("hasAuthority('role_permission_modify')")
     public ResultVO getAllPermissions() {
         return permissionService.getAllPermissions();
     }
@@ -122,7 +118,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getUserRoles")
-    @PreAuthorize("hasAuthority('user_role_list')")
     public ResultVO getUserRole(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
@@ -136,7 +131,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getPermissionsByRoleId")
-    @PreAuthorize("hasAuthority('role_permission_modify')")
     public ResultVO getPermissionsByRoleId(@RequestBody Map<String, String> map) {
 
         int roleId;
@@ -182,7 +176,6 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateUserRole")
-    @PreAuthorize("hasAuthority('user_role_list')")
     public ResultVO updateUserRole(@RequestBody Map<String, Object> map) {
 
         List<Integer> roleIds;
@@ -204,7 +197,6 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateRolePermission")
-    @PreAuthorize("hasAuthority('role_permission_modify')")
     public ResultVO updateRolePermission(@RequestBody Map<String, Object> map) {
 
         Integer roleId = Integer.parseInt((String) map.get("roleId"));
@@ -258,7 +250,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getLogTypes")
-    @PreAuthorize("hasAuthority('Log')")
     public ResultVO getLogTypes() {
 
         SysLogType[] types = SysLogType.values();
@@ -278,7 +269,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getLogTypeAndCount")
-    @PreAuthorize("hasAuthority('Log')")
     public ResultVO getLogTypeAndCount() {
         return logService.getLogTypeAndCount();
     }
@@ -290,7 +280,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getLogInfoByType")
-    @PreAuthorize("hasAuthority('Log')")
     public String getLogs(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
@@ -307,7 +296,6 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/deleteLogs")
-    @PreAuthorize("hasAuthority('Log')")
     @SuppressWarnings("unchecked")
     public ResultVO deleteLogs(@RequestBody Map<String, Object> map) {
 
@@ -327,7 +315,6 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/exportLogs")
-    @PreAuthorize("hasAuthority('Log')")
     public String exportLogs(@RequestBody Map<String, String> map) {
 
         String strBeginTime = map.get("beginTime");

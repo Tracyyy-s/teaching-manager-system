@@ -3,7 +3,9 @@ package com.gwy.manager.security.authentication;
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.redis.RedisUtil;
 import com.gwy.manager.service.impl.SysLogServiceImpl;
+import com.gwy.manager.util.JwtTokenUtils;
 import com.gwy.manager.util.ResultVOUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,9 @@ public class CustomizeLogoutHandler implements LogoutSuccessHandler {
     @Autowired
     private SysLogServiceImpl logService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     private Logger logger = LoggerFactory.getLogger(CustomizeLogoutHandler.class);
 
     @Override
@@ -44,6 +49,9 @@ public class CustomizeLogoutHandler implements LogoutSuccessHandler {
             logService.addLog(request, authentication);
 
             resultVO = ResultVOUtil.success("Logout Success");
+
+            //redis中删除相应的token
+            redisUtil.del(request.getHeader(JwtTokenUtils.TOKEN_HEADER).substring(JwtTokenUtils.TOKEN_PREFIX.length()));
         }
 
         response.getWriter().write(JSONObject.toJSONString(resultVO));

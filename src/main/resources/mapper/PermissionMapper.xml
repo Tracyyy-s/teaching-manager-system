@@ -72,4 +72,8 @@
     from ts_permission
     where permission_url = #{permissionName,jdbcType=VARCHAR}
   </select>
+  <select id="selectAllForMap" resultMap="BaseResultMap">
+    select permission_id, permission_name, permission_url
+    from ts_permission
+  </select>
 </mapper>

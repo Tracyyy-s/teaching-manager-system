@@ -16,7 +16,7 @@ public interface TermTargetService {
      * @param termTargets 添加的指标列表
      * @return  返回行数
      */
-    int addTermTargets(List<TermTarget> termTargets);
+    ResultVO addTermTargets(List<TermTarget> termTargets);
 
     /**
      * 获得学生学期评价指标

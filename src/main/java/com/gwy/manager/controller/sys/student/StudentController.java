@@ -3,10 +3,12 @@ package com.gwy.manager.controller.sys.student;
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.StudentAssess;
-import com.gwy.manager.service.impl.*;
+import com.gwy.manager.service.impl.StudentAssessServiceImpl;
+import com.gwy.manager.service.impl.StudentServiceImpl;
+import com.gwy.manager.service.impl.TeacherCourseServiceImpl;
+import com.gwy.manager.service.impl.TermTargetServiceImpl;
 import com.gwy.manager.util.DateUtilCustom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -38,7 +40,6 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/updatePassword")
-    @PreAuthorize("hasAuthority('studentInfo')")
     public ResultVO updatePassword(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
@@ -53,7 +54,6 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getStudentInfo")
-    @PreAuthorize("hasAnyAuthority('studentInfo','studentListImporting')")
     public String getStudentInfo(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
@@ -66,7 +66,6 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getTermCourses")
-    @PreAuthorize("hasAnyAuthority('studentSchedule', 'Evaluation')")
     public ResultVO getTermCourses(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
@@ -93,7 +92,6 @@ public class StudentController {
      * @return 返回结果
      */
     @PostMapping("/postAssess")
-    @PreAuthorize("hasAuthority('Evaluation')")
     public ResultVO postAssess(@RequestBody StudentAssess studentAssess) {
         return studentAssessService.addStudentAssess(studentAssess);
     }
@@ -104,7 +102,6 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/sendCode")
-    @PreAuthorize("hasAuthority('studentInfo')")
     public ResultVO postCode(@RequestBody Map<String, String> map) {
         String studentNo = map.get("studentNo");
         return studentService.sendCode(studentNo);

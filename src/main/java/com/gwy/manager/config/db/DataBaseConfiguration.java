@@ -36,7 +36,6 @@ public class DataBaseConfiguration {
      * 配置后台的servlet
      * @return  servlet
      */
-    @Bean
     public ServletRegistrationBean<Servlet> statViewServlet() {
         ServletRegistrationBean<Servlet> servletRegistrationBean =
                 new ServletRegistrationBean<>(new StatViewServlet(), "/druid/*");
@@ -56,7 +55,6 @@ public class DataBaseConfiguration {
      * 配置后台的filter
      * @return  filter
      */
-    @Bean
     public FilterRegistrationBean<Filter> webStatFilter() {
         FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new WebStatFilter());
