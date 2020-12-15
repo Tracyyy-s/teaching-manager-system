@@ -132,18 +132,18 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             //用户不存在则查询
             UserDetails userDetails = this.userDetailService.loadUserByUsername(username);
 
-            //创建自定义的样例类用于redis的序列化
-            user = new CaseUser();
-            user.setUsername(userDetails.getUsername());
-            user.setPassword(userDetails.getPassword());
+            //获得所有的角色名
             List<String> roleList = new ArrayList<>();
             for (GrantedAuthority authority : userDetails.getAuthorities()) {
                 roleList.add(authority.getAuthority());
             }
-            user.setAuthorities(roleList);
+
+            //创建自定义的样例类用于redis的序列化
+            user = new CaseUser(userDetails.getUsername(), userDetails.getPassword(), roleList);
 
             //放入redis中
             redisUtil.set(token, user);
+
             //设置token生存8小时
             redisUtil.expire(token, 60 * 60 * 8);
         }
