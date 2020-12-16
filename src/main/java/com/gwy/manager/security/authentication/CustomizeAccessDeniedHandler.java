@@ -26,7 +26,7 @@ public class CustomizeAccessDeniedHandler implements AccessDeniedHandler {
     SysLogServiceImpl logService;
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
 
         response.setContentType("application/json;charset=UTF-8");
 

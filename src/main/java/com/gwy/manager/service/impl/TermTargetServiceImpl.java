@@ -33,8 +33,6 @@ import java.util.List;
 @Service
 public class TermTargetServiceImpl implements TermTargetService {
 
-    private Logger logger = LoggerFactory.getLogger(TermTargetServiceImpl.class);
-
     @Autowired
     private TermTargetMapper termTargetMapper;
 
@@ -48,7 +46,7 @@ public class TermTargetServiceImpl implements TermTargetService {
     @Override
     public ResultVO addTermTargets(List<TermTarget> termTargets) {
 
-        int i = 0;
+        int i;
         try {
             i = termTargetMapper.insertTermTargets(termTargets);
         } catch (Exception e) {

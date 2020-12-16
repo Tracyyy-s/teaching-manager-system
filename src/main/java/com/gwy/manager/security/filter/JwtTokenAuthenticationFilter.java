@@ -152,6 +152,8 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 userInContext, null, userInContext.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
                 request));
+
+        //设置Context中认证信息为本用户信息
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
     }

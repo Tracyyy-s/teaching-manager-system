@@ -3,6 +3,7 @@ package com.gwy.manager.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.gwy.manager.constant.PassRequestPaths;
 import com.gwy.manager.constant.RoleName;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.SysLog;
@@ -34,7 +35,7 @@ import java.util.*;
 @Service
 public class SysLogServiceImpl implements SysLogService {
 
-    private static final String LOGIN_SUFFIX = "/login";
+    private static final String POST = "POST";
 
     @Autowired
     private SysLogMapper sysLogMapper;
@@ -75,12 +76,21 @@ public class SysLogServiceImpl implements SysLogService {
         if (!resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
             String errData = JSONObject.toJSONString(resultVO.getData().toString());
             errData = errData.substring(1, errData.length() - 1);
-            sysLog.setData(errData);
+
+            //判断错误是否匹配
+            boolean match = false;
             for (ResponseDataMsg value : ResponseDataMsg.values()) {
                 if (errData.equals(value.getMsg())) {
+                    match = true;
+                    sysLog.setDataExplain(errData);
                     sysLog.setDataExplain(value.getExplain());
                     break;
                 }
+            }
+
+            if (!match) {
+                sysLog.setData(ResponseDataMsg.Fail.getMsg());
+                sysLog.setDataExplain(ResponseDataMsg.Fail.getExplain());
             }
         } else {
             //设置状态码为成功
@@ -192,23 +202,26 @@ public class SysLogServiceImpl implements SysLogService {
 
         sysLog.setRequestUrl(request.getRequestURL().toString());
         sysLog.setLocale(request.getLocale().toString());
+        sysLog.setIp(request.getRemoteAddr());
 
+        //默认请求成功
+        sysLog.setResultMessage(ResponseStatus.SUCCESS.getMessage());
+        sysLog.setData(ResponseDataMsg.Success.getMsg());
+        sysLog.setDataExplain(ResponseDataMsg.Success.getExplain());
+
+        //判断是否为登录请求
+        if (sysLog.getRequestUrl().equals(PassRequestPaths.LOGIN_REQUEST) && request.getMethod().equals(POST)) {
+            sysLog.setType(SysLogType.LoginLog.getType());
+            sysLog.setTypeExplain(SysLogType.LoginLog.getTypeExplain());
+        } else {
+            sysLog.setType(SysLogType.OperationLog.getType());
+            sysLog.setTypeExplain(SysLogType.OperationLog.getTypeExplain());
+        }
+
+        //如果有认证信息
         if (authentication != null) {
             sysLog.setUserId(((User) authentication.getPrincipal()).getUsername());
             sysLog.setAuthorities(Arrays.toString(this.getRoleFromAuthorities(authentication.getAuthorities()).toArray()));
-            sysLog.setIp(((WebAuthenticationDetails)authentication.getDetails()).getRemoteAddress());
-            sysLog.setResultMessage(ResponseStatus.SUCCESS.getMessage());
-            sysLog.setData(ResponseDataMsg.Success.getMsg());
-            sysLog.setDataExplain(ResponseDataMsg.Success.getExplain());
-
-            //判断是登录还是登出请求
-            if (sysLog.getRequestUrl().endsWith(LOGIN_SUFFIX)) {
-                sysLog.setType(SysLogType.LoginLog.getType());
-                sysLog.setTypeExplain(SysLogType.LoginLog.getTypeExplain());
-            } else {
-                sysLog.setType(SysLogType.OperationLog.getType());
-                sysLog.setTypeExplain(SysLogType.OperationLog.getTypeExplain());
-            }
         }
 
         //如果有访问异常

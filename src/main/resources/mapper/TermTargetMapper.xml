@@ -44,7 +44,7 @@
     <foreach collection="termTargets" separator="," item="termTarget">
     (
       #{termTarget.termId,jdbcType=VARCHAR}, #{termTarget.targetId,jdbcType=INTEGER},
-      #{termTarget.weight,jdbcType=INTEGER},#{termTarget.weight,jdbcType=INTEGER}
+      #{termTarget.weight,jdbcType=INTEGER},#{termTarget.termTargetObject,jdbcType=INTEGER,jdbcType=INTEGER}
     )
     </foreach>
   </insert>

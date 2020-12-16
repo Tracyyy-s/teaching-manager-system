@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 
 /**
  * @author Tracy
@@ -32,29 +33,26 @@ public class CustomizeLogoutHandler implements LogoutSuccessHandler {
     @Autowired
     private RedisUtil redisUtil;
 
-    private Logger logger = LoggerFactory.getLogger(CustomizeLogoutHandler.class);
-
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                                 Authentication authentication) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
 
-        ResultVO resultVO;
+        //添加登出成功日志
+        logService.addLog(request, authentication);
 
-        if (authentication == null) {
-            logger.error("Authentication is null");
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotLogin.getMsg());
-        } else {
-            //添加登出成功日志
-            logService.addLog(request, authentication);
-
-            resultVO = ResultVOUtil.success("Logout Success");
+        //获得request的认证信息
+        String authHeader = request.getHeader(JwtTokenUtils.TOKEN_HEADER);
+        if (authHeader != null) {
+            //获得当前请求的token
+            String token = authHeader.substring(JwtTokenUtils.TOKEN_PREFIX.length());
 
             //redis中删除相应的token
-            redisUtil.del(request.getHeader(JwtTokenUtils.TOKEN_HEADER).substring(JwtTokenUtils.TOKEN_PREFIX.length()));
+            redisUtil.del(token);
         }
 
-        response.getWriter().write(JSONObject.toJSONString(resultVO));
+
+        response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.success("Logout Success")));
     }
 }
 

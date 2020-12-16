@@ -34,7 +34,7 @@ public class RequestAspect {
     private SysLogServiceImpl logService;
 
     @Around(value = "pointcut()")
-    public Object doAround(ProceedingJoinPoint pjp) {
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
 
         Object result = null;
 
@@ -54,6 +54,7 @@ public class RequestAspect {
             result = pjp.proceed(args);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
+            throw new Throwable(throwable);
         }
 
         ResultVO resultVO;

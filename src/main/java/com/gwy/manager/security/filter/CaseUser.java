@@ -1,7 +1,5 @@
 package com.gwy.manager.security.filter;
 
-import org.springframework.security.core.GrantedAuthority;
-
 import java.util.Collection;
 
 /**
