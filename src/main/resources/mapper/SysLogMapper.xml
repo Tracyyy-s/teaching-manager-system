@@ -76,4 +76,10 @@
         '%'
     end
   </select>
+  <select id="selectLogsInfo" resultType="java.util.Map">
+    SELECT DATE_FORMAT( create_time, "%Y-%m-%d" ) AS create_time, COUNT(*) AS total
+    FROM ts_log
+    GROUP BY DATE_FORMAT( create_time, "%Y-%m-%d" )
+  </select>
+
 </mapper>

@@ -28,4 +28,7 @@ public interface SysLogMapper {
                                   @Param("type") String type);
 
     int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
+
+
+    List<Map<Date, Integer>> selectLogsInfo();
 }

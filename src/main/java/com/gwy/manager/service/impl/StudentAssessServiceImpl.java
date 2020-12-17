@@ -1,9 +1,8 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.entity.Student;
-import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.entity.StudentAssess;
+import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.StudentAssessMapper;
 import com.gwy.manager.mapper.StudentMapper;
 import com.gwy.manager.mapper.TeacherCourseMapper;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 

@@ -25,10 +25,13 @@ public class AuthenticationFailureEventListener implements ApplicationListener<A
 
         Authentication authentication = event.getAuthentication();
 
-        String username = authentication.getPrincipal().toString();
+        if (authentication != null) {
+            String username = authentication.getPrincipal().toString();
 
-        String ip = ((WebAuthenticationDetails) authentication.getDetails()).getRemoteAddress();
+            String ip = ((WebAuthenticationDetails) authentication.getDetails()).getRemoteAddress();
 
-        logger.error("username: {} login fail, from {}, at {}", username, ip, DateUtilCustom.getTime());
+            logger.error("username: {} login fail, from {}, at {}", username, ip, DateUtilCustom.getTime());
+        }
+
     }
 }
