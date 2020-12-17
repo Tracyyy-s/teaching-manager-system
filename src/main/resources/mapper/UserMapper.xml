@@ -156,4 +156,12 @@
     set available_dept_ids = #{deptIds,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=VARCHAR}
     </update>
+    <select id="selectUserNamesForMapByIds" resultType="java.util.Map">
+    select user_id, username
+    from ts_user
+    where user_id in
+    <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+        #{userId,jdbcType=VARCHAR}
+    </foreach>
+    </select>
 </mapper>

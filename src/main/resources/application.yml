@@ -27,10 +27,15 @@ spring:
         concurrency: 10
         max-concurrency: 20
         prefetch: 50
-
+  elasticsearch:
+    rest:
+      username: elastic
+      password: GONGRAN0812a
+      uris: http://es-cn-n6w1ym8y7001xrigc.public.elasticsearch.aliyuncs.com:9200
 mybatis:
   # 指定映射配置文件路径
   mapper-locations: classpath:mapper/*.xml
+
 
 pagehelper:
   helper-dialect: mysql

@@ -1,15 +1,14 @@
 package com.gwy.manager.security;
 
 import com.gwy.manager.constant.RoleName;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.*;
-import com.gwy.manager.mapper.*;
-import com.gwy.manager.redis.RedisUtil;
-import com.gwy.manager.service.impl.PermissionServiceImpl;
+import com.gwy.manager.entity.Permission;
+import com.gwy.manager.entity.Role;
+import com.gwy.manager.mapper.LoginMapper;
+import com.gwy.manager.mapper.PermissionMapper;
+import com.gwy.manager.mapper.RoleMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,63 +26,37 @@ import java.util.List;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    private StudentMapper studentMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
     private RoleMapper roleMapper;
 
     @Autowired
     private PermissionMapper permissionMapper;
 
+    @Autowired
+    private LoginMapper loginMapper;
+
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
 
         //用户密码
-        String password;
+        String password = loginMapper.selectUserPasswordFromAll(account);
 
-        Object object = studentMapper.selectByPrimaryKey(account);
-        if (object == null) {
-            object = userMapper.selectByPrimaryKey(account);
-
-            if (object == null) {
-                throw new UsernameNotFoundException(account + " Not Found");
-            }
+        //判断密码是否为空
+        if (StringUtils.isEmpty(password)) {
+            throw new UsernameNotFoundException(account + " Not Found");
         }
 
-        List<Role> roles = new ArrayList<>();
-        List<Permission> permissions = new ArrayList<>();
+        List<Role> roleList = roleMapper.selectByUserId(account);
 
-        if (object instanceof Student) {
-            Student student = (Student) object;
-
-            password = student.getPassword();
-            Role studentRole = roleMapper.selectByUserId(student.getStudentNo()).get(0);
-
-            //添加学生角色
-            roles.add(studentRole);
-            //将学生角色权限添加至列表
-            permissions.addAll(permissionMapper.selectByRoleId(studentRole.getRoleId()));
-        } else {
-            com.gwy.manager.entity.User user = ((com.gwy.manager.entity.User) object);
-
-            password = user.getPassword();
-            List<Role> roleList = roleMapper.selectByUserId(user.getUserId());
-
-            List<Integer> roleIds = new ArrayList<>();
-            //遍历用户的角色
-            for (Role role : roleList) {
-                roleIds.add(role.getRoleId());
-            }
-
-            //添加角色
-            roles.addAll(roleList);
-            //添加所有角色的权限
-            permissions.addAll(permissionMapper.selectByRoleIds(roleIds));
-
+        List<Integer> roleIds = new ArrayList<>();
+        //遍历用户的角色
+        for (Role role : roleList) {
+            roleIds.add(role.getRoleId());
         }
+
+        //添加角色
+        List<Role> roles = new ArrayList<>(roleList);
+        //添加所有角色的权限
+        List<Permission> permissions = new ArrayList<>(permissionMapper.selectByRoleIds(roleIds));
 
         StringBuilder sb = new StringBuilder();
         for (Role role : roles) {

@@ -1,10 +1,12 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.User;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Tracy
@@ -25,6 +27,9 @@ public interface UserMapper {
     List<User> selectUsersByDeptId(String deptId);
 
     List<String> selectUserNamesByIds(@Param("userIds") List<String> userIds);
+
+    @MapKey("user_id")
+    Map<String, Map<String, String>> selectUserNamesForMapByIds(@Param("userIds") List<String> userIds);
 
     int insertUsersByBatch(@Param("users") List<User> users);
 

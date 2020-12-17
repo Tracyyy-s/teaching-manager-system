@@ -20,7 +20,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Throwable.class)
     @ResponseBody
-    public ResultVO globalHandler() {
+    public ResultVO globalHandler(Exception ex) {
+        System.out.println(ex.getMessage());
         return ResultVOUtil.error("Error In Server, Check It");
     }
 }

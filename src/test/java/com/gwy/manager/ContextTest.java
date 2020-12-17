@@ -1,6 +1,7 @@
 package com.gwy.manager;
 
 import com.gwy.manager.entity.Role;
+import com.gwy.manager.mapper.LoginMapper;
 import com.gwy.manager.mapper.PermissionMapper;
 import com.gwy.manager.redis.RedisUtil;
 import com.gwy.manager.service.impl.RoleServiceImpl;
@@ -60,9 +61,11 @@ public class ContextTest {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @Autowired
+    private LoginMapper loginMapper;
     //@Test
     void test04() {
-        Set<String> keys = redisTemplate.keys("eyJ*");
-        redisTemplate.delete(keys);
+        String s = loginMapper.selectUserPasswordFromAll(" ");
+        System.out.println(s);
     }
 }

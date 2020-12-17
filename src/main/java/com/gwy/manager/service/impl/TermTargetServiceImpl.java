@@ -1,11 +1,11 @@
 package com.gwy.manager.service.impl;
 
 import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.entity.Term;
 import com.gwy.manager.entity.TermTarget;
+import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.enums.UserOption;
 import com.gwy.manager.mapper.TargetMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.mapper.TermTargetMapper;
@@ -13,8 +13,6 @@ import com.gwy.manager.service.TermTargetService;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.ResultVOUtil;
 import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;

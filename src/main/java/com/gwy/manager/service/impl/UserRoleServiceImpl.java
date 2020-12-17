@@ -16,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Tracy
@@ -31,6 +33,8 @@ import java.util.List;
 @CacheConfig(cacheNames = "userRoles")
 public class UserRoleServiceImpl implements UserRoleService {
 
+    private static final String TOKEN_PREFIX = "eyJ*";
+
     @Autowired
     private RoleMapper roleMapper;
 
@@ -39,6 +43,9 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Autowired
     private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     private List<Role> getRolesOfUser(String account) {
         return roleMapper.selectByUserId(account);
@@ -132,6 +139,12 @@ public class UserRoleServiceImpl implements UserRoleService {
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+        }
+
+        //删除所有缓存的token
+        Set<String> keys = redisTemplate.keys(TOKEN_PREFIX);
+        if (keys != null) {
+            redisTemplate.delete(keys);
         }
 
         return resultVO;

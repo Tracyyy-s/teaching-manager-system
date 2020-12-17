@@ -10,7 +10,6 @@ import com.gwy.manager.entity.Student;
 import com.gwy.manager.entity.Target;
 import com.gwy.manager.entity.TermTarget;
 import com.gwy.manager.service.impl.*;
-import com.gwy.manager.util.BeanUtil;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.PageHelperUtil;
 import com.gwy.manager.util.ResultVOUtil;

@@ -1,0 +1,52 @@
+[
+  {
+    "targetList": [
+      {
+        "termId": "",
+        "targetId": "",
+        "weight": "",
+        "termTargetObject": ""
+      },
+      {
+        "termId": "2020-2021-1",
+        "targetId": 3,
+        "weight": 4,
+        "termTargetObject": 1
+      },
+      {
+        "termId": "2020-2021-1",
+        "targetId": 3,
+        "weight": 4,
+        "termTargetObject": 1
+      },
+      {
+        "termId": "2020-2021-1",
+        "targetId": 3,
+        "weight": 4,
+        "termTargetObject": 1
+      },
+      {
+        "termId": "2020-2021-1",
+        "targetId": 3,
+        "weight": 4,
+        "termTargetObject": 1
+      },
+      {
+        "termId": "2020-2021-1",
+        "targetId": 3,
+        "weight": 4,
+        "termTargetObject": 1
+      },
+      {
+        "termId": "2020-2021-1",
+        "targetId": 7,
+        "weight": 3,
+        "termTargetObject": 1
+      }
+    ],
+    "adminNo": "2001110004",
+    "studentNo": "2001110004",
+    "userId": "2001110004",
+    "account": "2001110004"
+  }
+]

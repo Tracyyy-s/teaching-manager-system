@@ -155,17 +155,19 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
             map.put("time", timeMap);
         }
 
-        List<Course> courses = courseMapper.getCoursesByIds(courseNos);
-        List<String> teacherNames = userMapper.selectUserNamesByIds(teacherNos);
+        Map<String, Course> courses = courseMapper.getCoursesForMapByIds(courseNos);
+        Map<String, Map<String, String>> usernameMap = userMapper.selectUserNamesForMapByIds(teacherNos);
 
-        int i = 0;
         for (Map<String, Object> map : maps) {
-            map.put("courseName", courses.get(i).getCourseName());
-            map.put("courseHour", courses.get(i).getHour());
-            map.put("credit", courses.get(i).getCredit());
-            map.put("teacherName", teacherNames.get(i));
 
-            i++;
+            String courseNo = (String) map.get("courseNo");
+            map.put("courseName", courses.get(courseNo).getCourseName());
+            map.put("courseHour", courses.get(courseNo).getHour());
+            map.put("credit", courses.get(courseNo).getCredit());
+
+            String teacherNo = (String) map.get("teacherNo");
+            map.put("teacherName", usernameMap.get(teacherNo).get("username"));
+
         }
         return maps;
     }

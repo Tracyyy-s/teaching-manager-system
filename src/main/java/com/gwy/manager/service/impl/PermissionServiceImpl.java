@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Tracy
@@ -26,11 +28,16 @@ import java.util.List;
 @Service
 public class PermissionServiceImpl implements PermissionService {
 
+    private static final String TOKEN_PREFIX = "eyJ*";
+
     @Autowired
     private PermissionMapper permissionMapper;
 
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Cacheable(keyGenerator = "byRoleIds")
     @Override
@@ -113,6 +120,12 @@ public class PermissionServiceImpl implements PermissionService {
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+
+        //删除所有的token信息
+        Set<String> keys = redisTemplate.keys(TOKEN_PREFIX);
+        if (keys != null) {
+            redisTemplate.delete(keys);
         }
 
         return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
