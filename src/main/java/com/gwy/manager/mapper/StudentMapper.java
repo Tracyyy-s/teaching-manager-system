@@ -1,6 +1,7 @@
 package com.gwy.manager.mapper;
 
 import com.gwy.manager.entity.Student;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -40,4 +41,7 @@ public interface StudentMapper {
                                           @Param("name")String name);
 
     List<Map<String, Object>> selectStudentNamesByIds(@Param("studentNos") List<String> studentNos);
+
+    @MapKey("student_no")
+    Map<String, Map<String, String>> selectStudentNamesForMapByIds(@Param("studentNos") List<String> studentNos);
 }

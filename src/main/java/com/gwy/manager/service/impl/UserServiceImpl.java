@@ -37,9 +37,6 @@ public class UserServiceImpl implements UserService {
     private VRCodeUtil vrCodeUtil;
 
     @Autowired
-    private GlobalPasswordEncoder passwordEncoder;
-
-    @Autowired
     private UserRoleMapper userRoleMapper;
 
     @Autowired

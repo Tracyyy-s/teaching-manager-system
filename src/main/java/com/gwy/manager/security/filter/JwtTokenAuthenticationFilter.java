@@ -1,6 +1,8 @@
 package com.gwy.manager.security.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cxytiandi.encrypt.util.AesEncryptUtils;
+import com.gwy.manager.constant.EncodeConstant;
 import com.gwy.manager.constant.PassRequestPaths;
 import com.gwy.manager.redis.RedisUtil;
 import com.gwy.manager.request.WebHttpServletRequestWrapper;
@@ -61,12 +63,24 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         //获取header中的验证信息
         String authHeader = request.getHeader(JwtTokenUtils.TOKEN_HEADER);
 
+        //不含有token，且不包含放行的请求，返回错误
+        if (authHeader == null && !PASS_REQUESTS.contains(request.getServletPath()) && !request.getMethod().equals(POST)) {
+            response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("No Token")));
+            return;
+        }
+
         ServletRequest requestWrapper = null;
 
-        //如果含有token就执行
-        if (authHeader != null && authHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
-            final String authToken = authHeader.substring(JwtTokenUtils.TOKEN_PREFIX.length());
+        if (authHeader != null) {
 
+            //如果解密后的token格式不正确
+            if (!authHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
+                response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("Error Token Format")));
+                return;
+            }
+
+            final String authToken = authHeader.substring(JwtTokenUtils.TOKEN_PREFIX.length());
+            
             //从token中获取用户信息，jwtUtils自定义的token加解密方式
             String username = JwtTokenUtils.getUsername(authToken);
 
@@ -89,11 +103,6 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             if (request.getParameter(FILE) == null) {
                 requestWrapper = new WebHttpServletRequestWrapper(request, username);
             }
-
-        } else if (!PASS_REQUESTS.contains(request.getServletPath()) && !request.getMethod().equals(POST)) {
-            //没有token
-            response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("No Token")));
-            return;
         }
 
         if (requestWrapper != null) {

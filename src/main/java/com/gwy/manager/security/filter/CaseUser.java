@@ -44,4 +44,13 @@ public class CaseUser {
     public void setAuthorities(Collection<String> authorities) {
         this.authorities = authorities;
     }
+
+    @Override
+    public String toString() {
+        return "CaseUser{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", authorities=" + authorities +
+                '}';
+    }
 }

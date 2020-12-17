@@ -120,4 +120,12 @@
         #{studentNo,jdbcType=VARCHAR}
     </foreach>
   </select>
+  <select id="selectStudentNamesForMapByIds" resultType="java.util.Map">
+    select student_no, student_name, class_id
+    from ts_student
+    where student_no in
+    <foreach collection="studentNos" item="studentNo" open="(" close=")" separator=",">
+        #{studentNo,jdbcType=VARCHAR}
+    </foreach>
+  </select>
 </mapper>

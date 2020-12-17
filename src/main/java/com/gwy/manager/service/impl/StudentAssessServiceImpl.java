@@ -97,11 +97,14 @@ public class StudentAssessServiceImpl implements StudentAssessService {
 
         List<Map<String, Object>> assessMap = ((List<Map<String, Object>>) BeanUtil.beansToList(studentAssesses));
 
-        List<Map<String, Object>> maps = studentMapper.selectStudentNamesByIds(studentNos);
-        for (int i = 0; i < assessMap.size(); i++) {
-            Map<String, Object> tmpMap = assessMap.get(i);
-            tmpMap.put("classId", maps.get(i).get("class_id"));
-            tmpMap.put("studentName", maps.get(i).get("student_name"));
+        Map<String, Map<String, String>> nameMap = studentMapper.selectStudentNamesForMapByIds(studentNos);
+        for (Map<String, Object> tmpMap : assessMap) {
+            String studentNo = (String) tmpMap.get("studentNo");
+
+            if (nameMap.get(studentNo) != null) {
+                tmpMap.put("classId", nameMap.get(studentNo).get("class_id"));
+                tmpMap.put("studentName", nameMap.get(studentNo).get("student_name"));
+            }
         }
 
         return ResultVOUtil.success(assessMap);

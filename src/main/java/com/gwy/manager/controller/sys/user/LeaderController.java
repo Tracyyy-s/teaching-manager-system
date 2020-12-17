@@ -55,7 +55,9 @@ public class LeaderController {
      * @return  结果集
      */
     @PostMapping("/postAssess")
-    public ResultVO postAssess(@RequestBody TeacherAssess teacherAssess) {
+    public ResultVO postAssess(@RequestBody TeacherAssess teacherAssess,
+                               @RequestBody Map<String, String> map) {
+        teacherAssess.setTeacherNo(map.get("userId"));
         return teacherAssessService.addTeacherAssess(teacherAssess);
     }
 

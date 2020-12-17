@@ -161,12 +161,17 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
         for (Map<String, Object> map : maps) {
 
             String courseNo = (String) map.get("courseNo");
-            map.put("courseName", courses.get(courseNo).getCourseName());
-            map.put("courseHour", courses.get(courseNo).getHour());
-            map.put("credit", courses.get(courseNo).getCredit());
+
+            if (courses.get(courseNo) != null) {
+                map.put("courseName", courses.get(courseNo).getCourseName());
+                map.put("courseHour", courses.get(courseNo).getHour());
+                map.put("credit", courses.get(courseNo).getCredit());
+            }
 
             String teacherNo = (String) map.get("teacherNo");
-            map.put("teacherName", usernameMap.get(teacherNo).get("username"));
+            if (usernameMap.get(teacherNo) != null) {
+                map.put("teacherName", usernameMap.get(teacherNo).get("username"));
+            }
 
         }
         return maps;

@@ -1,12 +1,18 @@
 package com.gwy.manager.security.filter;
 
+import com.alibaba.fastjson.JSONObject;
+import com.cxytiandi.encrypt.util.AesEncryptUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gwy.manager.constant.EncodeConstant;
+import com.gwy.manager.security.GlobalPasswordEncoder;
 import com.gwy.manager.util.JwtTokenUtils;
+import com.gwy.manager.util.ResultVOUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -30,20 +36,22 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
 
     @Override
     protected String obtainUsername(HttpServletRequest request) {
-        String username = this.getBodyParams(request).get(LOGIN_ACCOUNT_KEY);
-        if (!StringUtils.isEmpty(username)) {
-            return username;
+        String encodedUsername = this.getBodyParams(request).get(LOGIN_ACCOUNT_KEY);
+        try {
+            return AesEncryptUtils.aesDecrypt(encodedUsername, EncodeConstant.SALT);
+        } catch (Exception e) {
+            return super.obtainUsername(request);
         }
-        return super.obtainUsername(request);
     }
 
     @Override
     protected String obtainPassword(HttpServletRequest request) {
-        String password = this.getBodyParams(request).get(LOGIN_PASSWORD_KEY);
-        if (!StringUtils.isEmpty(password)) {
-            return password;
+        String encodedPassword = this.getBodyParams(request).get(LOGIN_PASSWORD_KEY);
+        try {
+            return AesEncryptUtils.aesDecrypt(encodedPassword, EncodeConstant.SALT);
+        } catch (Exception e) {
+            return super.obtainUsername(request);
         }
-        return super.obtainPassword(request);
     }
 
     @Override
@@ -71,7 +79,19 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
         // 返回创建成功的token
         // 但是这里创建的token只是单纯的token
         // 按照jwt的规定，最后请求的格式应该是 `Bearer token`
-        response.setHeader(JwtTokenUtils.TOKEN_HEADER, JwtTokenUtils.TOKEN_PREFIX + token);
+        String authToken = JwtTokenUtils.TOKEN_PREFIX + token;
+
+        //将token进行加密
+        String encodedToken;
+        try {
+            encodedToken = AesEncryptUtils.aesEncrypt(authToken, EncodeConstant.SALT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("Encode Token Error")));
+            return;
+        }
+
+        response.setHeader(JwtTokenUtils.TOKEN_HEADER, encodedToken);
     }
 
     /**
