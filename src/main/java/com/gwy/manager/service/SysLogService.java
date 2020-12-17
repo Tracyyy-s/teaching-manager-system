@@ -65,4 +65,10 @@ public interface SysLogService {
      * @return  结果集
      */
     ResultVO getLogs(int pageNum, int pageSize);
+
+    /**
+     * 获得日志信息(天数，日志数量)
+     * @return  结果集
+     */
+    ResultVO getLogsInfo();
 }

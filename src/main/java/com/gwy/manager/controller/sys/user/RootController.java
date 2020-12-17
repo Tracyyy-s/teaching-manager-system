@@ -310,6 +310,15 @@ public class RootController {
     }
 
     /**
+     * 获得日志的相关信息
+     * @return  结果集
+     */
+    @PostMapping("/getLogInfo")
+    public ResultVO getLogInfo() {
+        return logService.getLogsInfo();
+    }
+
+    /**
      * 按条件导出日志
      * @param map   请求体
      * @return  结果集

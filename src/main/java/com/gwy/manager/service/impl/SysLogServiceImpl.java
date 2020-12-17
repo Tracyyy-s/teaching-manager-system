@@ -173,6 +173,17 @@ public class SysLogServiceImpl implements SysLogService {
         }
     }
 
+    @Override
+    public ResultVO getLogsInfo() {
+
+        List<Map<Date, Integer>> maps = sysLogMapper.selectLogsInfo();
+        if (CollectionUtils.isEmpty(maps)) {
+            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        }
+
+        return ResultVOUtil.success(sysLogMapper.selectLogsInfo());
+    }
+
     /**
      * 系统操作成功，添加日志
      * @param request   请求
