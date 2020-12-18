@@ -15,6 +15,10 @@ public class Term {
 
     private Date endDate;
 
+    private Double studentWeight;
+
+    private Double teacherWeight;
+
     public String getTermId() {
         return termId;
     }
@@ -47,6 +51,22 @@ public class Term {
         this.endDate = endDate;
     }
 
+    public void setStudentWeight(Double studentWeight) {
+        this.studentWeight = studentWeight;
+    }
+
+    public void setTeacherWeight(Double teacherWeight) {
+        this.teacherWeight = teacherWeight;
+    }
+
+    public Double getStudentWeight() {
+        return studentWeight;
+    }
+
+    public Double getTeacherWeight() {
+        return teacherWeight;
+    }
+
     @Override
     public String toString() {
         return "Term{" +
@@ -54,6 +74,8 @@ public class Term {
                 ", termName='" + termName + '\'' +
                 ", beginDate=" + beginDate +
                 ", endDate=" + endDate +
+                ", studentWeight=" + studentWeight +
+                ", teacherWeight=" + teacherWeight +
                 '}';
     }
 }

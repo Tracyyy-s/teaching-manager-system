@@ -6,6 +6,8 @@
     <result column="term_name" property="termName" jdbcType="VARCHAR" />
     <result column="begin_date" property="beginDate" jdbcType="DATE" />
     <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="student_weight" property="studentWeight" jdbcType="DOUBLE"/>
+    <result column="teacher_weight" property="teacherWeight" jdbcType="DOUBLE"/>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ts_term
@@ -19,18 +21,32 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Term" >
     update ts_term
-    set term_name = #{termName,jdbcType=VARCHAR},
-      begin_date = #{beginDate,jdbcType=DATE},
-      end_date = #{endDate,jdbcType=DATE}
+    <set>
+        <if test="termName != null and termName != ''">
+            term_name = #{termName, jdbcType=VARCHAR},
+        </if>
+        <if test="beginDate != null">
+            begin_date = #{beginDate,jdbcType=DATE},
+        </if>
+        <if test="endDate != null">
+            end_data = #{endDate,jdbcType=DATE} ,
+        </if>
+        <if test="studentWeight != null">
+            student_weight = #{studentWeight,jdbcType=DOUBLE},
+        </if>
+        <if test="teacherWeight != null">
+            teacher_weight = #{teacherWeight,jdbcType=DOUBLE}
+        </if>
+    </set>
     where term_id = #{termId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select term_id, term_name, begin_date, end_date
+    select term_id, term_name, begin_date, end_date, student_weight, teacher_weight
     from ts_term
     where term_id = #{termId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select term_id, term_name, begin_date, end_date
+    select term_id, term_name, begin_date, end_date, student_weight, teacher_weight
     from ts_term
   </select>
   <!-- 批量导入学期 -->
@@ -47,7 +63,7 @@
   </insert>
   <!-- 获得当前日期的学期id -->
   <select id="getCurrentTerm" resultMap="BaseResultMap">
-    select term_id, term_name, begin_date, end_date
+    select term_id, term_name, begin_date, end_date, student_weight, teacher_weight
     from ts_term
     where #{date,jdbcType=TIMESTAMP} between begin_date and end_date
   </select>

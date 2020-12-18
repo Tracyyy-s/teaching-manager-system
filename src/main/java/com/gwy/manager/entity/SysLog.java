@@ -1,11 +1,14 @@
 package com.gwy.manager.entity;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import java.util.Date;
 
 /**
  * @author Tracy
  * @date 2020/11/10 15:40
  */
+@Document(indexName = "sys_log", indexStoreType = "log")
 public class SysLog {
 
     private Integer id;

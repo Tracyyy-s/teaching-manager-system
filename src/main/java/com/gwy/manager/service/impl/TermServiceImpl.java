@@ -44,7 +44,7 @@ public class TermServiceImpl implements TermService {
     @Cacheable(keyGenerator = "allTerms")
     @Override
     public ResultVO getTerms() {
-        ResultVO resultVO = new ResultVO();
+        ResultVO resultVO;
 
         List<Term> terms;
         try {
