@@ -1,6 +1,7 @@
 package com.gwy.manager.controller.sys.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.gwy.manager.constant.PageHelperConst;
 import com.gwy.manager.dto.ResultVO;
 import com.gwy.manager.elastic.ElasticRepositoryHelper;
@@ -377,6 +378,6 @@ public class RootController {
             return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
         }
 
-        return ResultVOUtil.success(result);
+        return ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(result)));
     }
 }
