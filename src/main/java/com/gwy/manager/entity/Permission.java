@@ -11,6 +11,8 @@ public class Permission {
 
     private String permissionUrl;
 
+    private String permissionRange;
+
     public Integer getPermissionId() {
         return permissionId;
     }
@@ -35,12 +37,21 @@ public class Permission {
         this.permissionUrl = permissionUrl == null ? null : permissionUrl.trim();
     }
 
+    public void setPermissionRange(String permissionRange) {
+        this.permissionRange = permissionRange;
+    }
+
+    public String getPermissionRange() {
+        return permissionRange;
+    }
+
     @Override
     public String toString() {
         return "Permission{" +
                 "permissionId=" + permissionId +
                 ", permissionName='" + permissionName + '\'' +
                 ", permissionUrl='" + permissionUrl + '\'' +
+                ", permissionRange='" + permissionRange + '\'' +
                 '}';
     }
 }
