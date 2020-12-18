@@ -95,6 +95,7 @@ public class TermTargetServiceImpl implements TermTargetService {
                 //若发布则返回发布的评价
                 List<Target> targets = targetMapper.getTargetsByIds(targetIds);
                 resultVO = ResultVOUtil.success(targets);
+                System.out.println(targets);
             }
         } else if (today.before(term.getBeginDate())) {
             resultVO = ResultVOUtil.error("Too Early");

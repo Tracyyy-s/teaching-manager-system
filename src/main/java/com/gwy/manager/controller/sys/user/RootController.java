@@ -371,7 +371,7 @@ public class RootController {
         PageHelperUtil.pageMsg(map);
         String keyword = (String) map.get("keyword");
         int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
-        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
+        int pageSize = 50;
 
         List<Map<String, Object>> result = repositoryHelper.searchByKeyword(keyword, pageNum, pageSize);
         if (CollectionUtils.isEmpty(result)) {

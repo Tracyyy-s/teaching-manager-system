@@ -38,6 +38,7 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
     protected String obtainUsername(HttpServletRequest request) {
         String encodedUsername = this.getBodyParams(request).get(LOGIN_ACCOUNT_KEY);
         try {
+            System.out.println("username " + AesEncryptUtils.aesDecrypt(encodedUsername, EncodeConstant.SALT));
             return AesEncryptUtils.aesDecrypt(encodedUsername, EncodeConstant.SALT);
         } catch (Exception e) {
             return super.obtainUsername(request);

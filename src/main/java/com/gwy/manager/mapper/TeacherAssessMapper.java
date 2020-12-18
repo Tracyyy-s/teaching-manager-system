@@ -77,4 +77,7 @@ public interface TeacherAssessMapper {
      */
     List<Map<String, Object>> selectByTermAndDept(@Param("deptId") String deptId,
                                                   @Param("termId") String termId);
+
+    int selectCountOfUserInTerm(@Param("userId") String userId,
+                                @Param("termId") String termId);
 }

@@ -69,4 +69,9 @@
     where dept_id = #{deptId,jdbcType=VARCHAR} and term_id = #{termId,jdbcType=VARCHAR} or term_id is null
     group by user_id
   </select>
+  <select id="selectCountOfUserInTerm" resultType="int">
+    select count(*)
+    from ts_teacher_assess
+    where teacher_no = #{userId,jdbcType=VARCHAR} and term_id = #{termId,jdbcType=VARCHAR}
+  </select>
 </mapper>

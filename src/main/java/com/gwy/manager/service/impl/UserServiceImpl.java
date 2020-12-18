@@ -169,6 +169,11 @@ public class UserServiceImpl implements UserService {
                     map.put("assessed", assessedUserIds.contains((String) map.get("userId")));
                 }
 
+                int count = teacherAssessMapper.selectCountOfUserInTerm(userId, term.getTermId());
+                HashMap<String, Object> cntMap = new HashMap<>();
+                cntMap.put("count", count);
+                maps.add(cntMap);
+
                 return resultUsers;
             }
 

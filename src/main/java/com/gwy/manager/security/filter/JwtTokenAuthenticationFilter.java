@@ -110,6 +110,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        System.out.println("servletPath: " + request.getServletPath());
         chain.doFilter(request, response);
     }
 
