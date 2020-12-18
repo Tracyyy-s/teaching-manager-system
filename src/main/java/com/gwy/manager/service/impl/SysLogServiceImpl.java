@@ -211,7 +211,7 @@ public class SysLogServiceImpl implements SysLogService {
     private void addLog(HttpServletRequest request, Authentication authentication, Exception ex) {
         SysLog sysLog = new SysLog();
 
-        sysLog.setRequestUrl(request.getRequestURL().toString());
+        sysLog.setRequestUrl(request.getServletPath());
         sysLog.setLocale(request.getLocale().toString());
         sysLog.setIp(request.getRemoteAddr());
 

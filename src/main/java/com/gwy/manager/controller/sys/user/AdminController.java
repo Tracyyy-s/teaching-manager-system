@@ -139,7 +139,6 @@ public class AdminController {
     public ResultVO publishTarget(@RequestBody Map<String, Object> map) {
 
         List<TermTarget> targetList = (List<TermTarget>) map.get("targetList");
-
         return termTargetService.addTermTargets(targetList);
     }
 
