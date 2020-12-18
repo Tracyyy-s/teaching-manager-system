@@ -211,7 +211,7 @@ public class SysLogServiceImpl implements SysLogService {
     private void addLog(HttpServletRequest request, Authentication authentication, Exception ex) {
         SysLog sysLog = new SysLog();
 
-        sysLog.setRequestUrl(request.getServletPath());
+        sysLog.setRequestUrl(request.getRequestURL().toString());
         sysLog.setLocale(request.getLocale().toString());
         sysLog.setIp(request.getRemoteAddr());
 
@@ -221,7 +221,7 @@ public class SysLogServiceImpl implements SysLogService {
         sysLog.setDataExplain(ResponseDataMsg.Success.getExplain());
 
         //判断是否为登录请求
-        if (sysLog.getRequestUrl().equals(PassRequestPaths.LOGIN_REQUEST) && request.getMethod().equals(POST)) {
+        if (sysLog.getRequestUrl().endsWith(PassRequestPaths.LOGIN_REQUEST) && request.getMethod().equals(POST)) {
             sysLog.setType(SysLogType.LoginLog.getType());
             sysLog.setTypeExplain(SysLogType.LoginLog.getTypeExplain());
         } else {
