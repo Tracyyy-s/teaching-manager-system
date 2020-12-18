@@ -112,6 +112,16 @@ public class RootController {
     }
 
     /**
+     * 根据用户id获得用户
+     * @param map   请求体
+     * @return  结果集
+     */
+    @PostMapping("/getUserById")
+    public ResultVO getUserById(@RequestBody Map<String, String> map) {
+        return userService.getUserById(map.get("userId"));
+    }
+
+    /**
      * root用户获得某用户的所有角色
      *
      * @param map 请求体

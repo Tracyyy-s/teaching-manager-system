@@ -71,6 +71,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResultVO getUserById(String userId) {
+
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null) {
+            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        }
+
+        return ResultVOUtil.success(BeanUtil.beanToMap(user));
+    }
+
+    @Override
     public ResultVO getUserMatchNameInDept(String adminNo, String deptId, String name) {
 
         ResultVO resultVO;

@@ -113,4 +113,10 @@ public interface UserService {
      * @return  结果集
      */
     ResultVO updateAvailableDeptIds(String userId, List<String> list);
+
+    /**
+     * 根据用户id获得用户
+     * @return  结果集
+     */
+    ResultVO getUserById(String userId);
 }
