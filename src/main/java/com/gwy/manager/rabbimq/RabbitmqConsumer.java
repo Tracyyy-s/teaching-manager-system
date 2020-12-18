@@ -1,11 +1,15 @@
 package com.gwy.manager.rabbimq;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.config.rabbitmq.RabbitmqConfiguration;
+import com.gwy.manager.elastic.SysLogString;
+import com.gwy.manager.elastic.SysLogStringElasticRepository;
 import com.gwy.manager.entity.SysLog;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.mail.MailUtil;
 import com.gwy.manager.service.impl.SysLogServiceImpl;
+import com.gwy.manager.util.DateUtilCustom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 /**
@@ -63,9 +66,38 @@ public class RabbitmqConsumer {
     public void onLogging(SysLog sysLog) {
         try {
             logService.insertLog(sysLog);
+
+            //创建线程添加至ElasticSearch中
+            new Thread(
+                    new ElasticPushThread(
+                            new SysLogString(sysLog.getId(),
+                                    JSONObject.toJSONStringWithDateFormat(sysLog,
+                                            DateUtilCustom.TIME_PATTERN))
+            )).start();
+
         } catch (Exception e) {
             logger.error("{}", e.getMessage());
             throw new MessageConversionException(ResponseDataMsg.Fail.getMsg());
+        }
+    }
+
+    @Autowired
+    private SysLogStringElasticRepository repository;
+
+    /**
+     * ElasticSearch的推送线程
+     */
+    private class ElasticPushThread implements Runnable {
+
+        SysLogString sysLogString;
+
+        public ElasticPushThread(SysLogString sysLogString) {
+            this.sysLogString = sysLogString;
+        }
+
+        @Override
+        public void run() {
+            repository.save(sysLogString);
         }
     }
 }

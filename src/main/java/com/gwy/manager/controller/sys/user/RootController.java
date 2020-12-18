@@ -3,6 +3,7 @@ package com.gwy.manager.controller.sys.user;
 import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.constant.PageHelperConst;
 import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.elastic.ElasticRepositoryHelper;
 import com.gwy.manager.entity.Role;
 import com.gwy.manager.enums.ResponseDataMsg;
 import com.gwy.manager.enums.SysLogType;
@@ -10,10 +11,13 @@ import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.PageHelperUtil;
 import com.gwy.manager.util.ResultVOUtil;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
@@ -46,6 +50,9 @@ public class RootController {
 
     @Autowired
     private SysLogServiceImpl logService;
+
+    @Autowired
+    private ElasticRepositoryHelper repositoryHelper;
 
     /**
      * root用户获得所有管理员
@@ -349,5 +356,27 @@ public class RootController {
         }
 
         return JSONObject.toJSONStringWithDateFormat(logService.getLogByInterval(beginTime, endTime, type), DateUtilCustom.TIME_PATTERN);
+    }
+
+    /**
+     * 根据关键字获得日志并高亮
+     *
+     * @param map 请求体
+     * @return  结果集
+     */
+    @PostMapping("/getLogByKeyword")
+    public ResultVO getLogByKeyword(@RequestBody Map<String, Object> map) throws IOException {
+
+        PageHelperUtil.pageMsg(map);
+        String keyword = (String) map.get("keyword");
+        int pageNum = (int) map.get(PageHelperConst.PAGE_NUM);
+        int pageSize = (int) map.get(PageHelperConst.PAGE_SIZE);
+
+        List<Map<String, Object>> result = repositoryHelper.searchByKeyword(keyword, pageNum, pageSize);
+        if (CollectionUtils.isEmpty(result)) {
+            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+        }
+
+        return ResultVOUtil.success(result);
     }
 }

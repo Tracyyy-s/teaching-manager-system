@@ -16,7 +16,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="params" property="params" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <insert id="insert" parameterType="com.gwy.manager.entity.SysLog" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.gwy.manager.entity.SysLog" >
     insert into ts_log (user_id, authorities, request_url,
       ip, locale, result_message, 
       data, create_time, params, data_explain,
