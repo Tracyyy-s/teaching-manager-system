@@ -25,6 +25,13 @@ public class CustomizeAccessDeniedHandler implements AccessDeniedHandler {
     @Autowired
     SysLogServiceImpl logService;
 
+    /**
+     * 自定义处理权限拒绝异常
+     * @param request   请求
+     * @param response  返回
+     * @param accessDeniedException 异常实体
+     * @throws IOException  异常
+     */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
 

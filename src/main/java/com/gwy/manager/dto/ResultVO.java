@@ -8,10 +8,19 @@ import com.gwy.manager.enums.ResponseStatus;
  */
 public class ResultVO {
 
+    /**
+     * 结果响应码
+     */
     Integer resultCode;
 
+    /**
+     * 结果信息
+     */
     String message;
 
+    /**
+     * 返回数据
+     */
     Object data;
 
     public ResultVO() {

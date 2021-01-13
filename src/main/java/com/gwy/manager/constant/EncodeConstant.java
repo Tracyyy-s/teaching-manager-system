@@ -6,5 +6,8 @@ package com.gwy.manager.constant;
  */
 public class EncodeConstant {
 
+    /**
+     * 加密的salt值
+     */
     public static final String SALT = "d86d7bab3d6ac01ad9dc6a897652f2d2";
 }

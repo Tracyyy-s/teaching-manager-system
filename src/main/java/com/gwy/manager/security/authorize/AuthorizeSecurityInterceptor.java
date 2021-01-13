@@ -29,6 +29,14 @@ public class AuthorizeSecurityInterceptor extends AbstractSecurityInterceptor im
         super.setAccessDecisionManager(authorizeAccessDecisionManager);
     }
 
+    /**
+     * 自定义重写拦截方法
+     * @param request   请求体
+     * @param response  响应体
+     * @param chain 执行链
+     * @throws IOException  throwable
+     * @throws ServletException throwable
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 

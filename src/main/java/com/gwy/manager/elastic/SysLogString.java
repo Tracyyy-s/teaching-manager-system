@@ -9,8 +9,14 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @Document(indexName = "sys_log", indexStoreType = "log")
 public class SysLogString {
 
+    /**
+     * 日志对应id
+     */
     Integer id;
 
+    /**
+     * 将日志序列化后的JSONString
+     */
     private String content;
 
     public SysLogString() {

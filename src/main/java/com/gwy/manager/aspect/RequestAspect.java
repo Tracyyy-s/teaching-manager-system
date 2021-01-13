@@ -24,6 +24,9 @@ import java.util.Objects;
 @Repository
 public class RequestAspect {
 
+    /**
+     * 定义切点表达式
+     */
     @Pointcut("execution(public * com.gwy.manager.controller..*(..))")
     public void pointcut(){}
 
@@ -33,6 +36,12 @@ public class RequestAspect {
     @Autowired
     private SysLogServiceImpl logService;
 
+    /**
+     * 定义环绕通知切面
+     * @param pjp   连接点
+     * @return  返回值
+     * @throws Throwable    异常
+     */
     @Around(value = "pointcut()")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
 

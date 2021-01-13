@@ -4,15 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.cxytiandi.encrypt.util.AesEncryptUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gwy.manager.constant.EncodeConstant;
-import com.gwy.manager.security.GlobalPasswordEncoder;
 import com.gwy.manager.util.JwtTokenUtils;
 import com.gwy.manager.util.ResultVOUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -21,7 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Tracy
@@ -34,17 +33,26 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
     private static final String LOGIN_ACCOUNT_KEY = "account";
     private static final String LOGIN_PASSWORD_KEY = "password";
 
+    /**
+     * 重写解析username方法
+     * @param request   请求体
+     * @return  结果集
+     */
     @Override
     protected String obtainUsername(HttpServletRequest request) {
         String encodedUsername = this.getBodyParams(request).get(LOGIN_ACCOUNT_KEY);
         try {
-            System.out.println("username " + AesEncryptUtils.aesDecrypt(encodedUsername, EncodeConstant.SALT));
             return AesEncryptUtils.aesDecrypt(encodedUsername, EncodeConstant.SALT);
         } catch (Exception e) {
             return super.obtainUsername(request);
         }
     }
 
+    /**
+     * 重写解析password的方法
+     * @param request   请求体
+     * @return  结果集
+     */
     @Override
     protected String obtainPassword(HttpServletRequest request) {
         String encodedPassword = this.getBodyParams(request).get(LOGIN_PASSWORD_KEY);

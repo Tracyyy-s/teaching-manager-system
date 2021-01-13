@@ -13,14 +13,29 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitmqConfiguration {
 
+    /**
+     * 交换器
+     */
     public static final String   EXCHANGE            =     "exchange.tracy";
 
+    /**
+     * 邮件队列
+     */
     public static final String   QUEUE_MAIL          =     "queue.mail";
 
+    /**
+     * 日志队列
+     */
     public static final String   QUEUE_LOG           =     "queue.log";
 
+    /**
+     * 邮件路由
+     */
     public static final String   ROUTING_KEY_MAIL    =     "queue.mail";
 
+    /**
+     * 日志路由
+     */
     public static final String   ROUTING_KEY_LOG     =     "queue.log";
 
     /**

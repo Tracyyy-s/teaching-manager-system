@@ -25,6 +25,14 @@ public class CustomizeLoginFailureHandler implements AuthenticationFailureHandle
     @Autowired
     private SysLogServiceImpl logService;
 
+    /**
+     * 自定义登录异常
+     * @param request   请求体
+     * @param response  响应体
+     * @param ex    抛出异常
+     * @throws IOException  throwable
+     * @throws ServletException throwable
+     */
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException ex) throws IOException, ServletException {

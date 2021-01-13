@@ -51,9 +51,6 @@ public class ElasticRepositoryHelper {
     private static final String NULL_STRING = "";
 
     @Autowired
-    private ElasticsearchRestTemplate restTemplate;
-
-    @Autowired
     private RestHighLevelClient client;
 
     /**

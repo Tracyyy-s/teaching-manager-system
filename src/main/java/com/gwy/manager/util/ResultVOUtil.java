@@ -9,6 +9,11 @@ import com.gwy.manager.enums.ResponseStatus;
  */
 public class ResultVOUtil {
 
+    /**
+     * 服务器解析错误请求返回
+     * @param object    错误信息
+     * @return  结果集
+     */
     public static ResultVO error(Object object) {
         ResultVO resultVO = new ResultVO();
 
@@ -17,6 +22,11 @@ public class ResultVOUtil {
         return resultVO;
     }
 
+    /**
+     * 服务器处理成功请求
+     * @param object    返回结果
+     * @return  结果集
+     */
     public static ResultVO success(Object object) {
         ResultVO resultVO = new ResultVO();
 

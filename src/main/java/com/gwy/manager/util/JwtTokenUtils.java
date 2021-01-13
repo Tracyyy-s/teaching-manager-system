@@ -12,11 +12,29 @@ import java.util.Date;
  */
 public class JwtTokenUtils {
 
+    /**
+     * Token认证头
+     */
     public static final String TOKEN_HEADER    =      "Authorization";
+
+    /**
+     * Token前缀
+     */
     public static final String TOKEN_PREFIX    =      "Bearer ";
+
+    /**
+     * 错误Token返回
+     */
     public static final String ERROR_TOKEN     =      "ERROR_TOKEN_2flk9fnca";
 
+    /**
+     * Token密钥
+     */
     private static final String SECRET         =      "jwtsecretdemo";
+
+    /**
+     * ISS
+     */
     private static final String ISS            =      "echisan";
 
 

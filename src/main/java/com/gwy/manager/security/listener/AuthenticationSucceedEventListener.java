@@ -22,6 +22,10 @@ public class AuthenticationSucceedEventListener implements ApplicationListener<A
 
     private Logger logger = LoggerFactory.getLogger(AuthenticationSucceedEventListener.class);
 
+    /**
+     * 重写自定义登录成功监听方法
+     * @param event 事件
+     */
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
         String username = ((User) event.getAuthentication().getPrincipal()).getUsername();

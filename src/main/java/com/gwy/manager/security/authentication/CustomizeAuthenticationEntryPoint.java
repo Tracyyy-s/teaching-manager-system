@@ -25,6 +25,14 @@ public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoi
     @Autowired
     SysLogServiceImpl logService;
 
+    /**
+     * 自定义未登录访问异常
+     * @param request   请求体
+     * @param response  响应体
+     * @param authException 权限异常
+     * @throws IOException  throwable
+     * @throws ServletException throwable
+     */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8");

@@ -33,6 +33,14 @@ public class CustomizeLogoutHandler implements LogoutSuccessHandler {
     @Autowired
     private RedisUtil redisUtil;
 
+    /**
+     * 自定义登出处理器
+     * @param request   请求体
+     * @param response  响应体
+     * @param authentication    认证信息
+     * @throws IOException  throwable
+     * @throws ServletException throwable
+     */
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                                 Authentication authentication) throws IOException, ServletException {

@@ -1,8 +1,11 @@
 package com.gwy.manager;
 
+import com.cxytiandi.encrypt.util.AesEncryptUtils;
+import com.gwy.manager.constant.EncodeConstant;
 import com.gwy.manager.entity.Role;
 import com.gwy.manager.mapper.LoginMapper;
 import com.gwy.manager.mapper.PermissionMapper;
+import com.gwy.manager.mapper.SysLogMapper;
 import com.gwy.manager.redis.RedisUtil;
 import com.gwy.manager.service.impl.RoleServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -11,8 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Tracy
@@ -62,10 +64,20 @@ public class ContextTest {
     private StringRedisTemplate redisTemplate;
 
     @Autowired
-    private LoginMapper loginMapper;
+    private SysLogMapper logMapper;
+
     //@Test
-    void test04() {
-        String s = loginMapper.selectUserPasswordFromAll(" ");
+    void test04() throws Exception {
+        List<Map<Date, Integer>> maps = logMapper.selectLogsInfo();
+        for (Map<Date, Integer> map : maps) {
+            System.out.println(map);
+        }
+    }
+
+    @Test
+    void test05() throws Exception {
+
+        String s = AesEncryptUtils.aesEncrypt("Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJlY2hpc2FuIiwic3ViIjoiMTAwMDAiLCJpYXQiOjE2MDgyMTY1NTYsImV4cCI6MTYwODI0NTM1Nn0.iF4H80eWwny8O0KLI5sQksDLOQY7jwvTPhypwwiBUN18eXPUOp7lHlVzXpBPHvcucCuv0NFXBjRfFfMXV7x2VQ", EncodeConstant.SALT);
         System.out.println(s);
     }
 }

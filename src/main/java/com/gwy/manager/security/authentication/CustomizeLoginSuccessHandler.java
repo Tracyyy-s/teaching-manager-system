@@ -24,6 +24,14 @@ public class CustomizeLoginSuccessHandler implements AuthenticationSuccessHandle
     @Autowired
     private SysLogServiceImpl logService;
 
+    /**
+     * 自定义登录成功处理器
+     * @param request   请求体
+     * @param response  响应体
+     * @param authentication    认证信息
+     * @throws IOException  抛出异常
+     * @throws ServletException 异常体
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {

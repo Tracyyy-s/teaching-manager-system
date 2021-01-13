@@ -14,31 +14,55 @@ import java.util.List;
 @Configuration
 public class KeyGeneratorConfiguration {
 
+    /**
+     * 所有学期
+     * @return  key
+     */
     @Bean("allTerms")
     public KeyGenerator termsKey() {
         return (target, method, params) -> "all";
     }
 
+    /**
+     * 学生评价列表
+     * @return  key
+     */
     @Bean("studentTermTargets")
     public KeyGenerator studentTermTargetKey() {
         return (target, method, params) -> "student:" + params[0];
     }
 
+    /**
+     * 教师学期评价列表
+     * @return  key
+     */
     @Bean("teacherTermTargets")
     public KeyGenerator teacherTermTargetKey() {
         return (target, method, params) -> "teacher:" + params[0];
     }
 
+    /**
+     * 当前学期
+     * @return  key
+     */
     @Bean("currentTerm")
     public KeyGenerator currentTermKey() {
         return (target, method, params) -> "currentTerm";
     }
 
+    /**
+     * 用户角色id
+     * @return  key
+     */
     @Bean("userRoleIds")
     public KeyGenerator userRoleIds() {
         return (target, method, params) -> "'" + params[0] + "'" + "roleIds";
     }
 
+    /**
+     * 用户角色列表
+     * @return  key
+     */
     @Bean("userRoles")
     public KeyGenerator userRoles() {
          return (target, method, params) -> {
@@ -59,6 +83,10 @@ public class KeyGeneratorConfiguration {
         };
     }
 
+    /**
+     * 返回相应得roleId
+     * @return  角色id
+     */
     @Bean("byRoleId")
     public KeyGenerator permissionsByRoleId() {
         return (target, method, params) -> "roleIds::" + params[0];

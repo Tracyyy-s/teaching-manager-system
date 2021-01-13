@@ -21,9 +21,17 @@ public class RequestParamValidateAspect {
 
     private Logger logger = LoggerFactory.getLogger(RequestParamValidateAspect.class);
 
+    /**
+     * 定义切入点表达式
+     */
     @Pointcut("execution(public com.gwy.manager.dto.ResultVO com.gwy.manager.service.impl.*.*(..))")
     public void pointcut(){}
 
+    /**
+     * 环绕通知检验参数合法性
+     * @param pjp   连接点
+     * @return  结果集
+     */
     @Around(value = "pointcut()")
     public Object doAround(ProceedingJoinPoint pjp) {
 

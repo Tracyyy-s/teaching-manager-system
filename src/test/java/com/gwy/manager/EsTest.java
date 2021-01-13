@@ -21,35 +21,35 @@ import java.io.IOException;
 @SpringBootTest
 public class EsTest {
 
-    //@Autowired
-    private ElasticsearchRestTemplate restTemplate;
-
-    //@Autowired
-    private RestHighLevelClient client;
-
-    //@Test
-    void test01() throws IOException {
-        CreateIndexRequest request = new CreateIndexRequest("tracy_index");
-        CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
-
-        System.out.println(response);
-    }
-
-    //@Test
-    void test02() throws IOException {
-
-        GetIndexRequest request = new GetIndexRequest();
-        request.indices("tracy_index");
-        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
-        System.out.println(exists);
-    }
-
-    //@Test
-    void test03() throws IOException {
-
-        DeleteIndexRequest request = new DeleteIndexRequest("tracy_index");
-        AcknowledgedResponse delete = client.indices().delete(request, RequestOptions.DEFAULT);
-
-        System.out.println(delete.isAcknowledged());
-    }
+//    //@Autowired
+//    private ElasticsearchRestTemplate restTemplate;
+//
+//    //@Autowired
+//    private RestHighLevelClient client;
+//
+//    //@Test
+//    void test01() throws IOException {
+//        CreateIndexRequest request = new CreateIndexRequest("tracy_index");
+//        CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
+//
+//        System.out.println(response);
+//    }
+//
+//    //@Test
+//    void test02() throws IOException {
+//
+//        GetIndexRequest request = new GetIndexRequest();
+//        request.indices("tracy_index");
+//        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
+//        System.out.println(exists);
+//    }
+//
+//    //@Test
+//    void test03() throws IOException {
+//
+//        DeleteIndexRequest request = new DeleteIndexRequest("tracy_index");
+//        AcknowledgedResponse delete = client.indices().delete(request, RequestOptions.DEFAULT);
+//
+//        System.out.println(delete.isAcknowledged());
+//    }
 }

@@ -20,13 +20,21 @@ public class AuthenticationFailureEventListener implements ApplicationListener<A
 
     private Logger logger = LoggerFactory.getLogger(AuthenticationFailureEventListener.class);
 
+    /**
+     * 自定义登录失败监听方法
+     * @param event 事件
+     */
     @Override
     public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
 
         Authentication authentication = event.getAuthentication();
 
+        System.out.println(authentication);
         if (authentication != null) {
-            String username = authentication.getPrincipal().toString();
+            String username = "";
+            if (authentication.getPrincipal() != null) {
+                username = authentication.getPrincipal().toString();
+            }
 
             String ip = ((WebAuthenticationDetails) authentication.getDetails()).getRemoteAddress();
 

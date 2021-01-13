@@ -14,12 +14,22 @@ import java.util.Map;
  */
 public class PageHelperUtil {
 
+    /**
+     * 处理分页信息
+     * @param map   请求体
+     */
     public static void pageMsg(Map<String, Object> map) {
 
         map.putIfAbsent(PageHelperConst.PAGE_NUM, 1);
         map.putIfAbsent(PageHelperConst.PAGE_SIZE, 10);
     }
 
+    /**
+     * 将分页信息转化为Map
+     * @param info  PageInfo
+     * @param <T>   泛型
+     * @return  结果集
+     */
     public static <T> Map<String, Object> pageInfoToMap(PageInfo<T> info) {
 
         Map<String, Object> map = new LinkedHashMap<>();
@@ -33,6 +43,7 @@ public class PageHelperUtil {
         map.put(PageHelperConst.HAS_PRE_PAGE, info.isHasPreviousPage());
         map.put(PageHelperConst.TOTAL, info.getTotal());
 
+        //若传入已经是map类型
         if (info.getList().get(0) instanceof Map) {
             map.put(PageHelperConst.LIST, info.getList());
         } else {

@@ -46,6 +46,10 @@ public class MailUtil {
         mailSender.send(mimeMessage);
     }
 
+    /**
+     * 定义邮件结果前缀
+     * @return  prefix
+     */
     public String getPrefix() {
         return "<head>\n" +
                     "    <base target=\"_blank\" />\n" +
@@ -79,6 +83,10 @@ public class MailUtil {
                     "                        您正在进行<span style=\"color: red\">修改密码</span>操作，请于<span style=\"color: red\">5分钟</span>之内在验证码输入框中输入：<span style=\"color:#f60;font-size: 24px\">";
     }
 
+    /**
+     * 定义邮件返回后缀
+     * @return  suffix
+     */
     public String getSuffix() {
         return "</span>，以完成操作。\n" +
                     "                    </strong>\n" +
