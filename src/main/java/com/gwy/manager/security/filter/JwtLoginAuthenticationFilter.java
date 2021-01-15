@@ -42,8 +42,7 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
     protected String obtainUsername(HttpServletRequest request) {
         String encodedUsername = this.getBodyParams(request).get(LOGIN_ACCOUNT_KEY);
         try {
-//            return AesEncryptUtils.aesDecrypt(encodedUsername, EncodeConstant.SALT);
-            return encodedUsername;
+            return AesEncryptUtils.aesDecrypt(encodedUsername, EncodeConstant.SALT);
         } catch (Exception e) {
             return super.obtainUsername(request);
         }
@@ -58,8 +57,7 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
     protected String obtainPassword(HttpServletRequest request) {
         String encodedPassword = this.getBodyParams(request).get(LOGIN_PASSWORD_KEY);
         try {
-//            return AesEncryptUtils.aesDecrypt(encodedPassword, EncodeConstant.SALT);
-            return encodedPassword;
+            return AesEncryptUtils.aesDecrypt(encodedPassword, EncodeConstant.SALT);
         } catch (Exception e) {
             return super.obtainUsername(request);
         }

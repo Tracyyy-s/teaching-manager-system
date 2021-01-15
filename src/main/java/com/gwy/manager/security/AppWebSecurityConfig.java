@@ -68,8 +68,8 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 定义哪些URL需要被保护、哪些不需要被保护
                 //不需要保护的URL
-//                .authorizeRequests().antMatchers(PassRequestPaths.ROOT_REQUEST, PassRequestPaths.LOGIN_REQUEST, PassRequestPaths.SEND_CODE_REQUEST, PassRequestPaths.UPDATE_PASSWORD_REQUEST).permitAll()
-                .authorizeRequests().antMatchers("/**").permitAll()
+                .authorizeRequests().antMatchers(PassRequestPaths.ROOT_REQUEST, PassRequestPaths.LOGIN_REQUEST, PassRequestPaths.SEND_CODE_REQUEST, PassRequestPaths.UPDATE_PASSWORD_REQUEST).permitAll()
+                //.authorizeRequests().antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().permitAll() // 登出
