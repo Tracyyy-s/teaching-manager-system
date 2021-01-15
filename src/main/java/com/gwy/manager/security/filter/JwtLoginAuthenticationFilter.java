@@ -90,6 +90,8 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
         // 按照jwt的规定，最后请求的格式应该是 `Bearer token`
         String authToken = JwtTokenUtils.TOKEN_PREFIX + token;
 
+        /*
+
         //将token进行加密
         String encodedToken;
         try {
@@ -100,7 +102,9 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
             return;
         }
 
-        response.setHeader(JwtTokenUtils.TOKEN_HEADER, encodedToken);
+         */
+
+        response.setHeader(JwtTokenUtils.TOKEN_HEADER, authToken);
     }
 
     /**
