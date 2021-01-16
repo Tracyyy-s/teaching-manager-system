@@ -1,6 +1,6 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.entity.StudentClass;
+import com.gwy.manager.domain.entity.StudentClass;
 
 import java.util.List;
 

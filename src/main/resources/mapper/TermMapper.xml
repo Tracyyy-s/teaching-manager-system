@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.TermMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Term" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.Term" >
     <id column="term_id" property="termId" jdbcType="VARCHAR" />
     <result column="term_name" property="termName" jdbcType="VARCHAR" />
     <result column="begin_date" property="beginDate" jdbcType="DATE" />
@@ -13,13 +13,13 @@
     delete from ts_term
     where term_id = #{termId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.Term" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.Term" >
     insert into ts_term (term_id, term_name, begin_date,
       end_date)
     values (#{termId,jdbcType=VARCHAR}, #{termName,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE},
       #{endDate,jdbcType=DATE})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Term" >
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.domain.entity.Term" >
     update ts_term
     <set>
         <if test="termName != null and termName != ''">

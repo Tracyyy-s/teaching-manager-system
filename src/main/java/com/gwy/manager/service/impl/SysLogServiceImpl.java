@@ -3,19 +3,19 @@ package com.gwy.manager.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.gwy.manager.constant.PassRequestPaths;
-import com.gwy.manager.constant.RoleName;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.SysLog;
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.enums.ResponseStatus;
-import com.gwy.manager.enums.SysLogType;
+import com.gwy.manager.domain.constant.PassRequestPaths;
+import com.gwy.manager.domain.constant.RoleName;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.SysLog;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
+import com.gwy.manager.domain.enums.ResponseStatus;
+import com.gwy.manager.domain.enums.SysLogType;
 import com.gwy.manager.mapper.SysLogMapper;
 import com.gwy.manager.rabbimq.RabbitmqProducer;
 import com.gwy.manager.service.SysLogService;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.PageHelperUtil;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -50,7 +50,7 @@ public class SysLogServiceImpl implements SysLogService {
      * @param resultVO  请求返回结果
      */
     @Override
-    public void recordLog(HttpServletRequest request, Object[] args, ResultVO resultVO) {
+    public void recordLog(HttpServletRequest request, Object[] args, ResultVo resultVO) {
         SysLog sysLog = new SysLog();
 
         String url = request.getRequestURL().toString();
@@ -115,73 +115,73 @@ public class SysLogServiceImpl implements SysLogService {
     }
 
     @Override
-    public ResultVO getLogTypeAndCount() {
+    public ResultVo getLogTypeAndCount() {
 
         List<Map<String, Object>> types = sysLogMapper.selectDataExplainAndCount();
         if (CollectionUtils.isEmpty(types)) {
-            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            return ResultVOUtil.success(types);
+            return ResultVoUtil.success(types);
         }
     }
 
     @Override
-    public ResultVO getLogInfoByType(String type, int pageNum, int pageSize) {
+    public ResultVo getLogInfoByType(String type, int pageNum, int pageSize) {
 
         PageHelper.startPage(pageNum, pageSize);
 
         List<SysLog> sysLogs = sysLogMapper.selectByType(type);
         if (CollectionUtils.isEmpty(sysLogs)) {
-            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            return ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(sysLogs)));
+            return ResultVoUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(sysLogs)));
         }
 
     }
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public ResultVO deleteByBatch(List<Integer> ids) {
+    public ResultVo deleteByBatch(List<Integer> ids) {
 
         int i = sysLogMapper.deleteByPrimaryKeys(ids);
         if (i != ids.size()) {
-            return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
         }
 
-        return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+        return ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
     }
 
     @Override
-    public ResultVO getLogByInterval(Date beginTime, Date endTime, String type) {
+    public ResultVo getLogByInterval(Date beginTime, Date endTime, String type) {
 
         List<SysLog> sysLogs = sysLogMapper.selectByInterval(beginTime, endTime, type);
         if (CollectionUtils.isEmpty(sysLogs)) {
-            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         }
 
-        return ResultVOUtil.success(sysLogs);
+        return ResultVoUtil.success(sysLogs);
     }
 
     @Override
-    public ResultVO getLogs(int pageNum, int pageSize) {
+    public ResultVo getLogs(int pageNum, int pageSize) {
 
         List<SysLog> sysLogs = sysLogMapper.selectAll();
         if (CollectionUtils.isEmpty(sysLogs)) {
-            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            return ResultVOUtil.success(sysLogs);
+            return ResultVoUtil.success(sysLogs);
         }
     }
 
     @Override
-    public ResultVO getLogsInfo() {
+    public ResultVo getLogsInfo() {
 
         List<Map<Date, Integer>> maps = sysLogMapper.selectLogsInfo();
         if (CollectionUtils.isEmpty(maps)) {
-            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         }
 
-        return ResultVOUtil.success(sysLogMapper.selectLogsInfo());
+        return ResultVoUtil.success(sysLogMapper.selectLogsInfo());
     }
 
     /**

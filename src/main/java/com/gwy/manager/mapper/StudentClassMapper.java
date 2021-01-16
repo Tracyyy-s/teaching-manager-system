@@ -1,6 +1,6 @@
 package com.gwy.manager.mapper;
 
-import com.gwy.manager.entity.StudentClass;
+import com.gwy.manager.domain.entity.StudentClass;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,11 +1,11 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Course;
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Course;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.CourseMapper;
 import com.gwy.manager.service.CourseService;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,15 +38,15 @@ public class CourserServiceImpl implements CourseService {
     }
 
     @Override
-    public ResultVO getCoursesOfTeacher(String teacherNo) {
+    public ResultVo getCoursesOfTeacher(String teacherNo) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         List<Course> coursesOfTeacher = courseMapper.getCoursesOfTeacher(teacherNo);
         if (CollectionUtils.isEmpty(coursesOfTeacher)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(coursesOfTeacher);
+            resultVO = ResultVoUtil.success(coursesOfTeacher);
         }
 
         return resultVO;

@@ -1,10 +1,10 @@
 package com.gwy.manager.security.authentication;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
 import com.gwy.manager.security.exception.GlobalAuthorizeException;
 import com.gwy.manager.service.impl.SysLogServiceImpl;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -39,6 +39,6 @@ public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoi
 
         logService.addLog(request, new GlobalAuthorizeException(ResponseDataMsg.NotLogin.name()));
 
-        response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error(ResponseDataMsg.NotLogin.getMsg())));
+        response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.error(ResponseDataMsg.NotLogin.getMsg())));
     }
 }

@@ -2,14 +2,14 @@ package com.gwy.manager.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.gwy.manager.constant.RoleName;
-import com.gwy.manager.entity.User;
-import com.gwy.manager.entity.UserRole;
-import com.gwy.manager.enums.ResponseStatus;
-import com.gwy.manager.enums.UserOption;
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Student;
+import com.gwy.manager.domain.constant.RoleName;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.User;
+import com.gwy.manager.domain.entity.UserRole;
+import com.gwy.manager.domain.enums.ResponseStatus;
+import com.gwy.manager.domain.enums.UserOption;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
+import com.gwy.manager.domain.entity.Student;
 import com.gwy.manager.mapper.*;
 import com.gwy.manager.service.StudentService;
 import com.gwy.manager.util.*;
@@ -42,7 +42,7 @@ public class StudentServiceImpl implements StudentService {
     private UserRoleMapper userRoleMapper;
 
     @Autowired
-    private VRCodeUtil vrCodeUtil;
+    private VrCodeServiceImpl vrCodeServiceImpl;
 
     @Autowired
     private ImportExcelFileUtil importExcelFileUtil;
@@ -60,35 +60,35 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResultVO getStudentInfo(String studentNo) {
+    public ResultVo getStudentInfo(String studentNo) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         Student student = this.getStudent(studentNo);
         if (student == null) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(BeanUtil.beanToMap(student));
+            resultVO = ResultVoUtil.success(BeanUtil.beanToMap(student));
         }
 
         return resultVO;
     }
 
     @Override
-    public ResultVO getStudentInfoByAdmin(String adminNo, String studentNo) {
-        ResultVO resultVO;
+    public ResultVo getStudentInfoByAdmin(String adminNo, String studentNo) {
+        ResultVo resultVO;
 
         Student student = this.getStudent(studentNo);
         if (student == null) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
             //获得管理员角色用户
             User adminUser = userMapper.selectByPrimaryKey(adminNo);
             //若学生学院不在管理员可管理学院内
             if (adminUser == null || !adminUser.getAvailableDeptIds().contains(student.getDeptId())) {
-                resultVO = ResultVOUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
+                resultVO = ResultVoUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
             } else {
-                resultVO = ResultVOUtil.success(BeanUtil.beanToMap(student));
+                resultVO = ResultVoUtil.success(BeanUtil.beanToMap(student));
             }
         }
 
@@ -97,21 +97,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public ResultVO updatePassword(String studentNo, String password, String vrCode) {
+    public ResultVo updatePassword(String studentNo, String password, String vrCode) {
 
-        return vrCodeUtil.updatePasswordByCode(UserOption.STUDENT.getUserType(), studentNo, password, vrCode);
+        return vrCodeServiceImpl.updatePasswordByCode(UserOption.STUDENT.getUserType(), studentNo, password, vrCode);
     }
 
     @Override
-    public ResultVO updateStudent(Student student) {
+    public ResultVo updateStudent(Student student) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         int i = studentMapper.updateByPrimaryKey(student);
         if (i == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+            resultVO = ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -119,8 +119,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public ResultVO sendCode(String studentNo) {
-        return vrCodeUtil.sendCode(studentNo, RoleName.STUDENT);
+    public ResultVo sendCode(String studentNo) {
+        return vrCodeServiceImpl.sendCode(studentNo, RoleName.STUDENT);
     }
 
     @Override
@@ -129,64 +129,64 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResultVO getStudentsByDept(int pageNum, int pageSize, String deptId) {
+    public ResultVo getStudentsByDept(int pageNum, int pageSize, String deptId) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         PageHelper.startPage(pageNum, pageSize);
         List<Student> students = studentMapper.selectStudentsByDept(deptId);
         if (CollectionUtils.isEmpty(students)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(students)));
+            resultVO = ResultVoUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(students)));
         }
         return resultVO;
     }
 
     @Override
-    public ResultVO getStudentByClass(String classId) {
-        ResultVO resultVO;
+    public ResultVo getStudentByClass(String classId) {
+        ResultVo resultVO;
 
         List<Student> students = studentMapper.selectStudentsByClass(classId);
         if (students.size() == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(BeanUtil.beansToList(students));
+            resultVO = ResultVoUtil.success(BeanUtil.beansToList(students));
         }
         return resultVO;
     }
 
     @Override
-    public ResultVO getStudentsMatchName(String adminNo, String deptId, String name) {
+    public ResultVo getStudentsMatchName(String adminNo, String deptId, String name) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         User adminUser = userMapper.selectByPrimaryKey(adminNo);
         if (adminUser == null || !adminUser.getAvailableDeptIds().contains(deptId)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.PermissionDeny.getMsg());
             return resultVO;
         }
 
         List<Student> students = studentMapper.selectStudentsMatchName(deptId, name);
         if (CollectionUtils.isEmpty(students)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(BeanUtil.beansToList(students));
+            resultVO = ResultVoUtil.success(BeanUtil.beansToList(students));
         }
 
         return resultVO;
     }
 
     @Override
-    public ResultVO getAllStudents(int pageNum, int pageSize) {
-        ResultVO resultVO;
+    public ResultVo getAllStudents(int pageNum, int pageSize) {
+        ResultVo resultVO;
 
         PageHelper.startPage(pageNum, pageSize);
         List<Student> students = studentMapper.selectAll();
         if (CollectionUtils.isEmpty(students)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(students)));
+            resultVO = ResultVoUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(students)));
         }
 
         return resultVO;
@@ -194,9 +194,9 @@ public class StudentServiceImpl implements StudentService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public ResultVO importStudentsByFile(String deptId, String headerType, MultipartFile file) {
+    public ResultVo importStudentsByFile(String deptId, String headerType, MultipartFile file) {
 
-        ResultVO resultVO = importExcelFileUtil.importBeansByFile(deptId, headerType, file);
+        ResultVo resultVO = importExcelFileUtil.importBeansByFile(deptId, headerType, file);
 
         if (resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
             Map<String, Object> map = (Map<String, Object>) resultVO.getData();
@@ -225,13 +225,13 @@ public class StudentServiceImpl implements StudentService {
                 i = studentMapper.insertStudentBatch(students);
                 j = userRoleMapper.insertByBatch(userRoles);
             } catch (Exception e) {
-                resultVO = ResultVOUtil.error("Exception in Executing");
+                resultVO = ResultVoUtil.error("Exception in Executing");
                 return resultVO;
             }
             if (i == 0 || j == 0) {
-                resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+                resultVO = ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
             } else {
-                resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+                resultVO = ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
             }
         }
 

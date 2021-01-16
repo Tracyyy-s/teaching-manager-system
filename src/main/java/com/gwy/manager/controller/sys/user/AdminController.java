@@ -3,16 +3,16 @@ package com.gwy.manager.controller.sys.user;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.gwy.manager.constant.ExcelConstants;
-import com.gwy.manager.constant.PageHelperConst;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Student;
-import com.gwy.manager.entity.Target;
-import com.gwy.manager.entity.TermTarget;
+import com.gwy.manager.domain.constant.ExcelConstants;
+import com.gwy.manager.domain.constant.PageHelperConst;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Student;
+import com.gwy.manager.domain.entity.Target;
+import com.gwy.manager.domain.entity.TermTarget;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.PageHelperUtil;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +64,7 @@ public class AdminController {
      * @return  返回结果集
      */
     @PostMapping("/getTargets")
-    public ResultVO getTargets(@RequestBody Map<String, String> map) {
+    public ResultVo getTargets(@RequestBody Map<String, String> map) {
 
         String userType = map.get("userType");
         return targetService.getTargets(userType);
@@ -76,7 +76,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/addTarget")
-    public ResultVO addStudentTarget(@RequestBody Map<String, String> map) {
+    public ResultVo addStudentTarget(@RequestBody Map<String, String> map) {
 
         String targetType = map.get("targetType");
         String weight = map.get("weight");
@@ -88,7 +88,7 @@ public class AdminController {
             intTargetType = Integer.parseInt(targetType);
             intWeight = Integer.parseInt(weight);
         } catch (NumberFormatException e) {
-            return ResultVOUtil.error("NumberFormatException");
+            return ResultVoUtil.error("NumberFormatException");
         }
 
         Target target = new Target();
@@ -106,7 +106,7 @@ public class AdminController {
      * @return  返回结果集
      */
     @PostMapping("/updateTarget")
-    public ResultVO updateTarget(@RequestBody Target target) {
+    public ResultVo updateTarget(@RequestBody Target target) {
         return targetService.updateTarget(target);
     }
 
@@ -116,14 +116,14 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/deleteTarget")
-    public ResultVO deleteTarget(@RequestBody Map<String, String> map) {
+    public ResultVo deleteTarget(@RequestBody Map<String, String> map) {
 
         String targetId = map.get("targetId");
         int intTargetId;
         try {
             intTargetId = Integer.parseInt(targetId);
         } catch (NumberFormatException e) {
-            return ResultVOUtil.error("NumberFormatException");
+            return ResultVoUtil.error("NumberFormatException");
         }
 
         return targetService.deleteTarget(intTargetId);
@@ -136,7 +136,7 @@ public class AdminController {
      */
     @PostMapping("/publishTargets")
     @SuppressWarnings("unchecked")
-    public ResultVO publishTarget(@RequestBody Map<String, Object> map) {
+    public ResultVo publishTarget(@RequestBody Map<String, Object> map) {
 
         List<TermTarget> targetList = (List<TermTarget>) map.get("targetList");
         return termTargetService.addTermTargets(targetList);
@@ -232,7 +232,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/updateStudentInfo")
-    public ResultVO updateStudentInfo(@RequestBody Student student) {
+    public ResultVo updateStudentInfo(@RequestBody Student student) {
 
         return studentService.updateStudent(student);
     }
@@ -243,7 +243,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getCoursesOfTeacher")
-    public ResultVO getCoursesOfTeacher(@RequestBody Map<String, String> map) {
+    public ResultVo getCoursesOfTeacher(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
         return courserService.getCoursesOfTeacher(userId);
@@ -255,7 +255,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("getDeptsOfUser")
-    public ResultVO getDeptsOfUsr(@RequestBody Map<String, String> map) {
+    public ResultVo getDeptsOfUsr(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
         return userService.getDeptIdsOfUser(userId);
@@ -267,7 +267,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getCoursesOfDeptInTerm")
-    public ResultVO getCoursesOfDeptInTerm(@RequestBody Map<String, String> map) {
+    public ResultVo getCoursesOfDeptInTerm(@RequestBody Map<String, String> map) {
 
         String deptId = map.get("deptId");
         String termId = map.get("termId");
@@ -280,7 +280,7 @@ public class AdminController {
      * @return  结果集
      */
     @PostMapping("/getStudentAssessesByTcId")
-    public ResultVO getStudentAssesses(@RequestBody Map<String, String> map) {
+    public ResultVo getStudentAssesses(@RequestBody Map<String, String> map) {
 
         String tcId = map.get("tcId");
         return studentAssessService.getStudentAssessesByTcId(tcId);
@@ -293,7 +293,7 @@ public class AdminController {
      */
     @PostMapping("/getAssessResult")
     @SuppressWarnings("unchecked")
-    public ResultVO getAssessOfDeptInTerm(@RequestBody Map<String, Object> map) {
+    public ResultVo getAssessOfDeptInTerm(@RequestBody Map<String, Object> map) {
 
         PageHelperUtil.pageMsg(map);
         String deptId = ((String) map.get("deptId"));
@@ -323,7 +323,7 @@ public class AdminController {
             }
         }
 
-        return ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(tScores)));
+        return ResultVoUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(tScores)));
     }
 
     /**

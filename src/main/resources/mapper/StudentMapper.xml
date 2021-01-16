@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.StudentMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Student" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.Student" >
     <id column="student_no" property="studentNo" jdbcType="VARCHAR" />
     <result column="student_name" property="studentName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -17,7 +17,7 @@
     delete from ts_student
     where student_no = #{studentNo,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.Student" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.Student" >
     insert into ts_student (student_no, student_name, password,
       gender, birth, email, class_id,
       political, dept_id, entry_year
@@ -27,7 +27,7 @@
       #{political,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{entryYear,jdbcType=VARCHAR}
     )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Student" >
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.domain.entity.Student" >
     update ts_student
     <set>
         <if test="studentName != null and studentName != ''">

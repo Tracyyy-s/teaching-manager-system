@@ -1,7 +1,7 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.TeacherCourse;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.TeacherCourse;
 
 import java.util.List;
 
@@ -39,14 +39,14 @@ public interface TeacherCourseService {
      * @param termId    学期号
      * @return  返回结果
      */
-    ResultVO getCoursesByStudentAndTerm(String studentNo, String termId);
+    ResultVo getCoursesByStudentAndTerm(String studentNo, String termId);
 
     /**
      * 获得某教师某学期的课程
      * @param teacherNo 教师号
      * @return  返回结果
      */
-    ResultVO getCoursesByTeacherAndTerm(String teacherNo);
+    ResultVo getCoursesByTeacherAndTerm(String teacherNo);
 
     /**
      * 获得某学院某学期开设的所有课程
@@ -54,6 +54,6 @@ public interface TeacherCourseService {
      * @param termId    学期id
      * @return  结果集
      */
-    ResultVO getCoursesByDeptAndTerm(String deptId, String termId);
+    ResultVo getCoursesByDeptAndTerm(String deptId, String termId);
 
 }

@@ -1,11 +1,9 @@
 package com.gwy.manager.security.filter;
 
-import com.alibaba.fastjson.JSONObject;
 import com.cxytiandi.encrypt.util.AesEncryptUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gwy.manager.constant.EncodeConstant;
+import com.gwy.manager.domain.constant.EncodeConstant;
 import com.gwy.manager.util.JwtTokenUtils;
-import com.gwy.manager.util.ResultVOUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -98,7 +96,7 @@ public class JwtLoginAuthenticationFilter extends UsernamePasswordAuthentication
             encodedToken = AesEncryptUtils.aesEncrypt(authToken, EncodeConstant.SALT);
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("Encode Token Error")));
+            response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.error("Encode Token Error")));
             return;
         }
 

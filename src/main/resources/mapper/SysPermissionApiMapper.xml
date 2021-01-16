@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.SysPermissionApiMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.SysPermissionApi" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.SysPermissionApi" >
     <id column="permission_id" property="permissionId" jdbcType="INTEGER" />
     <id column="api" property="api" jdbcType="VARCHAR" />
   </resultMap>
@@ -10,7 +10,7 @@
     where permission_id = #{permissionId,jdbcType=INTEGER}
       and api = #{api,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.SysPermissionApi" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.SysPermissionApi" >
     insert into ts_permission_api (permission_id, api)
     values (#{permissionId,jdbcType=INTEGER}, #{api,jdbcType=VARCHAR})
   </insert>

@@ -1,7 +1,7 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Dept;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Dept;
 
 /**
  * @author Tracy
@@ -28,7 +28,7 @@ public interface DeptService {
      * @param deptId 学院id
      * @return  结果集
      */
-    ResultVO getDeptById(String deptId);
+    ResultVo getDeptById(String deptId);
 
     /**
      * 通过学院名获取学院
@@ -41,5 +41,5 @@ public interface DeptService {
      * 获得所有学院
      * @return  结果集
      */
-    ResultVO getAllDepts();
+    ResultVo getAllDepts();
 }

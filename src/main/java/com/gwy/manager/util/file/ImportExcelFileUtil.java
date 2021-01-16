@@ -1,17 +1,18 @@
 package com.gwy.manager.util.file;
 
-import com.gwy.manager.constant.ExcelConstants;
-import com.gwy.manager.dto.ExcelSheetPO;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Dept;
-import com.gwy.manager.entity.Student;
-import com.gwy.manager.entity.User;
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.enums.ResponseStatus;
-import com.gwy.manager.enums.UserOption;
+import com.gwy.manager.domain.constant.ExcelConstants;
+import com.gwy.manager.domain.dto.ExcelSheetPo;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Dept;
+import com.gwy.manager.domain.entity.Student;
+import com.gwy.manager.domain.entity.User;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
+import com.gwy.manager.domain.enums.ResponseStatus;
+import com.gwy.manager.domain.enums.UserOption;
 import com.gwy.manager.mapper.DeptMapper;
+import com.gwy.manager.security.GlobalPasswordEncoder;
 import com.gwy.manager.util.DateUtilCustom;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class ImportExcelFileUtil {
 
     @Autowired
     private DeptMapper deptMapper;
+
+    @Autowired
+    private static GlobalPasswordEncoder passwordEncoder;
 
     /**
      * 根据传递来的标题头和对象类型检测是否合法
@@ -251,7 +255,7 @@ public class ImportExcelFileUtil {
         }
 
         //设置密码
-        objMap.put("password", ExcelConstants.PASSWORD_ENCODER.encode(obj.get(3).toString()));
+        objMap.put("password", passwordEncoder.encode(obj.get(3).toString()));
 
         boolean matches = Pattern.matches(ExcelConstants.EMAIL_REGEX, obj.get(4).toString());
 
@@ -276,9 +280,9 @@ public class ImportExcelFileUtil {
      * @param file       传入文件
      * @return 结果集
      */
-    public ResultVO importBeansByFile(String deptId, String headerType, MultipartFile file) {
+    public ResultVo importBeansByFile(String deptId, String headerType, MultipartFile file) {
 
-        List<ExcelSheetPO> pos = new ArrayList<>();
+        List<ExcelSheetPo> pos = new ArrayList<>();
 
         try {
             //将MultipartFile转化为File
@@ -303,7 +307,7 @@ public class ImportExcelFileUtil {
         Dept dept;
 
         //遍历所有页
-        for (ExcelSheetPO po : pos) {
+        for (ExcelSheetPo po : pos) {
 
             if (po.getTitle() != null && po.getTitle().equals(ExcelConstants.INVALID_HEADERS)) {
 
@@ -311,7 +315,7 @@ public class ImportExcelFileUtil {
                 titleMap.put("Failure", "表格标题不匹配");
                 titleMap.put("Expected", ImportExcelFileUtil.getValidHeaders(headerType));
 
-                return ResultVOUtil.error(titleMap);
+                return ResultVoUtil.error(titleMap);
             }
 
             dept = deptMapper.selectByPrimaryKey(deptId);
@@ -332,13 +336,13 @@ public class ImportExcelFileUtil {
 
                 //如果数据识别错误
                 if (thisData != null && thisData.get("msg").equals(ResponseDataMsg.Fail.getMsg())) {
-                    return ResultVOUtil.error(thisData.get("data"));
+                    return ResultVoUtil.error(thisData.get("data"));
                 } else if (thisData != null && thisData.get("msg").equals(ResponseDataMsg.Success.getMsg())) {
 
                     Object objBean = thisData.get("data");
 
                     //将bean对象加入本页面的list
-                    ResultVO resultVO = this.sheetListAddBean(data, headerType, objBean, dept);
+                    ResultVo resultVO = this.sheetListAddBean(data, headerType, objBean, dept);
 
                     //如果添加错误
                     if (!resultVO.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
@@ -354,7 +358,7 @@ public class ImportExcelFileUtil {
             map.put(po.getSheetName(), thisSheet);
         }
 
-        return ResultVOUtil.success(map);
+        return ResultVoUtil.success(map);
     }
 
     /**
@@ -366,7 +370,7 @@ public class ImportExcelFileUtil {
      * @param dept       系别
      * @return 结果集
      */
-    private ResultVO sheetListAddBean(List<Object> list,
+    private ResultVo sheetListAddBean(List<Object> list,
                                       String headerType,
                                       Object object,
                                       Dept dept) {
@@ -378,7 +382,7 @@ public class ImportExcelFileUtil {
             //如果院系不为管理员所在学院
             //****封装时将Excel中的学院名字段赋予deptId****
             if (!StringUtils.isEmpty(user.getDeptId()) && !user.getDeptId().equals(dept.getDeptName())) {
-                return ResultVOUtil.error("添加的教师仅可属于管理员所在学院");
+                return ResultVoUtil.error("添加的教师仅可属于管理员所在学院");
             } else {
                 user.setDeptId(dept.getDeptId());
             }
@@ -390,7 +394,7 @@ public class ImportExcelFileUtil {
             Student student = ((Student) object);
 
             if (!StringUtils.isEmpty(student.getDeptId()) && !student.getDeptId().equals(dept.getDeptName())) {
-                return ResultVOUtil.error("添加的学生仅可属于管理员所在学院");
+                return ResultVoUtil.error("添加的学生仅可属于管理员所在学院");
             } else {
                 student.setDeptId(dept.getDeptId());
             }
@@ -398,6 +402,6 @@ public class ImportExcelFileUtil {
             list.add(student);
         }
 
-        return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+        return ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
     }
 }

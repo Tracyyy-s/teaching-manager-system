@@ -1,10 +1,8 @@
 package com.gwy.manager.util;
 
 import com.github.pagehelper.PageInfo;
-import com.gwy.manager.constant.PageHelperConst;
+import com.gwy.manager.domain.constant.PageHelperConst;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

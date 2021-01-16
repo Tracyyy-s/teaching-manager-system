@@ -1,10 +1,9 @@
 package com.gwy.manager.mapper;
 
-import com.gwy.manager.entity.StudentAssess;
+import com.gwy.manager.domain.entity.StudentAssess;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 

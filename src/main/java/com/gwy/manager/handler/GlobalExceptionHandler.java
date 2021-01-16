@@ -1,7 +1,7 @@
 package com.gwy.manager.handler;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.util.ResultVoUtil;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,8 +20,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Throwable.class)
     @ResponseBody
-    public ResultVO globalHandler(Exception ex) {
+    public ResultVo globalHandler(Exception ex) {
         System.out.println(ex.getMessage());
-        return ResultVOUtil.error("Error In Server, Check It");
+        return ResultVoUtil.error("Error In Server, Check It");
     }
 }

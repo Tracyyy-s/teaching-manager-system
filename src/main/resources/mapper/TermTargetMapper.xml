@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.TermTargetMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.TermTarget" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.TermTarget" >
     <id column="term_id" property="termId" jdbcType="VARCHAR" />
     <id column="target_id" property="targetId" jdbcType="INTEGER" />
     <result column="weight" property="weight" jdbcType="INTEGER" />
@@ -12,13 +12,13 @@
     where term_id = #{termId,jdbcType=VARCHAR}
       and target_id = #{targetId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.TermTarget" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.TermTarget" >
     insert into ts_term_target (term_id, target_id, weight, 
       term_target_object)
     values (#{termId,jdbcType=VARCHAR}, #{targetId,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
       #{termTargetObject,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.TermTarget" >
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.domain.entity.TermTarget" >
     update ts_term_target
     set weight = #{weight,jdbcType=INTEGER},
       term_target_object = #{termTargetObject,jdbcType=INTEGER}

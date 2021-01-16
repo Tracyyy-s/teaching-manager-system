@@ -1,13 +1,12 @@
 package com.gwy.manager.controller.sys.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.User;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.User;
 import com.gwy.manager.service.impl.TeacherCourseServiceImpl;
 import com.gwy.manager.service.impl.UserServiceImpl;
 import com.gwy.manager.util.DateUtilCustom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -47,7 +46,7 @@ public class TeacherController {
      * @return 返回集
      */
     @PostMapping("/sendCode")
-    public ResultVO sendCode(@RequestBody Map<String, String> map) {
+    public ResultVo sendCode(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
         return userService.sendCode(userId);
@@ -60,7 +59,7 @@ public class TeacherController {
      * @return 结果集
      */
     @PostMapping("/updatePassword")
-    public ResultVO updatePassword(@RequestBody Map<String, String> map) {
+    public ResultVo updatePassword(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
         String password = map.get("password");
@@ -75,7 +74,7 @@ public class TeacherController {
      * @return 返回结果
      */
     @PostMapping("/updateUserInfo")
-    public ResultVO updateInfo(@RequestBody User user) {
+    public ResultVo updateInfo(@RequestBody User user) {
         return userService.updateUser(user);
     }
 
@@ -86,7 +85,7 @@ public class TeacherController {
      * @return 返回集
      */
     @PostMapping("/getTermCourses")
-    public ResultVO getTermCourses(@RequestBody Map<String, String> map) {
+    public ResultVo getTermCourses(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
         return teacherCourseService.getCoursesByTeacherAndTerm(userId);

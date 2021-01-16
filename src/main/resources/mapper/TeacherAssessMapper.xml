@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.TeacherAssessMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.TeacherAssess" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.TeacherAssess" >
     <id column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
     <id column="assessed_teacher_no" property="assessedTeacherNo" jdbcType="VARCHAR" />
     <result column="term_id" property="termId" jdbcType="VARCHAR" />
@@ -15,13 +15,13 @@
       and assessed_teacher_no = #{assessedTeacherNo,jdbcType=VARCHAR}
       and term_id = #{termId, jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.TeacherAssess" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.TeacherAssess" >
     insert into ts_teacher_assess (teacher_no, assessed_teacher_no, term_id, appraise_score,
       submit_time, appraise_content)
     values (#{teacherNo,jdbcType=VARCHAR}, #{assessedTeacherNo,jdbcType=VARCHAR}, #{termId, jdbcType=VARCHAR}, #{appraiseScore,jdbcType=INTEGER},
       #{submitTime,jdbcType=TIMESTAMP}, #{appraiseContent,jdbcType=LONGVARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.TeacherAssess" >
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.domain.entity.TeacherAssess" >
     update ts_teacher_assess
     set appraise_score = #{appraiseScore,jdbcType=INTEGER},
       submit_time = #{submitTime,jdbcType=TIMESTAMP},

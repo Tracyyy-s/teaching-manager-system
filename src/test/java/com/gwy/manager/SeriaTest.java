@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.entity.SysLog;
+import com.gwy.manager.domain.entity.SysLog;
 import com.gwy.manager.util.DateUtilCustom;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

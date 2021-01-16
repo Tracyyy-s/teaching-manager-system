@@ -1,6 +1,6 @@
 package com.gwy.manager.security.authorize;
 
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.PermissionMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Permission" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.Permission" >
     <id column="permission_id" property="permissionId" jdbcType="INTEGER" />
     <result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
     <result column="permission_url" property="permissionUrl" jdbcType="VARCHAR" />
@@ -11,14 +11,14 @@
     delete from ts_permission
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.Permission" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.Permission" >
     insert into ts_permission (permission_id, permission_name, permission_url, permission_range
       )
     values (#{permissionId,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR},
             #{permissionUrl,jdbcType=VARCHAR}, #{permissionRange,jdbcType=VARCHAR}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Permission" >
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.domain.entity.Permission" >
     update ts_permission
     set permission_name = #{permissionName,jdbcType=VARCHAR},
       permission_url = #{permissionUrl,jdbcType=VARCHAR}

@@ -1,8 +1,8 @@
 package com.gwy.manager.security.authorize;
 
-import com.gwy.manager.constant.PassRequestPaths;
-import com.gwy.manager.entity.Permission;
-import com.gwy.manager.entity.SysPermissionApi;
+import com.gwy.manager.domain.constant.PassRequestPaths;
+import com.gwy.manager.domain.entity.Permission;
+import com.gwy.manager.domain.entity.SysPermissionApi;
 import com.gwy.manager.mapper.PermissionMapper;
 import com.gwy.manager.mapper.SysPermissionApiMapper;
 import org.apache.commons.collections4.CollectionUtils;

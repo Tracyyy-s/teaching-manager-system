@@ -1,15 +1,15 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.constant.RoleName;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Role;
-import com.gwy.manager.entity.User;
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.domain.constant.RoleName;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Role;
+import com.gwy.manager.domain.entity.User;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.RoleMapper;
 import com.gwy.manager.mapper.UserMapper;
 import com.gwy.manager.mapper.UserRoleMapper;
 import com.gwy.manager.service.UserRoleService;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,15 +53,15 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Cacheable(keyGenerator = "userRoles")
     @Override
-    public ResultVO getUserRoles(String account) {
+    public ResultVo getUserRoles(String account) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         List<Role> roles = this.getRolesOfUser(account);
         if (CollectionUtils.isEmpty(roles)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound);
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound);
         } else {
-            resultVO = ResultVOUtil.success(roles);
+            resultVO = ResultVoUtil.success(roles);
         }
 
         return resultVO;
@@ -69,19 +69,19 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Cacheable(keyGenerator = "userRoleIds")
     @Override
-    public ResultVO getUserRoleIds(String account) {
+    public ResultVo getUserRoleIds(String account) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         List<Role> roles = this.getRolesOfUser(account);
         if (CollectionUtils.isEmpty(roles)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound);
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound);
         } else {
             List<Integer> roleIds = new ArrayList<>();
             for (Role role : roles) {
                 roleIds.add(role.getRoleId());
             }
-            resultVO = ResultVOUtil.success(roleIds);
+            resultVO = ResultVoUtil.success(roleIds);
         }
 
         return resultVO;
@@ -90,9 +90,9 @@ public class UserRoleServiceImpl implements UserRoleService {
     @CacheEvict(allEntries = true, beforeInvocation = true)
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public ResultVO updateUserRole(String userId, List<Integer> roles) {
+    public ResultVo updateUserRole(String userId, List<Integer> roles) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         Integer teacherRoleId = roleMapper.selectRoleIdByName(RoleName.TEACHER);
 
@@ -132,13 +132,13 @@ public class UserRoleServiceImpl implements UserRoleService {
             //为用户添加新角色
             int i = userRoleMapper.addRolesForUser(userId, roleIds);
             if (i == 0) {
-                resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+                resultVO = ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
             } else {
-                resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+                resultVO = ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
         }
 
         //删除所有缓存的token

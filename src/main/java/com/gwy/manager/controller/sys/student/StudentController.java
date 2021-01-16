@@ -1,8 +1,8 @@
 package com.gwy.manager.controller.sys.student;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.StudentAssess;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.StudentAssess;
 import com.gwy.manager.service.impl.StudentAssessServiceImpl;
 import com.gwy.manager.service.impl.StudentServiceImpl;
 import com.gwy.manager.service.impl.TeacherCourseServiceImpl;
@@ -40,7 +40,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/updatePassword")
-    public ResultVO updatePassword(@RequestBody Map<String, String> map) {
+    public ResultVo updatePassword(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
         String password = map.get("password");
@@ -66,7 +66,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getTermCourses")
-    public ResultVO getTermCourses(@RequestBody Map<String, String> map) {
+    public ResultVo getTermCourses(@RequestBody Map<String, String> map) {
 
         String studentNo = map.get("studentNo");
         String termId = map.get("termId");
@@ -80,7 +80,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/getTermTargets")
-    public ResultVO getStudentTermTargets(@RequestBody Map<String, String> map) {
+    public ResultVo getStudentTermTargets(@RequestBody Map<String, String> map) {
 
         String termId = map.get("termId");
         return termTargetService.getStudentTermTargets(termId);
@@ -92,7 +92,7 @@ public class StudentController {
      * @return 返回结果
      */
     @PostMapping("/postAssess")
-    public ResultVO postAssess(@RequestBody StudentAssess studentAssess) {
+    public ResultVo postAssess(@RequestBody StudentAssess studentAssess) {
         return studentAssessService.addStudentAssess(studentAssess);
     }
 
@@ -102,7 +102,7 @@ public class StudentController {
      * @return  结果集
      */
     @PostMapping("/sendCode")
-    public ResultVO postCode(@RequestBody Map<String, String> map) {
+    public ResultVo postCode(@RequestBody Map<String, String> map) {
         String studentNo = map.get("studentNo");
         return studentService.sendCode(studentNo);
     }

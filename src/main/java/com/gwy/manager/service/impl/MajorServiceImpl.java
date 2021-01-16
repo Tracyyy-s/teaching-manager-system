@@ -1,6 +1,6 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.entity.Major;
+import com.gwy.manager.domain.entity.Major;
 import com.gwy.manager.mapper.MajorMapper;
 import com.gwy.manager.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;

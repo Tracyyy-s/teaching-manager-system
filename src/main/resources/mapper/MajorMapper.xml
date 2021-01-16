@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.MajorMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Major" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.Major" >
     <id column="major_id" property="majorId" jdbcType="VARCHAR" />
     <result column="major_name" property="majorName" jdbcType="VARCHAR" />
     <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
@@ -10,13 +10,13 @@
     delete from ts_major
     where major_id = #{majorId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.Major" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.Major" >
     insert into ts_major (major_id, major_name, dept_id
       )
     values (#{majorId,jdbcType=VARCHAR}, #{majorName,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Major" >
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.domain.entity.Major" >
     update ts_major
     set major_name = #{majorName,jdbcType=VARCHAR},
       dept_id = #{deptId,jdbcType=VARCHAR}

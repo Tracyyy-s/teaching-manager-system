@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.gwy.manager.config.rabbitmq.RabbitmqConfiguration;
 import com.gwy.manager.elastic.SysLogString;
 import com.gwy.manager.elastic.SysLogStringElasticRepository;
-import com.gwy.manager.entity.SysLog;
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.domain.entity.SysLog;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
 import com.gwy.manager.mail.MailForm;
 import com.gwy.manager.mail.MailUtil;
 import com.gwy.manager.service.impl.SysLogServiceImpl;
@@ -68,12 +68,12 @@ public class RabbitmqConsumer {
             logService.insertLog(sysLog);
 
             //创建线程添加至ElasticSearch中
-            new Thread(
+            /*new Thread(
                     new ElasticPushThread(
                             new SysLogString(sysLog.getId(),
                                     JSONObject.toJSONStringWithDateFormat(sysLog,
                                             DateUtilCustom.TIME_PATTERN))
-            )).start();
+            )).start();*/
 
         } catch (Exception e) {
             logger.error("{}", e.getMessage());
@@ -81,13 +81,13 @@ public class RabbitmqConsumer {
         }
     }
 
-    @Autowired
+    //@Autowired
     private SysLogStringElasticRepository repository;
 
     /**
      * ElasticSearch的推送线程
      */
-    private class ElasticPushThread implements Runnable {
+    /*private class ElasticPushThread implements Runnable {
 
         SysLogString sysLogString;
 
@@ -99,5 +99,5 @@ public class RabbitmqConsumer {
         public void run() {
             repository.save(sysLogString);
         }
-    }
+    }*/
 }

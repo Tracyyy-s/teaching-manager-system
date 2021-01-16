@@ -1,14 +1,12 @@
 package com.gwy.manager.security.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cxytiandi.encrypt.util.AesEncryptUtils;
-import com.gwy.manager.constant.EncodeConstant;
-import com.gwy.manager.constant.PassRequestPaths;
-import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.domain.constant.PassRequestPaths;
+import com.gwy.manager.util.RedisUtil;
 import com.gwy.manager.request.WebHttpServletRequestWrapper;
 import com.gwy.manager.security.UserDetailServiceImpl;
 import com.gwy.manager.util.JwtTokenUtils;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -65,7 +63,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
         //不含有token，且不包含放行的请求，返回错误
         if (authHeader == null && !PASS_REQUESTS.contains(request.getServletPath()) && !request.getMethod().equals(POST)) {
-            response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("No Token")));
+            response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.error("No Token")));
             return;
         }
 
@@ -75,7 +73,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
             //如果解密后的token格式不正确
             if (!authHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
-                response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("Error Token Format")));
+                response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.error("Error Token Format")));
                 return;
             }
 
@@ -86,13 +84,13 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
             //如果token不正确
             if (username.equals(JwtTokenUtils.ERROR_TOKEN)) {
-                response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("Error Token")));
+                response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.error("Error Token")));
                 return;
             }
 
             //如果token已经过期
             if (JwtTokenUtils.isExpiration(authToken)) {
-                response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error("Token Is Expiration")));
+                response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.error("Token Is Expiration")));
                 return;
             }
 

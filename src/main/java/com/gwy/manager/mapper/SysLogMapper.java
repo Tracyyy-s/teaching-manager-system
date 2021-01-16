@@ -1,6 +1,6 @@
 package com.gwy.manager.mapper;
 
-import com.gwy.manager.entity.SysLog;
+import com.gwy.manager.domain.entity.SysLog;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;

@@ -1,8 +1,8 @@
 package com.gwy.manager.util.file;
 
-import com.gwy.manager.constant.ExcelConstants;
-import com.gwy.manager.dto.ExcelSheetPO;
-import com.gwy.manager.enums.ExcelVersion;
+import com.gwy.manager.domain.constant.ExcelConstants;
+import com.gwy.manager.domain.dto.ExcelSheetPo;
+import com.gwy.manager.domain.enums.ExcelVersion;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
@@ -53,7 +53,7 @@ public class ExcelUtil {
      * @param headerType 文件头类型
      * @return  数据集
      */
-    public static List<ExcelSheetPO> readExcel(String headerType, File file)
+    public static List<ExcelSheetPo> readExcel(String headerType, File file)
             throws IOException {
 
         // 根据后缀名称判断excel的版本
@@ -72,14 +72,14 @@ public class ExcelUtil {
         }
 
         // 开始读取数据
-        List<ExcelSheetPO> sheetPOs = new ArrayList<>();
+        List<ExcelSheetPo> sheetPOs = new ArrayList<>();
 
         // 解析sheet
         for (int i = 0; i < wb.getNumberOfSheets(); i++) {
             Sheet sheet = wb.getSheetAt(i);
             List<List<Object>> dataList = new ArrayList<>();
 
-            ExcelSheetPO sheetPO = new ExcelSheetPO();
+            ExcelSheetPo sheetPO = new ExcelSheetPo();
             sheetPO.setSheetName(sheet.getSheetName());
             sheetPO.setDataList(dataList);
 
@@ -96,7 +96,7 @@ public class ExcelUtil {
 
             //如果标题行不匹配
             if (!ImportExcelFileUtil.judgeHeaders(headerType, headers)) {
-                List<ExcelSheetPO> list = new ArrayList<>();
+                List<ExcelSheetPo> list = new ArrayList<>();
                 sheetPO.setTitle(ExcelConstants.INVALID_HEADERS);
                 list.add(sheetPO);
                 return list;
@@ -183,7 +183,7 @@ public class ExcelUtil {
      * @param excelSheets   Excel页
      * @param filePath  导出文件路径
      */
-    public static void createWorkbookAtDisk(ExcelVersion version, List<ExcelSheetPO> excelSheets, String filePath)
+    public static void createWorkbookAtDisk(ExcelVersion version, List<ExcelSheetPo> excelSheets, String filePath)
             throws IOException {
         FileOutputStream fileOut = new FileOutputStream(filePath);
         createWorkbookAtOutStream(version, excelSheets, fileOut, true);
@@ -198,7 +198,7 @@ public class ExcelUtil {
      * @param closeStream
      *            是否关闭输出流
      */
-    public static void createWorkbookAtOutStream(ExcelVersion version, List<ExcelSheetPO> excelSheets,
+    public static void createWorkbookAtOutStream(ExcelVersion version, List<ExcelSheetPo> excelSheets,
                                                  OutputStream outStream, boolean closeStream) throws IOException {
         if (CollectionUtils.isNotEmpty(excelSheets)) {
             Workbook wb = createWorkBook(version, excelSheets);
@@ -209,10 +209,10 @@ public class ExcelUtil {
         }
     }
 
-    private static Workbook createWorkBook(ExcelVersion version, List<ExcelSheetPO> excelSheets) {
+    private static Workbook createWorkBook(ExcelVersion version, List<ExcelSheetPo> excelSheets) {
         Workbook wb = createWorkbook(version);
         for (int i = 0; i < excelSheets.size(); i++) {
-            ExcelSheetPO excelSheetPO = excelSheets.get(i);
+            ExcelSheetPo excelSheetPO = excelSheets.get(i);
             if (excelSheetPO.getSheetName() == null) {
                 excelSheetPO.setSheetName("sheet" + i);
             }
@@ -225,7 +225,7 @@ public class ExcelUtil {
         return wb;
     }
 
-    private static void buildSheetData(Workbook wb, Sheet sheet, ExcelSheetPO excelSheetPO, ExcelVersion version) {
+    private static void buildSheetData(Workbook wb, Sheet sheet, ExcelSheetPo excelSheetPO, ExcelVersion version) {
         sheet.setDefaultRowHeight((short) 400);
         sheet.setDefaultColumnWidth((short) 10);
         createTitle(sheet, excelSheetPO, wb, version);
@@ -233,7 +233,7 @@ public class ExcelUtil {
         createBody(sheet, excelSheetPO, wb, version);
     }
 
-    private static void createBody(Sheet sheet, ExcelSheetPO excelSheetPO, Workbook wb, ExcelVersion version) {
+    private static void createBody(Sheet sheet, ExcelSheetPo excelSheetPO, Workbook wb, ExcelVersion version) {
         List<List<Object>> dataList = excelSheetPO.getDataList();
         for (int i = 0; i < dataList.size() && i < version.getMaxRow(); i++) {
             List<Object> values = dataList.get(i);
@@ -247,7 +247,7 @@ public class ExcelUtil {
 
     }
 
-    private static void createHeader(Sheet sheet, ExcelSheetPO excelSheetPO, Workbook wb, ExcelVersion version) {
+    private static void createHeader(Sheet sheet, ExcelSheetPo excelSheetPO, Workbook wb, ExcelVersion version) {
         String[] headers = excelSheetPO.getHeaders();
         Row row = sheet.createRow(1);
         for (int i = 0; i < headers.length && i < version.getMaxColumn(); i++) {
@@ -258,7 +258,7 @@ public class ExcelUtil {
 
     }
 
-    private static void createTitle(Sheet sheet, ExcelSheetPO excelSheetPO, Workbook wb, ExcelVersion version) {
+    private static void createTitle(Sheet sheet, ExcelSheetPo excelSheetPO, Workbook wb, ExcelVersion version) {
         Row titleRow = sheet.createRow(0);
         Cell titleCel = titleRow.createCell(0);
         titleCel.setCellValue(excelSheetPO.getTitle());

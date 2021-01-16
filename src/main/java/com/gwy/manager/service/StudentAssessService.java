@@ -1,7 +1,7 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.StudentAssess;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.StudentAssess;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ public interface StudentAssessService {
      * @param studentAssess 学生评价
      * @return  影响行数
      */
-    ResultVO addStudentAssess(StudentAssess studentAssess);
+    ResultVo addStudentAssess(StudentAssess studentAssess);
 
     /**
      * 删除学生对某课程的评价
@@ -48,7 +48,7 @@ public interface StudentAssessService {
      * @param tcId  课程id
      * @return  结果集
      */
-    ResultVO getStudentAssessesByTcId(String tcId);
+    ResultVo getStudentAssessesByTcId(String tcId);
 
     List<Map<String, Object>> getScoresOfTeachersInTerm(List<String> teacherNos, String termId);
 }

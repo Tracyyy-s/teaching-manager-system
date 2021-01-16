@@ -1,17 +1,15 @@
 package com.gwy.manager;
 
 import com.cxytiandi.encrypt.util.AesEncryptUtils;
-import com.gwy.manager.constant.EncodeConstant;
-import com.gwy.manager.entity.Role;
-import com.gwy.manager.mapper.LoginMapper;
+import com.gwy.manager.domain.constant.EncodeConstant;
+import com.gwy.manager.domain.entity.Role;
 import com.gwy.manager.mapper.PermissionMapper;
 import com.gwy.manager.mapper.SysLogMapper;
-import com.gwy.manager.redis.RedisUtil;
+import com.gwy.manager.util.RedisUtil;
 import com.gwy.manager.service.impl.RoleServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.*;

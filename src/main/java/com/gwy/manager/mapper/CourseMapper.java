@@ -1,9 +1,8 @@
 package com.gwy.manager.mapper;
 
-import com.gwy.manager.entity.Course;
+import com.gwy.manager.domain.entity.Course;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

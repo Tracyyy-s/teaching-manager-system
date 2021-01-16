@@ -1,7 +1,7 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Student;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Student;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface StudentService {
      * @param student 预修改
      * @return  结果集
      */
-    ResultVO updateStudent(Student student);
+    ResultVo updateStudent(Student student);
 
     /**
      * 修改学生密码
@@ -33,7 +33,7 @@ public interface StudentService {
      * @param vrCode    验证码
      * @return  结果集
      */
-    ResultVO updatePassword(String studentNo, String password, String vrCode);
+    ResultVo updatePassword(String studentNo, String password, String vrCode);
 
     /**
      * 批量添加学生
@@ -47,14 +47,14 @@ public interface StudentService {
      * @param studentNo 学号
      * @return  结果集
      */
-    ResultVO getStudentInfo(String studentNo);
+    ResultVo getStudentInfo(String studentNo);
 
     /**
      * 发送验证码至Redis,验证码5min有效
      * @param studentNo 学生id
      * @return  结果集
      */
-    ResultVO sendCode(String studentNo);
+    ResultVo sendCode(String studentNo);
 
     /**
      * 获取某学院的所有学生
@@ -63,14 +63,14 @@ public interface StudentService {
      * @param deptId 学院id
      * @return  结果集
      */
-    ResultVO getStudentsByDept(int pageNum, int pageSize, String deptId);
+    ResultVo getStudentsByDept(int pageNum, int pageSize, String deptId);
 
     /**
      * 获取某个班级的所有学生
      * @param classId 班号
      * @return  结果集
      */
-    ResultVO getStudentByClass(String classId);
+    ResultVo getStudentByClass(String classId);
 
     /**
      * 根据学生名字进行模糊匹配
@@ -79,7 +79,7 @@ public interface StudentService {
      * @param name  学生姓名
      * @return  结果集
      */
-    ResultVO getStudentsMatchName(String adminNo, String deptId, String name);
+    ResultVo getStudentsMatchName(String adminNo, String deptId, String name);
 
     /**
      * 管理员获得学生
@@ -87,7 +87,7 @@ public interface StudentService {
      * @param studentNo 学号
      * @return  结果集
      */
-    ResultVO getStudentInfoByAdmin(String adminNo, String studentNo);
+    ResultVo getStudentInfoByAdmin(String adminNo, String studentNo);
 
     /**
      * 获得所有学生并疯转
@@ -95,7 +95,7 @@ public interface StudentService {
      * @param pageSize  页面大小
      * @return  结果集
      */
-    ResultVO getAllStudents(int pageNum, int pageSize);
+    ResultVo getAllStudents(int pageNum, int pageSize);
 
     /**
      * Excel文件导入学生
@@ -104,5 +104,5 @@ public interface StudentService {
      * @param file  导入文件
      * @return  结果集
      */
-    ResultVO importStudentsByFile(String deptId, String headerType, MultipartFile file);
+    ResultVo importStudentsByFile(String deptId, String headerType, MultipartFile file);
 }

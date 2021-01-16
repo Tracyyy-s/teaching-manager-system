@@ -1,16 +1,15 @@
 package com.gwy.manager.security.authentication;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
 import com.gwy.manager.security.exception.GlobalAuthorizeException;
 import com.gwy.manager.service.impl.SysLogServiceImpl;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -39,6 +38,6 @@ public class CustomizeAccessDeniedHandler implements AccessDeniedHandler {
 
         logService.addLog(request, new GlobalAuthorizeException(ResponseDataMsg.PermissionDeny.name()));
 
-        response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.error(ResponseDataMsg.PermissionDeny.getMsg())));
+        response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.error(ResponseDataMsg.PermissionDeny.getMsg())));
     }
 }

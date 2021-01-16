@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.UserMapper">
-    <resultMap id="BaseResultMap" type="com.gwy.manager.entity.User">
+    <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.User">
         <id column="user_id" property="userId" jdbcType="VARCHAR"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="gender" property="gender" jdbcType="INTEGER"/>
@@ -22,7 +22,7 @@
     delete from ts_user
     where user_id = #{userId,jdbcType=VARCHAR}
     </delete>
-    <insert id="insert" parameterType="com.gwy.manager.entity.User">
+    <insert id="insert" parameterType="com.gwy.manager.domain.entity.User">
     insert into ts_user (user_id, username, gender,
       password, email, birth, degree,
       graduated, political, entry_year, 
@@ -34,7 +34,7 @@
       #{sumHour,jdbcType=INTEGER}, #{deptId,jdbcType=VARCHAR}, #{professional,jdbcType=VARCHAR}, 
       #{professionalTime,jdbcType=DATE}, #{availableDeptIds,jdbcType=VARCHAR})
     </insert>
-    <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.User">
+    <update id="updateByPrimaryKey" parameterType="com.gwy.manager.domain.entity.User">
     update ts_user
     <set>
         <if test="username != null">

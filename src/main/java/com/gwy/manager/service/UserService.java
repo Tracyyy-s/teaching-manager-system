@@ -1,7 +1,7 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.User;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface UserService {
      * @param userId 用户id
      * @return  查询结果
      */
-    ResultVO getUserById(String adminNo, String userId);
+    ResultVo getUserById(String adminNo, String userId);
 
     /**
      * 通过用户名进行模糊匹配
@@ -27,14 +27,14 @@ public interface UserService {
      * @param name  匹配名字
      * @return  结果集
      */
-    ResultVO getUserMatchNameInDept(String adminNo, String deptId, String name);
+    ResultVo getUserMatchNameInDept(String adminNo, String deptId, String name);
 
     /**
      * 修改用户信息
      * @param user 预修改的用户
      * @return  影响行数
      */
-    ResultVO updateUser(User user);
+    ResultVo updateUser(User user);
 
     /**
      * 获得学院内所有用户
@@ -43,7 +43,7 @@ public interface UserService {
      * @param deptId 学院id
      * @return  结果集
      */
-    ResultVO getUsersOfDept(int pageNum, int pageSize, String deptId);
+    ResultVo getUsersOfDept(int pageNum, int pageSize, String deptId);
 
     /**
      * 指定用户获得学院内所有用户
@@ -53,7 +53,7 @@ public interface UserService {
      * @param deptId  学院id
      * @return  结果集
      */
-    ResultVO getUsersOfDept(int pageNum, int pageSize, String userId, String deptId);
+    ResultVo getUsersOfDept(int pageNum, int pageSize, String userId, String deptId);
 
     /**
      * 传入Excel批量添加用户
@@ -62,21 +62,21 @@ public interface UserService {
      * @param file  传入文件
      * @return  返回结果
      */
-    ResultVO importUsersByFile(String deptId, String headerType, MultipartFile file);
+    ResultVo importUsersByFile(String deptId, String headerType, MultipartFile file);
 
     /**
      * 获得用户
      * @param userId 用户id
      * @return  结果集
      */
-    ResultVO getUserInfo(String userId);
+    ResultVo getUserInfo(String userId);
 
     /**
      * 发送验证码至Redis,验证码5min有效
      * @param userId 用户账号
      * @return  结果集
      */
-    ResultVO sendCode(String userId);
+    ResultVo sendCode(String userId);
 
     /**
      * 修改密码
@@ -85,26 +85,26 @@ public interface UserService {
      * @param vrCode    验证码
      * @return  结果集
      */
-    ResultVO updatePassword(String userId, String password, String vrCode);
+    ResultVo updatePassword(String userId, String password, String vrCode);
 
     /**
      * 获得所有管理员
      * @return  获得结果集
      */
-    ResultVO getAllAdmin(int pageNum, int pageSize);
+    ResultVo getAllAdmin(int pageNum, int pageSize);
 
     /**
      * 获得所有用户
      * @return  结果集
      */
-    ResultVO getAllUsers(int pageNum, int pageSize);
+    ResultVo getAllUsers(int pageNum, int pageSize);
 
     /**
      * 获得指定用户可管理的所有学院id
      * @param userId   用户id
      * @return  结果集
      */
-    ResultVO getDeptIdsOfUser(String userId);
+    ResultVo getDeptIdsOfUser(String userId);
 
     /**
      * 修改管理员可管理的学院
@@ -112,11 +112,11 @@ public interface UserService {
      * @param list  可管理学院id
      * @return  结果集
      */
-    ResultVO updateAvailableDeptIds(String userId, List<String> list);
+    ResultVo updateAvailableDeptIds(String userId, List<String> list);
 
     /**
      * 根据用户id获得用户
      * @return  结果集
      */
-    ResultVO getUserById(String userId);
+    ResultVo getUserById(String userId);
 }

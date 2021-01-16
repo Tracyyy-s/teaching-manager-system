@@ -1,6 +1,6 @@
 package com.gwy.manager.mapper;
 
-import com.gwy.manager.entity.User;
+import com.gwy.manager.domain.entity.User;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

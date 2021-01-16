@@ -1,8 +1,8 @@
 package com.gwy.manager.security;
 
-import com.gwy.manager.constant.RoleName;
-import com.gwy.manager.entity.Permission;
-import com.gwy.manager.entity.Role;
+import com.gwy.manager.domain.constant.RoleName;
+import com.gwy.manager.domain.entity.Permission;
+import com.gwy.manager.domain.entity.Role;
 import com.gwy.manager.mapper.LoginMapper;
 import com.gwy.manager.mapper.PermissionMapper;
 import com.gwy.manager.mapper.RoleMapper;

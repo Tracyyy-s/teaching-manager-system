@@ -1,12 +1,12 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Permission;
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Permission;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.PermissionMapper;
 import com.gwy.manager.mapper.RolePermissionMapper;
 import com.gwy.manager.service.PermissionService;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -41,15 +41,15 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Cacheable(keyGenerator = "byRoleIds")
     @Override
-    public ResultVO getPermissionsByRoleIds(List<Integer> roleIds) {
+    public ResultVo getPermissionsByRoleIds(List<Integer> roleIds) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         List<Permission> permissions = permissionMapper.selectByRoleIds(roleIds);
         if (CollectionUtils.isEmpty(permissions)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(permissions);
+            resultVO = ResultVoUtil.success(permissions);
         }
 
         return resultVO;
@@ -57,29 +57,29 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Cacheable(key = "'all'")
     @Override
-    public ResultVO getAllPermissions() {
+    public ResultVo getAllPermissions() {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         List<Permission> permissions = permissionMapper.selectAll();
         if (CollectionUtils.isEmpty(permissions)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(permissions);
+            resultVO = ResultVoUtil.success(permissions);
         }
         return resultVO;
     }
 
     @Cacheable(keyGenerator = "byRoleId")
     @Override
-    public ResultVO getPermissionsByRoleId(Integer roleId) {
-        ResultVO resultVO;
+    public ResultVo getPermissionsByRoleId(Integer roleId) {
+        ResultVo resultVO;
 
         List<Permission> permissions = permissionMapper.selectByRoleId(roleId);
         if (CollectionUtils.isEmpty(permissions)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(permissions);
+            resultVO = ResultVoUtil.success(permissions);
         }
 
         return resultVO;
@@ -87,15 +87,15 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Cacheable(keyGenerator = "byIds")
     @Override
-    public ResultVO getPermissionsByIds(List<Integer> permissionIds) {
+    public ResultVo getPermissionsByIds(List<Integer> permissionIds) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         List<Permission> permissions = permissionMapper.selectByIds(permissionIds);
         if (CollectionUtils.isEmpty(permissions)) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(permissions);
+            resultVO = ResultVoUtil.success(permissions);
         }
 
         return resultVO;
@@ -104,19 +104,19 @@ public class PermissionServiceImpl implements PermissionService {
     @CacheEvict(allEntries = true, beforeInvocation = true)
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public ResultVO updateRolePermission(Integer roleId, List<Integer> permissionIds) {
+    public ResultVo updateRolePermission(Integer roleId, List<Integer> permissionIds) {
 
         try {
             int i = rolePermissionMapper.deleteByRoleId(roleId);
             if (i == 0) {
-                return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+                return ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
             }
 
             int j = rolePermissionMapper.insertBatch(roleId, permissionIds);
             if (j == 0) {
-                return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+                return ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
             } else {
-                return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+                return ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -128,6 +128,6 @@ public class PermissionServiceImpl implements PermissionService {
             redisTemplate.delete(keys);
         }
 
-        return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+        return ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
     }
 }

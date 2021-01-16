@@ -1,8 +1,8 @@
 package com.gwy.manager.aspect;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
+import com.gwy.manager.util.ResultVoUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,7 +24,7 @@ public class RequestParamValidateAspect {
     /**
      * 定义切入点表达式
      */
-    @Pointcut("execution(public com.gwy.manager.dto.ResultVO com.gwy.manager.service.impl.*.*(..))")
+    @Pointcut("execution(public com.gwy.manager.domain.dto.ResultVo com.gwy.manager.service.impl.*.*(..))")
     public void pointcut(){}
 
     /**
@@ -35,19 +35,19 @@ public class RequestParamValidateAspect {
     @Around(value = "pointcut()")
     public Object doAround(ProceedingJoinPoint pjp) {
 
-        ResultVO resultVO = null;
+        ResultVo resultVO = null;
 
         Object[] args = pjp.getArgs();
 
         //参数判空
         for (Object arg : args) {
             if (arg == null) {
-                return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
+                return ResultVoUtil.error(ResponseDataMsg.BadRequest.getMsg());
             }
         }
 
         try {
-            resultVO = (ResultVO) pjp.proceed(args);
+            resultVO = (ResultVo) pjp.proceed(args);
         } catch (Throwable throwable) {
             logger.error("Exception Found: {}", throwable.getMessage());
             throwable.printStackTrace();

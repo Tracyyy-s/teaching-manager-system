@@ -1,16 +1,15 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Term;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
+import com.gwy.manager.domain.entity.Term;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.service.TermService;
 import com.gwy.manager.util.DateUtilCustom;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,15 +42,15 @@ public class TermServiceImpl implements TermService {
 
     @Cacheable(keyGenerator = "allTerms")
     @Override
-    public ResultVO getTerms() {
-        ResultVO resultVO;
+    public ResultVo getTerms() {
+        ResultVo resultVO;
 
         List<Term> terms;
         try {
             terms = termMapper.selectAll();
-            resultVO = ResultVOUtil.success(terms);
+            resultVO = ResultVoUtil.success(terms);
         } catch (Exception e) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
         }
 
         return resultVO;
@@ -64,7 +63,7 @@ public class TermServiceImpl implements TermService {
 
     @Cacheable(keyGenerator = "currentTerm")
     @Override
-    public ResultVO getCurrentTerm() {
-        return ResultVOUtil.success(termMapper.getCurrentTerm(DateUtilCustom.getDate()));
+    public ResultVo getCurrentTerm() {
+        return ResultVoUtil.success(termMapper.getCurrentTerm(DateUtilCustom.getDate()));
     }
 }

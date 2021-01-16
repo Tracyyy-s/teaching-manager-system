@@ -1,7 +1,7 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.TeacherAssess;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.TeacherAssess;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ public interface TeacherAssessService {
      * @param teacherAssess 教师评价结果
      * @return  返回行数
      */
-    ResultVO addTeacherAssess(TeacherAssess teacherAssess);
+    ResultVo addTeacherAssess(TeacherAssess teacherAssess);
 
     /**
      * 获得教师本学期评价的指标
@@ -40,7 +40,7 @@ public interface TeacherAssessService {
      * @param tno   教师用户id
      * @return  结果集
      */
-    ResultVO getHistoryAssessesOfTeacher(String tno);
+    ResultVo getHistoryAssessesOfTeacher(String tno);
 
     /**
      * 获得某学院某学期所有的教师评价及分数

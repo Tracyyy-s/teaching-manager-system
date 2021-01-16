@@ -1,12 +1,10 @@
 package com.gwy.manager.elastic;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-
 /**
  * @author Tracy
  * @date 2020/12/18 16:00
  */
-@Document(indexName = "sys_log", indexStoreType = "log")
+//@Document(indexName = "sys_log", indexStoreType = "log")
 public class SysLogString {
 
     /**

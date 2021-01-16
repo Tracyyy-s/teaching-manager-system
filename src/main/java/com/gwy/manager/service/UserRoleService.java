@@ -1,7 +1,6 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Role;
+import com.gwy.manager.domain.dto.ResultVo;
 
 import java.util.List;
 
@@ -16,14 +15,14 @@ public interface UserRoleService {
      * @param account   用户账号
      * @return  结果集
      */
-    ResultVO getUserRoles(String account);
+    ResultVo getUserRoles(String account);
 
     /**
      * 返回用户的角色id列表
      * @param account   用户账号
      * @return  结果集
      */
-    ResultVO getUserRoleIds(String account);
+    ResultVo getUserRoleIds(String account);
 
     /**
      * 修改用户的角色
@@ -31,5 +30,5 @@ public interface UserRoleService {
      * @param roles  添加的角色集
      * @return  结果集
      */
-    ResultVO updateUserRole(String userId, List<Integer> roles);
+    ResultVo updateUserRole(String userId, List<Integer> roles);
 }

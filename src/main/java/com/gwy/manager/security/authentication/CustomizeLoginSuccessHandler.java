@@ -1,9 +1,9 @@
 package com.gwy.manager.security.authentication;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
 import com.gwy.manager.service.impl.SysLogServiceImpl;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -41,7 +41,7 @@ public class CustomizeLoginSuccessHandler implements AuthenticationSuccessHandle
         //添加登录成功日志
         logService.addLog(request, authentication);
 
-        response.getWriter().write(JSONObject.toJSONString(ResultVOUtil.success(ResponseDataMsg.Success.getMsg())));
+        response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.success(ResponseDataMsg.Success.getMsg())));
     }
 
 }

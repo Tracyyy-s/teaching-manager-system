@@ -1,20 +1,19 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.enums.UserOption;
-import com.gwy.manager.entity.Target;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
+import com.gwy.manager.domain.enums.UserOption;
+import com.gwy.manager.domain.entity.Target;
 import com.gwy.manager.mapper.TargetMapper;
 import com.gwy.manager.service.TargetService;
 import com.gwy.manager.util.BeanUtil;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Tracy
@@ -27,23 +26,23 @@ public class TargetServiceImpl implements TargetService {
     private TargetMapper targetMapper;
 
     @Override
-    public ResultVO addTarget(Target target) {
+    public ResultVo addTarget(Target target) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         Integer targetType = target.getTargetObject();
         //没有匹配的指标类型
         if (!targetType.equals(UserOption.STUDENT.getTargetType()) &&
                 !targetType.equals(UserOption.TEACHER.getTargetType())) {
-            resultVO = ResultVOUtil.error("No That Target Type");
+            resultVO = ResultVoUtil.error("No That Target Type");
             return resultVO;
         }
 
         int res = targetMapper.insert(target);
         if (res == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+            resultVO = ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -55,16 +54,16 @@ public class TargetServiceImpl implements TargetService {
      * @return  结果集
      */
     @Override
-    public ResultVO getTargets(String userType) {
+    public ResultVo getTargets(String userType) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         List<Target> targetList;
 
         //既不是教师对象也不是学生对象
         if (!UserOption.STUDENT.getUserType().equals(userType) &&
                 !UserOption.TEACHER.getUserType().equals(userType)) {
-            resultVO = ResultVOUtil.error("No That User Type");
+            resultVO = ResultVoUtil.error("No That User Type");
             return resultVO;
         } else if (UserOption.STUDENT.getUserType().equals(userType)) {
             targetList = targetMapper.getStudentTargets();
@@ -74,7 +73,7 @@ public class TargetServiceImpl implements TargetService {
 
         //未找到任何指标
         if (targetList.size() == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
 
             List<Object> list = new ArrayList<>();
@@ -87,22 +86,22 @@ public class TargetServiceImpl implements TargetService {
                 list.add(map);
             }
 
-            resultVO = ResultVOUtil.success(list);
+            resultVO = ResultVoUtil.success(list);
         }
 
         return resultVO;
     }
 
     @Override
-    public ResultVO updateTarget(Target target) {
+    public ResultVo updateTarget(Target target) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         int i = targetMapper.updateByPrimaryKey(target);
         if (i == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+            resultVO = ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;
@@ -114,15 +113,15 @@ public class TargetServiceImpl implements TargetService {
     }
 
     @Override
-    public ResultVO deleteTarget(Integer targetId) {
+    public ResultVo deleteTarget(Integer targetId) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         int i = targetMapper.deleteByPrimaryKey(targetId);
         if (i == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+            resultVO = ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
         }
 
         return resultVO;

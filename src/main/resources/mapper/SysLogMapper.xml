@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.SysLogMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.SysLog" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.SysLog" >
     <result column="id" property="id" jdbcType="INTEGER"/>
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="authorities" property="authorities" jdbcType="VARCHAR"/>
@@ -16,7 +16,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="params" property="params" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.gwy.manager.entity.SysLog" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.gwy.manager.domain.entity.SysLog" >
     insert into ts_log (user_id, authorities, request_url,
       ip, locale, result_message, 
       data, create_time, params, data_explain,

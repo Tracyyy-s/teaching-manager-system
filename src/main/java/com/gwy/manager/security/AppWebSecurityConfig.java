@@ -1,7 +1,11 @@
 package com.gwy.manager.security;
 
-import com.gwy.manager.constant.PassRequestPaths;
-import com.gwy.manager.security.authentication.*;
+import com.gwy.manager.domain.constant.PassRequestPaths;
+import com.gwy.manager.security.authentication.CustomizeAccessDeniedHandler;
+import com.gwy.manager.security.authentication.CustomizeAuthenticationEntryPoint;
+import com.gwy.manager.security.authentication.CustomizeLoginFailureHandler;
+import com.gwy.manager.security.authentication.CustomizeLoginSuccessHandler;
+import com.gwy.manager.security.authentication.CustomizeLogoutHandler;
 import com.gwy.manager.security.authorize.AuthorizeSecurityInterceptor;
 import com.gwy.manager.security.filter.JwtLoginAuthenticationFilter;
 import com.gwy.manager.security.filter.JwtTokenAuthenticationFilter;

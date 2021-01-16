@@ -1,16 +1,15 @@
 package com.gwy.manager.controller.sys.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.constant.PageHelperConst;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.TeacherAssess;
+import com.gwy.manager.domain.constant.PageHelperConst;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.TeacherAssess;
 import com.gwy.manager.service.impl.TeacherAssessServiceImpl;
 import com.gwy.manager.service.impl.TermTargetServiceImpl;
 import com.gwy.manager.service.impl.UserServiceImpl;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.PageHelperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -55,7 +54,7 @@ public class LeaderController {
      * @return  结果集
      */
     @PostMapping("/postAssess")
-    public ResultVO postAssess(@RequestBody TeacherAssess teacherAssess,
+    public ResultVo postAssess(@RequestBody TeacherAssess teacherAssess,
                                @RequestBody Map<String, String> map) {
         teacherAssess.setTeacherNo(map.get("userId"));
         return teacherAssessService.addTeacherAssess(teacherAssess);
@@ -66,7 +65,7 @@ public class LeaderController {
      * @return  结果集
      */
     @PostMapping("/getTermTargets")
-    public ResultVO getTermTargets(@RequestBody Map<String, String> map) {
+    public ResultVo getTermTargets(@RequestBody Map<String, String> map) {
 
         String termId = map.get("termId");
         return termTargetService.getTeacherTermTargets(termId);

@@ -1,6 +1,6 @@
 package com.gwy.manager.mapper;
 
-import com.gwy.manager.entity.Major;
+import com.gwy.manager.domain.entity.Major;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.gwy.manager.mapper;
 
-import com.gwy.manager.entity.TeacherCourse;
+import com.gwy.manager.domain.entity.TeacherCourse;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.CourseMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.Course" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.Course" >
     <id column="course_no" property="courseNo" jdbcType="VARCHAR" />
     <result column="course_name" property="courseName" jdbcType="VARCHAR" />
     <result column="hour" property="hour" jdbcType="INTEGER" />
@@ -12,13 +12,13 @@
     delete from ts_course
     where course_no = #{courseNo,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.Course" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.Course" >
     insert into ts_course (course_no, course_name, hour, 
       credit, dept_id)
     values (#{courseNo,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, #{hour,jdbcType=INTEGER}, 
       #{credit,jdbcType=INTEGER}, #{deptId,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.Course" >
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.domain.entity.Course" >
     update ts_course
     set course_name = #{courseName,jdbcType=VARCHAR},
       hour = #{hour,jdbcType=INTEGER},

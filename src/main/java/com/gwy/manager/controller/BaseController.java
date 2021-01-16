@@ -1,14 +1,13 @@
 package com.gwy.manager.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Role;
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.enums.ResponseStatus;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Role;
+import com.gwy.manager.domain.enums.ResponseStatus;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
-import com.gwy.manager.util.ResultVOUtil;
-import com.gwy.manager.util.VRCodeUtil;
+import com.gwy.manager.util.ResultVoUtil;
+import com.gwy.manager.service.impl.VrCodeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +36,7 @@ public class BaseController {
     private DeptServiceImpl deptService;
 
     @Autowired
-    private VRCodeUtil vrCodeUtil;
+    private VrCodeServiceImpl vrCodeServiceImpl;
 
     @Autowired
     private StudentServiceImpl studentService;
@@ -46,13 +45,13 @@ public class BaseController {
     private UserServiceImpl userService;
 
     @RequestMapping("/")
-    public ResultVO root() {
-        return ResultVOUtil.success("Welcome to Teaching Manager System.");
+    public ResultVo root() {
+        return ResultVoUtil.success("Welcome to Teaching Manager System.");
     }
 
     @GetMapping("/login")
-    public ResultVO login() {
-        return ResultVOUtil.error("Sorry, Not Found Resources");
+    public ResultVo login() {
+        return ResultVoUtil.error("Sorry, Not Found Resources");
     }
 
     /**
@@ -61,10 +60,10 @@ public class BaseController {
      * @return  结果集
      */
     @PostMapping("/sendCode")
-    public ResultVO sendCode(@RequestBody Map<String, String> map) {
+    public ResultVo sendCode(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
-        return vrCodeUtil.sendCode(userId, null);
+        return vrCodeServiceImpl.sendCode(userId, null);
     }
 
     /**
@@ -73,13 +72,13 @@ public class BaseController {
      * @return  结果集
      */
     @PostMapping("/updatePassword")
-    public ResultVO updatePassword(@RequestBody Map<String, String> map) {
+    public ResultVo updatePassword(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
         String code = map.get("code");
         String password = map.get("password");
 
-        ResultVO resultVO = studentService.getStudentInfo(userId);
+        ResultVo resultVO = studentService.getStudentInfo(userId);
         if (resultVO.getResultCode().equals(ResponseStatus.FAIL.getCode())) {
             
             return userService.updatePassword(userId, password, code);
@@ -113,10 +112,10 @@ public class BaseController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/getUserPermissions")
-    public ResultVO getUserPermissions(@RequestBody Map<String, String> map) {
+    public ResultVo getUserPermissions(@RequestBody Map<String, String> map) {
 
         String account = map.get("account");
-        ResultVO rolesOfUser = userRoleService.getUserRoles(account);
+        ResultVo rolesOfUser = userRoleService.getUserRoles(account);
 
         if (rolesOfUser.getResultCode().equals(ResponseStatus.SUCCESS.getCode())) {
 
@@ -133,13 +132,18 @@ public class BaseController {
         return rolesOfUser;
     }
 
+    @PostMapping("/getUserPermissionsVX")
+    public ResultVo getUserPermissionsVX() {
+        return null;
+    }
+
     /**
      * 根据学院id获得学院
      * @param map   请求体
      * @return  结果集
      */
     @PostMapping("getDeptById")
-    public ResultVO getDeptById(@RequestBody Map<String, String> map) {
+    public ResultVo getDeptById(@RequestBody Map<String, String> map) {
 
         String deptId = map.get("deptId");
         return deptService.getDeptById(deptId);

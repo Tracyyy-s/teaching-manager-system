@@ -1,9 +1,7 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Course;
-
-import java.util.List;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Course;
 
 /**
  * @author Tracy
@@ -37,5 +35,5 @@ public interface CourseService {
      * @param teacherNo 教师teacherNo
      * @return  结果集
      */
-    ResultVO getCoursesOfTeacher(String teacherNo);
+    ResultVo getCoursesOfTeacher(String teacherNo);
 }

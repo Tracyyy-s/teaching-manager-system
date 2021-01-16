@@ -1,6 +1,6 @@
 package com.gwy.manager.mapper;
 
-import com.gwy.manager.entity.TeacherAssess;
+import com.gwy.manager.domain.entity.TeacherAssess;
 import java.util.List;
 import java.util.Map;
 

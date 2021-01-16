@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.UserRoleMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.UserRole" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.UserRole" >
     <id column="user_id" property="userId" jdbcType="VARCHAR" />
     <id column="role_id" property="roleId" jdbcType="INTEGER" />
   </resultMap>
@@ -10,7 +10,7 @@
     where user_id = #{userId,jdbcType=VARCHAR}
       and role_id = #{roleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.UserRole" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.UserRole" >
     insert into ts_user_role (user_id, role_id)
     values (#{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER})
   </insert>

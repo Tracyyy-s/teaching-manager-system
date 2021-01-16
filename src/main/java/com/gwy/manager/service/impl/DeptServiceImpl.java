@@ -1,11 +1,11 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Dept;
-import com.gwy.manager.enums.ResponseDataMsg;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Dept;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
 import com.gwy.manager.mapper.DeptMapper;
 import com.gwy.manager.service.DeptService;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -36,15 +36,15 @@ public class DeptServiceImpl implements DeptService {
 
     @Cacheable(key = "#deptId")
     @Override
-    public ResultVO getDeptById(String deptId) {
+    public ResultVo getDeptById(String deptId) {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         Dept dept = deptMapper.selectByPrimaryKey(deptId);
         if (dept == null) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(dept);
+            resultVO = ResultVoUtil.success(dept);
         }
         return resultVO;
     }
@@ -56,15 +56,15 @@ public class DeptServiceImpl implements DeptService {
 
     @Cacheable(key = "'all'")
     @Override
-    public ResultVO getAllDepts() {
+    public ResultVo getAllDepts() {
 
-        ResultVO resultVO;
+        ResultVo resultVO;
 
         List<Dept> depts = deptMapper.selectAll();
         if (depts.size() == 0) {
-            resultVO = ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            resultVO = ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         } else {
-            resultVO = ResultVOUtil.success(depts);
+            resultVO = ResultVoUtil.success(depts);
         }
 
         return resultVO;

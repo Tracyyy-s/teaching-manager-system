@@ -2,20 +2,18 @@ package com.gwy.manager.controller.sys.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.gwy.manager.constant.PageHelperConst;
-import com.gwy.manager.dto.ResultVO;
+import com.gwy.manager.domain.constant.PageHelperConst;
+import com.gwy.manager.domain.dto.ResultVo;
 import com.gwy.manager.elastic.ElasticRepositoryHelper;
-import com.gwy.manager.entity.Role;
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.enums.SysLogType;
+import com.gwy.manager.domain.entity.Role;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
+import com.gwy.manager.domain.enums.SysLogType;
 import com.gwy.manager.service.impl.*;
 import com.gwy.manager.util.DateUtilCustom;
 import com.gwy.manager.util.PageHelperUtil;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -52,7 +50,7 @@ public class RootController {
     @Autowired
     private SysLogServiceImpl logService;
 
-    @Autowired
+//    @Autowired
     private ElasticRepositoryHelper repositoryHelper;
 
     /**
@@ -104,7 +102,7 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getAllRoles")
-    public ResultVO getAllRoles() {
+    public ResultVo getAllRoles() {
 
         return roleService.getAllRoles();
     }
@@ -115,7 +113,7 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getAllPermissions")
-    public ResultVO getAllPermissions() {
+    public ResultVo getAllPermissions() {
         return permissionService.getAllPermissions();
     }
 
@@ -125,7 +123,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getUserById")
-    public ResultVO getUserById(@RequestBody Map<String, String> map) {
+    public ResultVo getUserById(@RequestBody Map<String, String> map) {
         return userService.getUserById(map.get("userId"));
     }
 
@@ -136,7 +134,7 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getUserRoles")
-    public ResultVO getUserRole(@RequestBody Map<String, String> map) {
+    public ResultVo getUserRole(@RequestBody Map<String, String> map) {
 
         String userId = map.get("userId");
         return userRoleService.getUserRoles(userId);
@@ -149,13 +147,13 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getPermissionsByRoleId")
-    public ResultVO getPermissionsByRoleId(@RequestBody Map<String, String> map) {
+    public ResultVo getPermissionsByRoleId(@RequestBody Map<String, String> map) {
 
         int roleId;
         try {
             roleId = Integer.parseInt(map.get("roleId"));
         } catch (Exception e) {
-            return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
         }
         return permissionService.getPermissionsByRoleId(roleId);
     }
@@ -166,7 +164,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/addRole")
-    public ResultVO addRole(@RequestBody Map<String, String> map) {
+    public ResultVo addRole(@RequestBody Map<String, String> map) {
 
         String roleName = map.get("roleName");
         Role role = new Role();
@@ -180,7 +178,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/deleteRole")
-    public ResultVO deleteRole(@RequestBody Map<String, Integer> map) {
+    public ResultVo deleteRole(@RequestBody Map<String, Integer> map) {
 
         Integer roleId = map.get("roleId");
         return roleService.deleteRole(roleId);
@@ -194,7 +192,7 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateUserRole")
-    public ResultVO updateUserRole(@RequestBody Map<String, Object> map) {
+    public ResultVo updateUserRole(@RequestBody Map<String, Object> map) {
 
         List<Integer> roleIds;
         String userId = (String) map.get("userId");
@@ -202,7 +200,7 @@ public class RootController {
             roleIds = (List<Integer>) map.get("data");
 
         } catch (Exception e) {
-            return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.BadRequest.getMsg());
         }
         return userRoleService.updateUserRole(userId, roleIds);
     }
@@ -215,14 +213,14 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateRolePermission")
-    public ResultVO updateRolePermission(@RequestBody Map<String, Object> map) {
+    public ResultVo updateRolePermission(@RequestBody Map<String, Object> map) {
 
         Integer roleId = Integer.parseInt((String) map.get("roleId"));
         List<Integer> permissionIds;
         try {
             permissionIds = (List<Integer>) map.get("data");
         } catch (NumberFormatException e) {
-            return ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.BadRequest.getMsg());
         }
         return permissionService.updateRolePermission(roleId, permissionIds);
     }
@@ -235,14 +233,14 @@ public class RootController {
      */
     @SuppressWarnings("unchecked")
     @PostMapping("/updateAvailableDeptIds")
-    public ResultVO updateAvailableDeptIds(@RequestBody Map<String, Object> map) {
+    public ResultVo updateAvailableDeptIds(@RequestBody Map<String, Object> map) {
 
         List<String> list;
         try {
             list = (List<String>) map.get("deptIdList");
         } catch (Exception e) {
-            ResultVO resultVO;
-            resultVO = ResultVOUtil.error(ResponseDataMsg.BadRequest.getMsg());
+            ResultVo resultVO;
+            resultVO = ResultVoUtil.error(ResponseDataMsg.BadRequest.getMsg());
 
             return resultVO;
         }
@@ -257,7 +255,7 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getAllDepts")
-    public ResultVO getAllDepts() {
+    public ResultVo getAllDepts() {
 
         return deptService.getAllDepts();
     }
@@ -268,7 +266,7 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getLogTypes")
-    public ResultVO getLogTypes() {
+    public ResultVo getLogTypes() {
 
         SysLogType[] types = SysLogType.values();
         List<Map<String, String>> typeList = new ArrayList<>();
@@ -278,7 +276,7 @@ public class RootController {
             map.put("label", type.getTypeExplain());
             typeList.add(map);
         }
-        return ResultVOUtil.success(typeList);
+        return ResultVoUtil.success(typeList);
     }
 
     /**
@@ -287,7 +285,7 @@ public class RootController {
      * @return 结果集
      */
     @PostMapping("/getLogTypeAndCount")
-    public ResultVO getLogTypeAndCount() {
+    public ResultVo getLogTypeAndCount() {
         return logService.getLogTypeAndCount();
     }
 
@@ -315,13 +313,13 @@ public class RootController {
      */
     @PostMapping("/deleteLogs")
     @SuppressWarnings("unchecked")
-    public ResultVO deleteLogs(@RequestBody Map<String, Object> map) {
+    public ResultVo deleteLogs(@RequestBody Map<String, Object> map) {
 
         List<Integer> deleteId;
         try {
             deleteId = (List<Integer>) map.get("deleteId");
         } catch (Exception e) {
-            return ResultVOUtil.error("NumberFormatException");
+            return ResultVoUtil.error("NumberFormatException");
         }
 
         return logService.deleteByBatch(deleteId);
@@ -332,7 +330,7 @@ public class RootController {
      * @return  结果集
      */
     @PostMapping("/getLogInfo")
-    public ResultVO getLogInfo() {
+    public ResultVo getLogInfo() {
         return logService.getLogsInfo();
     }
 
@@ -353,7 +351,7 @@ public class RootController {
             beginTime = DateUtilCustom.string2Time(strBeginTime);
             endTime = DateUtilCustom.string2Time(strEndTime);
         } catch (ParseException e) {
-            return JSONObject.toJSONString(ResultVOUtil.error("ParseException"));
+            return JSONObject.toJSONString(ResultVoUtil.error("ParseException"));
         }
 
         return JSONObject.toJSONStringWithDateFormat(logService.getLogByInterval(beginTime, endTime, type), DateUtilCustom.TIME_PATTERN);
@@ -365,8 +363,8 @@ public class RootController {
      * @param map 请求体
      * @return  结果集
      */
-    @PostMapping("/getLogByKeyword")
-    public ResultVO getLogByKeyword(@RequestBody Map<String, Object> map) throws IOException {
+    /*@PostMapping("/getLogByKeyword")
+    public ResultVo getLogByKeyword(@RequestBody Map<String, Object> map) throws IOException {
 
         PageHelperUtil.pageMsg(map);
         String keyword = (String) map.get("keyword");
@@ -375,9 +373,9 @@ public class RootController {
 
         List<Map<String, Object>> result = repositoryHelper.searchByKeyword(keyword, pageNum, pageSize);
         if (CollectionUtils.isEmpty(result)) {
-            return ResultVOUtil.error(ResponseDataMsg.NotFound.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.NotFound.getMsg());
         }
 
-        return ResultVOUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(result)));
-    }
+        return ResultVoUtil.success(PageHelperUtil.pageInfoToMap(new PageInfo<>(result)));
+    }*/
 }

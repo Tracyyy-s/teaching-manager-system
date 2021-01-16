@@ -1,7 +1,7 @@
 package com.gwy.manager.service;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.SysLog;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.SysLog;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -19,7 +19,7 @@ public interface SysLogService {
      * @param args  参数
      * @param resultVO  请求返回结果
      */
-    void recordLog(HttpServletRequest request, Object[] args, ResultVO resultVO);
+    void recordLog(HttpServletRequest request, Object[] args, ResultVo resultVO);
 
     /**
      * 添加日志
@@ -31,7 +31,7 @@ public interface SysLogService {
      * 获得每类日志的数量
      * @return  结果集
      */
-    ResultVO getLogTypeAndCount();
+    ResultVo getLogTypeAndCount();
 
     /**
      * 通过日志类型获得日志
@@ -40,14 +40,14 @@ public interface SysLogService {
      * @param pageSize  页大小
      * @return  结果集
      */
-    ResultVO getLogInfoByType(String type, int pageNum, int pageSize);
+    ResultVo getLogInfoByType(String type, int pageNum, int pageSize);
 
     /**
      * 批量删除日志
      * @param ids   id
      * @return  结果集
      */
-    ResultVO deleteByBatch(List<Integer> ids);
+    ResultVo deleteByBatch(List<Integer> ids);
 
     /**
      * 获得指定时间内的指定时间内的日志，用于导出
@@ -56,7 +56,7 @@ public interface SysLogService {
      * @param type  日志类型
      * @return  结果集
      */
-    ResultVO getLogByInterval(Date beginTime, Date endTime, String type);
+    ResultVo getLogByInterval(Date beginTime, Date endTime, String type);
 
     /**
      * 分页获得日志
@@ -64,11 +64,11 @@ public interface SysLogService {
      * @param pageSize  每页个数
      * @return  结果集
      */
-    ResultVO getLogs(int pageNum, int pageSize);
+    ResultVo getLogs(int pageNum, int pageSize);
 
     /**
      * 获得日志信息(天数，日志数量)
      * @return  结果集
      */
-    ResultVO getLogsInfo();
+    ResultVo getLogsInfo();
 }

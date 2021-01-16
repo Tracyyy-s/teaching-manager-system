@@ -1,17 +1,17 @@
 package com.gwy.manager.service.impl;
 
-import com.gwy.manager.dto.ResultVO;
-import com.gwy.manager.entity.Target;
-import com.gwy.manager.entity.Term;
-import com.gwy.manager.entity.TermTarget;
-import com.gwy.manager.enums.ResponseDataMsg;
-import com.gwy.manager.enums.UserOption;
+import com.gwy.manager.domain.dto.ResultVo;
+import com.gwy.manager.domain.entity.Target;
+import com.gwy.manager.domain.entity.Term;
+import com.gwy.manager.domain.entity.TermTarget;
+import com.gwy.manager.domain.enums.ResponseDataMsg;
+import com.gwy.manager.domain.enums.UserOption;
 import com.gwy.manager.mapper.TargetMapper;
 import com.gwy.manager.mapper.TermMapper;
 import com.gwy.manager.mapper.TermTargetMapper;
 import com.gwy.manager.service.TermTargetService;
 import com.gwy.manager.util.DateUtilCustom;
-import com.gwy.manager.util.ResultVOUtil;
+import com.gwy.manager.util.ResultVoUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -42,18 +42,18 @@ public class TermTargetServiceImpl implements TermTargetService {
 
     @CacheEvict(allEntries = true, beforeInvocation = true)
     @Override
-    public ResultVO addTermTargets(List<TermTarget> termTargets) {
+    public ResultVo addTermTargets(List<TermTarget> termTargets) {
 
         int i;
         try {
             i = termTargetMapper.insertTermTargets(termTargets);
         } catch (Exception e) {
-            return ResultVOUtil.error("Already Published");
+            return ResultVoUtil.error("Already Published");
         }
         if (i != termTargets.size()) {
-            return ResultVOUtil.error(ResponseDataMsg.Fail.getMsg());
+            return ResultVoUtil.error(ResponseDataMsg.Fail.getMsg());
         } else {
-            return ResultVOUtil.success(ResponseDataMsg.Success.getMsg());
+            return ResultVoUtil.success(ResponseDataMsg.Success.getMsg());
         }
     }
 
@@ -63,16 +63,16 @@ public class TermTargetServiceImpl implements TermTargetService {
      * @param obj   对象（可为学生或教师）
      * @return  结果集
      */
-    private ResultVO getObjectTermTargets(String termId, String obj) {
+    private ResultVo getObjectTermTargets(String termId, String obj) {
 
-        ResultVO resultVO = new ResultVO();
+        ResultVo resultVO = new ResultVo();
 
         //获得今天日期
         Date today = DateUtilCustom.getDate();
 
         Term term = termMapper.selectByPrimaryKey(termId);
         if (term == null) {
-            resultVO = ResultVOUtil.error("Term Not Exist");
+            resultVO = ResultVoUtil.error("Term Not Exist");
         } else if (today.after(term.getBeginDate()) && today.before(term.getEndDate())) {
 
             //存储指标id的列表
@@ -90,17 +90,17 @@ public class TermTargetServiceImpl implements TermTargetService {
 
             //判断本学期是否发布评价
             if (CollectionUtils.isEmpty(targetIds)) {
-                resultVO = ResultVOUtil.error("Not Publish Yet");
+                resultVO = ResultVoUtil.error("Not Publish Yet");
             } else {
                 //若发布则返回发布的评价
                 List<Target> targets = targetMapper.getTargetsByIds(targetIds);
-                resultVO = ResultVOUtil.success(targets);
+                resultVO = ResultVoUtil.success(targets);
                 System.out.println(targets);
             }
         } else if (today.before(term.getBeginDate())) {
-            resultVO = ResultVOUtil.error("Too Early");
+            resultVO = ResultVoUtil.error("Too Early");
         } else if (today.after(term.getEndDate())) {
-            resultVO = ResultVOUtil.error("Too Late");
+            resultVO = ResultVoUtil.error("Too Late");
         }
 
         return resultVO;
@@ -108,13 +108,13 @@ public class TermTargetServiceImpl implements TermTargetService {
 
     @Cacheable(keyGenerator = "studentTermTargets")
     @Override
-    public ResultVO getStudentTermTargets(String termId) {
+    public ResultVo getStudentTermTargets(String termId) {
         return this.getObjectTermTargets(termId, UserOption.STUDENT.getUserType());
     }
 
     @Cacheable(keyGenerator = "teacherTermTargets")
     @Override
-    public ResultVO getTeacherTermTargets(String termId) {
+    public ResultVo getTeacherTermTargets(String termId) {
         return this.getObjectTermTargets(termId, UserOption.TEACHER.getUserType());
     }
 }

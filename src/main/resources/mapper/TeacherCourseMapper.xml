@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gwy.manager.mapper.TeacherCourseMapper" >
-  <resultMap id="BaseResultMap" type="com.gwy.manager.entity.TeacherCourse" >
+  <resultMap id="BaseResultMap" type="com.gwy.manager.domain.entity.TeacherCourse" >
     <id column="tc_id" property="tcId" jdbcType="VARCHAR" />
     <result column="course_no" property="courseNo" jdbcType="VARCHAR" />
     <result column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
@@ -16,7 +16,7 @@
     delete from ts_teacher_course
     where tc_id = #{tcId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.gwy.manager.entity.TeacherCourse" >
+  <insert id="insert" parameterType="com.gwy.manager.domain.entity.TeacherCourse" >
     insert into ts_teacher_course (tc_id, course_no, teacher_no, 
       term_id, appraise_sum, address, time,
       begin_week, end_week)
@@ -24,7 +24,7 @@
       #{termId,jdbcType=VARCHAR}, #{appraiseSum,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},
       #{time,jdbcType=VARCHAR}, #{beginWeek,jdbcType=INTEGER}, #{endWeek,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.entity.TeacherCourse" >
+  <update id="updateByPrimaryKey" parameterType="com.gwy.manager.domain.entity.TeacherCourse" >
     update ts_teacher_course
     set course_no = #{courseNo,jdbcType=VARCHAR},
       teacher_no = #{teacherNo,jdbcType=VARCHAR},

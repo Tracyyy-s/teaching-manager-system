@@ -1,6 +1,6 @@
 package com.gwy.manager.mapper;
 
-import com.gwy.manager.entity.RolePermission;
+import com.gwy.manager.domain.entity.RolePermission;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
