@@ -15,7 +15,7 @@ import java.io.IOException;
  * @author Tracy
  * @date 2020/12/15 13:12
  */
-@Component
+//@Component
 public class AuthorizeSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
     @Autowired

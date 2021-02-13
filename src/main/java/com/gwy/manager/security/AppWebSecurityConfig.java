@@ -48,7 +48,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomizeAccessDeniedHandler customizeAccessDeniedHandler;
 
-    @Autowired
+//    @Autowired
     AuthorizeSecurityInterceptor authorizeSecurityInterceptor;
 
     @Autowired
@@ -64,16 +64,16 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         //配置自定义过滤器 增加post json 支持
-        http.addFilterAt(authorizeSecurityInterceptor, FilterSecurityInterceptor.class);
+//        http.addFilterAt(authorizeSecurityInterceptor, FilterSecurityInterceptor.class);
         http.addFilterAt(jwtLoginFilterBean(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http
-                .formLogin()//  定义当需要用户登录时候，转到的登录页面。
-                .and()
+//                .formLogin()//  定义当需要用户登录时候，转到的登录页面。
+//                .and()
                 // 定义哪些URL需要被保护、哪些不需要被保护
                 //不需要保护的URL
-                .authorizeRequests().antMatchers(PassRequestPaths.ROOT_REQUEST, PassRequestPaths.LOGIN_REQUEST, PassRequestPaths.SEND_CODE_REQUEST, PassRequestPaths.UPDATE_PASSWORD_REQUEST).permitAll()
-                //.authorizeRequests().antMatchers("/**").permitAll()
+//                .authorizeRequests().antMatchers(PassRequestPaths.ROOT_REQUEST, PassRequestPaths.LOGIN_REQUEST, PassRequestPaths.SEND_CODE_REQUEST, PassRequestPaths.UPDATE_PASSWORD_REQUEST).permitAll()
+                .authorizeRequests().antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().permitAll() // 登出

@@ -62,10 +62,10 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader(JwtTokenUtils.TOKEN_HEADER);
 
         //不含有token，且不包含放行的请求，返回错误
-        if (authHeader == null && !PASS_REQUESTS.contains(request.getServletPath()) && !request.getMethod().equals(POST)) {
-            response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.error("No Token")));
-            return;
-        }
+//        if (authHeader == null && !PASS_REQUESTS.contains(request.getServletPath()) && !request.getMethod().equals(POST)) {
+//            response.getWriter().write(JSONObject.toJSONString(ResultVoUtil.error("No Token")));
+//            return;
+//        }
 
         ServletRequest requestWrapper = null;
 

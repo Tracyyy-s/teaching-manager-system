@@ -15,7 +15,7 @@ import java.util.Collection;
  * @author Tracy
  * @date 2020/12/15 13:01
  */
-@Component
+//@Component
 public class AuthorizeAccessDecisionManager implements AccessDecisionManager {
 
     /**
@@ -27,7 +27,9 @@ public class AuthorizeAccessDecisionManager implements AccessDecisionManager {
      * @throws InsufficientAuthenticationException  InsufficientAuthenticationException
      */
     @Override
-    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
+    public void decide(Authentication authentication,
+                       Object object,
+                       Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
 
         for (ConfigAttribute resourceAttr : configAttributes) {
             // 资源的权限

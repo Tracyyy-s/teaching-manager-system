@@ -23,7 +23,7 @@ import java.util.*;
  * @author Tracy
  * @date 2020/12/14 19:49
  */
-@Component
+//@Component
 public class AuthorizeSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     private static final String POST = "POST";
@@ -67,11 +67,14 @@ public class AuthorizeSecurityMetadataSource implements FilterInvocationSecurity
             //若map中无此api，将其添加至map中
             apiMap.putIfAbsent(permissionApi.getApi(), new ArrayList<>());
 
-            //获得该api接口的权限list的
+            //获得该api接口的权限list
             List<String> permissionsOfApi = apiMap.get(permissionApi.getApi());
 
+            //当前api接口需要的权限
+            Permission needPermission = permissionMap.get(permissionApi.getPermissionId());
+
             //添加url至api对应的list中
-            permissionsOfApi.add(permissionMap.get(permissionApi.getPermissionId()).getPermissionUrl());
+            permissionsOfApi.add(needPermission.getPermissionUrl());
         }
 
         //遍历所有接口-权限关系
