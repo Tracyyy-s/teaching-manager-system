@@ -1,9 +1,13 @@
 # Teaching-Manager-System
 教学质量评估管理系统
 
+***********************************
+
+前端地址：https://github.com/Tracyyy-s/teaching-manager-system-ui
+
 *****
 
-微服务项目地址：<https://github.com/Tracyyy-s/teaching-manager-system-cloud>
+微服务（后端）项目地址：<https://github.com/Tracyyy-s/teaching-manager-system-cloud>
 *****
 
 **技术栈：**
