@@ -6,8 +6,8 @@ spring:
       max-request-size: 10MB
   # redis相关配置
   redis:
-    host: 39.97.102.209
-    password: GONGRAN0812
+    host: localhost
+    password: 123345
     database: 2
     port: 6379
     jedis:
@@ -19,9 +19,9 @@ spring:
 
   # rabbitmq相关配置
   rabbitmq:
-    host: www.tracys.cn
-    username: tracy
-    password: GONGRAN0812qweabc!
+    host: localhost
+    username: root
+    password: root
     port: 6012
     listener:
       simple:
@@ -31,8 +31,8 @@ spring:
   elasticsearch:
     rest:
       username: elastic
-      password: GONGRAN0812a
-      uris: http://es-cn-n6w1ym8y7001xrigc.public.elasticsearch.aliyuncs.com:9200
+      password: root
+      uris: http://localhost:9200
 mybatis:
   # 指定映射配置文件路径
   mapper-locations: classpath:mapper/*.xml
