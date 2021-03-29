@@ -1,6 +1,7 @@
 package com.gwy.manager.util;
 
 import com.google.common.collect.Maps;
+import com.gwy.manager.domain.entity.User;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
