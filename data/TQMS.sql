@@ -367,33 +367,33 @@ CREATE TABLE `ts_student`  (
 -- ----------------------------
 -- Records of ts_student
 -- ----------------------------
-INSERT INTO `ts_student` VALUES ('2017110111', '张三', '$2a$10$TFz6PFCGDS9d5UIW6fAXVeLYbIuQ31yt4/BzOAgNJEOcjVZEi97yS', 1, '1999-11-11', '291434953@qq.com', '1711001', '共青团员', '112', '2017');
+INSERT INTO `ts_student` VALUES ('2017110111', '张三', '$2a$10$TFz6PFCGDS9d5UIW6fAXVeLYbIuQ31yt4/BzOAgNJEOcjVZEi97yS', 1, '1999-11-11', '234552@qq.com', '1711001', '共青团员', '112', '2017');
 INSERT INTO `ts_student` VALUES ('2017110112', '李四', '$2a$10$TFz6PFCGDS9d5UIW6fAXVeLYbIuQ31yt4/BzOAgNJEOcjVZEi97yS', 1, '1999-11-20', '291434953@qq.com', '1711102', '共青团员', '111', '2017');
-INSERT INTO `ts_student` VALUES ('2018110114', '龚燃', '$2a$10$68avYxXdDi2.gNfsVvHVE.UFToQO/lWJ6BY.VHD6aCC7eK6Gig24m', 1, '2000-08-12', '1975172025@qq.com', '1811003', '共青团员', '110', '2018');
-INSERT INTO `ts_student` VALUES ('2018110120', '季思想', '$2a$10$PKoWFiFT2LROuIjnjzCZLuR8Hu0JfOM/ywB5knvkXIM6HSSO/ZFmW', 0, '2000-02-02', '577074958@qq.com', '1811304', '共青团员', '113', '2018');
-INSERT INTO `ts_student` VALUES ('2018110145', '王瑞', '$2a$10$RvgyBCl/pHgj/TQiB8zCm.ctgL1cBckXgYdStNFjSiWH8OCZF09AS', 1, '2000-02-02', '983604371@qq.com', '1811001', '共青团员', '110', '2018');
-INSERT INTO `ts_student` VALUES ('2018110149', '伍苑怡', '$2a$10$TFz6PFCGDS9d5UIW6fAXVeLYbIuQ31yt4/BzOAgNJEOcjVZEi97yS', 0, '2000-02-02', '771766975@qq.com', '1811202', '共青团员', '112', '2018');
-INSERT INTO `ts_student` VALUES ('2018110155', '于杰丞', '$2a$10$TFz6PFCGDS9d5UIW6fAXVeLYbIuQ31yt4/BzOAgNJEOcjVZEi97yS', 1, '2000-02-02', '291434953@qq.com', '1811003', '共青团员', '110', '2018');
-INSERT INTO `ts_student` VALUES ('2019110111', '冯军阳', '$2a$10$IhRTPYzkK2oPeBr2ZUKNsuxCIFjBU1bB7/lUhZrnnDXSb6yF7bI.S', 1, '2000-10-25', '291434953@qq.com', '1911004', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110112', '冯凯燕', '$2a$10$dJMmwgDKQNovtQU6vxo8O.e0YPlg8lSOysQrPwDxMG8L24TQ157t.', 0, '2000-10-26', '291434953@qq.com', '1911001', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110113', '冯丽弘', '$2a$10$QkaAs0sYec7od3S7aZnCBummNByPY1Vyz6YRDFQJAQwMC4iwrk5/y', 0, '2000-10-27', '291434954@qq.com', '1911002', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110114', '伏雪', '$2a$10$JupiTN2nBE7JXgiqPJ/pCOOK6.xtbOHcRjLHTEIs.qEC/Yywascpm', 0, '2000-10-28', '291434955@qq.com', '1911003', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110115', '付洪燕', '$2a$10$wS.q0rtk.Uz2dpRN5YdQ3u9oqHiSJmeQtn2tmRbg06QpnnmaOLaby', 0, '2000-10-29', '291434956@qq.com', '1911004', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110116', '付敏', '$2a$10$kU3BBsx/JVmzrLsH4wul/Oro7zMa/2iA0shMpUrL6OnfIZts/9vky', 0, '2000-10-30', '291434957@qq.com', '1911001', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110117', '付鹏', '$2a$10$Vnrw4faZrE37PRdGOf.B5.h/HUyLByOv8J8NnosS.7hrkYEU3t4Jy', 1, '2000-10-31', '291434958@qq.com', '1911002', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110118', '甘兴友', '$2a$10$1naPa6Z1TriwXs.w44GjHudei2X8AYaMwZiYC9wq4l6VgRduy9ao6', 1, '2000-11-01', '291434959@qq.com', '1911003', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110119', '甘元超', '$2a$10$RSSSJV2J89ouept1DuCGOuVWUQLB9sgLa7xM.cW07c6nlWIqYGdWa', 1, '2000-11-02', '291434960@qq.com', '1911004', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110120', '高波', '$2a$10$BPEAsGKJHR2Mk6B.iWvqG.Oufu/w/LvixEG4Cziu0/tC2XGx/gExS', 1, '2000-11-03', '291434961@qq.com', '1911005', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110121', '高菲', '$2a$10$2LRltYqM2mfLHwP3MkWAfeoBi6gcw7injWQAA1XWZ/naRdBn0oIVa', 0, '2000-11-04', '291434962@qq.com', '1911101', '共青团员', '111', '2019');
-INSERT INTO `ts_student` VALUES ('2019110122', '葛玉婷', '$2a$10$F3TWb9MXmjiZFxD.OOVugOoEtUuTKr5d27tQLewdDJORRouPYAlFu', 0, '2000-11-06', '291434963@qq.com', '1811103', '共青团员', '112', '2019');
-INSERT INTO `ts_student` VALUES ('2019110123', '龚婷', '$2a$10$xntpV3C3cfrC/K/C54HFMuvxm4PxCphSz/L.KnV/ANAVLQhlLh.9y', 0, '2000-11-09', '291434964@qq.com', '1911101', '共青团员', '111', '2019');
-INSERT INTO `ts_student` VALUES ('2019110124', '巩豪', '$2a$10$aiHAiSLtFIxyFiX6GEzjRu8Ym22K88rVuIWQcaNKcUYoj1KxFTWL.', 1, '2000-11-11', '291434965@qq.com', '1911001', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110125', '巩兴秋', '$2a$10$jo4khGaOg2zDFemOHUlNgesnZsp.lm689oOWuynFhPbbmUG5ZMvrG', 0, '2000-11-11', '291434966@qq.com', '1911002', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110126', '苟春梅', '$2a$10$AuzHo901yxnK6IidxIfy.Oh3XRDYc8xL0Ud8.tJdW5fiTYHJdjEIe', 0, '2000-11-20', '291434967@qq.com', '1911003', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110127', '勾晨', '$2a$10$XYox2I4qs1xMWT5a2KXCG.0Zr0V3FNBuVm48ajAV65lmX2FWM6dou', 0, '2000-11-30', '291434968@qq.com', '1911004', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110128', '桂梦茹', '$2a$10$eLUGAHXk8vhL4hH3LWPP2uo/nTVN0L504OrbVyifhzSyriaBpXgma', 0, '2000-10-12', '291434969@qq.com', '1911205', '共青团员', '112', '2019');
-INSERT INTO `ts_student` VALUES ('2019110129', '郭七瑞', '$2a$10$Wohs46Hk/wwXcDsOESfdAugiDdjOcWszj3xImG4ihm0aCe82SBc9y', 1, '2000-10-23', '291434970@qq.com', '1911001', '共青团员', '110', '2019');
-INSERT INTO `ts_student` VALUES ('2019110130', '郭佳鑫', '$2a$10$Z1fWpz.BUpu4KmtYZpPQp.PySomvh3C1Bg9eE5N72oPSEwJTCYbuO', 1, '2000-10-24', '291434971@qq.com', '1911002', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2018110114', '王琦', '$2a$10$68avYxXdDi2.gNfsVvHVE.UFToQO/lWJ6BY.VHD6aCC7eK6Gig24m', 1, '2000-08-12', '12383@qq.com', '1811003', '共青团员', '110', '2018');
+INSERT INTO `ts_student` VALUES ('2018110120', '纪立', '$2a$10$PKoWFiFT2LROuIjnjzCZLuR8Hu0JfOM/ywB5knvkXIM6HSSO/ZFmW', 0, '2000-02-02', '234552@qq.com', '1811304', '共青团员', '113', '2018');
+INSERT INTO `ts_student` VALUES ('2018110145', '王瑞', '$2a$10$RvgyBCl/pHgj/TQiB8zCm.ctgL1cBckXgYdStNFjSiWH8OCZF09AS', 1, '2000-02-02', '234552@qq.com', '1811001', '共青团员', '110', '2018');
+INSERT INTO `ts_student` VALUES ('2018110149', '朱风', '$2a$10$TFz6PFCGDS9d5UIW6fAXVeLYbIuQ31yt4/BzOAgNJEOcjVZEi97yS', 0, '2000-02-02', '234552@qq.com', '1811202', '共青团员', '112', '2018');
+INSERT INTO `ts_student` VALUES ('2018110155', '于欣', '$2a$10$TFz6PFCGDS9d5UIW6fAXVeLYbIuQ31yt4/BzOAgNJEOcjVZEi97yS', 1, '2000-02-02', '234552@qq.com', '1811003', '共青团员', '110', '2018');
+INSERT INTO `ts_student` VALUES ('2019110111', '冯军阳', '$2a$10$IhRTPYzkK2oPeBr2ZUKNsuxCIFjBU1bB7/lUhZrnnDXSb6yF7bI.S', 1, '2000-10-25', '234552@qq.com', '1911004', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110112', '冯凯燕', '$2a$10$dJMmwgDKQNovtQU6vxo8O.e0YPlg8lSOysQrPwDxMG8L24TQ157t.', 0, '2000-10-26', '234552@qq.com', '1911001', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110113', '冯丽弘', '$2a$10$QkaAs0sYec7od3S7aZnCBummNByPY1Vyz6YRDFQJAQwMC4iwrk5/y', 0, '2000-10-27', '234552@qq.com', '1911002', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110114', '伏雪', '$2a$10$JupiTN2nBE7JXgiqPJ/pCOOK6.xtbOHcRjLHTEIs.qEC/Yywascpm', 0, '2000-10-28', '234552@qq.com', '1911003', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110115', '付洪燕', '$2a$10$wS.q0rtk.Uz2dpRN5YdQ3u9oqHiSJmeQtn2tmRbg06QpnnmaOLaby', 0, '2000-10-29', '234552@qq.com', '1911004', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110116', '付敏', '$2a$10$kU3BBsx/JVmzrLsH4wul/Oro7zMa/2iA0shMpUrL6OnfIZts/9vky', 0, '2000-10-30', '234552@qq.com', '1911001', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110117', '付鹏', '$2a$10$Vnrw4faZrE37PRdGOf.B5.h/HUyLByOv8J8NnosS.7hrkYEU3t4Jy', 1, '2000-10-31', '234552@qq.com', '1911002', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110118', '甘兴友', '$2a$10$1naPa6Z1TriwXs.w44GjHudei2X8AYaMwZiYC9wq4l6VgRduy9ao6', 1, '2000-11-01', '234552@qq.com', '1911003', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110119', '甘元超', '$2a$10$RSSSJV2J89ouept1DuCGOuVWUQLB9sgLa7xM.cW07c6nlWIqYGdWa', 1, '2000-11-02', '234552@qq.com', '1911004', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110120', '高波', '$2a$10$BPEAsGKJHR2Mk6B.iWvqG.Oufu/w/LvixEG4Cziu0/tC2XGx/gExS', 1, '2000-11-03', '234552@qq.com', '1911005', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110121', '高菲', '$2a$10$2LRltYqM2mfLHwP3MkWAfeoBi6gcw7injWQAA1XWZ/naRdBn0oIVa', 0, '2000-11-04', '234552@qq.com', '1911101', '共青团员', '111', '2019');
+INSERT INTO `ts_student` VALUES ('2019110122', '葛玉婷', '$2a$10$F3TWb9MXmjiZFxD.OOVugOoEtUuTKr5d27tQLewdDJORRouPYAlFu', 0, '2000-11-06', '234552@qq.com', '1811103', '共青团员', '112', '2019');
+INSERT INTO `ts_student` VALUES ('2019110123', '龚婷', '$2a$10$xntpV3C3cfrC/K/C54HFMuvxm4PxCphSz/L.KnV/ANAVLQhlLh.9y', 0, '2000-11-09', '234552@qq.com', '1911101', '共青团员', '111', '2019');
+INSERT INTO `ts_student` VALUES ('2019110124', '巩豪', '$2a$10$aiHAiSLtFIxyFiX6GEzjRu8Ym22K88rVuIWQcaNKcUYoj1KxFTWL.', 1, '2000-11-11', '234552@qq.com', '1911001', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110125', '巩兴秋', '$2a$10$jo4khGaOg2zDFemOHUlNgesnZsp.lm689oOWuynFhPbbmUG5ZMvrG', 0, '2000-11-11', '234552@qq.com', '1911002', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110126', '苟春梅', '$2a$10$AuzHo901yxnK6IidxIfy.Oh3XRDYc8xL0Ud8.tJdW5fiTYHJdjEIe', 0, '2000-11-20', '234552@qq.com', '1911003', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110127', '勾晨', '$2a$10$XYox2I4qs1xMWT5a2KXCG.0Zr0V3FNBuVm48ajAV65lmX2FWM6dou', 0, '2000-11-30', '234552234552@qq.com', '1911004', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110128', '桂梦茹', '$2a$10$eLUGAHXk8vhL4hH3LWPP2uo/nTVN0L504OrbVyifhzSyriaBpXgma', 0, '2000-10-12', '234552@qq.com', '1911205', '共青团员', '112', '2019');
+INSERT INTO `ts_student` VALUES ('2019110129', '郭七瑞', '$2a$10$Wohs46Hk/wwXcDsOESfdAugiDdjOcWszj3xImG4ihm0aCe82SBc9y', 1, '2000-10-23', '234552@qq.com', '1911001', '共青团员', '110', '2019');
+INSERT INTO `ts_student` VALUES ('2019110130', '郭佳鑫', '$2a$10$Z1fWpz.BUpu4KmtYZpPQp.PySomvh3C1Bg9eE5N72oPSEwJTCYbuO', 1, '2000-10-24', '234552@qq.com', '1911002', '共青团员', '110', '2019');
 
 -- ----------------------------
 -- Table structure for ts_student_assess
